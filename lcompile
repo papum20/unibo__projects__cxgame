@@ -1,0 +1,1 @@
+javac -d out -sourcepath src src/connectx/*.java src/connectx/*/*.java

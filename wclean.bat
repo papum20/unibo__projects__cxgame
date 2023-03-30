@@ -1,0 +1,6 @@
+::CLEAN COMMAND (LIKE MAKE CLEAN)
+::CLEAN OUTPUT (.class FILES AND OTHER FILES IN /out/)
+
+@echo off
+CD out
+rm -rf *

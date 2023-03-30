@@ -1,0 +1,18 @@
+#VS CODE SETTINGS
+.vscode/
+
+#JAVA FOLDERS
+bin/*
+out/*
+!out/.placeholder
+
+#JAVA FILES
+*.class
+
+#DEBUG
+#debug/player
+#debug/testmore/out
+myjava*
+
+#TRASH
+jv
