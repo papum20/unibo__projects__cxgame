@@ -113,21 +113,23 @@ public class Board {
 
 		void print() {
 			//boolean[][] out = new boolean[M+1][N];
-			for(int i = 0; i < M; i++) {
-				for(int j = 1; j <= N; j++) {
-					char t;
-					switch(board[i][N-j]) {
+			for(int i = 1; i <= M; i++) {
+				String line = "";
+				for(int j = 0; j < N; j++) {
+					switch(board[M-i][j]) {
 						case CellState.ME:
-							t = 'x';
-						case CellState.YOU:
-							t = 'o';
+							line += 'x';
+							break;
+							case CellState.YOU:
+							line += 'o';
+							break;
 						default:
-							t = '.';
+							line += '.';
 					}
-					System.out.println(t);
 				}
-				System.out.println("\n");
+				System.out.println(line);
 			}
+			System.out.println("\n");
 		}
 		
 	//#endregion DEBUG

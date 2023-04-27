@@ -13,6 +13,11 @@ import java.util.ArrayList;
 
 public class PnSearch implements CXPlayer {
 
+	//#region CONSTANTS
+	private static final byte PROOF = PnNode.PROOF;
+	private static final byte DISPROOF = PnNode.DISPROOF;
+
+	//#endregion CONSTANTS
 
 	// board
 	Board board;
@@ -33,8 +38,10 @@ public class PnSearch implements CXPlayer {
 	@Override
 	public void initPlayer(int M, int N, int X, boolean first, int timeout_in_secs) {
 		board = new Board(M, N, X);
+		if(first) current_player = CellState.ME;
+		else current_player = CellState.YOU;
 
-		timer_end = timeout_in_secs - 1000;
+		timer_end = (timeout_in_secs - 1) * 1000;
 		runtime = Runtime.getRuntime();
 	}
 
@@ -44,16 +51,31 @@ public class PnSearch implements CXPlayer {
 		timer_start = System.currentTimeMillis();
 		// update own board
 		CXCell last_move = B.getLastMove();
-		board.mark(last_move.j, CellState.YOU);
-
-		// visit
+		if(last_move != null) {
+			mark(last_move.j);
+			System.out.println("Opponent: " + last_move.j);
+		}
+		else System.out.println("Opponent: " + last_move);
+		board.print();
+			
+			// visit
 		if(last_move == null) root = new PnNode(Board.COL_NULL, null);
 		else root = new PnNode(last_move.j, null);
-		current_player = CellState.ME;
 		visit();
 
 		// return
-		int move = bestMove();
+		for(PnNode child : root.children) {
+			System.out.println(child.col + ":" + child.n[PROOF] + "," + child.n[DISPROOF]);
+		}
+
+		PnNode best = bestNode();
+		if(best == null) best = root.children[0];
+		int move = best.col;
+
+		mark(move);
+		System.out.println("My move: " + move);
+		board.print();
+
 		return move;
 	}
 
@@ -70,23 +92,35 @@ public class PnSearch implements CXPlayer {
 		 * @return
 		 */
 		private void visit() {
-			evaluate(root, root.col);
-			setProofAndDisproofNumbers(root, true);
+			String log = "start";
+			try {
+				evaluate(root, GameState.OPEN);
+				setProofAndDisproofNumbers(root, true);
 
-			/* improvement: keep track of current node (next to develop), instead of 
-			* looking for it at each iteration, restarting from root.
-			*/
-			PnNode currentNode = root;
-			while(root.value() == Value.UNKNOWN && !isTimeEnded()) {
+				/* improvement: keep track of current node (next to develop), instead of 
+				* looking for it at each iteration, restarting from root.
+				*/
+				PnNode currentNode = root;
+				log = "before while";
+				while(root.value() == Value.UNKNOWN && !isTimeEnded()) {
+					
+					PnNode mostProvingNode = null;
+					mostProvingNode = selectMostProving(currentNode, current_player);
+					log = "after selectMostProving";
+					
+					developNode(mostProvingNode, true, current_player);
+					log = "after develop";
+					currentNode = updateAncestorsUpTo(mostProvingNode);
+					log = "after updateAncestors";
 
-				PnNode mostProvingNode = selectMostProving(currentNode, current_player);
+				}
 
-				developNode(mostProvingNode, true, current_player);
-				currentNode = updateAncestorsUpTo(mostProvingNode);
-
+				resetBoard(currentNode, root);
 			}
-
-			resetBoadrd(currentNode, root);
+			catch(Exception e) {
+				System.out.println(log + "turn: " + current_player);
+				throw e;
+			}
 		}
 
 		/**
@@ -110,11 +144,11 @@ public class PnSearch implements CXPlayer {
 			if(node.isExpanded()) {
 				PnNode most_proving;
 				if(my_turn) {
-					most_proving = node.minChild(PnNode.PROOF);
-					node.setProofAndDisproof(most_proving.n[PnNode.PROOF], node.sumChildren(PnNode.DISPROOF));
+					most_proving = node.minChild(PROOF);
+					node.setProofAndDisproof(most_proving.n[PROOF], node.sumChildren(DISPROOF));
 				} else {
-					most_proving = node.minChild(PnNode.DISPROOF);
-					node.setProofAndDisproof(most_proving.sumChildren(PnNode.PROOF), most_proving.n[PnNode.DISPROOF]);
+					most_proving = node.minChild(DISPROOF);
+					node.setProofAndDisproof(most_proving.sumChildren(PROOF), most_proving.n[DISPROOF]);
 				}
 				node.most_proving = most_proving;
 			} else if(node.value() == Value.UNKNOWN) initProofAndDisproofNumbers(node);
@@ -126,11 +160,11 @@ public class PnSearch implements CXPlayer {
 		 * @param node
 		 * @return
 		 */
-		private PnNode selectMostProving(PnNode node, int player) {
+		private PnNode selectMostProving(PnNode node, byte player) {
 			if(!node.isExpanded()) return node;
 			else {
-				board.mark(node.most_proving.col, player);
-				return selectMostProving(node.most_proving, Constants.opponent(player));
+				mark(node.most_proving.col);
+				return selectMostProving(node.most_proving, (byte)Constants.opponent(player));
 			}
 			// node.most_proving should always be != null
 		}
@@ -145,7 +179,7 @@ public class PnSearch implements CXPlayer {
 			node.generateAllChildren(free_cols);
 			// evaluate children
 			for(PnNode child : node.children) {
-				byte game_state = board.mark(child.col, Constants.opponent(player));
+				byte game_state = mark(child.col);
 				evaluate(node, game_state);
 				setProofAndDisproofNumbers(node, my_turn);
 				unmark(child.col);
@@ -159,8 +193,11 @@ public class PnSearch implements CXPlayer {
 		 * @param current
 		 * @param root
 		 */
-		private void resetBoadrd(PnNode current, PnNode root) {
-
+		private void resetBoard(PnNode current, PnNode root) {
+			while(current != root) {
+				unmark(current.col);
+				current = current.parent;
+			}
 		}
 
 		/**
@@ -169,22 +206,33 @@ public class PnSearch implements CXPlayer {
 		 * @return
 		 */
 		public PnNode updateAncestorsUpTo(PnNode node) {
-			PnNode last_changed = node;
-			boolean changed = true;
-			while(changed && last_changed != root) {
-				int old_proof = node.n[PnNode.PROOF], old_disproof = node.n[PnNode.DISPROOF];
-				setProofAndDisproofNumbers(node, isMyTurn());
-				changed = (old_proof != node.n[PnNode.PROOF] || old_disproof != node.n[PnNode.DISPROOF]);
+			String log = "start";
+			try {
+				PnNode last_changed = node;
+				boolean changed = true;
+				while(changed && last_changed != root) {
+					int old_proof = node.n[PROOF], old_disproof = node.n[DISPROOF];
+					log = "before set";
+					setProofAndDisproofNumbers(node, isMyTurn());
+					log = "after set";
+					changed = (old_proof != node.n[PROOF] || old_disproof != node.n[DISPROOF]);
+					
+					if(node.isProved() && node != root)
+					node.prove(node.n[PROOF] == 0 ? true : false);
+					log = "after prove";
+					
+					last_changed = node;
+					node = node.parent;
+					if(changed && last_changed != root) unmark(last_changed.col);
+					log = "after unmark";
+				}
 
-				if(node.isProved() && node != root)
-					node.prove(node.n[PnNode.PROOF] == 0 ? true : false);
-
-				last_changed = node;
-				node = node.parent;
-				if(changed && last_changed != root) unmark(last_changed.col);
+				return last_changed;
 			}
-
-			return last_changed;
+			catch (Exception e) {
+				System.out.println(log);
+				throw e;
+			}
 		}
 
 
@@ -199,6 +247,14 @@ public class PnSearch implements CXPlayer {
 		 */
 		private void initProofAndDisproofNumbers(PnNode node) {
 			node.setProofAndDisproof(Constants.SHORT_1, Constants.SHORT_1);
+		}
+		/**
+		 * 
+		 */
+		private byte mark(int col) {
+			byte res = board.mark(col, current_player);
+			current_player = (byte)Constants.opponent(current_player);
+			return res;
 		}
 		/**
 		 * unmark and update current_player.
@@ -219,10 +275,16 @@ public class PnSearch implements CXPlayer {
 		 * 
 		 * @return
 		 */
-		private int bestMove() {
+		private PnNode bestNode() {
 			// take child with min proof
-			int move = root.minChild(PnNode.PROOF).col;
-			return move;
+			// int move = root.minChild(PROOF).col;
+			// child with min proof/disproof ratio
+			PnNode best = null;
+			for(PnNode child : root.children) {
+				if(child.n[DISPROOF] != 0 && (best == null || child.n[PROOF] / child.n[DISPROOF] < best.n[PROOF] / best.n[DISPROOF]) )
+					best = child;
+			}
+			return best;
 		}
 		/**
 		 * 

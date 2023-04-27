@@ -62,7 +62,7 @@ public class PnNode {
 			PnNode mn = children[0];
 			for (PnNode child : children)
 				if (child.n[ind] < mn.n[ind]) mn = child;
-				return mn;
+			return mn;
 		}
 		/**
 		 * sum all proof/disproof number of children
@@ -72,7 +72,7 @@ public class PnNode {
 		public short sumChildren(byte ind) {
 			short sum = 0;
 			for (PnNode child : children)
-			sum += child.n[ind];
+				sum += child.n[ind];
 			return sum;
 		}
 
