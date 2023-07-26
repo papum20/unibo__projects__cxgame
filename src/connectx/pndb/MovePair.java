@@ -59,7 +59,7 @@ public class MovePair {
 		public MovePair getDiff(MovePair B) {
 			return new MovePair(i - B.i, j - B.j);
 		}
-		public MovePair getProd(int t) {
+		public MovePair getProduct(int t) {
 			return new MovePair(i * t, j * t);
 		}
 	//#endregion MATH_OPERATIONS

@@ -25,20 +25,20 @@ public class AlignmentsList extends ArrayList<BiList_OpPos> {
 		}
 	}
 
-	public BiNode<OperatorPosition> add(CXCellState player, int index, OperatorPosition f) {
+	public BiNode<ThreatPosition> add(CXCellState player, int index, ThreatPosition f) {
 		BiList_OpPos list = get(index);
 		if(list == null) {
 			list = new BiList_OpPos();
 			set(index, list);
 		}
-		BiNode<OperatorPosition> res = list.add(player, f);
+		BiNode<ThreatPosition> res = list.add(player, f);
 		return res;
 	}
-	public void remove(CXCellState player, int index, BiNode<OperatorPosition> node) {
+	public void remove(CXCellState player, int index, BiNode<ThreatPosition> node) {
 		get(index).remove(player, node);
 	}
-	public BiNode<OperatorPosition> getFirst(CXCellState player, int index) {
-		BiNode<OperatorPosition> res = get(index).getFirst(player);
+	public BiNode<ThreatPosition> getFirst(CXCellState player, int index) {
+		BiNode<ThreatPosition> res = get(index).getFirst(player);
 		return res;
 	}
 

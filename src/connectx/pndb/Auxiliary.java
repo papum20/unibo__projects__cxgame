@@ -2,6 +2,7 @@ package connectx.pndb;
 
 import connectx.CXCell;
 import connectx.CXCellState;
+import connectx.CXGame;
 import connectx.CXGameState;
 
 
@@ -36,6 +37,22 @@ public class Auxiliary {
 	//makes sense only assuming it's a win, and the cell is not empty
 	public static CXGameState cellState2winState(CXCellState cell_state) {
 		return (cell_state == CXCellState.P1) ? CXGameState.WINP1 : CXGameState.WINP2;
+	}
+
+	public static byte CX2cellState(CXCellState game_state) {
+		switch(game_state) {
+			case P1:	return CellState.ME;
+			case P2:	return CellState.YOU;
+			default:	return CellState.FREE;
+		}
+	}
+	public static byte CX2gameState(CXGameState game_state) {
+		switch(game_state) {
+			case DRAW:	return GameState.DRAW;
+			case WINP1:	return GameState.P1;
+			case WINP2:	return GameState.P2;
+			default:	return GameState.OPEN;
+		}
 	}
 	
 }

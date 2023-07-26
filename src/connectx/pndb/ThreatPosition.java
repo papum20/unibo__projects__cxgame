@@ -2,20 +2,20 @@ package connectx.pndb;
 
 
 
-public class OperatorPosition {
+public class ThreatPosition {
 	public final MovePair start;
 	public final MovePair end;
 	public byte type;
 
-	public OperatorPosition() {
-		start = null;
-		end = null;
-		type = '\0';
+	public ThreatPosition() {
+		start	= null;
+		end		= null;
+		type	= '\0';
 	}
-	public OperatorPosition(MovePair start, MovePair end, byte type) {
-		this.start = new MovePair(start);
-		this.end = new MovePair(end);
-		this.type = type;
+	public ThreatPosition(MovePair start, MovePair end, byte type) {
+		this.start	= new MovePair(start);
+		this.end	= new MovePair(end);
+		this.type	= type;
 	}
 
 	public int length() {
