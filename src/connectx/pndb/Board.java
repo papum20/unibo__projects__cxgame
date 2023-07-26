@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 
 
-public class Board {
+public class Board implements IBoard<Board> {
 	
 	//#region CONSTANTS
 	public static final int COL_NULL = -1;
@@ -130,6 +130,13 @@ public class Board {
 				System.out.println(line);
 			}
 			System.out.println("\n");
+		}
+
+
+		@Override
+		public Board duplicate() {
+			// TODO Auto-generated method stub
+			throw new UnsupportedOperationException("Unimplemented method 'duplicate'");
 		}
 		
 	//#endregion DEBUG

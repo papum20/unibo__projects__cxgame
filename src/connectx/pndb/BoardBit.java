@@ -1,16 +1,19 @@
 package connectx.pndb;
 
 import java.util.ArrayList;
+import java.lang.Math;
+
+import connectx.CXCellState;
 
 
 
 
-public class BoardBit {
+public class BoardBit implements IBoard<BoardBit> {
 	
 	//#region CONSTANTS
 	public static final int COL_NULL = -1;
 
-	private static final int BITSTRING_LEN = 64;
+	protected static final int BITSTRING_LEN = 64;
 	//#endregion CONSTANTS
 	
 	public final byte M;		// number of rows
@@ -20,10 +23,12 @@ public class BoardBit {
 	// board is an array of columns, each represented by one or more bitstrings.
 	// board =1 for the first player's cells; board_mask =1 for any player's cell.
 	// the least significative bit refers to the bottom of a column.
-	private final long[][] board;
-	private final long[][] board_mask;
-	private final byte[] free;		// first free position for each column
-	private int free_n;				// number of free cells
+	protected long[][] board;
+	protected long[][] board_mask;
+	protected byte[] free;		// first free position for each column
+	protected int free_n;				// number of free cells
+
+	protected byte game_state;	// could be put in DbNode.data?
 
 
 
@@ -32,12 +37,30 @@ public class BoardBit {
 		this.N = (byte)N;
 		this.X = (byte)X;
 
-		board = new long[M][N];
-		board_mask = new long[M][N];
+		board = new long[N][COL_SIZE(M)];
+		board_mask = new long[N][COL_SIZE(M)];
 		free = new byte[N];
 		free_n = M * N;
+
+		game_state = GameState.OPEN;
 	}
 
+
+	/**
+	 * copy all
+	 * @param B to copy
+	 */
+	public void copy(BoardBit B) {
+
+		// copy all
+		for(int j = 0; j < N; j++) {
+			for(int i = 0; i < COL_SIZE(M); i++) {
+				board[j][i]			= B.board[j][i];
+				board_mask[j][i]	= B.board_mask[j][i];
+				free[j]				= B.free[j];
+			}
+		}
+	}
 
 	/**
 	 * 
@@ -46,13 +69,16 @@ public class BoardBit {
 	 * @return GameState
 	 */
 	public byte mark(int col, byte player) {
-		board[col][free[col] / BITSTRING_LEN] ^= 1 << (player & 1);							// =1 for CellState.ME
-		board_mask[col][free[col] / BITSTRING_LEN] |= 1 << (free[col] % BITSTRING_LEN);
+		board[col][free[col] / BITSTRING_LEN]		^= 1 << (player & 1);				// =1 for CellState.ME
+		board_mask[col][free[col] / BITSTRING_LEN]	|= 1 << (free[col] % BITSTRING_LEN);
 		free[col]++;
 		free_n--;
-		if(isWinningMove(free[col] - 1, col)) return player;
-		else if(free_n == 0) return GameState.DRAW;
-		else return GameState.OPEN;
+
+		if(isWinningMove(free[col] - 1, col)) game_state = player;
+		else if(free_n == 0) game_state = GameState.DRAW;
+		else game_state = GameState.OPEN;
+		
+		return game_state;
 	}
 
 	/**
@@ -61,8 +87,8 @@ public class BoardBit {
 	 */
 	public void unmark(int col) {
 		free[col]--;
-		board[col][free[col] / BITSTRING_LEN] &= -1 ^ (1 << (free[col] % BITSTRING_LEN));
-		board_mask[col][free[col] / BITSTRING_LEN] ^= 1 << (free[col] % BITSTRING_LEN);
+		board[col][free[col] / BITSTRING_LEN]		&= -1 ^ (1 << (free[col] % BITSTRING_LEN));
+		board_mask[col][free[col] / BITSTRING_LEN]	^= 1 << (free[col] % BITSTRING_LEN);
 		free_n++;
 	}
 
@@ -141,17 +167,46 @@ public class BoardBit {
 
 
 	//#region GET
+
+		public CXCellState cellState(int i, int j) {
+			switch( 1 & (int)(board[j][i / BITSTRING_LEN] >> (i % BITSTRING_LEN)) ) {
+				case 1:
+					return CXCellState.P1;
+				default:
+					switch( 1 & (int)(board_mask[j][i / BITSTRING_LEN] >> (i % BITSTRING_LEN)) ) {
+						case 1:
+							return CXCellState.P2;
+						default:
+							return CXCellState.FREE;
+					}
+			}
+		}
+		public CXCellState cellState(MovePair c) {return cellState(c.i, c.j);}
+
 		/**
 		 * 
 		 */
 		public ArrayList<Integer> freeCols() {
 			ArrayList<Integer> res = new ArrayList<Integer>(N);
 			for(int j = 0; j < N; j++)
-				if(board[j][M / BITSTRING_LEN] == -1) res.add(j);
+				if(board[j][COL_SIZE(M)] == -1) res.add(j);
 			return res;
 		}
 
+		public byte gameState() {return game_state;}
+
 	//#endregion GET
+
+	//#region MACROS
+
+		/**
+		 * how many bitstrings (long) a column of col_cells cells takes.
+		 * @param col_cells
+		 * @return
+		 */
+		protected int COL_SIZE(int col_cells) {return (int)Math.ceil(col_cells / BITSTRING_LEN);}
+
+	//#endregion MACROS
 
 
 	//#region DEBUG

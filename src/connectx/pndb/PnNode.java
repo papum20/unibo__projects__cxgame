@@ -4,6 +4,9 @@ import java.util.ArrayList;
 
 
 
+/**
+ * Node for PnSearch, with simple fields.
+ */
 public class PnNode {
 
 	//#region CONSTANTS

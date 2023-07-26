@@ -307,6 +307,7 @@ public class PnSearch implements CXPlayer {
 			}
 			return best;
 		}
+		
 		/**
 		 * 
 		 * @return true if it's time to end the turn
@@ -314,6 +315,7 @@ public class PnSearch implements CXPlayer {
 		private boolean isTimeEnded() {
 			return (System.currentTimeMillis() - timer_start) >= timer_end;
 		}
+
 		/**
 		 * @return true if available memory is less than a small percentage of max memory
 		 */
