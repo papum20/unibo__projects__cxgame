@@ -154,7 +154,7 @@ public class PnSearch implements CXPlayer {
 		private void evaluate(PnNode node, byte game_state) {
 
 
-			board.print();
+			// board.print();
 			int res = dbSearch.selectColumn(board, node, timer_end - System.currentTimeMillis());
 			System.out.println("db: " + res + "\n");
 

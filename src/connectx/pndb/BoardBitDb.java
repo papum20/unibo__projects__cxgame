@@ -328,10 +328,10 @@ public class BoardBitDb extends BoardBit {
 			 */
 			private void findAlignmentsInDirection(final MovePair first, final MovePair second, final CXCellState player, int dir_index, int max_tier, BoardBitDb check1, BoardBitDb check2) {
 
-				System.out.println(first + " " + second + " " + player + " " + dir_index);
+				//System.out.println(first + " " + second + " " + player + " " + dir_index);
 
 				// debug
-				boolean debug = false;
+				boolean debug = true;
 				if(debug) System.out.println("\naddAlignments START:");
 
 				CXCellState opponent				= Auxiliary.opponent(player);
@@ -524,20 +524,27 @@ public class BoardBitDb extends BoardBit {
 			 * @param max_tier
 			 */
 			public void findAllAlignments(CXCellState player, int max_tier) {
-			for(int d = 0; d < alignments_direction_indexes.length; d++) {
-				MovePair start	= iterateLineDirs(null, d);
-				MovePair end	= new MovePair(start);
-				end.clamp_diag(MIN, MAX, DIRECTIONS[alignments_direction_indexes[d]]);
-				findAlignmentsInDirection(start, end,  player, d, max_tier, null, null);
+
+				MovePair start, end;
+				for(int d = 0; d < alignments_direction_indexes.length; d++)
+				{
+					for(start	= iterateAlignmentDirs(null, d), end = new MovePair();
+						start.inBounds(MIN, MAX);
+						start = iterateAlignmentDirs(start, d)
+					) {
+						end.reset(start);
+						end.clamp_diag(MIN, MAX, DIRECTIONS[alignments_direction_indexes[d]].getProduct(Math.max(M, N)) );
+						findAlignmentsInDirection(start, end,  player, d, max_tier, null, null);
+					}
+				}
 			}
-		}
 
 			private void addAllCombinedAlignments(BoardBitDb B, CXCellState player, int max_tier) {
 
 				for(int alignments_by_direction_index = 0; alignments_by_direction_index < alignments_by_direction.length; alignments_by_direction_index++) {
-					MovePair start = iterateLineDirs(null, alignments_by_direction_index);
+					MovePair start = iterateAlignmentDirs(null, alignments_by_direction_index);
 					for(int i = 0; i < alignments_by_direction[alignments_by_direction_index].size();
-						i++, start = iterateLineDirs(start, alignments_by_direction_index))
+						i++, start = iterateAlignmentDirs(start, alignments_by_direction_index))
 					{
 						findAlignmentsInDirection(start, start, player, alignments_by_direction_index, max_tier, this, B);
 					}
@@ -591,7 +598,7 @@ public class BoardBitDb extends BoardBit {
 				else return dir.i + dir.j;									//dleft
 			}
 
-			private MovePair iterateLineDirs(MovePair start, int lines_dirs_index) {
+			private MovePair iterateAlignmentDirs(MovePair start, int lines_dirs_index) {
 				if(start == null) {
 					if(lines_dirs_index == 2) start = new MovePair(M - 1, 0);	//dright
 					else start = new MovePair(0, 0);

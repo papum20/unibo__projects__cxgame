@@ -177,7 +177,7 @@ public class DbSearch {
 					// debug filename
 					if(DEBUG_ON) {
 						if(attacking) {
-							String filename_current = "debug/db2/db" + 1 + "-" + level + ".txt";
+							String filename_current = "debug/db2/db" + root.board.MC_n + "-" + root.board.MC[root.board.MC_n-1] + "-" + level + ".txt";
 							//if(!attacking) filename_current = "debug/db2/db" + board.MC_n + "-" + level + "def" + defense++ + ".txt";
 							new File(filename_current);
 							file = new FileWriter(filename_current);
@@ -265,7 +265,7 @@ public class DbSearch {
 			if(DEBUG_ON) {
 				try {
 					file.write("\t\t\t\tWIN:\n");
-					possible_win.board.print();
+					possible_win.board.printFile(file, 1);
 					file.write("\t\t\t\t-----\n");
 				} catch(Exception e) {}
 			}
@@ -300,12 +300,12 @@ public class DbSearch {
 					try {
 						if(!attacking) file.write("\t\t\t\t\t\t\t\t");
 						file.write("parent: \n");
-						node.board.print();
+						node.board.printFile(file, node.board.MC_n);
 						if(!attacking) file.write("\t\t\t\t\t\t\t\t");
 						file.write("children: \n");
 					} catch (Exception e) {}
 				}
-
+				
 				found_sequence = addDependentChildren(node, attacker, attacking, 1, lastDependency, root, max_tier);
 			}
 			return found_sequence;
@@ -317,18 +317,18 @@ public class DbSearch {
 			ListIterator<DbNode> it = lastDependency.listIterator();
 			while(it.hasNext() && !found_sequence) {
 				DbNode node = it.next();
-
+				
 				// debug
 				if(DEBUG_ON) {
 					try {
 						if(!attacking) file.write("\t\t\t\t\t\t\t\t");
 						file.write("parent: \n");
-						node.board.print();
+						node.board.printFile(file, node.board.MC_n);
 						if(!attacking) file.write("\t\t\t\t\t\t\t\t");
 						file.write("children: \n");
 					} catch (Exception e) {}
 				}
-
+				
 				found_sequence = findAllCombinationNodes(node, root, attacker, attacking, lastCombination, root);
 			}
 			return found_sequence;
@@ -360,7 +360,7 @@ public class DbSearch {
 							int atk_index = 0;
 							//stops either after checking all threats, or if found a win/defense (for defended it is just any possible winning sequence)
 							while(	((attacking && !foundWin()) || (!attacking && !found_sequence)) &&
-									(atk_index = threat.nextAtk(atk_index)) != -1
+							(atk_index = threat.nextAtk(atk_index)) != -1
 							) {
 								// debug
 								if(DEBUG_ON) {
@@ -382,11 +382,11 @@ public class DbSearch {
 											DbNode newChild = addDependentChild(node, threat, atk_index, lastDependency);
 											if(!attacking) file.write("\t\t\t\t\t\t\t\t");
 											file.write("-" + lev + "\t---\n");
-											newChild.board.print();
+											newChild.board.printFile(file, lev);
 											file.write("MARKED GOAL SQUARE " + atk_cell + "\n");
 										} catch(Exception e) {}
 									}
-
+									
 									return true;
 								}
 								else {
@@ -397,7 +397,7 @@ public class DbSearch {
 										try {
 											if(!attacking) file.write("\t\t\t\t\t\t\t\t");
 											file.write("-" + lev + "\t---\n");
-											newChild.board.print();
+											newChild.board.printFile(file, lev);
 											if(!attacking) file.write("\t\t\t\t\t\t\t\t");
 											file.write("---\n");
 										} catch (Exception e) {}
@@ -474,11 +474,11 @@ public class DbSearch {
 									try {
 										if(!attacking) file.write("\t\t\t\t\t\t\t\t");
 										file.write("\t\tfirst parent: \n");
-										partner.board.print();
+										partner.board.printFile(file, partner.board.MC_n);
 										file.write(".\n");
 										if(!attacking) file.write("\t\t\t\t\t\t\t\t");
 										file.write("\t\tsecond parent: \n");
-										node.board.print();
+										node.board.printFile(file, node.board.MC_n);
 										file.write(".\n");
 									} catch (Exception e) {}
 								}
@@ -528,10 +528,10 @@ public class DbSearch {
 						try{
 							file.write("\nERROR\n");
 							if(partner != null)
-								partner.board.print();
-							file.write("\n\n");
-							if(partner != null)
-								node.board.print();
+								partner.board.printFile(file, partner.board.MC_n);
+								file.write("\n\n");
+								if(partner != null)
+								node.board.printFile(file, node.board.MC_n);
 							file.close();
 						}
 						catch(Exception e1) {}
@@ -594,7 +594,7 @@ public class DbSearch {
 				if(DEBUG_ON) {
 					try {
 						file.write("\t\t\t\t" + athreat.threat.related[athreat.related_index] + "\n");
-						prev.board.print();
+						prev.board.printFile(file, prev.board.MC_n);
 						for(MovePair m : athreat.threat.related) file.write("\t\t\t\t" + m + " ");
 						file.write("\n");
 					} catch(Exception e) {}
@@ -651,7 +651,7 @@ public class DbSearch {
 			// DEBUG
 			if(DEBUG_ON) {
 				try {
-					new_board.print();
+					new_board.printFile(file, new_board.MC_n);
 				} catch (Exception e) {}
 			}
 

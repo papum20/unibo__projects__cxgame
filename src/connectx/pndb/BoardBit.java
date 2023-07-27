@@ -1,6 +1,8 @@
 package connectx.pndb;
 
 import java.util.ArrayList;
+import java.io.File;
+import java.io.FileWriter;
 import java.lang.Math;
 
 import connectx.CXCellState;
@@ -272,6 +274,35 @@ public class BoardBit implements IBoard<BoardBit> {
 				System.out.println(line);
 			}
 			System.out.println("\n");
+		}
+
+		void printFile(FileWriter file, int indentation) {
+			//boolean[][] out = new boolean[M+1][N];
+			//System.out.println(COL_SIZE(M));
+
+			try {				
+				for(int i = M - 1; i >= 0; i--) {
+					String line = "";
+					for(int k = 0; k < indentation; k++) line += '\t';
+					for(int j = 0; j < N; j++) {
+
+						//System.out.println(i + " " + j + " " + board[j][i / BITSTRING_LEN] + " " + (board[j][i / BITSTRING_LEN] >> (i % BITSTRING_LEN)) );
+						
+						if(cellState(i, j) == 0) {
+							if(cellMaskState(i, j) == 1)
+								line += 'o';
+							else
+								line += '.';
+						} else {
+							line += 'x';
+						}
+					}
+					file.write(line);
+				}
+				file.write("\n");
+			} catch(Exception e) {
+				System.err.println(e);
+			}
 		}
 		
 	//#endregion DEBUG
