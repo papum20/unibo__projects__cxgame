@@ -62,7 +62,7 @@ public class DbNode {
 		/*
 		 * helper, only one direction
 		 */
-		private BoardsRelation _validCombinationWith(DbNode node, CXCellState attacker) {
+		private BoardsRelation _validCombinationWith(DbNode node, byte attacker) {
 
 			boolean added_own = false;
 			CXCell cell;
@@ -72,7 +72,7 @@ public class DbNode {
 				if(cell.state != node.board.cellStateCX(cell.i, cell.j)) {
 					if(!node.board.cellFree(cell.i, cell.j))
 						return BoardsRelation.CONFLICT;			//conflict: two different marks on same cell
-					else if(cell.state == attacker)
+					else if(Auxiliary.CX2cellState(cell.state) == attacker)
 						added_own = true;
 				}
 			}
@@ -83,7 +83,7 @@ public class DbNode {
 		/*
 		 * Check if a combination with node is valid, i.e. if they're not in conflict and both have a marked cell the other doesn't.
 		 */
-		public BoardsRelation validCombinationWith(DbNode node, CXCellState attacker) {
+		public BoardsRelation validCombinationWith(DbNode node, byte attacker) {
 
 			BoardsRelation this_valid = _validCombinationWith(node, attacker);
 

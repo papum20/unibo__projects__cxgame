@@ -52,7 +52,7 @@ public class BoardBitDb extends BoardBit {
 
 	protected BiList_Node_ThreatPos[][] alignments_by_cell;
 
-	protected final CXCellState[] Player	= {CXCellState.P1, CXCellState.P2};
+	//protected final CXCellState[] Player	= {CXCellState.P1, CXCellState.P2};
 	protected final byte[] Player_byte 		= {CellState.ME, CellState.YOU};
 	protected final int[] Player_bit 		= {1, 0};
 	protected int currentPlayer;		// currentPlayer plays next move (= 0 or 1)
@@ -100,20 +100,39 @@ public class BoardBitDb extends BoardBit {
 	//#region BOARD
 		private void mark(int i, int j, byte state) {
 			mark(j, state);
+
+			// debug
+			System.out.println("in mark, before add MC");
+			
 			addMC(i, j, cellStateCX(i, j));
+	
+			// debug
+			System.out.println("in mark, after add MC");
+			
 			hash = TT.getHash(hash, i, j, state);
+
+			// debug
+			System.out.println("in mark, after TT");
+
 		}
 		//public void markCell(MovePair cell) {markCell(cell.i(), cell.j(), Player[currentPlayer]);}
-		public void mark(MovePair cell, CXCellState state) {mark(cell.i, cell.j, Auxiliary.CX2cellState(state));}
 		public void mark(MovePair cell, byte player) {mark(cell.i, cell.j, player);}
-		public void markMore(MovePair[] cells, CXCellState player) {
-			for(MovePair c : cells) mark(c.i, c.j, Auxiliary.CX2cellState(player));
+		public void markMore(MovePair[] cells, byte player) {
+			for(MovePair c : cells) mark(c.i, c.j, player);
 		}
 		public void markThreat(MovePair[] related, int atk_index) {
 			for(int i = 0; i < related.length; i++) {
+
+				// debug
+				System.out.println("in mark threat, len " + related.length);
+				System.out.println("\trelated = " + related[i]);
+
 				byte state = Player_byte[(i == atk_index) ? currentPlayer : (1 - currentPlayer)];
 				mark(related[i].i, related[i].j, state);
 			}
+
+			// debug
+			System.out.println("exit mark thrat");
 		}
 
 		/**
@@ -121,7 +140,7 @@ public class BoardBitDb extends BoardBit {
 		 * @param cell
 		 * @param player
 		 */
-		public void updateAlignments(MovePair cell, CXCellState player) {
+		public void updateAlignments(MovePair cell, byte player) {
 			
 			// remove alignments for both players involving this cell
 			removeAlignments(cell, Auxiliary.opponent(player));
@@ -137,10 +156,14 @@ public class BoardBitDb extends BoardBit {
 
 
 		private void checkAlignments(MovePair cell, int max_tier, int dir_excluded) {
+
+			// debug
+			System.out.println("in check alignments for " + cell);
+
 			if(isWinningMove(cell.i, cell.j))
 				game_state = cell2GameState(cell.i, cell.j);
 			else {
-				findAlignments(cell, cell, cellStateCX(cell), max_tier, null, null, dir_excluded);
+				findAlignments(cell, cell, cellState(cell), max_tier, null, null, dir_excluded);
 				if(free_n == 0 && game_state == GameState.OPEN) game_state = GameState.DRAW;
 			}
 		}
@@ -156,7 +179,7 @@ public class BoardBitDb extends BoardBit {
 
 				if(game_state == GameState.OPEN) {
 					for(int i = 1; i < cells.length; i++)
-						findAlignmentsInDirection(cells[i], cells[i-1], cellStateCX(cells[i]), dir_index, max_tier, null, null);
+						findAlignmentsInDirection(cells[i], cells[i-1], cellState(cells[i]), dir_index, max_tier, null, null);
 				}
 				//update gameState
 				if(free_n == 0 && game_state == GameState.OPEN) game_state = GameState.DRAW;
@@ -179,7 +202,14 @@ public class BoardBitDb extends BoardBit {
 		 */
 		public BoardBitDb getDependant(ThreatCells threat, int atk, USE use, int max_tier, boolean check_threats) {
 			
+			// debug
+			System.out.println("in get dependant");
+			
 			BoardBitDb res = new BoardBitDb(this, false);
+
+			// debug
+			System.out.println("before switch, player=" + currentPlayer);
+
 			switch(use) {
 				//used for...
 				case ATK:
@@ -189,23 +219,23 @@ public class BoardBitDb extends BoardBit {
 					break;
 				//used for init defensive visit (marks defensive cells as own)
 				case DEF:
-					res.addThreat(threat, atk, Auxiliary.opponent(Player[currentPlayer]));
+					res.addThreat(threat, atk, Auxiliary.opponent(Player_byte[currentPlayer]));
 					//if there exist any defensive moves
 					if(threat.related.length > 1) {
-						res.markMore(threat.getDefensive(atk), Player[currentPlayer]);
+						res.markMore(threat.getDefensive(atk), Player_byte[currentPlayer]);
 						if(check_threats) res.checkAlignments(threat.getDefensive(atk), max_tier);
 					}
 					break;
 				//used for dependency stage
 				case BTH:
 					res.markThreat(threat.related, atk);
-					res.addThreat(threat, atk, Player[currentPlayer]);
+					res.addThreat(threat, atk, Player_byte[currentPlayer]);
 					if(check_threats) res.checkAlignments(threat.related, max_tier);
 			}
 			return res;
 		}
 		//only checks for alignments not included in the union of A's and B's alignments, i.e. those which involve at  least one cell only present in A and one only in B
-		public BoardBitDb getCombined(BoardBitDb B, CXCellState attacker, int max_tier) {
+		public BoardBitDb getCombined(BoardBitDb B, byte attacker, int max_tier) {
 
 			BoardBitDb res = new BoardBitDb(this, false);
 
@@ -217,7 +247,7 @@ public class BoardBitDb extends BoardBit {
 
 						if(cellFree(c.i, c.j)) {
 							if(i == athreat.related_index) res.mark(c, athreat.attacker);
-							else res.mark(c, Auxiliary.opponent(athreat.attacker));
+							else res.mark(c, athreat.attacker);
 						}
 					}
 					//add threats
@@ -236,7 +266,7 @@ public class BoardBitDb extends BoardBit {
 
 	//#region AUXILIARY
 		private void addMC(int y, int x, CXCellState player) {MC[MC_n++] = new CXCell(y, x, player);}
-		public void addThreat(ThreatCells threat, int atk, CXCellState attacker) {
+		public void addThreat(ThreatCells threat, int atk, byte attacker) {
 			// from when appliedThreat was different:
 			//MovePair[] def = new MovePair[threat.related.length - 1];
 			//for(int i = 0; i < atk; i++) def[i] = threat.related[i];
@@ -262,7 +292,7 @@ public class BoardBitDb extends BoardBit {
 
 		//#region ALIGNMENTS
 
-			private void removeAlignments(final MovePair center, CXCellState player) {
+			private void removeAlignments(final MovePair center, byte player) {
 
 				// debug
 				System.out.println("\nremoveAlignments START:");
@@ -326,15 +356,15 @@ public class BoardBitDb extends BoardBit {
 			 * 		new alignments of K-MIN_SYM_LINE.
 			 * HOWEVER, this will be a future enhancement: for now, the function simply deletes and recreates all
 			 */
-			private void findAlignmentsInDirection(final MovePair first, final MovePair second, final CXCellState player, int dir_index, int max_tier, BoardBitDb check1, BoardBitDb check2) {
+			private void findAlignmentsInDirection(final MovePair first, final MovePair second, final byte player, int dir_index, int max_tier, BoardBitDb check1, BoardBitDb check2) {
 
 				//System.out.println(first + " " + second + " " + player + " " + dir_index);
 
 				// debug
-				boolean debug = true;
+				boolean debug = false;
 				if(debug) System.out.println("\naddAlignments START:");
 
-				CXCellState opponent				= Auxiliary.opponent(player);
+				byte opponent						= Auxiliary.opponent(player);
 				MovePair dir						= DIRECTIONS[alignments_direction_indexes[dir_index]];
 				int alignments_by_direction_index	= alignmentsByDirection_index(dir, first);							//if horizontal: row index, otherwise (all other cases) col index
 				MovePair negdir						= dir.getNegative();
@@ -364,8 +394,8 @@ public class BoardBitDb extends BoardBit {
 				// find furthest c1, from center
 				int distance = 0;
 				MovePair c_tmp = first.getSum(negdir);
-				while(distance < X + Operators.MAX_FREE_EXTRA - 1 && c_tmp.inBounds(MIN, MAX) && cellStateCX(c_tmp) != opponent) {
-					if(cellStateCX(c_tmp) == player) c1.reset(c_tmp);
+				while(distance < X + Operators.MAX_FREE_EXTRA - 1 && c_tmp.inBounds(MIN, MAX) && cellState(c_tmp) != opponent) {
+					if(cellState(c_tmp) == player) c1.reset(c_tmp);
 					c_tmp.sum(negdir);
 					distance++;
 				}
@@ -388,7 +418,7 @@ public class BoardBitDb extends BoardBit {
 						if(debug) System.out.println("\t\t\t\tc1!=player: " + c1 + "->" + c2 + " : " + lined + ", " + marks + ", " + in);
 
 						// find start of an alignment, i.e. c1 contains player
-						while(cellStateCX(c1) != player && !c1.equals(end_c1))
+						while(cellState(c1) != player && !c1.equals(end_c1))
 							c1.sum(dir);
 
 						if(c1.equals(end_c1) && cellFree(c1.i, c1.j)) checked_all = true;
@@ -411,7 +441,7 @@ public class BoardBitDb extends BoardBit {
 
 						//if ( !(line exceeded MAX) && c2 == player): line++, mark++; check alignment;
 
-						if(lined <= X && cellStateCX(c2) == player) {
+						if(lined <= X && cellState(c2) == player) {
 							lined++;
 							marks++;
 
@@ -491,7 +521,7 @@ public class BoardBitDb extends BoardBit {
 						}	//end if (c2==player)
 
 						//increment c1/c2
-						if(c2.equals(end_c2) || lined >= X || cellStateCX(c2) == opponent) {
+						if(c2.equals(end_c2) || lined >= X || cellState(c2) == opponent) {
 							if(c1.equals(end_c1)) checked_all = true;
 							else {
 								c1.sum(dir);
@@ -511,7 +541,7 @@ public class BoardBitDb extends BoardBit {
 			/**
 			 * Find alignments for a cell in all directions.
 			 */
-			private void findAlignments(final MovePair first, final MovePair second, final CXCellState player, int max_tier, BoardBitDb check1, BoardBitDb check2, int dir_excluded) {
+			private void findAlignments(final MovePair first, final MovePair second, final byte player, int max_tier, BoardBitDb check1, BoardBitDb check2, int dir_excluded) {
 				for(int d = 0; d < alignments_direction_indexes.length; d++) {
 					if(d != dir_excluded)
 						findAlignmentsInDirection(first, second, player, d, max_tier, check1, check2);
@@ -523,7 +553,7 @@ public class BoardBitDb extends BoardBit {
 			 * @param player
 			 * @param max_tier
 			 */
-			public void findAllAlignments(CXCellState player, int max_tier) {
+			public void findAllAlignments(byte player, int max_tier) {
 
 				MovePair start, end;
 				for(int d = 0; d < alignments_direction_indexes.length; d++)
@@ -539,7 +569,7 @@ public class BoardBitDb extends BoardBit {
 				}
 			}
 
-			private void addAllCombinedAlignments(BoardBitDb B, CXCellState player, int max_tier) {
+			private void addAllCombinedAlignments(BoardBitDb B, byte player, int max_tier) {
 
 				for(int alignments_by_direction_index = 0; alignments_by_direction_index < alignments_by_direction.length; alignments_by_direction_index++) {
 					MovePair start = iterateAlignmentDirs(null, alignments_by_direction_index);
@@ -564,7 +594,7 @@ public class BoardBitDb extends BoardBit {
 			/**
 			 * Remove all alignments in alignments_by_cell[from] involving involved.
 			 */
-			private void removeAlignmentsByCell_InvolvingCell(MovePair from, MovePair involved, CXCellState player) {
+			private void removeAlignmentsByCell_InvolvingCell(MovePair from, MovePair involved, byte player) {
 
 				MovePair dir_involved = from.getDirection(involved);
 				
@@ -622,7 +652,7 @@ public class BoardBitDb extends BoardBit {
 			 * @param player
 			 * @return true if there are valid alignments (calculated before, with proper max_tier)
 			 */
-			public boolean hasAlignments(CXCellState player) {
+			public boolean hasAlignments(byte player) {
 
 				for(int i = 0; i < alignments_by_direction.length; i++) {
 					for(int j = 0; j < alignments_by_direction[i].size(); j++) {
@@ -639,15 +669,15 @@ public class BoardBitDb extends BoardBit {
 			 * @param attacker
 			 * @return true if the AppliedThreat is compatible with this board, and useful, i.e. adds at least one attacker's threat.
 			 */
-			private boolean isUsefulThreat(ThreatApplied athreat, CXCellState attacker) {
+			private boolean isUsefulThreat(ThreatApplied athreat, byte attacker) {
 
-				CXCellState state, state_athreat;
+				byte state, state_athreat;
 				boolean useful = false;
 				
 				for(int i = 0; i < athreat.threat.related.length; i++) {
-					state			= cellStateCX(athreat.threat.related[i]);
+					state			= cellState(athreat.threat.related[i]);
 					state_athreat	= (i == athreat.related_index) ? athreat.attacker : Auxiliary.opponent(athreat.attacker);
-					if(state == CXCellState.FREE) {						//compatible
+					if(state == CellState.FREE) {						//compatible
 						if(state_athreat == attacker) useful = true;	//useful
 					} else if(state != state_athreat) return false;		//not compatible
 				}
@@ -760,13 +790,13 @@ public class BoardBitDb extends BoardBit {
 					MovePair dir				= DIRECTIONS[alignments_direction_indexes[d]];
 					for(int i = 0; i < alignment.size(); i++) {
 						if(alignment.get(i) != null) {
-							copyAlignmentInCells(alignment.getFirst(CXCellState.P1, i), CXCellState.P1, dir);
-							copyAlignmentInCells(alignment.getFirst(CXCellState.P2, i), CXCellState.P2, dir);
+							copyAlignmentInCells(alignment.getFirst(CellState.ME, i), CellState.ME, dir);
+							copyAlignmentInCells(alignment.getFirst(CellState.YOU, i), CellState.YOU, dir);
 						}
 					}
 				}
 			}
-			private void copyAlignmentInCells(BiNode<ThreatPosition> alignment_node, CXCellState player, MovePair dir) {
+			private void copyAlignmentInCells(BiNode<ThreatPosition> alignment_node, byte player, MovePair dir) {
 
 				if(alignment_node != null) {
 					copyAlignmentInCells(alignment_node.next, player, dir);

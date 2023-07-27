@@ -176,22 +176,35 @@ public class BoardBit implements IBoard<BoardBit> {
 		/*
 		 * return board's value, i.e. 1 if occupied by first player.
 		 */
-		public byte cellState(int i, int j) {
+		public byte _cellState(int i, int j) {
 			return (byte)(1 & (board[j][i / BITSTRING_LEN] >> (i % BITSTRING_LEN)));
 		}
 		/*
 		 * return board_mask's value, i.e. 1 if occupied by someone.
 		 */
-		public byte cellMaskState(int i, int j) {
+		public byte _cellMaskState(int i, int j) {
 			return (byte)(1 & (board_mask[j][i / BITSTRING_LEN] >> (i % BITSTRING_LEN)));
 		}
 
+		public byte cellState(int i, int j) {
+			switch(_cellState(i, j)) {
+				case 1:
+					return CellState.ME;
+				default:
+					switch(_cellMaskState(i, j)) {
+						case 1:
+							return CellState.YOU;
+						default:
+							return CellState.FREE;
+					}
+			}
+		}
 		public CXCellState cellStateCX(int i, int j) {
-			switch(cellState(i, j)) {
+			switch(_cellState(i, j)) {
 				case 1:
 					return CXCellState.P1;
 				default:
-					switch(cellMaskState(i, j)) {
+					switch(_cellMaskState(i, j)) {
 						case 1:
 							return CXCellState.P2;
 						default:
@@ -199,6 +212,12 @@ public class BoardBit implements IBoard<BoardBit> {
 					}
 			}
 		}
+		/**
+		 * 
+		 * @param c
+		 * @return the cell's state, as CellState
+		 */
+		public byte cellState(MovePair c) {return cellState(c.i, c.j);}
 		public CXCellState cellStateCX(MovePair c) {return cellStateCX(c.i, c.j);}
 		public boolean cellFree(int i, int j) {return (1 & (board_mask[j][i / BITSTRING_LEN] >> (i % BITSTRING_LEN))) == 0;}
 
@@ -206,13 +225,13 @@ public class BoardBit implements IBoard<BoardBit> {
 		 * convert cell to GameState, assuming cell is occupied by someone.
 		 */
 		public byte cell2GameState(int i, int j) {
-			return (cellState(i, j) == 1)? GameState.P1 : GameState.P2;
+			return (_cellState(i, j) == 1)? GameState.P1 : GameState.P2;
 		}
 		public byte cell2GameState(byte cell_state) {
 			return (cell_state == CellState.ME)? GameState.P1 : GameState.P2;
 		}
 		public CXGameState cell2GameStateCX(int i, int j) {
-			return (cellState(i, j) == 1)? CXGameState.WINP1 : CXGameState.WINP2;
+			return (_cellState(i, j) == 1)? CXGameState.WINP1 : CXGameState.WINP2;
 		}
 
 		/**
@@ -262,8 +281,8 @@ public class BoardBit implements IBoard<BoardBit> {
 
 					//System.out.println(i + " " + j + " " + board[j][i / BITSTRING_LEN] + " " + (board[j][i / BITSTRING_LEN] >> (i % BITSTRING_LEN)) );
 					
-					if(cellState(i, j) == 0) {
-						if(cellMaskState(i, j) == 1)
+					if(_cellState(i, j) == 0) {
+						if(_cellMaskState(i, j) == 1)
 							line += 'o';
 						else
 							line += '.';
@@ -288,8 +307,8 @@ public class BoardBit implements IBoard<BoardBit> {
 
 						//System.out.println(i + " " + j + " " + board[j][i / BITSTRING_LEN] + " " + (board[j][i / BITSTRING_LEN] >> (i % BITSTRING_LEN)) );
 						
-						if(cellState(i, j) == 0) {
-							if(cellMaskState(i, j) == 1)
+						if(_cellState(i, j) == 0) {
+							if(_cellMaskState(i, j) == 1)
 								line += 'o';
 							else
 								line += '.';
@@ -297,6 +316,7 @@ public class BoardBit implements IBoard<BoardBit> {
 							line += 'x';
 						}
 					}
+					line += "\n";
 					file.write(line);
 				}
 				file.write("\n");

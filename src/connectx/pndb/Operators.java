@@ -221,7 +221,7 @@ public class Operators {
 		return (byte) ((threat & THREAT_MASK) >> (byte)4);
 	}
 
-	public static ThreatCells applied(BoardBitDb board, ThreatPosition op, CXCellState attacker, CXCellState defender) {
+	public static ThreatCells applied(BoardBitDb board, ThreatPosition op, byte attacker, byte defender) {
 		board = new BoardBitDb(board);
 		return OPERATORS[tier(op.type)].get((int)(op.type)).getThreatCells(board, op, attacker, defender);
 	}
@@ -274,7 +274,7 @@ public class Operators {
 			private static interface Applier {
 				//given a board and and an alignment relative to it,
 				//returns a threatArray, that contains the cells to mark to apply an operator
-				public ThreatCells getThreatCells(BoardBitDb board, ThreatPosition pos, CXCellState attacker, CXCellState defender);
+				public ThreatCells getThreatCells(BoardBitDb board, ThreatPosition pos, byte attacker, byte defender);
 			}
 			public static class AppliersMap extends HashMap<Integer, Applier> {
 				private AppliersMap(byte[] keys, Applier[] values) {
@@ -333,12 +333,12 @@ public class Operators {
 		//#endregion MAIN
 		//#region APPLIERS
 			private static class ApplierNull implements Applier {
-				public ThreatCells getThreatCells(BoardBitDb board, ThreatPosition pos, CXCellState attacker, CXCellState defender) {
+				public ThreatCells getThreatCells(BoardBitDb board, ThreatPosition pos, byte attacker, byte defender) {
 					return null;
 				}
 			}
 			private static class Applier1first implements Applier {
-				public ThreatCells getThreatCells(BoardBitDb board, ThreatPosition pos, CXCellState attacker, CXCellState defender) {
+				public ThreatCells getThreatCells(BoardBitDb board, ThreatPosition pos, byte attacker, byte defender) {
 					ThreatCells res = new ThreatCells(1, pos.type);
 					if(board.cellStateCX(pos.start) == CXCellState.FREE)	res.set(pos.start, 0, USE.ATK);
 					else												res.set(pos.end, 0, USE.ATK);
@@ -346,7 +346,7 @@ public class Operators {
 				}
 			}
 			private static class Applier1in implements Applier {
-				public ThreatCells getThreatCells(BoardBitDb board, ThreatPosition pos, CXCellState attacker, CXCellState defender) {
+				public ThreatCells getThreatCells(BoardBitDb board, ThreatPosition pos, byte attacker, byte defender) {
 					ThreatCells res = new ThreatCells(1, pos.type);
 					MovePair dir = pos.start.getDirection(pos.end);
 					MovePair it = pos.start.getSum(dir);
@@ -358,7 +358,7 @@ public class Operators {
 				}
 			}
 			private static class Applier1second implements Applier {
-				public ThreatCells getThreatCells(BoardBitDb board, ThreatPosition pos, CXCellState attacker, CXCellState defender) {
+				public ThreatCells getThreatCells(BoardBitDb board, ThreatPosition pos, byte attacker, byte defender) {
 					ThreatCells res = new ThreatCells(1, pos.type);
 					MovePair dir = pos.start.getDirection(pos.end);
 					MovePair cell = pos.start.getSum(dir);
@@ -369,7 +369,7 @@ public class Operators {
 			}
 			//like 1kc, but starts from the free border
 			private static class Applier1_1first_or_in implements Applier {
-				public ThreatCells getThreatCells(BoardBitDb board, ThreatPosition pos, CXCellState attacker, CXCellState defender) {
+				public ThreatCells getThreatCells(BoardBitDb board, ThreatPosition pos, byte attacker, byte defender) {
 					ThreatCells res = new ThreatCells(2, pos.type);
 					MovePair dir;
 					MovePair it;
@@ -391,7 +391,7 @@ public class Operators {
 				}
 			}
 			private static class Applier1_1in_or_in implements Applier {
-				public ThreatCells getThreatCells(BoardBitDb board, ThreatPosition pos, CXCellState attacker, CXCellState defender) {
+				public ThreatCells getThreatCells(BoardBitDb board, ThreatPosition pos, byte attacker, byte defender) {
 					ThreatCells res = new ThreatCells(2, pos.type);
 					MovePair dir = pos.start.getDirection(pos.end);
 					MovePair it = new MovePair(pos.start);
@@ -406,7 +406,7 @@ public class Operators {
 				}
 			}
 			private static class Applier1_3second_or_in implements Applier {
-				public ThreatCells getThreatCells(BoardBitDb board, ThreatPosition pos, CXCellState attacker, CXCellState defender) {
+				public ThreatCells getThreatCells(BoardBitDb board, ThreatPosition pos, byte attacker, byte defender) {
 					ThreatCells res = new ThreatCells(4, pos.type);
 					MovePair dir = pos.start.getDirection(pos.end);
 					MovePair it = pos.start.getSum(dir);
@@ -430,7 +430,7 @@ public class Operators {
 				}
 			}
 			private static class Applier1_3in_or_in implements Applier {
-				public ThreatCells getThreatCells(BoardBitDb board, ThreatPosition pos, CXCellState attacker, CXCellState defender) {
+				public ThreatCells getThreatCells(BoardBitDb board, ThreatPosition pos, byte attacker, byte defender) {
 					ThreatCells res = new ThreatCells(4, pos.type);
 					MovePair dir = pos.start.getDirection(pos.end);
 					MovePair it = new MovePair(pos.start);
@@ -439,7 +439,7 @@ public class Operators {
 					//doesn't check termination condition ( && !it.equals(op.end)): assumes the operator is appliable
 					while(ind < 3) {
 						it.sum(dir);
-						if(board.cellStateCX(it) == CXCellState.FREE) res.set(new MovePair(it), ind++, USE.BTH);
+						if(board.cellFree(it.i, it.j)) res.set(new MovePair(it), ind++, USE.BTH);
 						//if(it.equals(op.end)) len = 2;	//exit while
 					}
 					res.set(pos.end, 3, USE.DEF);
@@ -447,11 +447,11 @@ public class Operators {
 				}
 			}
 			private static class Applier1_2third implements Applier {
-				public ThreatCells getThreatCells(BoardBitDb board, ThreatPosition pos, CXCellState attacker, CXCellState defender) {
+				public ThreatCells getThreatCells(BoardBitDb board, ThreatPosition pos, byte attacker, byte defender) {
 					ThreatCells res = new ThreatCells(3, pos.type);
 					MovePair dir = pos.start.getDirection(pos.end);
 					res.set(pos.start.getSum(dir), 0, USE.DEF);
-					if (board.cellStateCX(pos.start.i + 2*dir.i, pos.start.j + 2*dir.j) == CXCellState.FREE) {
+					if (board.cellFree(pos.start.i + 2*dir.i, pos.start.j + 2*dir.j)) {
 						res.set(new MovePair(pos.start.i + 2*dir.i, pos.start.j + 2*dir.j), 1, USE.ATK);
 					} else {
 						res.set(new MovePair(pos.end.i - 2*dir.i, pos.end.j - 2*dir.j), 1, USE.ATK);
@@ -461,7 +461,7 @@ public class Operators {
 				}
 			}
 			private static class Applier1_2in implements Applier {
-				public ThreatCells getThreatCells(BoardBitDb board, ThreatPosition pos, CXCellState attacker, CXCellState defender) {
+				public ThreatCells getThreatCells(BoardBitDb board, ThreatPosition pos, byte attacker, byte defender) {
 					ThreatCells res = new ThreatCells(3, pos.type);
 					MovePair dir = pos.start.getDirection(pos.end);
 					MovePair it = pos.start.getSum(dir);
@@ -469,7 +469,7 @@ public class Operators {
 					int ind = 0;
 					//doesn't check termination condition ( && !it.equals(op.end)): assumes the operator is appliable
 					while(ind < 2) {
-						if(board.cellStateCX(it) == CXCellState.FREE) ind++;
+						if(board.cellFree(it.i, it.j)) ind++;
 						//if(it.equals(op.end)) len = 2;	//exit while
 						if(ind < 2) it.sum(dir);
 					}

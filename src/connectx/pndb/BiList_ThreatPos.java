@@ -32,20 +32,20 @@ public class BiList_ThreatPos {
 	}
 
 
-	public BiNode<ThreatPosition> add(CXCellState player, ThreatPosition f) {
-		BiList<ThreatPosition> list = (player == CXCellState.P1) ? p1 : p2;
+	public BiNode<ThreatPosition> add(byte player, ThreatPosition f) {
+		BiList<ThreatPosition> list = (player == CellState.ME) ? p1 : p2;
 		BiNode<ThreatPosition> res = list.addFirst(f);
 		return res;
 	}
-	public void remove(CXCellState player, BiNode<ThreatPosition> node) {
-		BiList<ThreatPosition> list = (player == CXCellState.P1) ? p1 : p2;
+	public void remove(byte player, BiNode<ThreatPosition> node) {
+		BiList<ThreatPosition> list = (player == CellState.ME) ? p1 : p2;
 		list.remove(node);
 	}
-	public boolean isEmpty(CXCellState player) {
-		return (player == CXCellState.P1) ? p1.isEmpty() : p2.isEmpty();
+	public boolean isEmpty(byte player) {
+		return (player == CellState.ME) ? p1.isEmpty() : p2.isEmpty();
 	}
-	public BiNode<ThreatPosition> getFirst(CXCellState player) {
-		return (player == CXCellState.P1) ? p1.getFirst() : p2.getFirst();
+	public BiNode<ThreatPosition> getFirst(byte player) {
+		return (player == CellState.ME) ? p1.getFirst() : p2.getFirst();
 	}
 
 }

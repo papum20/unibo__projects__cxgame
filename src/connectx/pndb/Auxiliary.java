@@ -27,15 +27,21 @@ public class Auxiliary {
 		V[b] = tmp;
 	}
 
-	public static CXCellState opponent(CXCellState player) {
+	public static CXCellState opponentCX(CXCellState player) {
 		return (player == CXCellState.P1) ? CXCellState.P2 : CXCellState.P1;
+	}
+	public static byte opponent(byte player) {
+		return (player == CellState.ME) ? CellState.YOU : CellState.ME;
 	}
 	public static boolean equalMNKCells(CXCell a, CXCell b) {
 		return a.i == b.i && a.j == b.j;
 	}
 	//makes sense only assuming it's a win, and the cell is not empty
-	public static CXGameState cellState2winState(CXCellState cell_state) {
+	public static CXGameState CXcellState2winState(CXCellState cell_state) {
 		return (cell_state == CXCellState.P1) ? CXGameState.WINP1 : CXGameState.WINP2;
+	}
+	public static byte cellState2winState(byte cell_state) {
+		return (cell_state == CellState.ME) ? GameState.P1 : GameState.P2;
 	}
 
 	public static byte CX2cellState(CXCellState game_state) {
@@ -51,6 +57,14 @@ public class Auxiliary {
 			case WINP1:	return GameState.P1;
 			case WINP2:	return GameState.P2;
 			default:	return GameState.OPEN;
+		}
+	}
+	public static CXGameState gameState2CX(byte game_state) {
+		switch(game_state) {
+			case GameState.DRAW:	return CXGameState.DRAW;
+			case GameState.P1:		return CXGameState.WINP1;
+			case GameState.P2:		return CXGameState.WINP2;
+			default:				return CXGameState.OPEN;
 		}
 	}
 	
