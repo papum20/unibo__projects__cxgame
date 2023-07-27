@@ -14,7 +14,7 @@ public class Constants {
 
 
 	//#region FUNCTIONS
-	public static int opponent(int player) {
+	public static int opponent(byte player) {
 		return 3 - player;
 	}
 

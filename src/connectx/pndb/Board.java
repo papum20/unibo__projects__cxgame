@@ -132,13 +132,6 @@ public class Board implements IBoard<Board> {
 			System.out.println("\n");
 		}
 
-
-		@Override
-		public Board duplicate() {
-			// TODO Auto-generated method stub
-			throw new UnsupportedOperationException("Unimplemented method 'duplicate'");
-		}
-		
 	//#endregion DEBUG
 
 

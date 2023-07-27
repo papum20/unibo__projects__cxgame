@@ -38,11 +38,11 @@ public class PnNode {
 	 * @param n : proof and disproof
 	 */
 	public PnNode(int col, PnNode parent) {
-		this.col = (byte)col;
-		this.n = new short[2];
-		this.parent = parent;
-		this.children = null;
-		this.most_proving = null;
+		this.col			= (byte)col;
+		this.n				= new short[2];
+		this.parent			= parent;
+		this.children		= null;
+		this.most_proving	= null;
 	}
 
 
@@ -52,8 +52,8 @@ public class PnNode {
 	//#region GET
 
 		public Value value() {
-			if(n[PROOF] == N_ZERO && n[DISPROOF] == N_INFINITE) return Value.TRUE;
-			else if(n[PROOF] == N_INFINITE && n[DISPROOF] == N_ZERO) return Value.FALSE;
+			if(n[PROOF] == N_ZERO && n[DISPROOF] == N_INFINITE)			return Value.TRUE;
+			else if(n[PROOF] == N_INFINITE && n[DISPROOF] == N_ZERO)	return Value.FALSE;
 			else return Value.UNKNOWN;
 		}
 		/**

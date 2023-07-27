@@ -7,7 +7,7 @@ import connectx.pndb.BiList.BiNode;
 
 
 
-public class AlignmentsList extends ArrayList<BiList_OpPos> {
+public class AlignmentsList extends ArrayList<BiList_ThreatPos> {
 
 
 
@@ -21,14 +21,14 @@ public class AlignmentsList extends ArrayList<BiList_OpPos> {
 		int size = copy.size();
 		for(int i = 0; i < size; i++) {
 			if(copy.get(i) == null) add(null);
-			else add(new BiList_OpPos(copy.get(i)));
+			else add(new BiList_ThreatPos(copy.get(i)));
 		}
 	}
 
 	public BiNode<ThreatPosition> add(CXCellState player, int index, ThreatPosition f) {
-		BiList_OpPos list = get(index);
+		BiList_ThreatPos list = get(index);
 		if(list == null) {
-			list = new BiList_OpPos();
+			list = new BiList_ThreatPos();
 			set(index, list);
 		}
 		BiNode<ThreatPosition> res = list.add(player, f);

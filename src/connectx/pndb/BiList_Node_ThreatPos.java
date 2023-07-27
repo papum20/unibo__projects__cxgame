@@ -3,7 +3,7 @@ package connectx.pndb;
 import connectx.CXCellState;
 import connectx.pndb.BiList.BiNode;
 
-public class BiList_NodeOpPos {
+public class BiList_Node_ThreatPos {
 	
 
 
@@ -12,7 +12,7 @@ public class BiList_NodeOpPos {
 
 
 
-	public BiList_NodeOpPos() {
+	public BiList_Node_ThreatPos() {
 		p1 = new BiList<BiNode<ThreatPosition>>();
 		p2 = new BiList<BiNode<ThreatPosition>>();
 	}

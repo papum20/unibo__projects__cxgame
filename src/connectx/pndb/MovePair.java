@@ -38,12 +38,10 @@ public class MovePair {
 	//#endregion CONSTRUCTORS
 
 	public MovePair getPair() {return this;}
-	public short i() {return i;}
-	public short j() {return j;}
 	public String toString() {return "[" + i + "," + j + "]";}
 
 	//#region MATH_OPERATIONS
-		public boolean equals(MovePair move) {return i == move.i() && j == move.j();}
+		public boolean equals(MovePair move) {return i == move.i && j == move.j;}
 		public void negate() {i = (short)(-i); j = (short)(-j);}
 		public MovePair getNegative() {return new MovePair(-i, -j);}
 		public void sum(MovePair B) {
@@ -97,10 +95,12 @@ public class MovePair {
 			clampMin(min);
 			clampMax(max);
 		}
+		
 		public void clamp_diag(MovePair min, MovePair max, MovePair dir) {
 			short old_i = i, old_j = j;
 			i = (short)Auxiliary.clamp(i + dir.i, min.i, max.i);
 			j = (short)Auxiliary.clamp(j + dir.j, min.j, max.j);
+			
 			if(dir.i != 0 && dir.j != 0) {
 				int diff_i = Math.abs(i - old_i), diff_j = Math.abs(j - old_j);
 				if(diff_i < diff_j) {

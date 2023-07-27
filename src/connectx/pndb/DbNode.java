@@ -31,6 +31,16 @@ public class DbNode {
 		board = new BoardBitDb(B);
 		setData(is_combination, max_tier);
 	}
+	public DbNode(BoardBitDb board, boolean is_combination, byte max_tier) {
+		this.board = board;
+		setData(is_combination, max_tier);
+		this.first_child = null;
+		this.sibling = null;
+	}
+	public static DbNode copy(BoardBitDb board, boolean is_combination, byte max_tier, boolean copy_threats) {
+		return new DbNode(new BoardBitDb(board, copy_threats), is_combination, max_tier);
+	}
+
 
 
 	//#region DB
@@ -71,7 +81,7 @@ public class DbNode {
 		}
 
 		/*
-		 * Check if a combination with node is valid, i.e. if they're not in conflict and both add something.
+		 * Check if a combination with node is valid, i.e. if they're not in conflict and both have a marked cell the other doesn't.
 		 */
 		public BoardsRelation validCombinationWith(DbNode node, CXCellState attacker) {
 

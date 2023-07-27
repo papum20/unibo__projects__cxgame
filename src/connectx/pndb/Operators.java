@@ -411,7 +411,7 @@ public class Operators {
 					MovePair dir = pos.start.getDirection(pos.end);
 					MovePair it = pos.start.getSum(dir);
 					if (board.cellStateCX(it) != CXCellState.FREE) {
-						it.reset(pos.end.i() - dir.i(), pos.end.j() - dir.j());
+						it.reset(pos.end.i - dir.i, pos.end.j - dir.j);
 						dir.negate();
 					}
 			// DOESN'T PUT res IN ORDER WHEN START AND END ARE INVERTER
@@ -451,10 +451,10 @@ public class Operators {
 					ThreatCells res = new ThreatCells(3, pos.type);
 					MovePair dir = pos.start.getDirection(pos.end);
 					res.set(pos.start.getSum(dir), 0, USE.DEF);
-					if (board.cellStateCX(pos.start.i() + 2*dir.i(), pos.start.j() + 2*dir.j()) == CXCellState.FREE) {
-						res.set(new MovePair(pos.start.i() + 2*dir.i(), pos.start.j() + 2*dir.j()), 1, USE.ATK);
+					if (board.cellStateCX(pos.start.i + 2*dir.i, pos.start.j + 2*dir.j) == CXCellState.FREE) {
+						res.set(new MovePair(pos.start.i + 2*dir.i, pos.start.j + 2*dir.j), 1, USE.ATK);
 					} else {
-						res.set(new MovePair(pos.end.i() - 2*dir.i(), pos.end.j() - 2*dir.j()), 1, USE.ATK);
+						res.set(new MovePair(pos.end.i - 2*dir.i, pos.end.j - 2*dir.j), 1, USE.ATK);
 					}
 					res.set(pos.end.getDiff(dir), 2, USE.DEF);
 					return res;

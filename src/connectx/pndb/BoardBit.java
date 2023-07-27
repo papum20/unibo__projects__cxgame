@@ -38,10 +38,10 @@ public class BoardBit implements IBoard<BoardBit> {
 		this.N = (byte)N;
 		this.X = (byte)X;
 
-		board = new long[N][COL_SIZE(M)];
-		board_mask = new long[N][COL_SIZE(M)];
-		free = new byte[N];
-		free_n = M * N;
+		board		= new long[N][COL_SIZE(M)];
+		board_mask	= new long[N][COL_SIZE(M)];
+		free		= new byte[N];
+		free_n		= M * N;
 
 		game_state = GameState.OPEN;
 	}
@@ -70,12 +70,12 @@ public class BoardBit implements IBoard<BoardBit> {
 	 * @return GameState
 	 */
 	public byte mark(int col, byte player) {
-		board[col][free[col] / BITSTRING_LEN]		^= 1 << (player & 1);				// =1 for CellState.ME
+		board[col][free[col] / BITSTRING_LEN]		^= (player & 1) << (free[col] % BITSTRING_LEN);	// =1 for CellState.ME
 		board_mask[col][free[col] / BITSTRING_LEN]	|= 1 << (free[col] % BITSTRING_LEN);
 		free[col]++;
 		free_n--;
 
-		if(isWinningMove(free[col] - 1, col)) game_state = player;
+		if(isWinningMove(free[col] - 1, col)) game_state = cell2GameState(player);
 		else if(free_n == 0) game_state = GameState.DRAW;
 		else game_state = GameState.OPEN;
 		
@@ -91,6 +91,8 @@ public class BoardBit implements IBoard<BoardBit> {
 		board[col][free[col] / BITSTRING_LEN]		&= -1 ^ (1 << (free[col] % BITSTRING_LEN));
 		board_mask[col][free[col] / BITSTRING_LEN]	^= 1 << (free[col] % BITSTRING_LEN);
 		free_n++;
+
+		game_state = GameState.OPEN;
 	}
 
 	/**
@@ -101,8 +103,8 @@ public class BoardBit implements IBoard<BoardBit> {
 	 */
 	protected boolean isWinningMove(int i, int j) {
 		long	mask_ij = 1 << (i % BITSTRING_LEN);
-		long	s		= (board[j][i / BITSTRING_LEN] & mask_ij) >> (i % BITSTRING_LEN),
-				s_mask	= (board[j][i / BITSTRING_LEN] & mask_ij) >> (i % BITSTRING_LEN);
+		long	s		= (board[j][i / BITSTRING_LEN] & mask_ij)		>> (i % BITSTRING_LEN),
+				s_mask	= (board_mask[j][i / BITSTRING_LEN] & mask_ij)	>> (i % BITSTRING_LEN);
 		long mask = mask_ij;
 		int n;
 		int k;
@@ -128,41 +130,41 @@ public class BoardBit implements IBoard<BoardBit> {
 			(board[j][k / BITSTRING_LEN] & mask)		== s * mask &&
 			(board_mask[j][k / BITSTRING_LEN] & mask)	== s_mask * mask
 			; k--, mask = 1 << (k % BITSTRING_LEN))
-				n++;
-		if (n >= X) return true;
-
-		// Diagonal check
-		n = 1;
-		for (k = 1, mask = 1 << ((i-k) % BITSTRING_LEN); 
-			i-k >= 0 && j-k >= 0 &&
-			(board[j-k][(i-k) / BITSTRING_LEN] & mask)		== s * mask &&
-			(board_mask[j-k][(i-k) / BITSTRING_LEN] & mask)	== s_mask * mask;
-			k++, mask = 1 << (k % BITSTRING_LEN))
-				n++; // backward check
-		for (k = 1, mask = 1 << ((i+k) % BITSTRING_LEN); 
-			i+k >= 0 && j+k >= 0 &&
-			(board[j+k][(i+k) / BITSTRING_LEN] & mask)		== s * mask &&
-			(board_mask[j+k][(i+k) / BITSTRING_LEN] & mask)	== s_mask * mask;
-			k++, mask = 1 << (k % BITSTRING_LEN))
-				n++; // forward check
-		if (n >= X) return true;
-		
-		// Anti-diagonal check
-		n = 1;
-		for (k = 1, mask = 1 << ((i-k) % BITSTRING_LEN); 
-			i-k >= 0 && j+k >= 0 &&
-			(board[j+k][(i-k) / BITSTRING_LEN] & mask)		== s * mask &&
-			(board_mask[j+k][(i-k) / BITSTRING_LEN] & mask)	== s_mask * mask;
-			k++, mask = 1 << (k % BITSTRING_LEN))
-				n++; // backward check
-		for (k = 1, mask = 1 << ((i+k) % BITSTRING_LEN); 
-			i+k >= 0 && j-k >= 0 &&
-			(board[j-k][(i+k) / BITSTRING_LEN] & mask)		== s * mask &&
-			(board_mask[j-k][(i+k) / BITSTRING_LEN] & mask)	== s_mask * mask;
-			k++, mask = 1 << (k % BITSTRING_LEN))
-				n++; // forward check
-		if (n >= X) return true;
-
+			n++;
+			if (n >= X) return true;
+			
+			// Diagonal check
+			n = 1;
+			for (k = 1, mask = 1 << ((i-k) % BITSTRING_LEN); 
+				i-k >= 0 && j-k >= 0 &&
+				(board[j-k][(i-k) / BITSTRING_LEN] & mask)		== s * mask &&
+				(board_mask[j-k][(i-k) / BITSTRING_LEN] & mask)	== s_mask * mask;
+				k++, mask = 1 << (k % BITSTRING_LEN))
+					n++; // backward check
+			for (k = 1, mask = 1 << ((i+k) % BITSTRING_LEN); 
+				i+k < M && j+k < N &&
+				(board[j+k][(i+k) / BITSTRING_LEN] & mask)		== s * mask &&
+				(board_mask[j+k][(i+k) / BITSTRING_LEN] & mask)	== s_mask * mask;
+				k++, mask = 1 << (k % BITSTRING_LEN))
+					n++; // forward check
+			if (n >= X) return true;
+			
+			// Anti-diagonal check
+			n = 1;
+			for (k = 1, mask = 1 << ((i-k) % BITSTRING_LEN); 
+				i-k >= 0 && j+k < N &&
+				(board[j+k][(i-k) / BITSTRING_LEN] & mask)		== s * mask &&
+				(board_mask[j+k][(i-k) / BITSTRING_LEN] & mask)	== s_mask * mask;
+				k++, mask = 1 << (k % BITSTRING_LEN))
+					n++; // backward check
+			for (k = 1, mask = 1 << ((i+k) % BITSTRING_LEN); 
+				i+k < M && j-k >= 0 &&
+				(board[j-k][(i+k) / BITSTRING_LEN] & mask)		== s * mask &&
+				(board_mask[j-k][(i+k) / BITSTRING_LEN] & mask)	== s_mask * mask;
+				k++, mask = 1 << (k % BITSTRING_LEN))
+					n++; // forward check
+			if (n >= X) return true;
+			
 		return false;
 	}
 
@@ -204,6 +206,9 @@ public class BoardBit implements IBoard<BoardBit> {
 		public byte cell2GameState(int i, int j) {
 			return (cellState(i, j) == 1)? GameState.P1 : GameState.P2;
 		}
+		public byte cell2GameState(byte cell_state) {
+			return (cell_state == CellState.ME)? GameState.P1 : GameState.P2;
+		}
 		public CXGameState cell2GameStateCX(int i, int j) {
 			return (cellState(i, j) == 1)? CXGameState.WINP1 : CXGameState.WINP2;
 		}
@@ -214,7 +219,7 @@ public class BoardBit implements IBoard<BoardBit> {
 		public ArrayList<Integer> freeCols() {
 			ArrayList<Integer> res = new ArrayList<Integer>(N);
 			for(int j = 0; j < N; j++)
-				if(board[j][COL_SIZE(M)] == -1) res.add(j);
+				if(board[j][COL_SIZE(M) - 1] != -1) res.add(j);
 			return res;
 		}
 
@@ -238,7 +243,7 @@ public class BoardBit implements IBoard<BoardBit> {
 		 * @param col_cells
 		 * @return
 		 */
-		protected int COL_SIZE(int col_cells) {return (int)Math.ceil(col_cells / BITSTRING_LEN);}
+		protected int COL_SIZE(int col_cells) {return (int)Math.ceil((float)col_cells / BITSTRING_LEN);}
 
 	//#endregion MACROS
 
@@ -247,11 +252,16 @@ public class BoardBit implements IBoard<BoardBit> {
 
 		void print() {
 			//boolean[][] out = new boolean[M+1][N];
-			for(int i = 1; i <= M; i++) {
+			//System.out.println(COL_SIZE(M));
+
+			for(int i = M - 1; i >= 0; i--) {
 				String line = "";
 				for(int j = 0; j < N; j++) {
-					if(board[j][i / BITSTRING_LEN] >> (i % BITSTRING_LEN) == 0) {
-						if(board_mask[j][i / BITSTRING_LEN] >> (i % BITSTRING_LEN) == 1)
+
+					//System.out.println(i + " " + j + " " + board[j][i / BITSTRING_LEN] + " " + (board[j][i / BITSTRING_LEN] >> (i % BITSTRING_LEN)) );
+					
+					if(cellState(i, j) == 0) {
+						if(cellMaskState(i, j) == 1)
 							line += 'o';
 						else
 							line += '.';

@@ -3,7 +3,7 @@ package connectx.pndb;
 import connectx.CXCellState;
 import connectx.pndb.BiList.BiNode;
 
-public class BiList_OpPos {
+public class BiList_ThreatPos {
 	
 
 
@@ -12,12 +12,12 @@ public class BiList_OpPos {
 
 
 
-	public BiList_OpPos() {
+	public BiList_ThreatPos() {
 		p1 = new BiList<ThreatPosition>();
 		p2 = new BiList<ThreatPosition>();
 	}
 	// WARNING: doesn't create new instances of each OperatorPosition, just uses the same
-	public BiList_OpPos(BiList_OpPos copy) {
+	public BiList_ThreatPos(BiList_ThreatPos copy) {
 		p1 = new BiList<ThreatPosition>();
 		p2 = new BiList<ThreatPosition>();
 		copy(p1, copy.p1.getFirst());

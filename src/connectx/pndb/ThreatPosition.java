@@ -19,7 +19,7 @@ public class ThreatPosition {
 	}
 
 	public int length() {
-		return Math.max(Math.abs(start.i() -end.i()) , Math.abs(start.j() - end.j()));
+		return Math.max(Math.abs(start.i -end.i) , Math.abs(start.j - end.j));
 	}
 	/*public void set(MovePair start, MovePair end, byte type) {
 		this.start = new MovePair(start);
@@ -28,7 +28,7 @@ public class ThreatPosition {
 	}*/
 	//returns the position at offset index from start towards end
 	public MovePair at(int index) {
-		int diff_i = end.i() - start.i(), diff_j = end.j() - start.j();
+		int diff_i = end.i - start.i, diff_j = end.j - start.j;
 		int len = (diff_i > diff_j) ? diff_i : diff_j;
 		if(-diff_i > len) len = -diff_i;
 		if(-diff_j > len) len = -diff_j;

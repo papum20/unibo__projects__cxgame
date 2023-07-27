@@ -2,13 +2,16 @@ package connectx.pndb;
 
 import java.io.File;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.util.LinkedList;
 import java.util.ListIterator;
 
+import connectx.CXCell;
 import connectx.CXCellState;
 import connectx.CXGameState;
 import connectx.pndb.BiList.BiNode;
 import connectx.pndb.DbNode.BoardsRelation;
+import connectx.pndb.Operators;
 import connectx.pndb.Operators.ThreatsByRank;
 import connectx.pndb.Operators.ThreatCells;
 import connectx.pndb.Operators.USE;
@@ -36,7 +39,7 @@ public class DbSearch {
 
 	// VARIABLES FOR A DB-SEARCH EXECUTION
 	private int found_win_sequences;
-	private BoardBitDb win_node;
+	private DbNode win_node;
 	private boolean[][] GOAL_SQUARES;
 	
 	// DEBUG
@@ -47,7 +50,7 @@ public class DbSearch {
 
 
 
-	public void initPlayer(int M, int N, int X, boolean first) {
+	public void init(int M, int N, int X, boolean first) {
 		
 		this.M = M;
 		this.N = N;
@@ -55,14 +58,24 @@ public class DbSearch {
 		board = new BoardBitDb(M, N, X);
 		TT = new TranspositionTable(M, N);
 		BoardBitDb.TT = TT;
+		
+		MY_PLAYER	= GameState.P1;
+		YOUR_PLAYER	= GameState.P2;
 
+		MY_CX_PLAYER	= CXCellState.P1;
+		YOUR_CX_PLAYER	= CXCellState.P2;
+		//player_opponent = CXCellState.P2;
+		MY_WIN		= CXGameState.WINP1;
+		YOUR_WIN	= CXGameState.WINP2;
+		//your_win = CXGameState.WINP2;
+
+		/*
 		if(first) {
 			MY_CX_PLAYER	= CXCellState.P1;
 			YOUR_CX_PLAYER	= CXCellState.P2;
 			//player_opponent = CXCellState.P2;
 			MY_WIN		= CXGameState.WINP1;
 			YOUR_WIN	= CXGameState.WINP2;
-			MY_PLAYER	= GameState.P1;
 			//your_win = CXGameState.WINP2;
 		} else {
 			MY_CX_PLAYER	= CXCellState.P2;
@@ -70,9 +83,9 @@ public class DbSearch {
 			//player_opponent = CXCellState.P1;
 			MY_WIN		= CXGameState.WINP2;
 			YOUR_WIN	= CXGameState.WINP1;
-			MY_PLAYER	= GameState.P2;
 			//your_win = CXGameState.WINP1;
 		}
+		*/
 
 		GOAL_SQUARES = new boolean[M][N];
 		for(int i = 0; i < M; i++)
@@ -85,11 +98,14 @@ public class DbSearch {
 
 		// timer
 		timer_start	= System.currentTimeMillis();
-		timer_end	= time_remaining;
+		timer_end	= timer_start + time_remaining;
 
 		// update own board instance
-		board.updateAlignments();
+		board.copy(board_pn);
 
+		board.findAllAlignments(MY_CX_PLAYER, Operators.TIER_MAX);
+		//board.updateAlignments(last_move_pair, last_move.state);
+		
 		// debug
 		if(DEBUG_ON) {
 			try {
@@ -104,12 +120,19 @@ public class DbSearch {
 		win_node = null;
 		boolean found_sequence = false;
 		found_win_sequences = 0;
-
+		
 		// recursive call for each possible move
 		found_sequence = visit(root, MY_CX_PLAYER, true, Operators.TIER_MAX);
-
+		
 		// debug	
 		System.out.println("found win: " + foundWin() );
+		try {
+			if(file != null) file.close();
+		} catch(Exception e) {}
+		if(win_node != null) {
+			System.out.println("win node ");
+			win_node.board.print();
+		}
 
 		// best move
 		return -1;
@@ -129,98 +152,136 @@ public class DbSearch {
 		 */
 		protected boolean visit(DbNode root, CXCellState attacker, boolean attacking, int max_tier) {
 
-			// DEBUG
-			if(DEBUG_ON) {
-				if(!attacking) {
-					try {
-						file.write("\t\t\t\t--------\tSTART OF DEFENSE\t--------\n");
-					} catch(Exception e) {}
-				}
-			}
-			short level = 1;
-			if(!attacking) level = 8;
-
-			// init dependency and combination lists
-			LinkedList<DbNode> lastDependency = new LinkedList<DbNode>(), lastCombination = new LinkedList<DbNode>();
-			initLastCombination(root, lastCombination);
-			
-			// loop
-			boolean found_sequence = false;
-			while(	!isTimeEnded() && isTreeChanged(lastCombination) &&
-					( (attacking && !foundWin() && found_win_sequences < MAX_THREAT_SEQUENCES) ||	//if attacker's visit: stop when found win
-					(!attacking && !found_sequence) )												//if defender's visit: stop when found defense (any threat sequence)
-			) {
-
-				// debug filename
+			try {
+				
+				// DEBUG
 				if(DEBUG_ON) {
-					if(attacking) {
-						try {
+					if(!attacking) {
+						file.write("\t\t\t\t--------\tSTART OF DEFENSE\t--------\n");
+					}
+				}
+				short level = 1;
+				if(!attacking) level = 8;
+
+				// init dependency and combination lists
+				LinkedList<DbNode> lastDependency = new LinkedList<DbNode>(), lastCombination = new LinkedList<DbNode>();
+				initLastCombination(root, lastCombination);
+				
+				// loop
+				boolean found_sequence = false;
+				while(	!isTimeEnded() && isTreeChanged(lastCombination) &&
+						( (attacking && !foundWin() && found_win_sequences < MAX_THREAT_SEQUENCES) ||	//if attacker's visit: stop when found win
+						(!attacking && !found_sequence) )												//if defender's visit: stop when found defense (any threat sequence)
+				) {
+
+					// debug filename
+					if(DEBUG_ON) {
+						if(attacking) {
 							String filename_current = "debug/db2/db" + 1 + "-" + level + ".txt";
 							//if(!attacking) filename_current = "debug/db2/db" + board.MC_n + "-" + level + "def" + defense++ + ".txt";
 							new File(filename_current);
 							file = new FileWriter(filename_current);
-						} catch(Exception e) { }
+						}
 					}
-				}
-				
-				// debug
-				if(DEBUG_ON) {
-					try {
+					
+					// debug
+					if(DEBUG_ON) {
 						if(!attacking) file.write("\t\t\t\t\t\t\t\t");
 						file.write("--------\tDEPENDENCY\t--------\n");
-					} catch(Exception e) {}
-				}
+					}
 
-				// start dependency stage
-				lastDependency.clear();
+					// start dependency stage
+					lastDependency.clear();
 
-				// HEURISTIC: only for attacker, only search for threats of tier < max tier found in defenses
-				int max_tier_t = attacking? max_tier : root.getMaxTier();
-				if(addDependencyStage(attacker, attacking, lastDependency, lastCombination, root, max_tier_t))			//uses lastCombination, fills lastDependency
-					found_sequence = true;
-				
-				// START COMBINATIO STAGE
-				if((attacking && !foundWin()) || (!attacking && !found_sequence)) {
-					lastCombination.clear();
-					// DEBUG
-					if(DEBUG_ON) {
-						try {
+					// HEURISTIC: only for attacker, only search for threats of tier < max tier found in defenses
+					int max_tier_t = attacking? max_tier : root.getMaxTier();
+					if(addDependencyStage(attacker, attacking, lastDependency, lastCombination, root, max_tier_t))			//uses lastCombination, fills lastDependency
+						found_sequence = true;
+					
+					// START COMBINATIO STAGE
+					if((attacking && !foundWin()) || (!attacking && !found_sequence)) {
+						lastCombination.clear();
+
+						// DEBUG
+						if(DEBUG_ON) {
 							if(!attacking) file.write("\t\t\t\t\t\t\t\t");
 							file.write("--------\tCOMBINATION\t--------\n");
-						} catch(Exception e) {}
-					}
-					if(addCombinationStage(root, attacker, attacking, lastDependency, lastCombination))		//uses lasdtDependency, fills lastCombination
-						found_sequence = true;
-					// DEBUG
-					if(DEBUG_ON) {
-						try {
+						}
+
+						if(addCombinationStage(root, attacker, attacking, lastDependency, lastCombination))		//uses lasdtDependency, fills lastCombination
+							found_sequence = true;
+							
+						// DEBUG
+						if(DEBUG_ON) {
 							if(!attacking) file.write("\t\t\t\t\t\t\t\t");
 							file.write("--------\tEND OF COMBINATION\t--------\n");
-						} catch(Exception e) {}
+						}
+
 					}
-				}
-				// RE-CHECK AFTER COMBINATION
-				level++;
-				
-				// DEBUG
-				if(DEBUG_ON) {
-					try {
+
+					// RE-CHECK AFTER COMBINATION
+					level++;
+					
+					// DEBUG
+					if(DEBUG_ON) {
 						file.write("ATTACKING: " + (attacking? "ATTACKER":"DEFENDER") + "\n");
 						file.write("FOUND SEQUENCE: " + found_sequence + "\n");
 						file.write("VISIT WON: " + foundWin() + "\n");
 						if(attacking) file.close();
-					} catch (Exception e) {}
+					}
 				}
-			}
-			// DEBUG
-			if(!attacking) {
-				if(DEBUG_ON) {
-					try { 
+
+				// DEBUG
+				if(!attacking) {
+					if(DEBUG_ON) {
 						file.write("\t\t\t\t--------\tEND OF DEFENSE\t--------\n");
-					} catch(Exception e) {}
+					}
+				}
+
+				return found_sequence;
+
+			} catch (Exception e) {
+				System.out.println(e);
+				try {
+					if(file != null)
+						file.close();
+					throw e;
+				} catch (IOException ef) {
+					System.out.println(e);
 				}
 			}
-			return found_sequence;
+			return false;
+
+		}
+
+		/**
+		 * @param root
+		 * @param attacker
+		 * @return true if found a defense (i.e. threat sequence was not wining)
+		 */
+		private boolean visitGlobalDefense(DbNode possible_win, DbNode root, CXCellState attacker) {
+
+			//DEBUG
+			if(DEBUG_ON) {
+				try {
+					file.write("\t\t\t\tWIN:\n");
+					possible_win.board.print();
+					file.write("\t\t\t\t-----\n");
+				} catch(Exception e) {}
+			}
+
+			//add each combination of attacker's made threats to each dependency node
+			DbNode new_root			= createDefensiveRoot(root, possible_win.board.markedThreats);
+			int first_threat_tier	= new_root.getMaxTier();
+			
+			//visit for defender
+			markGoalSquares(possible_win.board.getMarkedThreats(), true);
+			//won for defender (=draw or win for defender)
+			boolean defended = visit(new_root, Auxiliary.opponent(attacker), false, first_threat_tier);
+			markGoalSquares(possible_win.board.getMarkedThreats(), false);
+
+			if(!defended) win_node = possible_win;
+			return defended;
 		}
 
 		/** (for now) assumptions:
@@ -313,7 +374,7 @@ public class DbSearch {
 								
 								//if a goal square is marked, returns true, as goal squares are only used for defensive search, where only score matters
 								MovePair atk_cell = threat.related[atk_index];
-								if(GOAL_SQUARES[atk_cell.i()][atk_cell.j()]) {
+								if(GOAL_SQUARES[atk_cell.i][atk_cell.j]) {
 									
 									// debug
 									if(DEBUG_ON) {
@@ -382,18 +443,18 @@ public class DbSearch {
 			try {
 				if(node == null || found_win_sequences >= MAX_THREAT_SEQUENCES) return false;
 				else {
-					byte state = node.board.gameState();
+					CXGameState state = node.board.gameStateCX();
 					
 					//DEBUG
 					if(DEBUG_ON) {
-						if(state != GameState.OPEN) {
+						if(state != CXGameState.OPEN) {
 							try {
 								file.write("\t\t\t\tSTATE: " + state);
 							} catch(Exception e) {}
 						}
 					}
 
-					if(state == GameState.OPEN) {
+					if(state == CXGameState.OPEN) {
 						boolean found_sequence = false;
 
 						//doesn't check if isDependencyNode() : also combinations of combination nodes could result in alignments
@@ -444,11 +505,13 @@ public class DbSearch {
 								if(foundWin())
 									return true;
 							}
+							
 							if(findAllCombinationNodes(partner, node.getFirstChild(), attacker, attacking, lastCombination, root)) {
 								if(foundWin()) return true;
 								else found_sequence = true;
 							}
 						}
+
 						if(findAllCombinationNodes(partner, node.getSibling(), attacker, attacking, lastCombination, root))
 							found_sequence = true;
 						return found_sequence;
@@ -483,70 +546,156 @@ public class DbSearch {
 	//#region CREATE
 
 		protected DbNode createRoot(BoardBitDb B) {
-			DbNode root = new DbNode(B);
+
+			DbNode root = DbNode.copy(board, true, Operators.TIER_MAX, true);
 			//NodeBoard root = NodeBoard.copy(board, true, Operators.TIER_MAX, true);
 			return root;
 		}
+
 		private DbNode createDefensiveRoot(DbNode root, LinkedList<ThreatApplied> athreats) {
+
 			ListIterator<ThreatApplied> it = athreats.listIterator();
 			ThreatApplied athreat = null;
+
 			//create defenisve root copying current root, using opponent as player and marking only the move made by the current attacker in the first threat
-			byte max_tier = (byte)(Operators.tier(athreats.getFirst().threat.type) - 1);		// only look for threats better than mine
-			DbNode def_root = DbNode.copy(root.board, true, max_tier, false);
+			byte max_tier	= (byte)(Operators.tier(athreats.getFirst().threat.type) - 1);		// only look for threats better than mine
+			DbNode def_root	= DbNode.copy(root.board, true, max_tier, false);
 			def_root.board.setPlayer(YOUR_PLAYER);
-			def_root.board.addAllAlignments(YOUR_MNK_PLAYER, max_tier);
+			def_root.board.findAllAlignments(YOUR_CX_PLAYER, max_tier);
+
 			// DEBUG
 			if(DEBUG_ON) {
 				try {
 					file.write("MAX THREAT: " + max_tier + "\n");
 				} catch(Exception e) {}
 			}
+
 			//add a node for each threat, each node child/dependant from the previous one
 			DbNode prev, node = def_root;
 			while(it.hasNext()) {
-					athreat = it.next();
-					prev = node;
-					prev.board.mark(athreat.threat.related[athreat.related_index], MY_PLAYER);
+				athreat = it.next();
+				prev = node;
+				prev.board.mark(athreat.threat.related[athreat.related_index], MY_PLAYER);
 
-					// related > 1 means there is at least 1 defensive move (bc there's always an attacker one)
-					if(it.hasNext() || athreat.threat.related.length > 1) {
-						BoardBitDb node_board = prev.board.getDependant(athreat.threat, athreat.related_index, USE.DEF, prev.getMaxTier(), true);
-						node = new DbNode(node_board, true, prev.getMaxTier());
-						prev.addChild(node);
+				// related > 1 means there is at least 1 defensive move (bc there's always an attacker one)
+				if(it.hasNext() || athreat.threat.related.length > 1) {
+					BoardBitDb node_board = prev.board.getDependant(athreat.threat, athreat.related_index, USE.DEF, prev.getMaxTier(), true);
+					node = new DbNode(node_board, true, prev.getMaxTier());
+					prev.addChild(node);
 
-						// now included in getDependant()
-						//node.board.markCells(threat.def, YOUR_MNK_PLAYER);
-						// for future enhancements?
-						//node.board.addThreat(threat);
+					// now included in getDependant()
+					//node.board.markCells(threat.def, YOUR_MNK_PLAYER);
+					// for future enhancements?
+					//node.board.addThreat(threat);
+				}
+				//the new node doesn't check alignments
+
+				//DEBUG
+				if(DEBUG_ON) {
+					try {
+						file.write("\t\t\t\t" + athreat.threat.related[athreat.related_index] + "\n");
+						prev.board.print();
+						for(MovePair m : athreat.threat.related) file.write("\t\t\t\t" + m + " ");
+						file.write("\n");
+					} catch(Exception e) {}
+
+				}
+			}
+			
+			//DEBUG
+			if(athreat.threat.related.length > 0) node.board.print();
+			return def_root;
+		}
+
+		/**
+		 * sets child's game_state if entry exists in TT
+		 */
+		protected DbNode addDependentChild(DbNode node, ThreatCells threat, int atk, LinkedList<DbNode> lastDependency) {
+			
+			BoardBitDb new_board	= node.board.getDependant(threat, atk, USE.BTH, node.getMaxTier(), true);
+			int attacker_i			= new_board.currentPlayer;
+			DbNode newChild			= new DbNode(new_board, false, node.getMaxTier());
+			TranspositionElementEntry entry = TT.getState(new_board.hash);
+
+			if(entry != null && entry.state[attacker_i] != null) {
+
+				//DEBUG
+				if(DEBUG_ON) {
+					try {
+						file.write("\t\t\t\tEXISTS IN TT: " + new_board.hash + "\n");
+					} catch(Exception e) {}
+				}
+
+				new_board.setGameState(entry.state[attacker_i]);
+			}
+			else {
+				TT.insert(new_board.hash, CXGameState.OPEN, attacker_i);
+				//only adds child to tree and list if doesn't already exist
+				node.addChild(newChild);
+				lastDependency.add(newChild);
+			}
+			return newChild;
+		}
+
+		/**
+		 * (I hope) adding the child to both parents is useless, for now
+		 * @return true if found any possible winning sequence
+		 */
+		protected boolean addCombinationChild(DbNode A, DbNode B, LinkedList<DbNode> lastCombination, DbNode root, CXCellState attacker, boolean attacking) {
+
+			int attacker_i			= attacking? 0:1;
+			int max_threat			= Math.min(A.getMaxTier(), B.getMaxTier());
+			BoardBitDb new_board	= A.board.getCombined(B.board, attacker, max_threat);
+			DbNode new_child		= null;
+
+			// DEBUG
+			if(DEBUG_ON) {
+				try {
+					new_board.print();
+				} catch (Exception e) {}
+			}
+
+			CXGameState state = new_board.gameStateCX();
+			TranspositionElementEntry entry = TT.getState(new_board.hash);
+
+			if(state != CXGameState.OPEN || (entry != null && entry.state[attacker_i] != null && entry.state[attacker_i] != CXGameState.OPEN) || new_board.hasAlignments(attacker)) {
+				//only create node if winning/drawn (to check it) or if has threats (to continue visit)
+				//if entry.state==OPEN: means node was already visited
+
+				if(entry == null || entry.state[attacker_i] == null) {
+
+					new_child = new DbNode(new_board, true, (byte)max_threat);
+
+					// if open: continue visit
+					if(state == CXGameState.OPEN) {		//state, state_TT = open, means the if's condition was validated by hasAlignments()
+						// if no TT entry, update it...
+						TT.insert(new_board.hash, state, attacker_i);
+						//only add child to tree and list if doesn't already exist, has threats and is not in ended state
+						A.addChild(new_child);
+						//B.addChild(newChild);
+						lastCombination.add(new_child);
+					} else {							// if game ended: update TT
+						TT.insert(new_board.hash, state, attacker_i);
+						if(state == Auxiliary.cellState2winState(attacker)) {	// if won: check defenses
+							if(attacking) {
+								found_win_sequences++;
+								visitGlobalDefense(new_child, root, attacker);
+							}
+						}
 					}
-					//the new node doesn't check alignments
 
 					//DEBUG
 					if(DEBUG_ON) {
 						try {
-							file.write("\t\t\t\t" + athreat.threat.related[athreat.related_index] + "\n");
-							prev.board.print();
-							for(MovePair m : athreat.threat.related) file.write("\t\t\t\t" + m + " ");
-							file.write("\n");
+							file.write("\t\t\t\tGAME STATE: " + state + "\n");
 						} catch(Exception e) {}
-
 					}
-				}
-				//DEBUG
-				if(athreat.threat.related.length > 0) node.board.print();
-				return def_root;
-			}
-			/**
-			 * sets child's game_state if entry exists in TT
-			 */
-			protected DbNode addDependentChild(DbNode node, ThreatCells threat, int atk, LinkedList<DbNode> lastDependency) {
-				
-				BoardBitDb new_board	= node.board.getDependant(threat, atk, USE.BTH, node.getMaxTier(), true);
-				int attacker_i			= new_board.currentPlayer;
-				DbNode newChild			= new DbNode(new_board, false, node.getMaxTier());
-				TranspositionElementEntry entry = TT.getState(new_board.hash);
 
-				if(entry != null && entry.state[attacker_i] != null) {
+				}
+				else {
+					//if TT has entry, update board's state (if OPEN, remains OPEN)
+					new_board.setGameState(entry.state[attacker_i]);
+
 					//DEBUG
 					if(DEBUG_ON) {
 						try {
@@ -554,80 +703,11 @@ public class DbSearch {
 						} catch(Exception e) {}
 					}
 
-					new_board.setGameState(entry.state[attacker_i]);
 				}
-				else {
-					TT.insert(new_board.hash, CXGameState.OPEN, attacker_i);
-					//only adds child to tree and list if doesn't already exist
-					node.addChild(newChild);
-					lastDependency.add(newChild);
-				}
-				return newChild;
 			}
 
-			/**
-			 * (I hope) adding the child to both parents is useless, for now
-			 * @return true if found any possible winning sequence
-			 */
-			protected boolean addCombinationChild(DbNode A, DbNode B, LinkedList<DbNode> lastCombination, DbNode root, CXCellState attacker, boolean attacking) {
-
-				int attacker_i			= attacking? 0:1;
-				int max_threat			= Math.min(A.getMaxTier(), B.getMaxTier());
-				BoardBitDb new_board	= A.board.getCombined(B.board, attacker, max_threat);
-				DbNode new_child		= null;
-
-				// DEBUG
-				if(DEBUG_ON) {
-					try {
-						new_board.print();
-					} catch (Exception e) {}
-				}
-
-				CXGameState state = new_board.gameState();
-				TranspositionElementEntry entry = TT.getState(new_board.hash);
-				if(state != MNKGameState.OPEN || (entry != null && entry.state[attacker_i] != null && entry.state[attacker_i] != MNKGameState.OPEN) || new_board.hasAlignments(attacker)) {
-					//only create node if winning/drawn (to check it) or if has threats (to continue visit)
-					//if entry.state==OPEN: means node was already visited
-					if(entry == null || entry.state[attacker_i] == null) {
-						new_child = new NodeBoard(new_board, true, (byte)max_threat);
-						// if open: continue visit
-						if(state == MNKGameState.OPEN) {		//state, state_TT = open, means the if's condition was validated by hasAlignments()
-							// if no TT entry, update it...
-							TT.insert(new_board.hash, state, attacker_i);
-							//only add child to tree and list if doesn't already exist, has threats and is not in ended state
-							A.addChild(new_child);
-							//B.addChild(newChild);
-							lastCombination.add(new_child);
-						} else {								// if game ended: update TT
-							TT.insert(new_board.hash, state, attacker_i);
-							if(state == Auxiliary.cellState2winState(attacker)) {	// if won: check defenses
-								if(attacking) {
-									found_win_sequences++;
-									visitGlobalDefense(new_child, root, attacker);
-								}
-							}
-						}
-						//DEBUG
-						if(DEBUG_ON) {
-							try {
-								file.write("\t\t\t\tGAME STATE: " + state + "\n");
-							} catch(Exception e) {}
-						}
-					}
-					else {
-						//if TT has entry, update board's state (if OPEN, remains OPEN)
-						new_board.setGameState(entry.state[attacker_i]);
-						//DEBUG
-						if(DEBUG_ON) {
-							try {
-								file.write("\t\t\t\tEXISTS IN TT: " + new_board.hash + "\n");
-							} catch(Exception e) {}
-						}
-					}
-				}
-
-				return (state == Auxiliary.cellState2winState(attacker));
-			}
+			return (state == Auxiliary.cellState2winState(attacker));
+		}
 
 
 		/**
@@ -645,7 +725,7 @@ public class DbSearch {
 		
 	//#endregion CREATE
 
-	//#region GET
+	//#region GET_SET
 
 		protected ThreatsByRank getApplicableOperators(BoardBitDb board, CXCellState attacker, int max_tier) {
 
@@ -653,7 +733,7 @@ public class DbSearch {
 			ThreatsByRank res		= new ThreatsByRank();
 
 			for(AlignmentsList alignments_by_row : board.alignments_by_direction) {
-				for(BiList_OpPos alignments_in_row : alignments_by_row) {
+				for(BiList_ThreatPos alignments_in_row : alignments_by_row) {
 					if(alignments_in_row != null) {
 						BiNode<ThreatPosition> alignment = alignments_in_row.getFirst(attacker);
 						if(alignment != null && Operators.tier(alignment.item.type) <= max_tier) {
@@ -669,7 +749,18 @@ public class DbSearch {
 			return res;
 		}
 	
-	//#endregion GET
+		/**
+		 * 
+		 * @param threats : threats to mark as goal squares
+		 * @param mark : true marks, false unmarks
+		 */
+		private void markGoalSquares(LinkedList<ThreatApplied> athreats, boolean mark) {
+			for(ThreatApplied t : athreats) {
+				for(MovePair cell : t.threat.related) GOAL_SQUARES[cell.i][cell.j] = mark;
+			}
+		}
+		
+	//#endregion GET_SET
 
 	//#region HELPER
 

@@ -1,6 +1,5 @@
 package connectx.pndb;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 
 import connectx.CXCell;
@@ -12,7 +11,7 @@ import connectx.pndb.Operators.USE;
 
 
 
-public class BoardBitDb extends BoardBit implements IBoardDb {
+public class BoardBitDb extends BoardBit {
 	
 
 	public static final MovePair DIRECTIONS[] = {
@@ -26,9 +25,6 @@ public class BoardBitDb extends BoardBit implements IBoardDb {
 		new MovePair(-1, -1)
 	};
 
-	public final int M;		// rows
-	public final int N;		// columns
-	public final int K;		// Number of symbols to be aligned (horizontally, vertically, diagonally) for a win
 	protected static final MovePair MIN = new MovePair(0, 0);
 	protected final MovePair MAX;
 
@@ -54,7 +50,7 @@ public class BoardBitDb extends BoardBit implements IBoardDb {
 	protected static final int[] alignments_direction_indexes = new int[]{2, 4, 3, 5};	//indexes in DIRECTIONS, with same order as lines_per_dir
 	
 
-	protected BiList_NodeOpPos[][] cells_lines;
+	protected BiList_Node_ThreatPos[][] alignments_by_cell;
 
 	protected final CXCellState[] Player	= {CXCellState.P1, CXCellState.P2};
 	protected final byte[] Player_byte 		= {CellState.ME, CellState.YOU};
@@ -71,7 +67,7 @@ public class BoardBitDb extends BoardBit implements IBoardDb {
 		hash = 0;
 		initStructures();
 
-		initLinesStructures();
+		initAlignmentStructures();
 		reset();
 	}
 
@@ -83,7 +79,7 @@ public class BoardBitDb extends BoardBit implements IBoardDb {
 		hash = 0;
 		initStructures();
 
-		initLinesStructures();
+		initAlignmentStructures();
 		reset();
 	}
 
@@ -95,9 +91,9 @@ public class BoardBitDb extends BoardBit implements IBoardDb {
 		currentPlayer = B.currentPlayer;
 		hash = B.hash;
 		initStructures();
-		
-		if(copy_threats) copyLinesStructures(B);
-		else initLinesStructures();
+
+		if(copy_threats) copyAlignmentStructures(B);
+		else initAlignmentStructures();
 		copyArrays(B);
 	}
 
@@ -110,36 +106,41 @@ public class BoardBitDb extends BoardBit implements IBoardDb {
 		//public void markCell(MovePair cell) {markCell(cell.i(), cell.j(), Player[currentPlayer]);}
 		public void mark(MovePair cell, CXCellState state) {mark(cell.i, cell.j, Auxiliary.CX2cellState(state));}
 		public void mark(MovePair cell, byte player) {mark(cell.i, cell.j, player);}
-		//public void markCells(MovePair[] cells, CXCellState player) {
-		//	for(MovePair c : cells) markCell(c.i(), c.j(), player);
-		//}
-		//public void markCells(MovePair[] threat, int atk) {
-		//	int i;
-		//	for(i = 0; i < threat.length; i++) {
-		//		CXCellState state = Player[(i == atk) ? currentPlayer : (1 - currentPlayer)];
-		//		markCell(threat[i].i(), threat[i].j(), state);
-		//	}
-		//}
-		public void updateAlignments(MovePair cell, MNKCellState player) {
+		public void markMore(MovePair[] cells, CXCellState player) {
+			for(MovePair c : cells) mark(c.i, c.j, Auxiliary.CX2cellState(player));
+		}
+		public void markThreat(MovePair[] related, int atk_index) {
+			for(int i = 0; i < related.length; i++) {
+				byte state = Player_byte[(i == atk_index) ? currentPlayer : (1 - currentPlayer)];
+				mark(related[i].i, related[i].j, state);
+			}
+		}
+
+		/**
+		 * Remove and re-calculate alignments for a cell.
+		 * @param cell
+		 * @param player
+		 */
+		public void updateAlignments(MovePair cell, CXCellState player) {
+			
 			// remove alignments for both players involving this cell
 			removeAlignments(cell, Auxiliary.opponent(player));
 			removeAlignments(cell, player);
+
 			// add alignments for player
-			for(int d = 0; d < alignments_direction_indexes.length; d++) findAlignments(cell, cell, player, d, Operators.TIER_MAX, null, null);
+			findAlignments(cell, cell, player, Operators.TIER_MAX, null, null, -1);
+
 			//update gameState
-			if(FC_n == 0 && gameState == MNKGameState.OPEN) gameState = MNKGameState.DRAW;
+			if(free_n == 0 && game_state == GameState.OPEN) game_state = GameState.DRAW;
 			//currentPlayer = (currentPlayer + 1) % 2;
 		}
 
 
 		private void checkAlignments(MovePair cell, int max_tier, int dir_excluded) {
-			if(isWinningMove(cell.i(), cell.j()))
-				game_state = cell2GameState(cell.i(), cell.j());
+			if(isWinningMove(cell.i, cell.j))
+				game_state = cell2GameState(cell.i, cell.j);
 			else {
-				for(int d = 0; d < alignments_direction_indexes.length; d++) {
-					if(d != dir_excluded)
-						findAlignments(cell, cell, cellStateCX(cell), d, max_tier, null, null);
-				}
+				findAlignments(cell, cell, cellStateCX(cell), max_tier, null, null, dir_excluded);
 				if(free_n == 0 && game_state == GameState.OPEN) game_state = GameState.DRAW;
 			}
 		}
@@ -155,7 +156,7 @@ public class BoardBitDb extends BoardBit implements IBoardDb {
 
 				if(game_state == GameState.OPEN) {
 					for(int i = 1; i < cells.length; i++)
-						findAlignments(cells[i], cells[i-1], cellStateCX(cells[i]), dir_index, max_tier, null, null);
+						findAlignmentsInDirection(cells[i], cells[i-1], cellStateCX(cells[i]), dir_index, max_tier, null, null);
 				}
 				//update gameState
 				if(free_n == 0 && game_state == GameState.OPEN) game_state = GameState.DRAW;
@@ -183,7 +184,7 @@ public class BoardBitDb extends BoardBit implements IBoardDb {
 				//used for...
 				case ATK:
 					MovePair cell = threat.related[threat.nextAtk(atk)];
-					res.mark(cell.j(), Player_byte[currentPlayer]);
+					res.mark(cell.j, Player_byte[currentPlayer]);
 					if(check_threats) res.checkAlignments(cell, max_tier, -1);
 					break;
 				//used for init defensive visit (marks defensive cells as own)
@@ -191,13 +192,13 @@ public class BoardBitDb extends BoardBit implements IBoardDb {
 					res.addThreat(threat, atk, Auxiliary.opponent(Player[currentPlayer]));
 					//if there exist any defensive moves
 					if(threat.related.length > 1) {
-						res.markCells(threat.getDefensive(atk), Player[currentPlayer]);
+						res.markMore(threat.getDefensive(atk), Player[currentPlayer]);
 						if(check_threats) res.checkAlignments(threat.getDefensive(atk), max_tier);
 					}
 					break;
 				//used for dependency stage
 				case BTH:
-					res.markCells(threat.related, atk);
+					res.markThreat(threat.related, atk);
 					res.addThreat(threat, atk, Player[currentPlayer]);
 					if(check_threats) res.checkAlignments(threat.related, max_tier);
 			}
@@ -226,11 +227,8 @@ public class BoardBitDb extends BoardBit implements IBoardDb {
 
 			//re-calculate alignments
 			res.addAllCombinedAlignments(B, attacker, max_tier);
-		}
 
-		public void addAllAlignments(CXCellState player, int max_threat) {
-			for(int i = 0; i < alignments_direction_indexes.length; i++)
-				addAllAlignments_t(player, i, max_threat);
+			return res;
 		}
 		
 	//#endregion DB_SEARCH
@@ -263,46 +261,60 @@ public class BoardBitDb extends BoardBit implements IBoardDb {
 		}
 
 		//#region ALIGNMENTS
-			private void removeAlignments(final MovePair center, MNKCellState player) {
+
+			private void removeAlignments(final MovePair center, CXCellState player) {
+
+				// debug
 				System.out.println("\nremoveAlignments START:");
 
-				int MAX_ALIGNMENT = K - Operators.MAX_LINE + Operators.MAX_FREE_EXTRA_TOT;
+				int MAX_ALIGNMENT = X + Operators.MAX_FREE_EXTRA_TOT;
+
 				//foreach alignment that was stored in (y,x)
-				BiNode<BiNode<ThreatPosition>> node = cells_lines[center.i()][center.j()].getFirst(player);
-				if(node != null) {
+				BiNode<BiNode<ThreatPosition>> alignements_in_cell = alignments_by_cell[center.i][center.j].getFirst(player);
+				if(alignements_in_cell != null)
+				{
 					do {
-						
-						MovePair start = node.item.item.start, end = node.item.item.end;
-						MovePair dir = start.getDirection(end);
+						MovePair	start	= alignements_in_cell.item.item.start,
+									end		= alignements_in_cell.item.item.end,
+									dir		= start.getDirection(end);
+
 						// DEBUG
-						System.out.println("\t\trm: " + node.item.item);
+						System.out.println("\t\trm: " + alignements_in_cell.item.item);
 						System.out.println("\t\t" + alignmentsByDirection_index(dir, center));
+
 						//delete for line
-						alignments_by_direction[dirsIndexes(dir)].remove(player, alignmentsByDirection_index(dir, center), node.item);
+						alignments_by_direction[dirsIndexes(dir)].remove(player, alignmentsByDirection_index(dir, center), alignements_in_cell.item);
+
 						//delete for this cell
-						BiNode<BiNode<ThreatPosition>> tmp = node;
-						
-						node = node.next;
-						cells_lines[center.i()][center.j()].remove(player, tmp);
-					} while(node != null);
+						BiNode<BiNode<ThreatPosition>> tmp = alignements_in_cell;
+						alignements_in_cell = alignements_in_cell.next;
+						alignments_by_cell[center.i][center.j].remove(player, tmp);
+
+					} while(alignements_in_cell != null);
+					
 					//delete for each involved cell
 					MovePair first, last;
-					for(int d = 0; d < alignments_direction_indexes.length; d++) {
+					for(int d = 0; d < alignments_direction_indexes.length; d++)
+					{
 						MovePair dir = DIRECTIONS[alignments_direction_indexes[d]];
-						first = new MovePair(center); last = new MovePair(center);
+						first	= new MovePair(center);
+						last	= new MovePair(center);
 						first.clamp_diag(MIN, MAX, DIRECTIONS[alignments_direction_indexes[d]].getProduct(-(MAX_ALIGNMENT - 1)));
-						last.clamp_diag(MIN, MAX, DIRECTIONS[alignments_direction_indexes[d]].getProduct(MAX_ALIGNMENT - 1));
-						boolean checked_all = false;
-						while(!checked_all) {
-							if(!first.equals(center)) removeAlignmentsInvolvingCell(first, center, player);
-							if(first.equals(last)) checked_all = true;
-							else first.sum(dir);
+						last.clamp_diag (MIN, MAX, DIRECTIONS[alignments_direction_indexes[d]].getProduct(MAX_ALIGNMENT - 1));
+
+						for(; !first.equals(last); first.sum(dir)) {
+							// already removed in the `center` cell
+							if(!first.equals(center))
+								removeAlignmentsByCell_InvolvingCell(first, center, player);
 						}
 					}
+
 				}
 
+				// debug
 				System.out.println("removeAlignments END\n");
 			}
+
 			/**
 			 * Find all alignments involving at least one cell between the aligned first, second.
 			 * Also, if check1 and check2 != null, checks that the new threat involves at least one cell only present in 1, and one only in 2.
@@ -314,7 +326,9 @@ public class BoardBitDb extends BoardBit implements IBoardDb {
 			 * 		new alignments of K-MIN_SYM_LINE.
 			 * HOWEVER, this will be a future enhancement: for now, the function simply deletes and recreates all
 			 */
-			private void findAlignments(final MovePair first, final MovePair second, final CXCellState player, int dir_index, int max_tier, BoardBitDb check1, BoardBitDb check2) {
+			private void findAlignmentsInDirection(final MovePair first, final MovePair second, final CXCellState player, int dir_index, int max_tier, BoardBitDb check1, BoardBitDb check2) {
+
+				System.out.println(first + " " + second + " " + player + " " + dir_index);
 
 				// debug
 				boolean debug = false;
@@ -324,7 +338,7 @@ public class BoardBitDb extends BoardBit implements IBoardDb {
 				MovePair dir						= DIRECTIONS[alignments_direction_indexes[dir_index]];
 				int alignments_by_direction_index	= alignmentsByDirection_index(dir, first);							//if horizontal: row index, otherwise (all other cases) col index
 				MovePair negdir						= dir.getNegative();
-				int MIN_MARKS						= K - Operators.MARK_DIFF_MIN;
+				int MIN_MARKS						= X - Operators.MARK_DIFF_MIN;
 				MovePair end_c1, end_c2, c1, c2;
 				//center = starting cell, end_c* = last to check for c*, c1,c2 = iterators (first and last in line to check)
 				//c1 goes from center-MAX_LEN to center, c2 from c1 to center+MAX_LEN
@@ -340,7 +354,7 @@ public class BoardBitDb extends BoardBit implements IBoardDb {
 				end_c1 = new MovePair(c2);
 				end_c2 = new MovePair(c2);
 				end_c1.clamp_diag(MIN, MAX, dir.getProduct(Operators.MAX_FREE_EXTRA - 1) );
-				end_c2.clamp_diag(MIN, MAX, dir.getProduct(K + Operators.MAX_FREE_EXTRA - 1) );
+				end_c2.clamp_diag(MIN, MAX, dir.getProduct(X + Operators.MAX_FREE_EXTRA - 1) );
 				int	lined	= 0,	// alignment length, i.e. max distance
 					marks	= 0,	// marks in alignment
 					in		= 0,	// inside alignment
@@ -350,7 +364,7 @@ public class BoardBitDb extends BoardBit implements IBoardDb {
 				// find furthest c1, from center
 				int distance = 0;
 				MovePair c_tmp = first.getSum(negdir);
-				while(distance < K + Operators.MAX_FREE_EXTRA - 1 && c_tmp.inBounds(MIN, MAX) && cellStateCX(c_tmp) != opponent) {
+				while(distance < X + Operators.MAX_FREE_EXTRA - 1 && c_tmp.inBounds(MIN, MAX) && cellStateCX(c_tmp) != opponent) {
 					if(cellStateCX(c_tmp) == player) c1.reset(c_tmp);
 					c_tmp.sum(negdir);
 					distance++;
@@ -397,7 +411,7 @@ public class BoardBitDb extends BoardBit implements IBoardDb {
 
 						//if ( !(line exceeded MAX) && c2 == player): line++, mark++; check alignment;
 
-						if(lined <= K && cellStateCX(c2) == player) {
+						if(lined <= X && cellStateCX(c2) == player) {
 							lined++;
 							marks++;
 
@@ -411,7 +425,7 @@ public class BoardBitDb extends BoardBit implements IBoardDb {
 
 							//check alignments
 							if(marks >= MIN_MARKS && (!to_check || (found1 && found2)) ) {
-								int tier = K - marks;
+								int tier = X - marks;
 								if(tier <= max_tier)
 								{
 									//foreach alignment of mark marks
@@ -423,7 +437,7 @@ public class BoardBitDb extends BoardBit implements IBoardDb {
 										if(debug) System.out.println("\t\t\t\t\tal = " + alignment);
 
 										//if (inner alignment conditions)
-										if(lined <= K - alignment.line && in == alignment.in) {
+										if(lined <= X - alignment.line && in == alignment.in) {
 
 											//assuming that win is K marks aligned, without free cells, checks wether the game ended
 											if(tier == 0) {
@@ -462,7 +476,7 @@ public class BoardBitDb extends BoardBit implements IBoardDb {
 
 													//add reference for all in the middle
 													for(MovePair c_it = new MovePair(threat_start); !c_it.equals(threat_end); c_it.sum(dir))
-														cells_lines[c_it.i][c_it.j].add(player, node);		//add to cell's alignments
+														alignments_by_cell[c_it.i][c_it.j].add(player, node);		//add to cell's alignments
 
 													// debug
 													//if(debug) System.out.println("cell empty: " + c_it + " : " + cells_lines[c_it.i()][c_it.j()].isEmpty(player));
@@ -477,7 +491,7 @@ public class BoardBitDb extends BoardBit implements IBoardDb {
 						}	//end if (c2==player)
 
 						//increment c1/c2
-						if(c2.equals(end_c2) || lined >= K || cellStateCX(c2) == opponent) {
+						if(c2.equals(end_c2) || lined >= X || cellStateCX(c2) == opponent) {
 							if(c1.equals(end_c1)) checked_all = true;
 							else {
 								c1.sum(dir);
@@ -494,6 +508,30 @@ public class BoardBitDb extends BoardBit implements IBoardDb {
 				if(debug) System.out.println("addAlignments END;\n");
 			}
 
+			/**
+			 * Find alignments for a cell in all directions.
+			 */
+			private void findAlignments(final MovePair first, final MovePair second, final CXCellState player, int max_tier, BoardBitDb check1, BoardBitDb check2, int dir_excluded) {
+				for(int d = 0; d < alignments_direction_indexes.length; d++) {
+					if(d != dir_excluded)
+						findAlignmentsInDirection(first, second, player, d, max_tier, check1, check2);
+				}
+			}
+
+			/**
+			 * Find all alignments for a player.
+			 * @param player
+			 * @param max_tier
+			 */
+			public void findAllAlignments(CXCellState player, int max_tier) {
+			for(int d = 0; d < alignments_direction_indexes.length; d++) {
+				MovePair start	= iterateLineDirs(null, d);
+				MovePair end	= new MovePair(start);
+				end.clamp_diag(MIN, MAX, DIRECTIONS[alignments_direction_indexes[d]]);
+				findAlignmentsInDirection(start, end,  player, d, max_tier, null, null);
+			}
+		}
+
 			private void addAllCombinedAlignments(BoardBitDb B, CXCellState player, int max_tier) {
 
 				for(int alignments_by_direction_index = 0; alignments_by_direction_index < alignments_by_direction.length; alignments_by_direction_index++) {
@@ -501,7 +539,7 @@ public class BoardBitDb extends BoardBit implements IBoardDb {
 					for(int i = 0; i < alignments_by_direction[alignments_by_direction_index].size();
 						i++, start = iterateLineDirs(start, alignments_by_direction_index))
 					{
-						findAlignments(start, start, player, alignments_by_direction_index, max_tier, this, B);
+						findAlignmentsInDirection(start, start, player, alignments_by_direction_index, max_tier, this, B);
 					}
 				}
 			}
@@ -516,20 +554,29 @@ public class BoardBitDb extends BoardBit implements IBoardDb {
 				return count;
 			}
 
-			private void removeAlignmentsInvolvingCell(MovePair from, MovePair involved, MNKCellState player) {
-				MovePair involved_direction = from.getDirection(involved);
-				BiNode<BiNode<ThreatPosition>> node, tmp;
-				BiList_NodeOpPos list = cells_lines[from.i()][from.j()];
-				node = list.getFirst(player);
-				while(node != null) {
-					//check if involved
-					MovePair start = node.item.item.start, end = node.item.item.end;
-					MovePair line_direction = start.getDirection(end);
-					//remove
-					tmp = node;
-					node = node.next;
-					if(dirsIndexes(line_direction) == dirsIndexes(involved_direction) && involved.inBounds_included(start, end))
-						list.remove(player, tmp);
+			/**
+			 * Remove all alignments in alignments_by_cell[from] involving involved.
+			 */
+			private void removeAlignmentsByCell_InvolvingCell(MovePair from, MovePair involved, CXCellState player) {
+
+				MovePair dir_involved = from.getDirection(involved);
+				
+				BiNode<BiNode<ThreatPosition>> node_alignment, node_tmp;
+				BiList_Node_ThreatPos alignments_in_cell = alignments_by_cell[from.i][from.j];
+				node_alignment = alignments_in_cell.getFirst(player);
+
+				while(node_alignment != null) {
+					
+					MovePair start			= node_alignment.item.item.start,
+							 end			= node_alignment.item.item.end;
+					MovePair dir_alignment	= start.getDirection(end);
+					
+					node_tmp		= node_alignment;
+					node_alignment	= node_alignment.next;
+
+					//remove if involved
+					if(dirsIndexes(dir_alignment) == dirsIndexes(dir_involved) && involved.inBounds_included(start, end))
+						alignments_in_cell.remove(player, node_tmp);
 				}
 			}
 
@@ -538,48 +585,52 @@ public class BoardBitDb extends BoardBit implements IBoardDb {
 			 * @return the index where, in alignments_by_direction, is contained position in direction dir
 			 */
 			private int alignmentsByDirection_index(MovePair dir, MovePair position) {
-				if(dir.i() == 0)			return position.i();				//horizontal
-				else if(dir.j() == 0)		return position.j();				//vertical
-				else if(dir.i() == dir.j())	return dir.j() - dir.i() + M - 1;	//dright
-				else return dir.i() + dir.j();									//dleft
+				if(dir.i == 0)				return position.i;				//horizontal
+				else if(dir.j == 0)			return position.j;				//vertical
+				else if(dir.i == dir.j)		return dir.j - dir.i + M - 1;	//dright
+				else return dir.i + dir.j;									//dleft
 			}
+
 			private MovePair iterateLineDirs(MovePair start, int lines_dirs_index) {
 				if(start == null) {
 					if(lines_dirs_index == 2) start = new MovePair(M - 1, 0);	//dright
 					else start = new MovePair(0, 0);
 				} else {
-					if(lines_dirs_index == 0) start.reset(start.i() + 1, start.j());
-					else if(lines_dirs_index == 1) start.reset(start.i(), start.j() + 1);
+					if(lines_dirs_index == 0) start.reset(start.i + 1, start.j);
+					else if(lines_dirs_index == 1) start.reset(start.i, start.j + 1);
 					else if(lines_dirs_index == 2) {
-						if(start.i() == 0) start.reset(start.i(), start.j() + 1);
-						else start.reset(start.i() - 1, start.j());
+						if(start.i == 0) start.reset(start.i, start.j + 1);
+						else start.reset(start.i - 1, start.j);
 					}
 					else {
-						if(start.j() == N - 1) start.reset(start.i() + 1, start.j());
-						else start.reset(start.i(), start.j() + 1);
+						if(start.j == N - 1) start.reset(start.i + 1, start.j);
+						else start.reset(start.i, start.j + 1);
 					}
 				}
 				return start;
 			}
+
 			/**
 			 * 
 			 * @param player
 			 * @return true if there are valid alignments (calculated before, with proper max_tier)
 			 */
-			public boolean hasAlignments(MNKCellState player) {
+			public boolean hasAlignments(CXCellState player) {
+
 				for(int i = 0; i < alignments_by_direction.length; i++) {
 					for(int j = 0; j < alignments_by_direction[i].size(); j++) {
-						BiList_OpPos t = alignments_by_direction[i].get(j);
+						BiList_ThreatPos t = alignments_by_direction[i].get(j);
 						if(t != null && !t.isEmpty(player)) return true;
 					}
 				}
 				return false;
 			}
+
 			/**
 			 * 
 			 * @param athreat
 			 * @param attacker
-			 * @return true if the AppliedThreat is compatible with this board, and useful, i.e. adds at least one attacker's mark
+			 * @return true if the AppliedThreat is compatible with this board, and useful, i.e. adds at least one attacker's threat.
 			 */
 			private boolean isUsefulThreat(ThreatApplied athreat, CXCellState attacker) {
 
@@ -605,10 +656,10 @@ public class BoardBitDb extends BoardBit implements IBoardDb {
 	
 		public int getCurrentPlayer() {return currentPlayer;}
 	
-		public void setPlayer(byte player) {currentPlayer = player;}
+		public void setPlayer(byte player) {currentPlayer = (player == this.Player_byte[0]) ? 0 : 1;}
 
 		public CXCell getMarkedCell(int i) {return MC[i];}
-
+		public LinkedList<ThreatApplied> getMarkedThreats() {return markedThreats;}
 		
 	//#endregion GET
 
@@ -620,24 +671,26 @@ public class BoardBitDb extends BoardBit implements IBoardDb {
 			free		= new byte[N];
 			MC			= new CXCell[M*N];
 		}
-		private void initLinesStructures() {
+		private void initAlignmentStructures() {
 			lines_rows		= new AlignmentsList(M);
 			lines_cols		= new AlignmentsList(N);
 			lines_dright	= new AlignmentsList(M + N - 1);
 			lines_dleft		= new AlignmentsList(M + N - 1);
 			alignments_by_direction	= new AlignmentsList[]{lines_rows, lines_cols, lines_dright, lines_dleft};
-			cells_lines		= new BiList_NodeOpPos[M][N];
+			alignments_by_cell		= new BiList_Node_ThreatPos[M][N];
 			for(int i = 0; i < M; i++) {
 				for(int j = 0; j < N; j++)
-					cells_lines[i][j] = new BiList_NodeOpPos();
+					alignments_by_cell[i][j] = new BiList_Node_ThreatPos();
 			}
 		}
 		//#region COPY
-			public void copyArrays(BoardBitDb AB) {
-				copyBoard(AB);
+			public void copyArrays(BoardBitDb B) {
+				copyBoard(B);
+				/*
 				copyFreeCells(AB);
 				copyMarkedCells(AB);
 				markedThreats = new LinkedList<ThreatApplied>(AB.markedThreats);	//copy marked threats
+				*/
 			}
 			public void reset() {
 				currentPlayer = 0;
@@ -649,66 +702,71 @@ public class BoardBitDb extends BoardBit implements IBoardDb {
 			// Sets to free all board cells
 			private void initBoard() {
 				for(int j = 0; j < N; j++)
-					for(int i = 0;i < COL_SIZE(M); i++) {
-						board[i][j]			= 0;
-						board_mask[i][j]	= 0;
+					for(int i = 0; i < COL_SIZE(M); i++) {
+						board[j][i]			= 0;
+						board_mask[j][i]	= 0;
 					}
 			}
 			// Rebuilds the free cells set 
 			private void initFreeCells() {
 				free_n = M * N;
-				for(int j = 0; j < N; j++) free[free_n] = 0;
+				for(int j = 0; j < N; j++) free[j] = 0;
 			}
 			// Resets the marked cells list
 			private void initMarkedCells() {MC_n = 0;}
 
-			private void copyBoard(BoardBitDb AB) {
-				for(int i = 0; i < M; i++)
-					for(int x = 0; x < N; x++) board[i][x] = AB.board[i][x];
+			private void copyBoard(BoardBitDb B) {
+				for(int j = 0; j < N; j++) {
+					for(int i = 0; i < COL_SIZE(M); i++) {
+						board[j][i]			= B.board[j][i];
+						board_mask[j][i]	= B.board_mask[j][i];
+					}
+				}
 			}
+
 			private void copyFreeCells(BoardBitDb AB) {
 				free_n = AB.free_n;
-				for(int j = 0; j < COL_SIZE(M); j++) free[j] = AB.free[j];
+				for(int j = 0; j < N; j++) free[j] = AB.free[j];
 			}
 			private void copyMarkedCells(BoardBitDb AB) {
 				MC_n = AB.MC_n;
 				for(int i = 0; i < MC_n; i++) MC[i] = copyCell(AB.MC[i]);
 			}
+
 			// copies an MNKCell
 			private CXCell copyCell(CXCell c) {
 				return new CXCell(c.i, c.j, c.state);
 			}
-			private void copyLinesStructures(BoardBitDb DB) {
+			private void copyAlignmentStructures(BoardBitDb DB) {
 				lines_rows		= new AlignmentsList(DB.lines_rows);
 				lines_cols		= new AlignmentsList(DB.lines_cols);
 				lines_dright	= new AlignmentsList(DB.lines_dright);
 				lines_dleft		= new AlignmentsList(DB.lines_dleft);
 				alignments_by_direction	= new AlignmentsList[]{lines_rows, lines_cols, lines_dright, lines_dleft};
-				cells_lines		= new BiList_NodeOpPos[M][N];
+				alignments_by_cell		= new BiList_Node_ThreatPos[M][N];
 				for(int i = 0; i < M; i++) {
 					for(int j = 0; j < N; j++)
-						cells_lines[i][j] = new BiList_NodeOpPos();
+						alignments_by_cell[i][j] = new BiList_Node_ThreatPos();
 				}
 				for(int d = 0; d < alignments_by_direction.length; d++) {
-					AlignmentsList line	= alignments_by_direction[d];
-					MovePair dir		= DIRECTIONS[alignments_direction_indexes[d]];
-					for(int i = 0; i < line.size(); i++) {
-						if(line.get(i) != null) {
-							copyLineInCells(line.getFirst(CXCellState.P1, i), CXCellState.P1, dir);
-							copyLineInCells(line.getFirst(CXCellState.P2, i), CXCellState.P2, dir);
+					AlignmentsList alignment	= alignments_by_direction[d];
+					MovePair dir				= DIRECTIONS[alignments_direction_indexes[d]];
+					for(int i = 0; i < alignment.size(); i++) {
+						if(alignment.get(i) != null) {
+							copyAlignmentInCells(alignment.getFirst(CXCellState.P1, i), CXCellState.P1, dir);
+							copyAlignmentInCells(alignment.getFirst(CXCellState.P2, i), CXCellState.P2, dir);
 						}
 					}
 				}
 			}
-			private void copyLineInCells(BiNode<ThreatPosition> line_node, CXCellState player, MovePair dir) {
-				if(line_node != null) {
-					copyLineInCells(line_node.next, player, dir);
-					MovePair it = new MovePair(line_node.item.start), end = line_node.item.end;
-					while(true) {
-						cells_lines[it.i()][it.j()].add(player, line_node);
-						if(!it.equals(end)) it.sum(dir);
-						else break;
-					}
+			private void copyAlignmentInCells(BiNode<ThreatPosition> alignment_node, CXCellState player, MovePair dir) {
+
+				if(alignment_node != null) {
+					copyAlignmentInCells(alignment_node.next, player, dir);
+					
+					for(MovePair it = new MovePair(alignment_node.item.start), end = alignment_node.item.end;
+						!it.equals(end); it.sum(dir))
+							alignments_by_cell[it.i][it.j].add(player, alignment_node);
 				}
 			}
 		//#endregion COPY

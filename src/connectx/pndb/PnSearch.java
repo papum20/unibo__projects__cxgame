@@ -10,7 +10,9 @@ import java.util.ArrayList;
 
 
 
-
+/**
+ * note: i'm always CellState.ME, GameState.P1
+ */
 public class PnSearch implements CXPlayer {
 
 	//#region CONSTANTS
@@ -20,11 +22,12 @@ public class PnSearch implements CXPlayer {
 	//#endregion CONSTANTS
 
 	// board
-	BoardBit board;
-	byte current_player;
+	private BoardBit board;
+	private byte current_player;
+	private DbSearch dbSearch;
 
 	// nodes
-	PnNode root;
+	private PnNode root;
 
 	// time / memory
 	protected long timer_start;			//turn start (milliseconds)
@@ -43,6 +46,9 @@ public class PnSearch implements CXPlayer {
 
 		timer_end = (timeout_in_secs - 1) * 1000;
 		runtime = Runtime.getRuntime();
+
+		dbSearch = new DbSearch();
+		dbSearch.init(M, N, X, first);
 	}
 
 	@Override
@@ -104,25 +110,39 @@ public class PnSearch implements CXPlayer {
 				*/
 				PnNode currentNode = root;
 				log = "before while";
-				while(root.value() == Value.UNKNOWN && !isTimeEnded()) {
-					
+				while(!root.isProved() && !isTimeEnded()) {
+
 					//System.out.println("currentNode move: " + currentNode.col + ", mostProving move: " + ((currentNode.most_proving == null)? "null" : currentNode.most_proving.col) );
 
 					PnNode mostProvingNode = null;
 					mostProvingNode = selectMostProving(currentNode, current_player);
 					log = "after selectMostProving";
+
+					//System.out.println("most proving: " + mostProvingNode.col);
 					
 					developNode(mostProvingNode, true, current_player);
 					log = "after develop";
+
+					//System.out.println("after develop\nroot numbers: " + root.n[0] + ", " + root.n[1]);
+					//System.out.println("root children:");
+					//for(PnNode child : root.children) {
+					//	System.out.println(child.col + ":" + child.n[PROOF] + "," + child.n[DISPROOF]);
+					//}
+
 					currentNode = updateAncestorsUpTo(mostProvingNode);
 					log = "after updateAncestors";
 
+					//System.out.println("after ancestors\nroot numbers: " + root.n[0] + ", " + root.n[1]);
+					//System.out.println("root children:");
+					//for(PnNode child : root.children) {
+					//	System.out.println(child.col + ":" + child.n[PROOF] + "," + child.n[DISPROOF]);
+					//}
 				}
 
 				resetBoard(currentNode, root);
 			}
 			catch(Exception e) {
-				//System.out.println(log + "\n\tturn: " + current_player);
+				System.out.println(log + "\n\tturn: " + current_player);
 				throw e;
 			}
 		}
@@ -132,6 +152,12 @@ public class PnSearch implements CXPlayer {
 		 * @param node
 		 */
 		private void evaluate(PnNode node, byte game_state) {
+
+
+			board.print();
+			int res = dbSearch.selectColumn(board, node, timer_end - System.currentTimeMillis());
+			System.out.println("db: " + res + "\n");
+
 			// my win
 			if(game_state == GameState.P1) node.prove(true);
 			// open: heuristic
@@ -145,6 +171,7 @@ public class PnSearch implements CXPlayer {
 		 * assuming value=unknown, as nodes are evaluated in developNode.
 		 */
 		private void setProofAndDisproofNumbers(PnNode node, boolean my_turn) {
+
 			String log = "start set proof";
 			try {
 				if(node.isExpanded()) {
@@ -177,6 +204,7 @@ public class PnSearch implements CXPlayer {
 		 * @return
 		 */
 		private PnNode selectMostProving(PnNode node, byte player) {
+
 			if(!node.isExpanded()) return node;
 			else {
 				mark(node.most_proving.col);
@@ -190,6 +218,7 @@ public class PnSearch implements CXPlayer {
 		 * @param node
 		 */
 		private void developNode(PnNode node, boolean my_turn, int player) {
+
 			ArrayList<Integer> free_cols = board.freeCols();
 			node.expand(free_cols.size());
 			node.generateAllChildren(free_cols);
@@ -225,6 +254,7 @@ public class PnSearch implements CXPlayer {
 		 * @return
 		 */
 		public PnNode updateAncestorsUpTo(PnNode node) {
+			
 			String log = "start";
 			try {
 				PnNode last_changed = node;
@@ -302,7 +332,7 @@ public class PnSearch implements CXPlayer {
 			// child with min proof/disproof ratio
 			PnNode best = null;
 			for(PnNode child : root.children) {
-				if(child.n[DISPROOF] != 0 && (best == null || child.n[PROOF] / child.n[DISPROOF] < best.n[PROOF] / best.n[DISPROOF]) )
+				if(child.n[DISPROOF] != 0 && (best == null || (float)child.n[PROOF] / child.n[DISPROOF] < (float)best.n[PROOF] / best.n[DISPROOF]) )
 					best = child;
 			}
 			return best;
