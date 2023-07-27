@@ -94,7 +94,14 @@ public class DbSearch {
 	}
 
 	
-	public int selectColumn(BoardBit board_pn, PnNode root_pn, long time_remaining) {
+	/**
+	 * 
+	 * @param board_pn
+	 * @param root_pn
+	 * @param time_remaining
+	 * @return a CXCell, containing the state of the winning player, on null if didn't find a sequence.
+	 */
+	public CXCell selectColumn(BoardBit board_pn, PnNode root_pn, long time_remaining) {
 
 		// timer
 		timer_start	= System.currentTimeMillis();
@@ -111,8 +118,6 @@ public class DbSearch {
 			try {
 				String filename_current = "debug/db2/main" + board.MC_n + "-" + (board.MC_n > 0 ? board.MC[board.MC_n-1] : "_") + ".txt";
 				file = new FileWriter(filename_current);
-				board.print();
-				file.close();
 			} catch (Exception e) {}
 		}
 		
@@ -126,17 +131,18 @@ public class DbSearch {
 		found_sequence = visit(root, MY_PLAYER, true, Operators.TIER_MAX);
 		
 		// debug	
-		System.out.println("found win: " + foundWin() );
 		try {
 			if(file != null) file.close();
 		} catch(Exception e) {}
-		if(win_node != null) {
+		if(foundWin()) {
+			System.out.println("found win: " + foundWin() );
 			System.out.println("win node ");
 			win_node.board.print();
+			return getBestMove();
 		}
 
 		// best move
-		return -1;
+		return null;
 
 	}
 
@@ -376,19 +382,9 @@ public class DbSearch {
 		protected boolean addDependentChildren(DbNode node, byte attacker, boolean attacking, int lev, LinkedList<DbNode> lastDependency, DbNode root, int max_tier) {
 
 			try {
-				
 				byte state = node.board.gameState();
-
-				// debug
-				file.write("in add dep children, state " + state + "\n");
-				node.board.printFile(file, lev);
-				
 				if(state == GameState.OPEN)
 				{
-
-					// debug
-					file.write("start add dep children\n");
-					
 					boolean found_sequence = false;
 					//LinkedList<CXCell[]> applicableOperators = getApplicableOperators(node, MAX_CHILDREN, my_attacker);
 					ThreatsByRank applicableOperators = getApplicableOperators(node.board, attacker, max_tier);
@@ -408,8 +404,6 @@ public class DbSearch {
 											file.write("\t\t\t" + threat.type + "\t" + atk_index + "\t");
 											for(int i = 0; i < threat.related.length; i++) file.write(threat.related[i] + " " + threat.uses[i] + "\t");
 											file.write("\n");
-
-											file.write("start loop\n");
 										} catch(Exception e) {}
 									}
 									
@@ -425,18 +419,12 @@ public class DbSearch {
 												file.write("-" + lev + "\t---\n");
 												newChild.board.printFile(file, lev);
 												file.write("MARKED GOAL SQUARE " + atk_cell + "\n");
-
-												file.write("add dep children, in goal squres\n");
 											} catch(Exception e) {}
 										}
 										
 										return true;
 									}
 									else {
-
-										// debug
-										file.write("before add child\n");
-
 										DbNode newChild = addDependentChild(node, threat, atk_index, lastDependency);
 
 										// debug
@@ -671,17 +659,11 @@ public class DbSearch {
 			
 			try {
 
-				file.write("start add child\n");
-				
 				BoardBitDb new_board	= node.board.getDependant(threat, atk, USE.BTH, node.getMaxTier(), true);
 				int attacker_i			= new_board.currentPlayer;
 				DbNode newChild			= new DbNode(new_board, false, node.getMaxTier());
 				TranspositionElementEntry entry = TT.getState(new_board.hash);
 
-				// debug
-				file.write("new child\n");
-				new_board.printFile(file, new_board.MC_n);
-				
 				if(entry != null && entry.state[attacker_i] != null) {
 
 					//DEBUG
@@ -842,6 +824,14 @@ public class DbSearch {
 			return win_node != null;
 		}
 	
+		protected CXCell getBestMove() {
+			int i = board.MC_n;
+			//return first player's move after initial state
+			while(win_node.board.getMarkedCell(i).state != MY_CX_PLAYER)
+				i++;
+			return win_node.board.getMarkedCell(i);
+		}
+		
 		/**
 		 * 
 		 * @return true if it's time to end the turn

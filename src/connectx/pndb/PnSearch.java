@@ -3,6 +3,7 @@ package connectx.pndb;
 
 import connectx.CXBoard;
 import connectx.CXCell;
+import connectx.CXCellState;
 import connectx.CXPlayer;
 import connectx.pndb.PnNode.Value;
 
@@ -153,15 +154,14 @@ public class PnSearch implements CXPlayer {
 		 */
 		private void evaluate(PnNode node, byte game_state) {
 
-
-			// board.print();
-			int res = dbSearch.selectColumn(board, node, timer_end - System.currentTimeMillis());
-			System.out.println("db: " + res + "\n");
-
+			CXCell res_db = dbSearch.selectColumn(board, node, timer_end - System.currentTimeMillis());
+			if(res_db != null)
+				System.out.println("db: " + res_db + "\n");
+			
 			// my win
-			if(game_state == GameState.P1) node.prove(true);
+			if(game_state == GameState.P1 || (res_db != null && res_db.state == CXCellState.P1)) node.prove(true);
 			// open: heuristic
-			else if(game_state == GameState.OPEN) node.setProofAndDisproof(Constants.SHORT_1, Constants.SHORT_1);
+			else if(game_state == GameState.OPEN && res_db == null) node.setProofAndDisproof(Constants.SHORT_1, Constants.SHORT_1);
 			// your win or draw
 			else node.prove(false);
 		}

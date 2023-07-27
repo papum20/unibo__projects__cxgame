@@ -63,6 +63,8 @@ public class BoardBit implements IBoard<BoardBit> {
 				free[j]				= B.free[j];
 			}
 		}
+
+		free_n = B.free_n;
 	}
 
 	/**

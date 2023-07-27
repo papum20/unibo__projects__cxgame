@@ -54,7 +54,7 @@ public class BoardBitDb extends BoardBit {
 
 	//protected final CXCellState[] Player	= {CXCellState.P1, CXCellState.P2};
 	protected final byte[] Player_byte 		= {CellState.ME, CellState.YOU};
-	protected final int[] Player_bit 		= {1, 0};
+	//protected final int[] Player_bit 		= {1, 0};
 	protected int currentPlayer;		// currentPlayer plays next move (= 0 or 1)
   
 
@@ -73,7 +73,7 @@ public class BoardBitDb extends BoardBit {
 
 	BoardBitDb(BoardBit B) {
 		super(B.M, B.N, B.X);
-		super.copy(B);
+		copy(B);
 
 		MAX = new MovePair(M, N);
 		hash = 0;
@@ -85,7 +85,7 @@ public class BoardBitDb extends BoardBit {
 
 	BoardBitDb(BoardBitDb B, boolean copy_threats) {
 		super(B.M, B.N, B.X);
-		super.copy(B);
+		copy(B);
 
 		MAX = new MovePair(M, N);
 		currentPlayer = B.currentPlayer;
@@ -97,42 +97,41 @@ public class BoardBitDb extends BoardBit {
 		copyArrays(B);
 	}
 
+	public void copy(BoardBitDb B) {
+
+		// copy all
+		for(int j = 0; j < N; j++) {
+			for(int i = 0; i < COL_SIZE(M); i++) {
+				board[j][i]			= B.board[j][i];
+				board_mask[j][i]	= B.board_mask[j][i];
+				free[j]				= B.free[j];
+			}
+		}
+
+		free_n = B.free_n;
+
+		copyMarkedCells(B);
+	}
+	
+
 	//#region BOARD
 		private void mark(int i, int j, byte state) {
 			mark(j, state);
-
-			// debug
-			System.out.println("in mark, before add MC");
-			
 			addMC(i, j, cellStateCX(i, j));
-	
-			// debug
-			System.out.println("in mark, after add MC");
-			
-			hash = TT.getHash(hash, i, j, state);
-
-			// debug
-			System.out.println("in mark, after TT");
-
+			hash = TT.getHash(hash, i, j, getPlayerBit(state));
 		}
+
 		//public void markCell(MovePair cell) {markCell(cell.i(), cell.j(), Player[currentPlayer]);}
 		public void mark(MovePair cell, byte player) {mark(cell.i, cell.j, player);}
 		public void markMore(MovePair[] cells, byte player) {
 			for(MovePair c : cells) mark(c.i, c.j, player);
 		}
 		public void markThreat(MovePair[] related, int atk_index) {
+
 			for(int i = 0; i < related.length; i++) {
-
-				// debug
-				System.out.println("in mark threat, len " + related.length);
-				System.out.println("\trelated = " + related[i]);
-
 				byte state = Player_byte[(i == atk_index) ? currentPlayer : (1 - currentPlayer)];
 				mark(related[i].i, related[i].j, state);
 			}
-
-			// debug
-			System.out.println("exit mark thrat");
 		}
 
 		/**
@@ -156,9 +155,6 @@ public class BoardBitDb extends BoardBit {
 
 
 		private void checkAlignments(MovePair cell, int max_tier, int dir_excluded) {
-
-			// debug
-			System.out.println("in check alignments for " + cell);
 
 			if(isWinningMove(cell.i, cell.j))
 				game_state = cell2GameState(cell.i, cell.j);
@@ -202,14 +198,8 @@ public class BoardBitDb extends BoardBit {
 		 */
 		public BoardBitDb getDependant(ThreatCells threat, int atk, USE use, int max_tier, boolean check_threats) {
 			
-			// debug
-			System.out.println("in get dependant");
-			
 			BoardBitDb res = new BoardBitDb(this, false);
-
-			// debug
-			System.out.println("before switch, player=" + currentPlayer);
-
+			
 			switch(use) {
 				//used for...
 				case ATK:
@@ -234,6 +224,7 @@ public class BoardBitDb extends BoardBit {
 			}
 			return res;
 		}
+		
 		//only checks for alignments not included in the union of A's and B's alignments, i.e. those which involve at  least one cell only present in A and one only in B
 		public BoardBitDb getCombined(BoardBitDb B, byte attacker, int max_tier) {
 
@@ -693,6 +684,7 @@ public class BoardBitDb extends BoardBit {
 	
 		public int getCurrentPlayer() {return currentPlayer;}
 	
+		public int getPlayerBit(byte player) {return player - 1;};
 		public void setPlayer(byte player) {currentPlayer = (player == this.Player_byte[0]) ? 0 : 1;}
 
 		public CXCell getMarkedCell(int i) {return MC[i];}
@@ -723,11 +715,8 @@ public class BoardBitDb extends BoardBit {
 		//#region COPY
 			public void copyArrays(BoardBitDb B) {
 				copyBoard(B);
-				/*
-				copyFreeCells(AB);
-				copyMarkedCells(AB);
-				markedThreats = new LinkedList<ThreatApplied>(AB.markedThreats);	//copy marked threats
-				*/
+				copyMarkedCells(B);
+				markedThreats = new LinkedList<ThreatApplied>(B.markedThreats);	//copy marked threats
 			}
 			public void reset() {
 				currentPlayer = 0;
@@ -761,10 +750,6 @@ public class BoardBitDb extends BoardBit {
 				}
 			}
 
-			private void copyFreeCells(BoardBitDb AB) {
-				free_n = AB.free_n;
-				for(int j = 0; j < N; j++) free[j] = AB.free[j];
-			}
 			private void copyMarkedCells(BoardBitDb AB) {
 				MC_n = AB.MC_n;
 				for(int i = 0; i < MC_n; i++) MC[i] = copyCell(AB.MC[i]);
