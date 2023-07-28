@@ -27,11 +27,7 @@ public class DbNode {
 
 
 
-	DbNode(BoardBitDb B, final boolean is_combination, final int max_tier) {
-		board = new BoardBitDb(B);
-		setData(is_combination, max_tier);
-	}
-	public DbNode(BoardBitDb board, boolean is_combination, byte max_tier) {
+	DbNode(BoardBitDb board, boolean is_combination, int max_tier) {
 		this.board = board;
 		setData(is_combination, max_tier);
 		this.first_child = null;

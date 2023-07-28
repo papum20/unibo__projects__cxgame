@@ -1,6 +1,5 @@
 package connectx.pndb;
 
-import connectx.CXCellState;
 import connectx.pndb.BiList.BiNode;
 
 public class BiList_Node_ThreatPos {

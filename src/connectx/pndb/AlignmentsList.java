@@ -2,7 +2,6 @@ package connectx.pndb;
 
 import java.util.ArrayList;
 
-import connectx.CXCellState;
 import connectx.pndb.BiList.BiNode;
 
 

@@ -1,6 +1,5 @@
 package connectx.pndb;
 
-import connectx.CXCellState;
 import connectx.pndb.Operators.ThreatCells;
 
 

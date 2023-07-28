@@ -101,10 +101,14 @@ public class PnSearch implements CXPlayer {
 		 * @return
 		 */
 		private void visit() {
+
 			String log = "start";
 			try {
-				evaluate(root, GameState.OPEN);
-				setProofAndDisproofNumbers(root, true);
+
+				boolean my_turn = true;
+				
+				evaluate(root, GameState.OPEN, current_player);
+				setProofAndDisproofNumbers(root, my_turn);
 
 				/* improvement: keep track of current node (next to develop), instead of 
 				* looking for it at each iteration, restarting from root.
@@ -121,7 +125,7 @@ public class PnSearch implements CXPlayer {
 
 					//System.out.println("most proving: " + mostProvingNode.col);
 					
-					developNode(mostProvingNode, true, current_player);
+					developNode(mostProvingNode, my_turn, current_player);
 					log = "after develop";
 
 					//System.out.println("after develop\nroot numbers: " + root.n[0] + ", " + root.n[1]);
@@ -152,9 +156,9 @@ public class PnSearch implements CXPlayer {
 		 * 
 		 * @param node
 		 */
-		private void evaluate(PnNode node, byte game_state) {
+		private void evaluate(PnNode node, byte game_state, byte player) {
 
-			CXCell res_db = dbSearch.selectColumn(board, node, timer_end - System.currentTimeMillis());
+			CXCell res_db = dbSearch.selectColumn(board, node, timer_end - System.currentTimeMillis(), player);
 			if(res_db != null)
 				System.out.println("db: " + res_db + "\n");
 			
@@ -217,7 +221,7 @@ public class PnSearch implements CXPlayer {
 		 * 
 		 * @param node
 		 */
-		private void developNode(PnNode node, boolean my_turn, int player) {
+		private void developNode(PnNode node, boolean my_turn, byte player) {
 
 			ArrayList<Integer> free_cols = board.freeCols();
 			node.expand(free_cols.size());
@@ -228,7 +232,7 @@ public class PnSearch implements CXPlayer {
 			// evaluate children
 			for(PnNode child : node.children) {
 				byte game_state = mark(child.col);
-				evaluate(child, game_state);
+				evaluate(child, game_state, player);
 				setProofAndDisproofNumbers(child, my_turn);
 				unmark(child.col);
 			}

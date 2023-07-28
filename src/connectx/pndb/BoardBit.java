@@ -1,10 +1,11 @@
 package connectx.pndb;
 
 import java.util.ArrayList;
-import java.io.File;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.lang.Math;
 
+import connectx.CXCell;
 import connectx.CXCellState;
 import connectx.CXGameState;
 
@@ -40,10 +41,7 @@ public class BoardBit implements IBoard<BoardBit> {
 		this.N = (byte)N;
 		this.X = (byte)X;
 
-		board		= new long[N][COL_SIZE(M)];
-		board_mask	= new long[N][COL_SIZE(M)];
-		free		= new byte[N];
-		free_n		= M * N;
+		createStructures();
 
 		game_state = GameState.OPEN;
 	}
@@ -60,8 +58,8 @@ public class BoardBit implements IBoard<BoardBit> {
 			for(int i = 0; i < COL_SIZE(M); i++) {
 				board[j][i]			= B.board[j][i];
 				board_mask[j][i]	= B.board_mask[j][i];
-				free[j]				= B.free[j];
 			}
+			free[j]				= B.free[j];
 		}
 
 		free_n = B.free_n;
@@ -221,7 +219,7 @@ public class BoardBit implements IBoard<BoardBit> {
 		 */
 		public byte cellState(MovePair c) {return cellState(c.i, c.j);}
 		public CXCellState cellStateCX(MovePair c) {return cellStateCX(c.i, c.j);}
-		public boolean cellFree(int i, int j) {return (1 & (board_mask[j][i / BITSTRING_LEN] >> (i % BITSTRING_LEN))) == 0;}
+		public boolean cellFree(int i, int j) {/*;System.out.println(i+ " "+j+" "+board_mask[j][i/BITSTRING_LEN]);*/return (1 & (board_mask[j][i / BITSTRING_LEN] >> (i % BITSTRING_LEN))) == 0;}
 
 		/*
 		 * convert cell to GameState, assuming cell is occupied by someone.
@@ -269,6 +267,17 @@ public class BoardBit implements IBoard<BoardBit> {
 		protected int COL_SIZE(int col_cells) {return (int)Math.ceil((float)col_cells / BITSTRING_LEN);}
 
 	//#endregion MACROS
+
+	//#region INIT
+
+		protected void createStructures() {
+			board		= new long[N][COL_SIZE(M)];
+			board_mask	= new long[N][COL_SIZE(M)];
+			free		= new byte[N];
+			free_n = M * N;
+		}
+	
+	//#endregion INIT
 
 
 	//#region DEBUG
@@ -322,9 +331,7 @@ public class BoardBit implements IBoard<BoardBit> {
 					file.write(line);
 				}
 				file.write("\n");
-			} catch(Exception e) {
-				System.err.println(e);
-			}
+			} catch(IOException io) {}
 		}
 		
 	//#endregion DEBUG
