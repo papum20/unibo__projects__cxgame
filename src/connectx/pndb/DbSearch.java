@@ -111,7 +111,7 @@ public class DbSearch {
 		timer_end	= timer_start + time_remaining;
 
 		// update own board instance
-		board.copy(board_pn);
+		board = new BoardBitDb(board_pn);
 		board.setPlayer(player);
 
 		board.findAllAlignments(MY_PLAYER, Operators.TIER_MAX, "selCol_");

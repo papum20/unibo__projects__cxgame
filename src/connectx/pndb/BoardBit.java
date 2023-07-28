@@ -59,7 +59,7 @@ public class BoardBit implements IBoard<BoardBit> {
 				board[j][i]			= B.board[j][i];
 				board_mask[j][i]	= B.board_mask[j][i];
 			}
-			free[j]				= B.free[j];
+			free[j] = B.free[j];
 		}
 
 		free_n = B.free_n;

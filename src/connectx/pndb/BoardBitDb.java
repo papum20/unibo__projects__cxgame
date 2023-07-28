@@ -78,7 +78,6 @@ public class BoardBitDb extends BoardBit {
 		
 	}
 
-	/*
 	BoardBitDb(BoardBit B) {
 		super(B.M, B.N, B.X);
 		
@@ -91,7 +90,6 @@ public class BoardBitDb extends BoardBit {
 		copy(B);
 		copyMCfromBoard(B);
 	}
-	*/
 	
 	BoardBitDb(BoardBitDb B, boolean copy_threats) {
 		super(B.M, B.N, B.X);
@@ -786,19 +784,18 @@ public class BoardBitDb extends BoardBit {
 			 * fill the MC checking the board
 			 * @param B
 			 */
-			/*
 			private void copyMCfromBoard(BoardBit B) {
 				MC_n = 0;
 				hash = 0;
 				for(int i = 0; i < M; i++) {
 					for(int j = 0; j < N; j++) {
-						if(!cellFree(i, j))
+						if(!cellFree(i, j)) {
 							MC[MC_n++] = new CXCell(i, j, cellStateCX(i, j));
 							hash = TT.getHash(hash, i, j, getPlayerBit(cellState(i, j)));
+						}
 					}
 				}
 			}
-			*/
 
 			// copies an MNKCell
 			private CXCell copyCell(CXCell c) {
