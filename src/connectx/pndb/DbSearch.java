@@ -19,19 +19,26 @@ import connectx.pndb.Operators.USE;
 public class DbSearch {
 	
 	//#region CONSTANTS
+
+	/*
 	private CXCellState MY_CX_PLAYER;
 	private CXCellState YOUR_CX_PLAYER;
 	private CXGameState MY_WIN;
 	private CXGameState YOUR_WIN;
 	private byte MY_PLAYER;
 	private byte YOUR_PLAYER;
+	*/
 
 	private final int MAX_THREAT_SEQUENCES = 10;
 
 	//#endregion CONSTANTS
 
-	private long timer_start;				//turn start (milliseconds)
-	private long timer_end;					//time (millisecs) at which to stop timer
+	// time / memory
+	private long timer_start;						//turn start (milliseconds)
+	private long timer_end;							//time (millisecs) at which to stop timer
+	private static final float TIMER_RATIO = 0.9f;	// see isTimeEnded() implementation
+	protected Runtime runtime;
+
 
 	private int M, N;
 	private BoardBitDb board;
@@ -52,6 +59,10 @@ public class DbSearch {
 
 
 
+	public DbSearch() {
+		runtime = Runtime.getRuntime();
+	}
+	
 
 	public void init(int M, int N, int X, boolean first) {
 		
@@ -62,8 +73,9 @@ public class DbSearch {
 		TT = new TranspositionTable(M, N);
 		BoardBitDb.TT = TT;
 		
-		MY_PLAYER	= CellState.ME;
-		YOUR_PLAYER	= CellState.YOU;
+		/*
+		MY_PLAYER	= CellState.P1;
+		YOUR_PLAYER	= CellState.P2;
 
 		MY_CX_PLAYER	= CXCellState.P1;
 		YOUR_CX_PLAYER	= CXCellState.P2;
@@ -71,7 +83,7 @@ public class DbSearch {
 		MY_WIN		= CXGameState.WINP1;
 		YOUR_WIN	= CXGameState.WINP2;
 		//your_win = CXGameState.WINP2;
-
+		*/
 		/*
 		if(first) {
 			MY_CX_PLAYER	= CXCellState.P1;
@@ -114,20 +126,25 @@ public class DbSearch {
 		board = new BoardBitDb(board_pn);
 		board.setPlayer(player);
 
-		board.findAllAlignments(MY_PLAYER, Operators.TIER_MAX, "selCol_");
-		board.findAllAlignments(YOUR_PLAYER, Operators.TIER_MAX, "selCol_");
+		board.findAllAlignments(CellState.P1, Operators.TIER_MAX, "selCol_");
+		//board.findAllAlignments(CellState.P2, Operators.TIER_MAX, "selCol_");
 		//board.updateAlignments(last_move_pair, last_move.state);
 		
 		// debug
 		if(DEBUG_ON) {
 			try {
 				debug_code = (int)(Math.random() * DEBUG_CODE_MAX);
-				String filename_current = "debug/db1/main" + (counter++) + "_" + debug_code + "_" + board.MC_n + "-" + (board.MC_n > 0 ? board.MC[board.MC_n-1] : "_") + ".txt";
+				String filename_current = "debug/db1main/main" + (counter++) + "_" + debug_code + "_" + board.MC_n + "-" + (board.MC_n > 0 ? board.MC[board.MC_n-1] : "_") + ".txt";
 				file = new FileWriter(filename_current);
 				file.write("root board:\n");
 				board.printFile(file, 0);
 				board.printAlignmentsFile(file, 0);
-				file = new FileWriter(filename_current);
+				file.close();
+
+				if(!board.hasAlignments(player)) {
+					File todel = new File(filename_current);
+					todel.delete();
+				}
 			} catch (Exception e) {
 				try {
 					throw e;
@@ -142,17 +159,18 @@ public class DbSearch {
 		found_win_sequences = 0;
 		
 		// recursive call for each possible move
-		found_sequence = visit(root, MY_PLAYER, true, Operators.TIER_MAX);
-		
-		// debug	
+		found_sequence = visit(root, player, true, Operators.TIER_MAX);
+		root = null;
+
+		// debug
 		try {
-			if(file != null) file.close();
+			if(DEBUG_ON) file.close();
 		} catch(Exception e) {}
 		if(foundWin()) {
 			System.out.println("found win: " + foundWin() );
 			System.out.println("win node ");
 			win_node.board.print();
-			return getBestMove();
+			return getBestMove(player);
 		}
 
 		// best move
@@ -164,20 +182,23 @@ public class DbSearch {
 		//#region ALGORITHM
 
 		/**
-		 * @param root : root for this db-search
-		 * @param my_attacker : true if i'm attacker
-		 * @param goal_squares : if one occupied by attacker, terminates search
-		 * @param attacking : potential winning threat sequences only investigated for attacker
-		 * @param max_tier : only threats <= this category can be applied
-		 * @return true if there's a winning sequence
+		 * 
+		 * @param root
+		 * @param attacker
+		 * @param attacking
+		 * @param max_tier
+		 * @return
 		 */
 		protected boolean visit(DbNode root, byte attacker, boolean attacking, int max_tier) {
 
+			// debug
 			String log = "start";
+			String filename_current = "";
 
 			try {
 				
 				// DEBUG
+				boolean found_something = false;
 				if(DEBUG_ON) {
 					if(!attacking) {
 						file.write("\t\t\t\t--------\tSTART OF DEFENSE\t--------\n");
@@ -199,12 +220,12 @@ public class DbSearch {
 						( (attacking && !foundWin() && found_win_sequences < MAX_THREAT_SEQUENCES) ||	//if attacker's visit: stop when found win
 						(!attacking && !found_sequence) )												//if defender's visit: stop when found defense (any threat sequence)
 				) {
-
+					
 					// debug filename
 					if(DEBUG_ON) {
 						if(attacking) {
 							debug_code = (int)(Math.random() * DEBUG_CODE_MAX);
-							String filename_current = "debug/db1/db" + (counter++) + "_" + debug_code + "_" + root.board.MC_n + "-" + (root.board.MC_n > 0 ? root.board.MC[root.board.MC_n-1] : "_") + "-" + level + ".txt";
+							filename_current = "debug/db1/db" + (counter++) + "_" + debug_code + "_" + root.board.MC_n + "-" + (root.board.MC_n > 0 ? root.board.MC[root.board.MC_n-1] : "_") + "-" + level + ".txt";
 							//if(!attacking) filename_current = "debug/db2/db" + board.MC_n + "-" + level + "def" + defense++ + ".txt";
 							new File(filename_current);
 							file = new FileWriter(filename_current);
@@ -216,22 +237,23 @@ public class DbSearch {
 						if(!attacking) file.write("\t\t\t\t\t\t\t\t");
 						file.write("--------\tDEPENDENCY\t--------\n");
 					}
-
+					
 					// start dependency stage
 					lastDependency.clear();
-
+					
 					// HEURISTIC: only for attacker, only search for threats of tier < max tier found in defenses
 					int max_tier_t = attacking? max_tier : root.getMaxTier();
 					if(addDependencyStage(attacker, attacking, lastDependency, lastCombination, root, max_tier_t))			//uses lastCombination, fills lastDependency
-						found_sequence = true;
-					
-					// debug
+					found_sequence = true;
+						
+						// debug
 					log = "added dependency";
-
+					if(!lastDependency.isEmpty()) found_something = true;
+					
 					// START COMBINATIO STAGE
 					if((attacking && !foundWin()) || (!attacking && !found_sequence)) {
 						lastCombination.clear();
-
+						
 						// DEBUG
 						if(DEBUG_ON) {
 							if(!attacking) file.write("\t\t\t\t\t\t\t\t");
@@ -239,10 +261,12 @@ public class DbSearch {
 						}
 
 						if(addCombinationStage(root, attacker, attacking, lastDependency, lastCombination))		//uses lasdtDependency, fills lastCombination
-							found_sequence = true;
+						found_sequence = true;
 
+						// debug
 						log = "added combination";
-							
+						if(!lastCombination.isEmpty()) found_something = true;
+						
 						// DEBUG
 						if(DEBUG_ON) {
 							if(!attacking) file.write("\t\t\t\t\t\t\t\t");
@@ -250,7 +274,7 @@ public class DbSearch {
 						}
 
 					}
-
+					
 					// RE-CHECK AFTER COMBINATION
 					level++;
 					
@@ -259,14 +283,20 @@ public class DbSearch {
 						file.write("ATTACKING: " + (attacking? "ATTACKER":"DEFENDER") + "\n");
 						file.write("FOUND SEQUENCE: " + found_sequence + "\n");
 						file.write("VISIT WON: " + foundWin() + "\n");
-						if(attacking) file.close();
+						if(attacking) {
+							file.close();
+							if(!found_something) {
+								File todel = new File(filename_current);
+								todel.delete();
+							}
+						}
 					}
 				}
 
 				// DEBUG
 				log = "after loop";
-				if(!attacking) {
-					if(DEBUG_ON) {
+				if(DEBUG_ON) {
+					if(!attacking) {
 						file.write("\t\t\t\t--------\tEND OF DEFENSE\t--------\n");
 					}
 				}
@@ -276,7 +306,7 @@ public class DbSearch {
 			} catch (Exception e) {
 				System.out.println(log + "\n");
 				try {
-					if(file != null)
+					if(DEBUG_ON)
 						file.close();
 					throw e;
 				} catch (IOException ef) {
@@ -304,7 +334,7 @@ public class DbSearch {
 			}
 
 			//add each combination of attacker's made threats to each dependency node
-			DbNode new_root			= createDefensiveRoot(root, possible_win.board.markedThreats);
+			DbNode new_root			= createDefensiveRoot(root, possible_win.board.markedThreats, attacker);
 			int first_threat_tier	= new_root.getMaxTier();
 			
 			//visit for defender
@@ -328,7 +358,7 @@ public class DbSearch {
 
 				boolean found_sequence = false;
 				ListIterator<DbNode> it = lastCombination.listIterator();
-				while(it.hasNext() && !found_sequence) {
+				while(!isTimeEnded() && it.hasNext() && !found_sequence) {
 					DbNode node = it.next();
 
 					// debug
@@ -340,7 +370,9 @@ public class DbSearch {
 						file.write("children: \n");
 
 						log = "before add children";
-						file.write((node.board.MC_n > 0) ? node.board.MC[node.board.MC_n-1].toString() : "no MC");
+						file.write((node.board.MC_n > 0) ?
+							(node.board.MC[node.board.MC_n-1].i + " " + node.board.MC[node.board.MC_n-1].j + " " + node.board.MC[node.board.MC_n-1].state)
+							: "no MC");
 						file.write("\n");
 					}
 					
@@ -351,7 +383,7 @@ public class DbSearch {
 			} catch(Exception e) {
 				System.out.println(log + "\n\n" + e);
 				try {
-					file.close();
+					if(DEBUG_ON) file.close();
 					throw e;
 				} catch (IOException io) {}
 			}
@@ -363,7 +395,7 @@ public class DbSearch {
 
 			boolean found_sequence = false;
 			ListIterator<DbNode> it = lastDependency.listIterator();
-			while(it.hasNext() && !found_sequence) {
+			while(!isTimeEnded() && it.hasNext() && !found_sequence) {
 				DbNode node = it.next();
 				
 				// debug
@@ -420,11 +452,15 @@ public class DbSearch {
 						if(tier != null)
 						{
 							for(ThreatCells threat : tier) {
+
 								int atk_index = 0;
 								//stops either after checking all threats, or if found a win/defense (for defended it is just any possible winning sequence)
-								while(	((attacking && !foundWin()) || (!attacking && !found_sequence)) &&
+								while( ((attacking && !foundWin()) || (!attacking && !found_sequence)) &&
 								((atk_index = threat.nextAtk(atk_index)) != -1)
 								) {
+									if(isTimeEnded())
+										return found_sequence;
+
 									// debug
 									if(DEBUG_ON) {
 										try {
@@ -483,12 +519,14 @@ public class DbSearch {
 				}
 				else {
 					int attacker_i = attacking? 0:1;
-					TT.setState(node.board.hash, Auxiliary.gameState2CX(state), attacker_i);
+					TT.setStateOrInsert(node.board.hash, Auxiliary.gameState2CX(state), attacker_i);
+					
 					if(DEBUG_ON) {
 						try {
 							file.write("STATE (dependency): " + state + "\n");
 						} catch(Exception e) {}
 					}
+
 					if(state == GameState.DRAW) return !attacking;
 					else if(state == Auxiliary.cellState2winState(attacker)) {
 						if(attacking) {
@@ -503,7 +541,7 @@ public class DbSearch {
 			} catch (Exception e) {
 				try {
 					System.out.println(log);
-					file.close();
+					if(DEBUG_ON) file.close();
 					throw e;
 				} catch (IOException io) {}
 			}
@@ -591,13 +629,13 @@ public class DbSearch {
 									return true;
 							}
 							
-							if(findAllCombinationNodes(partner, node.getFirstChild(), attacker, attacking, lastCombination, root)) {
+							if(!isTimeEnded() && findAllCombinationNodes(partner, node.getFirstChild(), attacker, attacking, lastCombination, root)) {
 								if(foundWin()) return true;
 								else found_sequence = true;
 							}
 						}
 
-						if(findAllCombinationNodes(partner, node.getSibling(), attacker, attacking, lastCombination, root))
+						if(!isTimeEnded() && findAllCombinationNodes(partner, node.getSibling(), attacker, attacking, lastCombination, root))
 							found_sequence = true;
 						return found_sequence;
 					}
@@ -637,7 +675,7 @@ public class DbSearch {
 			return root;
 		}
 
-		private DbNode createDefensiveRoot(DbNode root, LinkedList<ThreatApplied> athreats) {
+		private DbNode createDefensiveRoot(DbNode root, LinkedList<ThreatApplied> athreats, byte attacker) {
 
 			ListIterator<ThreatApplied> it = athreats.listIterator();
 			ThreatApplied athreat = null;
@@ -645,8 +683,8 @@ public class DbSearch {
 			//create defenisve root copying current root, using opponent as player and marking only the move made by the current attacker in the first threat
 			byte max_tier	= (byte)(Operators.tier(athreats.getFirst().threat.type) - 1);		// only look for threats better than mine
 			DbNode def_root	= DbNode.copy(root.board, true, max_tier, false);
-			def_root.board.setPlayer(YOUR_PLAYER);
-			def_root.board.findAllAlignments(YOUR_PLAYER, max_tier, "defRoot_");
+			def_root.board.setPlayer(Auxiliary.opponent(attacker));
+			def_root.board.findAllAlignments(Auxiliary.opponent(attacker), max_tier, "defRoot_");
 
 			// DEBUG
 			if(DEBUG_ON) {
@@ -660,7 +698,7 @@ public class DbSearch {
 			while(it.hasNext()) {
 				athreat = it.next();
 				prev = node;
-				prev.board.mark(athreat.threat.related[athreat.related_index], MY_PLAYER);
+				prev.board.mark(athreat.threat.related[athreat.related_index], attacker);
 
 				// related > 1 means there is at least 1 defensive move (bc there's always an attacker one)
 				if(it.hasNext() || athreat.threat.related.length > 1) {
@@ -702,7 +740,8 @@ public class DbSearch {
 				BoardBitDb new_board	= node.board.getDependant(threat, atk, USE.BTH, node.getMaxTier(), true);
 
 				// debug
-				file.write("frees: " + node.board.free[0] + " " + new_board.free[0] + "\n");
+				if(DEBUG_ON)
+					file.write("frees: " + node.board.free[0] + " " + new_board.free[0] + "\n");
 				
 				int attacker_i			= new_board.currentPlayer;
 				DbNode newChild			= new DbNode(new_board, false, node.getMaxTier());
@@ -730,7 +769,7 @@ public class DbSearch {
 
 			} catch (Exception e) {
 				try {
-					file.close();
+					if(DEBUG_ON) file.close();
 					throw e;
 				} catch(IOException io) {}
 			}
@@ -845,22 +884,30 @@ public class DbSearch {
 									log = "after alignment != null";
 
 									// debug
-									file.write("applying operator " + alignment.item + " for attacker " + attacker + "\n");
-									board.printFile(file, 1);
+									/*
+									if(DEBUG_ON) {
+										file.write("applying operator " + alignment.item + " for attacker " + attacker + "\n");
+										board.printFile(file, 1);
+									}
+									*/
 									
 									ThreatCells cell_threat_operator = Operators.applied(board, alignment.item, attacker, defender);
-									
+
 									// debug
 									log = "got operators.applied operator";
-									file.write("aplied: \n");
-									if(cell_threat_operator != null) {
-										for(int i = 0; i < cell_threat_operator.uses.length; i++) file.write(cell_threat_operator.related[i] + " ");
-										file.write("\n");
-										for(int i = 0; i < cell_threat_operator.uses.length; i++) file.write(cell_threat_operator.uses[i] + " ");
-										file.write("\n");
-										file.write(cell_threat_operator.type + "\n");
+									/*
+									if(DEBUG_ON) {
+										file.write("aplied: \n");
+										if(cell_threat_operator != null) {
+											for(int i = 0; i < cell_threat_operator.uses.length; i++) file.write(cell_threat_operator.related[i] + " ");
+											file.write("\n");
+											for(int i = 0; i < cell_threat_operator.uses.length; i++) file.write(cell_threat_operator.uses[i] + " ");
+											file.write("\n");
+											file.write(cell_threat_operator.type + "\n");
+										}
+										board.printFile(file, 1);
 									}
-									board.printFile(file, 1);
+									*/
 
 									if(cell_threat_operator != null) res.add(cell_threat_operator);
 									alignment = alignment.next;
@@ -877,9 +924,11 @@ public class DbSearch {
 
 			} catch (Exception e) {
 				System.out.println(log);
+				/*
 				try {
 					throw e;
 				} catch(IOException io) {}
+				*/
 			}
 			return null;
 
@@ -904,10 +953,10 @@ public class DbSearch {
 			return win_node != null;
 		}
 	
-		protected CXCell getBestMove() {
+		protected CXCell getBestMove(byte player) {
 			int i = board.MC_n;
 			//return first player's move after initial state
-			while(win_node.board.getMarkedCell(i).state != MY_CX_PLAYER)
+			while(Auxiliary.CX2cellState(win_node.board.getMarkedCell(i).state) != player)
 				i++;
 			return win_node.board.getMarkedCell(i);
 		}
@@ -917,7 +966,7 @@ public class DbSearch {
 		 * @return true if it's time to end the turn
 		 */
 		private boolean isTimeEnded() {
-			return (System.currentTimeMillis() - timer_start) >= timer_end;
+			return (System.currentTimeMillis() - timer_start) >= timer_end * TIMER_RATIO;
 		}
 
 		/* tree is changed if either lastdCombination o lastDependency are not empty;
@@ -928,6 +977,10 @@ public class DbSearch {
 			return lastCombination.size() > 0;
 		}
 
+		protected void printMemory() {
+			long freeMemory = runtime.maxMemory() - (runtime.totalMemory() - runtime.freeMemory());
+			System.out.println("memory: max=" + runtime.maxMemory() + " " + ", allocated=" + runtime.totalMemory() + ", free=" + runtime.freeMemory() + ", realFree=" + freeMemory);
+		}
 	
 	//#endregion HELPER
 

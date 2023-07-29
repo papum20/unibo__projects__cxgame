@@ -1,6 +1,6 @@
-package connectx.pndb;
+package connectx.pndbfinal;
 
-import connectx.pndb.BiList.BiNode;
+import connectx.pndbfinal.BiList.BiNode;
 
 public class BiList_ThreatPos {
 	

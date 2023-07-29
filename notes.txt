@@ -1,0 +1,94 @@
+1.
+	PnNode: children= sibling/child (where child=most proving), instead of array, to reduce memory usage.
+2.
+	PnSearch: evaluate: manage when lost (try to win something)
+3.
+	PnNode: proof values, infinite, overflow. maybe ok to lower?
+4.
+	goal squares: could be bitstrings
+5.
+	db: doesn't try much vertical -> should add new operator(s) to stimulate
+7.
+	[SOLVED?] Transposition table: mysterious error, didnt find element (added in addChild, but didnt find in addChildren right after)
+
+
+
+	NUOVO!! (FEBBRAIO)
+- controlla se usate e init bene goal_squares
+- uso threat/line tier (sopr. defensive visit)
+	- eventualmente crea nuovo ranking (rispettando tesi)
+LAST:
+-	controlla se controlla draw (check alignments lo fa)
+-	mi è venuto un dubbio: non è che qualche funzione aggiunge celle a MarkedCells con markCell, anche quando queste
+	sono già marcate? ho appena corretto getCombined che lo faceva..
+	(il problema potrebbe essere che poi pensa che sia patta)
+-	in defense, non cercare threat e contro-threat da stati vinti
+-	sfrutta TT, aggiornando entry, tipo parent/children (si tramandano risultato da children a parent)
+-	fai goal squares in defense come tesi, cioe sono solo quelle delle mosse successive (anticipare)
+-	TT si deve resettare a ogni visit (per def, atk gia lo fa)
+
+	
+-	(risolto?) fai che le combinazioni "useful" sono solo se aggiungono celle dell'attaccante
+
+ENHANCEMENTS (TESI):
+	gomoku - db:
+	-	category reduction (attacker cerca solo tier < massima difesa trovata)
+	-	restricted threes (solo 2-reply 3 e ignora 3-reply 3 (solo attacker))
+	gomoku - pn:
+	-	move ordering
+		-	threat recognition (score)
+		-	move ordering in pn
+	-	relatede squares
+		-	related squares recognition
+		-	iterated related squares (espansione related squares in nodi adiacenti in pn)
+	-	implicit-threat heuristic (prima che si trovin sempre minacce)
+	-	heuristic (dis)proof number initialization
+
+
+
+MINIMAX:
+
+-	se avversario ha mossa vincente (tipo se ha due mosse vincenti e quindi non puoi bloccargliele entrambe):
+	può convenire ignorarlo e cercare di fare un tuo allineamento, sperando che lui sbagli (magari è implementato in modo che se tu stai per vincere non ti fa vincere);
+	oppure bloccargliene una (sperando che si perda l'altra)
+-	se una mossa è obbligata, si possono memorizzare due mosse insieme (dei due giocatori);
+	inoltre, alcune mosse magari non ha senso analizzarle o memorizzarle (se portano a stati finiti);
+	infine, a sto punto, si può non inizializzare subito la hash table di trasposizione, ma farlo per le configurazioni volute di volta in volta
+-	DAG transposition
+
+-	transposition table: salvare solo parte di hash key per ogni entry ? (eventualmente (chess-wikipedia) parte non usata come indice, o anche meno)
+
+PNSEARCH:
+	-	per avere effettivo numero di nodi alive (tot), si dovrebbe memorizzare nel nodo i nodi figli (ricorsivamente), altrimenti non si sa quanti se ne tolgono tagliando
+		l'albero tra una mossa e l'altra
+DBSEARCH:
+	-	enhancement addcombination: crea solo nodi dove applicabile almeno un operatore
+DBSEARCH2:
+	-	board: remove alignments improved for line / more cells at a time
+	-	NOTE: findAllCombinationNodes : doesn't check isDependencyNode(): also needs combination between combination nodes (paper says, combinations of up to k nodes, so in this way i ensure those combinations are created)
+
+	TODO:
+		-	quindi in caso di win devo ritornare il nodo finale, con la board vincente
+		-	heuristic: (non per global defense) se opponent ha threat category j, devo cercare solo threat category i
+
+		-	(done) : dbBoard.getCombined / checkCombinedThreats -> (to test)
+		
+	DONE(?):
+		-	dividi operator attacker/defender
+
+		-	parametro nel find alignments per max category
+		-	check won
+		-	converti dbboard che usa le applied threat
+		-	lines in combination stage
+		
+		-	check isLastDependency in find all comb nodes?? which nodes are dependency/comb/root??
+		-	correggi combination con la versione che parte da root?
+		-	combination tra piu nodi?
+
+		-	goal squares: inserisci come parametro; fai che se una viene occupata, ritorna win
+		-	per trovare le goal square, quelle occupate in una threat sequence, basta fare la "differenza" tra le board
+		-	global defense
+		-	only find sequences for current attacker
+
+		-	heuristic: conta win; fai max 10 (per attacker)
+
