@@ -164,40 +164,43 @@ public class PnSearch implements CXPlayer {
 		 */
 		private void evaluate(PnNode node, byte game_state, byte player) {
 		
-			CXCell res_db = dbSearch.selectColumn(board, node, timer_end - System.currentTimeMillis(), player);
-
-			/* if a win is found without expanding, need to save the winning move somewhere (in a child)
-			 * (especially for the root, or you wouldn't know the correct move)
-			 */
-			if(res_db != null)
-			{
-				// debug
-				System.out.println("db found win: " + res_db.i + " " + res_db.j + " " + res_db.state + "\n");
-				
-				if(node.children != null) {
-					for(PnNode child : node.children) {
-						if(child.col == res_db.j) {
-							child.prove(res_db.state == MY_CX_WIN, true);
-							return;
+			// my win
+			if(game_state == GameState.P1) node.prove(true, true);	//root cant be ended, or the game would be
+			// your win or draw
+			else if(game_state != GameState.OPEN) node.prove(false, node != root);
+			else {
+				CXCell res_db = dbSearch.selectColumn(board, node, timer_end - System.currentTimeMillis(), player);
+	
+				/* if a win is found without expanding, need to save the winning move somewhere (in a child)
+				 * (especially for the root, or you wouldn't know the correct move)
+				 */
+				if(res_db != null)
+				{
+					// debug
+					System.out.println("db found win: " + res_db.i + " " + res_db.j + " " + res_db.state + "\n");
+					
+					if(node.children != null) {
+						for(PnNode child : node.children) {
+							if(child.col == res_db.j) {
+								child.prove(res_db.state == MY_CX_WIN, true);
+								return;
+							}
 						}
 					}
-				} else
-				node.expand(1);
 
-				// also if didn't find child for column
-				node.children[0] = new PnNode(res_db.j, node);							// can overwrite a child
-				node.children[0].prove(res_db.state == MY_CX_WIN, false);
-	
-				/*
-				* note: should do something when found loss for root, like try to win something
-				 */
+					// also if didn't find child for column (probably never happens if expanded)
+					node.expand(1);
+					node.children[0] = new PnNode(res_db.j, node);							// can overwrite a child
+					node.children[0].prove(res_db.state == MY_CX_WIN, false);
+					
+					/*
+					* note: should do something when found loss for root, like try to win something
+					*/
+				}
+
+				// open: heuristic
+				node.setProofAndDisproof(Constants.SHORT_1, Constants.SHORT_1);
 			}
-			// my win
-			else if(game_state == GameState.P1) node.prove(true, node != root);
-			// open: heuristic
-			else if(game_state == GameState.OPEN) node.setProofAndDisproof(Constants.SHORT_1, Constants.SHORT_1);
-			// your win or draw
-			else node.prove(false, node != root);
 		}
 
 		/**

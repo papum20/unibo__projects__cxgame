@@ -7,11 +7,9 @@ import java.util.LinkedList;
 import java.util.ListIterator;
 
 import connectx.CXCell;
-import connectx.CXCellState;
 import connectx.CXGameState;
 import connectx.pndb.BiList.BiNode;
 import connectx.pndb.DbNode.BoardsRelation;
-import connectx.pndb.Operators;
 import connectx.pndb.Operators.ThreatsByRank;
 import connectx.pndb.Operators.ThreatCells;
 import connectx.pndb.Operators.USE;
@@ -126,7 +124,7 @@ public class DbSearch {
 		board = new BoardBitDb(board_pn);
 		board.setPlayer(player);
 
-		board.findAllAlignments(CellState.P1, Operators.TIER_MAX, "selCol_");
+		board.findAllAlignments(player, Operators.TIER_MAX, "selCol_");
 		//board.findAllAlignments(CellState.P2, Operators.TIER_MAX, "selCol_");
 		//board.updateAlignments(last_move_pair, last_move.state);
 		
@@ -213,7 +211,18 @@ public class DbSearch {
 
 				// debug
 				log = "before loop";
-				
+
+				// debug filename
+				if(DEBUG_ON) {
+					if(attacking) {
+						debug_code = (int)(Math.random() * DEBUG_CODE_MAX);
+						filename_current = "debug/db1/db" + (counter++) + "_" + debug_code + "_" + root.board.MC_n + "-" + (root.board.MC_n > 0 ? root.board.MC[root.board.MC_n-1] : "_") + "-" + level + ".txt";
+						//if(!attacking) filename_current = "debug/db2/db" + board.MC_n + "-" + level + "def" + defense++ + ".txt";
+						new File(filename_current);
+						file = new FileWriter(filename_current);
+					}
+				}
+			
 				// loop
 				boolean found_sequence = false;
 				while(	!isTimeEnded() && isTreeChanged(lastCombination) &&
@@ -222,15 +231,15 @@ public class DbSearch {
 				) {
 					
 					// debug filename
-					if(DEBUG_ON) {
-						if(attacking) {
-							debug_code = (int)(Math.random() * DEBUG_CODE_MAX);
-							filename_current = "debug/db1/db" + (counter++) + "_" + debug_code + "_" + root.board.MC_n + "-" + (root.board.MC_n > 0 ? root.board.MC[root.board.MC_n-1] : "_") + "-" + level + ".txt";
-							//if(!attacking) filename_current = "debug/db2/db" + board.MC_n + "-" + level + "def" + defense++ + ".txt";
-							new File(filename_current);
-							file = new FileWriter(filename_current);
-						}
-					}
+					//if(DEBUG_ON) {
+					//	if(attacking) {
+					//		debug_code = (int)(Math.random() * DEBUG_CODE_MAX);
+					//		filename_current = "debug/db1/db" + (counter++) + "_" + debug_code + "_" + root.board.MC_n + "-" + (root.board.MC_n > 0 ? root.board.MC[root.board.MC_n-1] : "_") + "-" + level + ".txt";
+					//		//if(!attacking) filename_current = "debug/db2/db" + board.MC_n + "-" + level + "def" + defense++ + ".txt";
+					//		new File(filename_current);
+					//		file = new FileWriter(filename_current);
+					//	}
+					//}
 					
 					// debug
 					if(DEBUG_ON) {
@@ -283,13 +292,13 @@ public class DbSearch {
 						file.write("ATTACKING: " + (attacking? "ATTACKER":"DEFENDER") + "\n");
 						file.write("FOUND SEQUENCE: " + found_sequence + "\n");
 						file.write("VISIT WON: " + foundWin() + "\n");
-						if(attacking) {
-							file.close();
-							if(!found_something) {
-								File todel = new File(filename_current);
-								todel.delete();
-							}
-						}
+						//if(attacking) {
+						//	file.close();
+						//	if(!found_something) {
+						//		File todel = new File(filename_current);
+						//		todel.delete();
+						//	}
+						//}
 					}
 				}
 
@@ -298,6 +307,12 @@ public class DbSearch {
 				if(DEBUG_ON) {
 					if(!attacking) {
 						file.write("\t\t\t\t--------\tEND OF DEFENSE\t--------\n");
+					} else {
+						file.close();
+						if(!found_something) {
+							File todel = new File(filename_current);
+							todel.delete();
+						}
 					}
 				}
 
@@ -954,9 +969,9 @@ public class DbSearch {
 		}
 	
 		protected CXCell getBestMove(byte player) {
-			int i = board.MC_n;
+			int i = board.MC_n - 1;
 			//return first player's move after initial state
-			while(Auxiliary.CX2cellState(win_node.board.getMarkedCell(i).state) != player)
+			while(i < win_node.board.MC_n && Auxiliary.CX2cellState(win_node.board.getMarkedCell(i).state) != player)
 				i++;
 			return win_node.board.getMarkedCell(i);
 		}
