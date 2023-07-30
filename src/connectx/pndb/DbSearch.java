@@ -48,7 +48,7 @@ public class DbSearch {
 	private boolean[][] GOAL_SQUARES;
 	
 	// DEBUG
-	private final boolean DEBUG_ON = true;
+	private final boolean DEBUG_ON = false;
 	int counter = 0;
 	FileWriter file = null;
 	int debug_code;
