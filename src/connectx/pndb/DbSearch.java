@@ -127,7 +127,7 @@ public class DbSearch {
 	 * @param time_remaining
 	 * @return a CXCell, containing the state of the winning player, on null if didn't find a sequence.
 	 */
-	public CXCell selectColumn(BoardBit board_pn, PnNode root_pn, long time_remaining, byte player) {
+	public DbSearchResult selectColumn(BoardBit board_pn, PnNode root_pn, long time_remaining, byte player) {
 
 		GOAL_SQUARES = new boolean[M][N];
 		for(int i = 0; i < M; i++)

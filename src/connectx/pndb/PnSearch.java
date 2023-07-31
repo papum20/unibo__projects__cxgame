@@ -18,12 +18,17 @@ import java.util.ArrayList;
  * -	TT: always used with MY_PLAYER = 0, YOUR = 1 (for state).
  * -	TT is used for positions evaluated and verified by db, so it contains certain values.
  * 
+ * enhancements to do:
+ * -	note: should do something when found loss for root, like try to win something
+ * -	TT
  */
 public class PnSearch implements CXPlayer {
 
 	//#region CONSTANTS
-	private static final byte PROOF = PnNode.PROOF;
-	private static final byte DISPROOF = PnNode.DISPROOF;
+	private static final byte PROOF		= PnNode.PROOF;
+	private static final byte DISPROOF	= PnNode.DISPROOF;
+
+	private static final short OFFSET_MULTIPLIER = 3;
 
 	private CXCellState MY_CX_WIN = CXCellState.P1;
 
@@ -33,6 +38,7 @@ public class PnSearch implements CXPlayer {
 	public BoardBit board;				// public for debug
 	protected TranspositionTable TT;
 	public byte current_player;			// public for debug
+	private short level;				// current tree level (height)
 	private DbSearch dbSearch;
 
 	// nodes
@@ -116,8 +122,7 @@ public class PnSearch implements CXPlayer {
 
 				boolean my_turn = true;
 				
-				evaluate(root, GameState.OPEN, current_player);
-				setProofAndDisproofNumbers(root, my_turn);
+				root.setProofAndDisproof(Constants.SHORT_1, Constants.SHORT_1);
 
 				/* improvement: keep track of current node (next to develop), instead of 
 				* looking for it at each iteration, restarting from root.
@@ -143,7 +148,7 @@ public class PnSearch implements CXPlayer {
 					//	System.out.println(child.col + ":" + child.n[PROOF] + "," + child.n[DISPROOF]);
 					//}
 
-					currentNode = updateAncestorsUpTo(mostProvingNode);
+					currentNode = updateAncestorsWhileChanged(mostProvingNode);
 					log = "after updateAncestors";
 
 					//System.out.println("after ancestors\nroot numbers: " + root.n[0] + ", " + root.n[1]);
@@ -166,67 +171,70 @@ public class PnSearch implements CXPlayer {
 		 * @param node
 		 * @param game_state
 		 * @param player who has to move in node's board.
+		 * @return	a list of moves containing a threat, ordered according to db evaluations;
+		 * 			otherwise null if game ended.
 		 */
-		private void evaluate(PnNode node, byte game_state, byte player) {
+		private ArrayList<Integer> evaluate(PnNode node, byte game_state, byte player) {
 		
+			if(game_state == GameState.OPEN)
+				return evaluateDb(node, player);
+			else {
+				if(game_state == GameState.P1)				// my win
+					node.prove(true, true);		// root cant be ended, or the game would be
+				else										// your win or draw
+					node.prove(false, node != root);
+
+				return null;
+			}
+		}
+
+		/**
+		 * Evaluate `node` according to a DbSearch.
+		 * @param node
+		 * @param player
+		 * @return
+		 */
+		private ArrayList<Integer> evaluateDb(PnNode node, byte player) {
+
 			String log = "evaliuate: \n";
 			try {
 				
-				// my win
-				if(game_state == GameState.P1) node.prove(true, true);	//root cant be ended, or the game would be
-				// your win or draw
-				else if(game_state != GameState.OPEN) node.prove(false, node != root);
-				else {
-					CXCell res_db = dbSearch.selectColumn(board, node, timer_end - System.currentTimeMillis(), player);
+				DbSearchResult res_db = dbSearch.selectColumn(board, node, timer_end - System.currentTimeMillis(), player);
 		
-					if(res_db == null) {
-						// open: heuristic
-						node.setProofAndDisproof(Constants.SHORT_1, Constants.SHORT_1);
-					} else {
-						/* if a win is found without expanding, need to save the winning move somewhere (in a child)
-						* (especially for the root, or you wouldn't know the correct move)
-						*/
-						
-						if(node != root) {
-							node.prove(res_db.state == MY_CX_WIN, false);
-						} else {
-							
-							// debug
-							log += "db found win: " + res_db.i + " " + res_db.j + " " + res_db.state + "\n\n";
-							
-							if(node.children != null) {
-								for(PnNode child : node.children) {
-									if(child.col == res_db.j) {
-										child.prove(res_db.state == MY_CX_WIN, true);
-										return;
-									}
-								}
-							}
+				if(!res_db.won)
+					return res_db.moves_ordered;
 
-							// also if didn't find child for column (probably never happens if expanded)
-							node.expand(1);
-							node.children[0] = new PnNode(res_db.j, node);							// can overwrite a child
-							node.children[0].prove(res_db.state == MY_CX_WIN, false);
-							
-							/*
-							* note: should do something when found loss for root, like try to win something
-							*/
-						}
-					}
-				}
-
+				/* if a win is found without expanding, need to save the winning move somewhere (in a child)
+				* (especially for the root, or you wouldn't know the correct move)
+				*/
+				if(node != root)
+					node.prove(true, false);
+					
+				// debug
+				log += "db found win: " + res_db.moves_ordered.get(0) + " player: " + player + "\n\n";
+				
+				// root is only evaluated once, before expanding
+				node.expand(1);
+				node.children[0] = new PnNode(res_db.moves_ordered.get(0), node);							// can overwrite a child
+				node.children[0].prove(true, false);
+				
+				return null;
+				
 			} catch (Exception e) {
 				System.out.println(log);
 				throw e;
 			}
-			
 		}
+
 
 		/**
 		 * set proof and disproof; update node.mostProving.
 		 * assuming value=unknown, as nodes are evaluated in developNode.
+		 * @param node
+		 * @param my_turn
+		 * @param offset offset for initProofAndDisproofNumbers, in case of `node` open and not expanded.
 		 */
-		private void setProofAndDisproofNumbers(PnNode node, boolean my_turn) {
+		private void setProofAndDisproofNumbers(PnNode node, boolean my_turn, short offset) {
 
 			String log = "start set proof";
 			try {
@@ -246,8 +254,12 @@ public class PnSearch implements CXPlayer {
 					}
 					log = "not my turn, after setProof";
 					node.most_proving = most_proving;
-				} else if(node.value() == Value.UNKNOWN) initProofAndDisproofNumbers(node);
-				// else if value not unknown: numbers already set (implementation) (by evaluate)
+				}
+				else if(board.game_state == GameState.OPEN)
+					initProofAndDisproofNumbers(node, offset);
+				else 
+					node.prove(board.game_state == GameState.P1, node != root);
+
 			} catch (Exception e)  {
 				System.out.println(log + "\n\tturn : " + current_player);
 				throw e;
@@ -275,21 +287,12 @@ public class PnSearch implements CXPlayer {
 		 */
 		private void developNode(PnNode node, boolean my_turn, byte player) {
 
-			ArrayList<Integer> free_cols = board.freeCols();
-			node.expand(free_cols.size());
-			node.generateAllChildren(free_cols);
+			ArrayList<Integer> threat_cols = evaluate(node, board.game_state, player);
 
-			//System.out.println("in developNode: node col=" + node.col + ", node.chidren len=" + node.children.length);
+			if(threat_cols == null)
+				return;
 
-			// evaluate children
-			for(PnNode child : node.children) {
-				byte game_state = mark(child.col);
-				evaluate(child, game_state, Auxiliary.opponent(player));
-				setProofAndDisproofNumbers(child, my_turn);
-				unmark(child.col);
-			}
-			
-
+			generateAllChildren(node, threat_cols, my_turn);
 		}
 
 		/**
@@ -309,7 +312,7 @@ public class PnSearch implements CXPlayer {
 		 * @param node
 		 * @return
 		 */
-		public PnNode updateAncestorsUpTo(PnNode node) {
+		public PnNode updateAncestorsWhileChanged(PnNode node) {
 			
 			String log = "start";
 			try {
@@ -319,7 +322,7 @@ public class PnSearch implements CXPlayer {
 				do {
 					int old_proof = node.n[PROOF], old_disproof = node.n[DISPROOF];
 					log = "before set";
-					setProofAndDisproofNumbers(node, isMyTurn());
+					setProofAndDisproofNumbers(node, isMyTurn(), Constants.SHORT_0);		// offset useless, node always expanded here
 					log = "after set";
 					changed = (old_proof != node.n[PROOF] || old_disproof != node.n[DISPROOF]);
 						
@@ -342,6 +345,40 @@ public class PnSearch implements CXPlayer {
 			}
 		}
 
+		/**
+		 * 
+		 * @param node
+		 * @param threat_cols
+		 */
+		public void generateAllChildren(PnNode node, ArrayList<Integer> threat_cols, boolean my_turn) {
+
+			boolean[] used_cols = new boolean[board.N];
+			short i = 0;
+			
+			node.expand(board.free_n);
+			
+			// create children for threat cells
+			for(Integer col : threat_cols) {
+				node.children[i] = new PnNode(col, node);
+				node.children[i++].setProofAndDisproof(i, i);
+				used_cols[col] = true;
+			}
+
+			// create other, secondary, children
+			for(int j = 0; j < board.N; j++) {
+				if(!used_cols[j] && board.freeCol(j)) {
+					node.children[i] = new PnNode(j, node);
+					mark(j);
+					setProofAndDisproofNumbers(node.children[i], my_turn, (short)threat_cols.size());
+					unmark(j);
+					i++;
+				}
+			}
+
+			// debug
+			//System.out.println("in developNode: node col=" + node.col + ", node.chidren len=" + node.children.length);
+		}
+
 
 	//#endregion PN-SEARCH
 
@@ -349,11 +386,12 @@ public class PnSearch implements CXPlayer {
 	//#region AUXILIARY
 
 		/**
-		 * 
+		 * Init proof numbers to (offset * OFFSET_MULTIPLIER) + current level in game tree.
 		 * @param node
 		 */
-		private void initProofAndDisproofNumbers(PnNode node) {
-			node.setProofAndDisproof(Constants.SHORT_1, Constants.SHORT_1);
+		private void initProofAndDisproofNumbers(PnNode node, short offset) {
+			short number = (short)(offset * OFFSET_MULTIPLIER + level);
+			node.setProofAndDisproof(number, number);
 		}
 		/**
 		 * 
@@ -361,6 +399,7 @@ public class PnSearch implements CXPlayer {
 		private byte mark(int col) {
 			byte res = board.mark(col, current_player);
 			current_player = (byte)Constants.opponent(current_player);
+			level++;
 			return res;
 		}
 		/**
@@ -370,6 +409,7 @@ public class PnSearch implements CXPlayer {
 		private void unmark(int col) {
 			board.unmark(col);
 			current_player = (byte)Constants.opponent(current_player);
+			level--;
 		}
 		/**
 		 * 

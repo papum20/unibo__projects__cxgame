@@ -235,6 +235,10 @@ public class BoardBit implements IBoard<BoardBit> {
 			return (_cellState(i, j) == 1)? CXGameState.WINP1 : CXGameState.WINP2;
 		}
 
+		public boolean freeCol(int j) {
+			return board[j][COL_SIZE(M) - 1] != -1;
+		}
+
 		/**
 		 * 
 		 */

@@ -1,5 +1,7 @@
 package connectx.pndb;
 
+import java.util.ArrayList;
+
 import connectx.CXBoard;
 import connectx.CXCell;
 
@@ -49,9 +51,9 @@ public class tester {
 		DbSearch db = new DbSearch();
 		db.init(M, N, X, first);
 		
-		CXCell res = db.selectColumn(board, null, 10000, CellState.P1);
+		DbSearchResult res = db.selectColumn(board, null, 10000, CellState.P1);
 
-		System.out.println((res == null)? null : res.i + " " + res.j + " " + res.state);
+		System.out.println((!res.won)? null : res.moves_ordered.get(0));
 	}
 
 }

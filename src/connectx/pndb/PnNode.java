@@ -98,17 +98,17 @@ public class PnNode {
 		 * @param d
 		 */
 		public void setProofAndDisproof(short p, short d) {
-			n[PROOF] = p;
-			n[DISPROOF] = d;
+			n[PROOF]	= p;
+			n[DISPROOF]	= d;
 		}
 		/**
 		 * 
 		 * @param children_n
 		 */
-		public void generateAllChildren(ArrayList<Integer> free_cols) {
-			for(int i = 0; i < free_cols.size(); i++)
-				children[i] = new PnNode(free_cols.get(i), this);
-		}
+		//public void generateAllChildren(ArrayList<Integer> free_cols) {
+		//	for(int i = 0; i < free_cols.size(); i++)
+		//		children[i] = new PnNode(free_cols.get(i), this);
+		//}
 
 		/**
 		 * expand node,
