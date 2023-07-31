@@ -64,6 +64,39 @@ public class TranspositionTable {
 			table[index].addNext(e);
 	}
 
+	/**
+	 * Remove element entry.
+	 * @param key
+	 */
+	public void remove(long key) {
+		int index = Element.index(key);
+		Element compare = new Element(key);
+		Element e = table[index];
+
+		if(e != null) {
+			while(e.next != null) {
+				if(e.next.equals(compare)) {
+					e.next = e.next.next;
+					return;
+				}
+				e = e.next;
+			}
+		}
+	}
+
+	/**
+	 * Remove state from element, or remove the element entry if both states remain null.
+	 * @param key
+	 * @param idx
+	 */
+	public void removeState(long key, int idx) {
+		setState(key, null, idx);
+
+		TranspositionElementEntry entry = getState(key);
+		if(entry.state[0] == null && entry.state[1] == null)
+			remove(key);
+	}
+
 	public Boolean exists(long key) {
 		int index = Element.index(key);
 		if(table[index] == null) return false;
@@ -134,12 +167,14 @@ public class TranspositionTable {
 		protected Element(long key) {
 			key2 = (int)(key >> TABLE_SIZE);
 			key1 = (short)(key >> MASK2_BITS);
-			state = 0;	//OPEN
+			state = 6;	//OPEN
 		}
+
 		protected void addNext(Element e) {
 			if(next == null) next = e;
 			else next.addNext(e);
 		}
+
 		protected void setState(CXGameState state_a, CXGameState state_d) {
 			if(state_a == null) state_a = TranspositionElementEntry.ELEMENT_ENTRIES[state].state[0];
 			if(state_d == null) state_d = TranspositionElementEntry.ELEMENT_ENTRIES[state].state[1];
@@ -153,20 +188,28 @@ public class TranspositionTable {
 			else if(state_d == CXGameState.WINP1) state += 3;
 			else if(state_d == CXGameState.WINP2) state += 4;
 		}
+
 		protected TranspositionElementEntry getState() {
 			return TranspositionElementEntry.ELEMENT_ENTRIES[state];
 		}
+
 		//returns the element if cmp==this or a next element in the list (assuming the index is the same)
 		protected Element getNext(Element cmp) {
-			if ((cmp.key1 == key1) && (cmp.key2 == key2)) return this;
+			if (equals(cmp)) return this;
 			else if(next == null) return null;
 			else return next.getNext(cmp);
 		}
+
 		protected static int tableSize() {
 			return TABLE_SIZE;
 		}
+
 		protected static int index(long key) {
 			return (int)(key & MASK1);
+		}
+
+		protected boolean equals(Element cmp) {
+			return (cmp.key1 == key1) && (cmp.key2 == key2);
 		}
 	}
 

@@ -76,6 +76,7 @@ public class BoardBitDb extends BoardBit {
 	// Debug
 	int count = 0;
 	private static boolean DEBUG_ON = false;
+	private static boolean DEBUG_PRINT = false;
 	private static FileWriter file;
   
 
@@ -330,7 +331,7 @@ public class BoardBitDb extends BoardBit {
 				if(alignments_in_cell != null)
 				{
 					// debug
-					System.out.println("remove " + alignments_in_cell.item.item);
+					if(DEBUG_PRINT) System.out.println("remove " + alignments_in_cell.item.item);
 
 					int MAX_ALIGNMENT = X + Operators.MAX_FREE_EXTRA_TOT;
 						
@@ -341,7 +342,7 @@ public class BoardBitDb extends BoardBit {
 
 						// DEBUG
 						//if(DEBUG_ON) {
-						if(true) {
+						if(DEBUG_PRINT) {
 							System.out.println("\t\trm: " + alignments_in_cell.item.item);
 							System.out.println("\t\t" + alignmentsByDirection_index(dir, center));
 						}
@@ -549,8 +550,8 @@ public class BoardBitDb extends BoardBit {
 												threat_end.resetVector(c2, dir, after);
 
 												for( ;
-													before >= alignment.mnout && after >= alignment.mnout && before + after >= alignment.out	// alignment conditions
-													&& threat_end.inBounds(MIN, MAX) && (after == 0 || cellFree(threat_end.i, threat_end.j))	// in bounds and player's cells
+													before >= alignment.mnout && after >= alignment.mnout && before + after >= alignment.out											// alignment conditions
+													&& threat_end.inBounds(MIN, MAX) && (after == 0 || (cellFree(threat_end.i, threat_end.j) && free[threat_end.j] == threat_end.i) )	// in bounds and player's cells
 													; after++, before--, threat_start.sum(dir), threat_end.sum(dir)
 													) {
 														ThreatPosition threat_pos = new ThreatPosition(threat_start, threat_end, threat_code);
