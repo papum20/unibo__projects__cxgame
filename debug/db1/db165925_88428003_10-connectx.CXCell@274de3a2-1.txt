@@ -1,0 +1,79 @@
+--------	DEPENDENCY	--------
+DEPENDENCY: parent: 
+										.........
+										.........
+										.........
+										.........
+										........o
+										x.......o
+										x.......o
+										x.......x
+										x.....o.o
+
+children: 
+4 8 P2
+			17	0	[4,0] ATK	
+frees: 4 5
+-1	---
+	.........
+	.........
+	.........
+	.........
+	x.......o
+	x.......o
+	x.......o
+	x.......x
+	x.....o.o
+
+---
+STATE (dependency): 2
+				WIN:
+	.........
+	.........
+	.........
+	.........
+	x.......o
+	x.......o
+	x.......o
+	x.......x
+	x.....o.o
+
+				-----
+MAX THREAT: 0
+				[4,0]
+											.........
+											.........
+											.........
+											.........
+											x.......o
+											x.......o
+											x.......o
+											x.......x
+											x.....o.o
+
+				[4,0] 
+				--------	START OF DEFENSE	--------
+								--------	DEPENDENCY	--------
+								DEPENDENCY: parent: 
+											.........
+											.........
+											.........
+											.........
+											x.......o
+											x.......o
+											x.......o
+											x.......x
+											x.....o.o
+
+								children: 
+4 0 P1
+STATE (dependency): 2
+								--------	COMBINATION	--------
+								--------	END OF COMBINATION	--------
+ATTACKING: DEFENDER
+FOUND SEQUENCE: false
+VISIT WON: false
+				--------	END OF DEFENSE	--------
+ATTACKING: ATTACKER
+FOUND SEQUENCE: true
+VISIT WON: true

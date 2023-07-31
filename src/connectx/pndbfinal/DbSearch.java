@@ -13,6 +13,10 @@ import connectx.pndbfinal.Operators.USE;
 
 
 
+/**
+ * note:
+ * -	never unmarks, as always creates a copy of a board.
+ */
 public class DbSearch {
 	
 	//#region CONSTANTS
@@ -71,7 +75,7 @@ public class DbSearch {
 		board = new BoardBitDb(board_pn);
 		board.setPlayer(player);
 
-		board.findAllAlignments(CellState.P1, Operators.TIER_MAX, "selCol_");
+		board.findAllAlignments(player, Operators.TIER_MAX, "selCol_");
 		//board.findAllAlignments(CellState.P2, Operators.TIER_MAX, "selCol_");
 		//board.updateAlignments(last_move_pair, last_move.state);
 		
@@ -484,9 +488,9 @@ public class DbSearch {
 		}
 	
 		protected CXCell getBestMove(byte player) {
-			int i = board.MC_n;
+			int i = board.MC_n - 1;
 			//return first player's move after initial state
-			while(Auxiliary.CX2cellState(win_node.board.getMarkedCell(i).state) != player)
+			while(i < win_node.board.MC_n && Auxiliary.CX2cellState(win_node.board.getMarkedCell(i).state) != player)
 				i++;
 			return win_node.board.getMarkedCell(i);
 		}

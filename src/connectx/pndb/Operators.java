@@ -346,7 +346,6 @@ public class Operators {
 			private static class Applier1first implements Applier {
 				public ThreatCells getThreatCells(final BoardBitDb board, ThreatPosition pos, byte attacker, byte defender) {
 					ThreatCells res = new ThreatCells(1, pos.type);
-					System.out.println(pos + " " + board.cellFree(pos.start.i, pos.start.j));
 					if(board.cellFree(pos.start.i, pos.start.j))	res.set(pos.start, 0, USE.ATK);
 					else											res.set(pos.end, 0, USE.ATK);
 					return res;
@@ -355,8 +354,8 @@ public class Operators {
 			private static class Applier1in implements Applier {
 				public ThreatCells getThreatCells(final BoardBitDb board, ThreatPosition pos, byte attacker, byte defender) {
 					ThreatCells res = new ThreatCells(1, pos.type);
-					MovePair dir = pos.start.getDirection(pos.end);
-					MovePair it = pos.start.getSum(dir);
+					MovePair dir	= pos.start.getDirection(pos.end);
+					MovePair it		= pos.start.getSum(dir);
 					//doesn't check termination condition ( && !it.equals(op.end)): assumes the operator is appliable
 					while(!board.cellFree(it.i, it.j)) it.sum(dir);
 					//if(it.equals(op.end))	return null;

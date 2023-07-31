@@ -307,6 +307,35 @@ public class BoardBit implements IBoard<BoardBit> {
 			System.out.println("\n");
 		}
 
+		/**
+		 * don't print, return as a string.
+		 */
+		String printString() {
+			//boolean[][] out = new boolean[M+1][N];
+			//System.out.println(COL_SIZE(M));
+
+			String lines = "";
+			for(int i = M - 1; i >= 0; i--) {
+				String line = "";
+				for(int j = 0; j < N; j++) {
+
+					//System.out.println(i + " " + j + " " + board[j][i / BITSTRING_LEN] + " " + (board[j][i / BITSTRING_LEN] >> (i % BITSTRING_LEN)) );
+					
+					if(_cellState(i, j) == 0) {
+						if(_cellMaskState(i, j) == 1)
+							line += 'o';
+						else
+							line += '.';
+					} else {
+						line += 'x';
+					}
+				}
+				lines += line + "\n";
+			}
+			lines += "\n";
+			return lines;
+		}
+
 		void printFile(FileWriter file, int indentation) {
 			//boolean[][] out = new boolean[M+1][N];
 			//System.out.println(COL_SIZE(M));

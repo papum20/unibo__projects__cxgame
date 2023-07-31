@@ -1,0 +1,91 @@
+--------	DEPENDENCY	--------
+DEPENDENCY: parent: 
+									.........
+									.........
+									.........
+									.........
+									........o
+									........o
+									........o
+									.......xx
+									x.x....xo
+
+children: 
+4 8 P2
+			35	0	[6,8] BTH	[5,8] BTH	
+frees: 1 1
+-1	---
+	.........
+	.........
+	.........
+	........x
+	........o
+	........o
+	........o
+	.......xx
+	x.x....xo
+
+---
+STATE (dependency): 3
+				WIN:
+	.........
+	.........
+	.........
+	........x
+	........o
+	........o
+	........o
+	.......xx
+	x.x....xo
+
+				-----
+MAX THREAT: 1
+				[6,8]
+										.........
+										.........
+										.........
+										........o
+										........o
+										........o
+										........o
+										.......xx
+										x.x....xo
+
+				[6,8] 				[5,8] 
+				--------	START OF DEFENSE	--------
+								--------	DEPENDENCY	--------
+								DEPENDENCY: parent: 
+										.........
+										.........
+										.........
+										........o
+										........o
+										........o
+										........o
+										.......xx
+										x.x....xo
+
+								children: 
+6 8 FREE
+								DEPENDENCY: parent: 
+											.........
+											.........
+											........x
+											........o
+											........o
+											........o
+											........o
+											.......xx
+											x.x....xo
+
+								children: 
+5 8 P2
+								--------	COMBINATION	--------
+								--------	END OF COMBINATION	--------
+ATTACKING: DEFENDER
+FOUND SEQUENCE: false
+VISIT WON: false
+				--------	END OF DEFENSE	--------
+ATTACKING: ATTACKER
+FOUND SEQUENCE: true
+VISIT WON: true

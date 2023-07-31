@@ -1,0 +1,41 @@
+root board:
+.........
+.........
+.........
+.........
+.........
+.........
+........o
+.oo.....x
+xxxxox..o
+
+ALIGNMENTS:
+by rows:
+direction: [0,1]
+player 1:
+index 1
+player 2:
+index 1
+[1,0]->[1,5] : 51
+direction: [1,0]
+player 1:
+player 2:
+direction: [1,1]
+player 1:
+player 2:
+direction: [1,-1]
+player 1:
+player 2:
+by cells:
+cell: [1,0]
+[1,0]->[1,5] : 51
+cell: [1,1]
+[1,0]->[1,5] : 51
+cell: [1,2]
+[1,0]->[1,5] : 51
+cell: [1,3]
+[1,0]->[1,5] : 51
+cell: [1,4]
+[1,0]->[1,5] : 51
+cell: [1,5]
+[1,0]->[1,5] : 51
