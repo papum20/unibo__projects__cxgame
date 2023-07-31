@@ -680,7 +680,7 @@ public class BoardBitDb extends BoardBit {
 				while(node_alignment != null) {
 					
 					// debug
-					System.out.println("remove " + node_alignment.item.item);
+					if(DEBUG_PRINT) System.out.println("remove " + node_alignment.item.item);
 					
 					MovePair start			= node_alignment.item.item.start,
 							 end			= node_alignment.item.item.end;

@@ -20,9 +20,7 @@ import connectx.pndb.Operators.USE;
  * note:
  * -	never unmarks, as always creates a copy of a board.
  * -	TT: always used with MY_PLAYER = 0, YOUR = 1 (for state).
- * -	TT is used for positions evaluated and verified with a defensive visit, so it contains certain values.
- * 		so, only defensiveVisit inserts new entries.
- * -	Combination stage uses TT also with open states, in order to only search for already done combinations once.
+ * -	Combination stage uses TT with open states, in order to only search for already done combinations once.
  * 		However, being this specific for the current dbSearch, the TT entries are then removed, unless proved to another state.
  * -	For the previous point, boards with a state not open, in case, are added to TT as open, so they are not mistaken
  * 		in the combination stage (for implementation, because of the return type, boolean, of the functions).
@@ -63,7 +61,7 @@ public class DbSearch {
 	// DEBUG
 	private final boolean DEBUG_ON = false;
 	private final boolean DEBUG_PRINT = false;
-	private final boolean DEBUG_ONLY_FOUND_SEQ = false;
+	private final boolean DEBUG_ONLY_FOUND_SEQ = true;
 	int counter = 0;
 	FileWriter file = null;
 	int debug_code;
@@ -394,13 +392,8 @@ public class DbSearch {
 			boolean defended = visit(new_root, Auxiliary.opponent(attacker), false, first_threat_tier);
 			markGoalSquares(possible_win.board.getMarkedThreats(), false);
 
-			if(!defended) {
+			if(!defended)
 				win_node = possible_win;
-
-				// insert win_node in TT
-				int attacker_i = (attacker == MY_PLAYER) ? 0 : 1;
-				TT.setStateOrInsert(win_node.board.hash, Auxiliary.gameState2CX(Auxiliary.cellState2winState(attacker)), attacker_i);
-			}
 
 			return defended;
 		}
@@ -587,29 +580,8 @@ public class DbSearch {
 												} catch(IOException io) {}
 											}
 										}
-										
-										int attacker_i = (attacker == MY_PLAYER) ? 0 : 1;
-										TranspositionElementEntry entry = TT.getState(newChild.board.hash);
 
-										if(entry != null && entry.state[attacker_i] != null) {
-
-											//DEBUG
-											if(DEBUG_ON) {
-												try {
-													file.write("\t\t\t\taddChildren, EXISTS IN TT: " + newChild.board.hash + "\n");
-													newChild.board.printFile(file, lev);
-												} catch(Exception e) {}
-											}
-
-											if( Auxiliary.CX2gameState(entry.state[attacker_i]) == Auxiliary.cellState2winState(attacker)) {											
-												newChild.board.setGameState(entry.state[attacker_i]);
-												found_sequence = true;
-												
-												if(attacking)
-													win_node = newChild;
-											}
-										}
-										else if(addDependentChildren(newChild, attacker, attacking, lev+1, lastDependency, root, max_tier))
+										if(addDependentChildren(newChild, attacker, attacking, lev+1, lastDependency, root, max_tier))
 											found_sequence = true;
 
 										if(foundWin() || found_win_sequences >= MAX_THREAT_SEQUENCES) return found_sequence;
@@ -837,6 +809,9 @@ public class DbSearch {
 
 				BoardBitDb new_board	= node.board.getDependant(threat, atk, USE.BTH, node.getMaxTier(), true);
 				DbNode newChild 		= new DbNode(new_board, false, node.getMaxTier());
+
+				node.addChild(newChild);
+				lastDependency.add(newChild);
 
 				// debug
 				if(DEBUG_ON)

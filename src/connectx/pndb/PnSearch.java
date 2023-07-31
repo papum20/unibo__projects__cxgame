@@ -13,7 +13,11 @@ import java.util.ArrayList;
 
 
 /**
- * note: i'm always CellState.ME, GameState.P1
+ * notes:
+ * -	i'm always CellState.ME, GameState.P1.
+ * -	TT: always used with MY_PLAYER = 0, YOUR = 1 (for state).
+ * -	TT is used for positions evaluated and verified by db, so it contains certain values.
+ * 
  */
 public class PnSearch implements CXPlayer {
 
@@ -27,6 +31,7 @@ public class PnSearch implements CXPlayer {
 
 	// board
 	public BoardBit board;				// public for debug
+	protected TranspositionTable TT;
 	public byte current_player;			// public for debug
 	private DbSearch dbSearch;
 
