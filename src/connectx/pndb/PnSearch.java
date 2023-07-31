@@ -83,6 +83,8 @@ public class PnSearch implements CXPlayer {
 		// visit
 		if(last_move == null) root = new PnNode(Board.COL_NULL, null);
 		else root = new PnNode(last_move.j, null);
+
+		level = 1;
 		visit();
 
 		System.out.println("root numbers: " + root.n[0] + ", " + root.n[1]);
@@ -171,10 +173,9 @@ public class PnSearch implements CXPlayer {
 		 * @param node
 		 * @param game_state
 		 * @param player who has to move in node's board.
-		 * @return	a list of moves containing a threat, ordered according to db evaluations;
-		 * 			otherwise null if game ended.
+		 * @return
 		 */
-		private ArrayList<Integer> evaluate(PnNode node, byte game_state, byte player) {
+		private int[] evaluate(PnNode node, byte game_state, byte player) {
 		
 			if(game_state == GameState.OPEN)
 				return evaluateDb(node, player);
@@ -192,9 +193,9 @@ public class PnSearch implements CXPlayer {
 		 * Evaluate `node` according to a DbSearch.
 		 * @param node
 		 * @param player
-		 * @return
+		 * @return db_result.threat scores, as it's the only field returned by dbSearch which is needed outside
 		 */
-		private ArrayList<Integer> evaluateDb(PnNode node, byte player) {
+		private int[] evaluateDb(PnNode node, byte player) {
 
 			String log = "evaliuate: \n";
 			try {
@@ -202,7 +203,7 @@ public class PnSearch implements CXPlayer {
 				DbSearchResult res_db = dbSearch.selectColumn(board, node, timer_end - System.currentTimeMillis(), player);
 		
 				if(!res_db.won)
-					return res_db.moves_ordered;
+					return res_db.threat_scores_by_col;
 
 				/* if a win is found without expanding, need to save the winning move somewhere (in a child)
 				* (especially for the root, or you wouldn't know the correct move)
@@ -217,6 +218,15 @@ public class PnSearch implements CXPlayer {
 				node.expand(1);
 				node.children[0] = new PnNode(res_db.moves_ordered.get(0), node);							// can overwrite a child
 				node.children[0].prove(true, false);
+
+				/* Heuristic: update parent's children with iterated related squares.
+				 * If, in the current board, the current player has a winning sequence,
+				 * starting with a certain move `x` in column `X` involving certain cells `s` (thus certain columns `S`),
+				 * if the other player (who moved in the parent node) was to make a move not in any of `S`,
+				 * then the current player could play `x`, and apply his winning sequence as planned,
+				 * because the opponent's move is useless for such sequence.
+				 */
+				filterChildren(node.parent, res_db.related_squares_by_col);
 				
 				return null;
 				
@@ -287,13 +297,83 @@ public class PnSearch implements CXPlayer {
 		 */
 		private void developNode(PnNode node, boolean my_turn, byte player) {
 
-			ArrayList<Integer> threat_cols = evaluate(node, board.game_state, player);
+			int[] threat_scores_by_col = evaluate(node, board.game_state, player);
 
-			if(threat_cols == null)
+			if(threat_scores_by_col == null)
 				return;
 
-			generateAllChildren(node, threat_cols, my_turn);
+			generateAllChildren(node, threat_scores_by_col, my_turn, player);
 		}
+
+		/**
+		 * 
+		 * @param node
+		 * @param threat_scores_by_col
+		 */
+		public void generateAllChildren(PnNode node, int[] threat_scores_by_col, boolean my_turn, byte player) {
+
+			/* Heuristic: implicit threat.
+			 * Only inspect moves in an implicit threat, i.e. a sequence by which the opponent could win
+			 * if the current player was to make a "null move".
+			 * In fact, the opponent could apply such winning sequence, if the current player was to 
+			 * make a move outside it, thus not changing his plans.
+			 */
+
+			DbSearchResult res_db = dbSearch.selectColumn(board, node, timer_end - System.currentTimeMillis(), Auxiliary.opponent(player));
+
+			/**
+			 * Heuristic: nodes without any implicit threat should be considered less (or not at all),
+			 * especially after a few moves (as, probably, after a few moves it's "guaranteed" there are always some).
+			 */
+
+			/**
+			 * Heuristic: sorting moves (previously selected from iterated related squares) by number/scores of own threats in them
+			 * (i.e., for columns, the sum of the scores in the whole column).
+			 */
+
+			// count the columns, i.e. the number of new children
+			int implicit_threat_cols = 0;
+			for(int moves_n : res_db.related_squares_by_col)
+				if(moves_n > 0) implicit_threat_cols++;
+
+			node.expand(implicit_threat_cols);
+			int i = 0;
+
+			// fill children with such columns
+			for(int j = 0; j < board.N; j++)
+				if(res_db.related_squares_by_col[j] > 0)
+					node.children[i++] = new PnNode(res_db.related_squares_by_col[j], node);
+
+			// sort them by threat_scores
+
+			// set proof numbers
+
+			boolean[] used_cols = new boolean[board.N];
+			short i = 0;
+			
+			
+			// create children for threat cells
+			for(Integer col : threat_scores_by_col) {
+				node.children[i] = new PnNode(col, node);
+				node.children[i++].setProofAndDisproof(i, i);
+				used_cols[col] = true;
+			}
+
+			// create other, secondary, children
+			for(int j = 0; j < board.N; j++) {
+				if(!used_cols[j] && board.freeCol(j)) {
+					node.children[i] = new PnNode(j, node);
+					mark(j);
+					setProofAndDisproofNumbers(node.children[i], my_turn, (short)threat_scores_by_col.size());
+					unmark(j);
+					i++;
+				}
+			}
+
+			// debug
+			//System.out.println("in developNode: node col=" + node.col + ", node.chidren len=" + node.children.length);
+		}
+
 
 		/**
 		 * 
@@ -346,37 +426,27 @@ public class PnSearch implements CXPlayer {
 		}
 
 		/**
-		 * 
+		 * Remove node's children with associated move in column, if column is == 0 in filter.
 		 * @param node
-		 * @param threat_cols
+		 * @param filter
 		 */
-		public void generateAllChildren(PnNode node, ArrayList<Integer> threat_cols, boolean my_turn) {
+		private void filterChildren(PnNode node, int[] filter) {
 
-			boolean[] used_cols = new boolean[board.N];
-			short i = 0;
+			if(node == null)
+				return;
+
+			int to_delete = 0, i = 0;
+
+			// count children to delete
+			for(PnNode child : node.children)
+				if(filter[child.col] == 0) to_delete++;
+				
+			// create new array
+			PnNode[] new_children = new PnNode[node.children.length - to_delete];
+			for(PnNode child : node.children)
+				if(filter[child.col] != 0) new_children[i++] = child;
 			
-			node.expand(board.free_n);
-			
-			// create children for threat cells
-			for(Integer col : threat_cols) {
-				node.children[i] = new PnNode(col, node);
-				node.children[i++].setProofAndDisproof(i, i);
-				used_cols[col] = true;
-			}
-
-			// create other, secondary, children
-			for(int j = 0; j < board.N; j++) {
-				if(!used_cols[j] && board.freeCol(j)) {
-					node.children[i] = new PnNode(j, node);
-					mark(j);
-					setProofAndDisproofNumbers(node.children[i], my_turn, (short)threat_cols.size());
-					unmark(j);
-					i++;
-				}
-			}
-
-			// debug
-			//System.out.println("in developNode: node col=" + node.col + ", node.chidren len=" + node.children.length);
+			node.children = new_children;
 		}
 
 
@@ -390,7 +460,7 @@ public class PnSearch implements CXPlayer {
 		 * @param node
 		 */
 		private void initProofAndDisproofNumbers(PnNode node, short offset) {
-			short number = (short)(offset * OFFSET_MULTIPLIER + level);
+			short number = (short)(offset * OFFSET_MULTIPLIER + level);		// never less than 1, as level init to 1
 			node.setProofAndDisproof(number, number);
 		}
 		/**
