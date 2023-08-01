@@ -6,9 +6,6 @@ import connectx.CXCell;
 import connectx.CXCellState;
 import connectx.CXGameState;
 import connectx.CXPlayer;
-import connectx.pndb.PnNode.Value;
-
-import java.util.ArrayList;
 
 
 
@@ -28,13 +25,13 @@ public class PnSearch implements CXPlayer {
 	private static final byte PROOF		= PnNode.PROOF;
 	private static final byte DISPROOF	= PnNode.DISPROOF;
 
-	private CXCellState MY_CX_WIN = CXCellState.P1;
+	private byte MY_WIN = CellState.P1;
 
 	//#endregion CONSTANTS
 
 	// board
 	public BoardBit board;				// public for debug
-	protected TranspositionTable TT;
+	private TranspositionTable TT;
 	public byte current_player;			// public for debug
 	private short level;				// current tree level (height)
 	private DbSearch dbSearch;
@@ -57,6 +54,10 @@ public class PnSearch implements CXPlayer {
 	public void initPlayer(int M, int N, int X, boolean first, int timeout_in_secs) {
 
 		board = new BoardBit(M, N, X);
+		TT = new TranspositionTable(M, N);
+
+		BoardBit.TT = TT;
+
 		if(first) current_player = CellState.P1;
 		else current_player = CellState.P2;
 
@@ -190,8 +191,15 @@ public class PnSearch implements CXPlayer {
 		 */
 		private boolean evaluate(PnNode node, byte game_state, byte player) {
 		
-			if(game_state == GameState.OPEN)
-				return evaluateDb(node, player);
+			if(game_state == GameState.OPEN) {
+				TranspositionElementEntry entry = TT.getState(board.hash);
+
+				if(entry == null || entry.state[Auxiliary.getPlayerBit(player)] == null)
+					return evaluateDb(node, player);
+
+				node.prove( Auxiliary.CX2gameState(entry.state[Auxiliary.getPlayerBit(player)]) == MY_WIN, false);
+				return true;
+			}
 			else {
 				if(game_state == GameState.P1)				// my win
 					node.prove(true, true);		// root cant be ended, or the game would be
@@ -218,6 +226,8 @@ public class PnSearch implements CXPlayer {
 				if(res_db == null)
 					return false;
 
+				TT.setStateOrInsert(player, Auxiliary.cellState2winStateCX(player), Auxiliary.getPlayerBit(player));
+					
 				/* if a win is found without expanding, need to save the winning move somewhere (in a child)
 				* (especially for the root, or you wouldn't know the correct move)
 				*/
@@ -345,6 +355,7 @@ public class PnSearch implements CXPlayer {
 			int		related_cols_n	= 0;
 			int[]	related_cols,
 					threats			= dbSearch.getThreatCounts(board, player);
+			int current_children = 0, j, k;
 
 			/* Heuristic: nodes without any implicit threat should be considered less (or not at all),
 			 * especially after a few moves (as, probably, after a few moves it's "guaranteed" there are always some).
@@ -353,8 +364,9 @@ public class PnSearch implements CXPlayer {
 			if(res_db != null)
 				related_cols = res_db.related_squares_by_col;
 			else {
-				related_cols = new int[board.N];
-				for(int j = 0; j < board.N; j++) related_cols[j] = 1;
+				related_cols = new int[board.free_n];
+				for(j = 0; j < board.N; j++)
+					if(board.freeCol(j)) related_cols[current_children++] = 1;
 			}
 
 			// count the columns, i.e. the number of new children
@@ -362,7 +374,7 @@ public class PnSearch implements CXPlayer {
 				if(moves_n > 0) related_cols_n++;
 
 			node.expand(related_cols_n);
-			int current_children = 0, j, k;
+			current_children = 0;
 
 			// fill children with such columns, and sort by threat_scores at the same time
 			for(j = 0; j < board.N && current_children < related_cols_n; j++) {
@@ -417,8 +429,15 @@ public class PnSearch implements CXPlayer {
 					log = "after set";
 					changed = (old_proof != node.n[PROOF] || old_disproof != node.n[DISPROOF]);
 						
-					if(node.isProved() && node != root)
-						node.prove(node.n[PROOF] == 0 ? true : false, node != root);
+					if(node.isProved() && node != root) {
+						if(node.n[PROOF] == 0) {
+							node.prove(true, node != root);
+							TT.setStateOrInsert(board.hash, CXGameState.WINP1, 0);
+						} else {
+							node.prove(node.n[PROOF] == 0 ? true : false, node != root);
+							TT.setStateOrInsert(board.hash, CXGameState.WINP2, 1);
+						}
+					}
 					log = "after prove";
 					
 					last_changed = node;

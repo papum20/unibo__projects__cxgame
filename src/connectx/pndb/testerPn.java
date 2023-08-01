@@ -1,7 +1,8 @@
 package connectx.pndb;
 
 import connectx.CXBoard;
-import connectx.CXCell;
+
+
 
 public class testerPn {
 	

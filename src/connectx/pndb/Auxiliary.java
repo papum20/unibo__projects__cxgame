@@ -1,6 +1,5 @@
 package connectx.pndb;
 
-import connectx.CXCell;
 import connectx.CXCellState;
 import connectx.CXGameState;
 
@@ -33,15 +32,25 @@ public class Auxiliary {
 	public static byte opponent(byte player) {
 		return (player == CellState.P1) ? CellState.P2 : CellState.P1;
 	}
-	public static boolean equalMNKCells(CXCell a, CXCell b) {
-		return a.i == b.i && a.j == b.j;
+
+	public static int getPlayerBit(byte player) {
+		return player - 1;
 	}
+
+	//public static boolean equalMNKCells(CXCell a, CXCell b) {
+	//	return a.i == b.i && a.j == b.j;
+	//}
+
+
 	//makes sense only assuming it's a win, and the cell is not empty
 	public static CXGameState CXcellState2winState(CXCellState cell_state) {
 		return (cell_state == CXCellState.P1) ? CXGameState.WINP1 : CXGameState.WINP2;
 	}
 	public static byte cellState2winState(byte cell_state) {
 		return (cell_state == CellState.P1) ? GameState.P1 : GameState.P2;
+	}
+	public static CXGameState cellState2winStateCX(byte cell_state) {
+		return (cell_state == CellState.P1) ? CXGameState.WINP1 : CXGameState.WINP2;
 	}
 
 	public static byte CX2cellState(CXCellState game_state) {
@@ -51,6 +60,8 @@ public class Auxiliary {
 			default:	return CellState.FREE;
 		}
 	}
+
+
 	public static byte CX2gameState(CXGameState game_state) {
 		switch(game_state) {
 			case DRAW:	return GameState.DRAW;

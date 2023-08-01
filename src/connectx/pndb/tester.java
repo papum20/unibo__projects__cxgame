@@ -1,9 +1,5 @@
 package connectx.pndb;
 
-import java.util.ArrayList;
-
-import connectx.CXBoard;
-import connectx.CXCell;
 
 public class tester {
 	

@@ -5,7 +5,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.Math;
 
-import connectx.CXCell;
 import connectx.CXCellState;
 import connectx.CXGameState;
 
@@ -30,9 +29,12 @@ public class BoardBit implements IBoard<BoardBit> {
 	protected long[][] board;
 	protected long[][] board_mask;
 	protected byte[] free;		// first free position for each column
-	protected int free_n;				// number of free cells
+	protected int free_n;		// number of free cells
 
-	protected byte game_state;	// could be put in DbNode.data?
+	protected byte game_state;	// note: could be put in DbNode.data?
+
+	protected static TranspositionTable TT;
+	protected long hash;
 
 
 
@@ -44,6 +46,7 @@ public class BoardBit implements IBoard<BoardBit> {
 		createStructures();
 
 		game_state = GameState.OPEN;
+		hash = 0;
 	}
 
 
@@ -61,8 +64,9 @@ public class BoardBit implements IBoard<BoardBit> {
 			}
 			free[j] = B.free[j];
 		}
-
 		free_n = B.free_n;
+
+		hash = B.hash;
 	}
 
 	/**
@@ -72,6 +76,8 @@ public class BoardBit implements IBoard<BoardBit> {
 	 * @return GameState
 	 */
 	public byte mark(int col, byte player) {
+		hash = TT.getHash(hash, free[col], col, Auxiliary.getPlayerBit(player));
+
 		board[col][free[col] / BITSTRING_LEN]		|= (player & 1) << (free[col] % BITSTRING_LEN);	// =1 for CellState.ME
 		board_mask[col][free[col] / BITSTRING_LEN]	|= 1 << (free[col] % BITSTRING_LEN);
 		free[col]++;
@@ -90,6 +96,9 @@ public class BoardBit implements IBoard<BoardBit> {
 	 */
 	public void unmark(int col) {
 		free[col]--;
+
+		hash = TT.getHash(hash, free[col], col, _cellState(free[col], col));
+		
 		board[col][free[col] / BITSTRING_LEN]		&= -1 ^ (1 << (free[col] % BITSTRING_LEN));
 		board_mask[col][free[col] / BITSTRING_LEN]	^= 1 << (free[col] % BITSTRING_LEN);
 		free_n++;
@@ -259,7 +268,7 @@ public class BoardBit implements IBoard<BoardBit> {
 			}
 		}
 		public void setGameState(CXGameState state) {game_state = Auxiliary.CX2gameState(state); }
-
+		
 	//#endregion GET_SET
 
 	//#region MACROS

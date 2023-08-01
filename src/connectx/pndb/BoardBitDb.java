@@ -37,9 +37,6 @@ public class BoardBitDb extends BoardBit {
 	protected int MC_n;								// marked cells number
 	protected LinkedList<ThreatApplied> markedThreats;
 
-	protected static TranspositionTable TT;
-	protected long hash;
-
 	//AUXILIARY STRUCTURES (BOARD AND ARRAYS) FOR COUNTING ALIGNMENTS
 	protected AlignmentsList alignments_rows;
 	protected AlignmentsList alignments_cols;
@@ -87,7 +84,6 @@ public class BoardBitDb extends BoardBit {
 		
 		MAX = new MovePair(M, N);
 		currentPlayer = 0;
-		hash = 0;
 		
 		initAlignmentStructures();
 		markedThreats = new LinkedList<ThreatApplied>();
@@ -151,7 +147,6 @@ public class BoardBitDb extends BoardBit {
 		private void mark(int i, int j, byte player) {
 			mark(j, player);
 			addMC(i, j, cellStateCX(i, j));
-			hash = TT.getHash(hash, i, j, (player == MY_PLAYER) ? 0 : 1);
 			removeAlignments(new MovePair(i, j), Auxiliary.opponent(player));
 		}
 
@@ -782,7 +777,6 @@ public class BoardBitDb extends BoardBit {
 	
 		public int getCurrentPlayer() {return currentPlayer;}
 	
-		public int getPlayerBit(byte player) {return player - 1;};
 		public void setPlayer(byte player) {currentPlayer = (player == this.Player_byte[0]) ? 0 : 1;}
 
 		public CXCell getMarkedCell(int i) {return MC[i];}

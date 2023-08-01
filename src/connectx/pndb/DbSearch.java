@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.util.LinkedList;
 import java.util.ListIterator;
 
-import connectx.CXCell;
 import connectx.CXGameState;
 import connectx.pndb.BiList.BiNode;
 import connectx.pndb.DbNode.BoardsRelation;
@@ -872,7 +871,7 @@ public class DbSearch {
 		 */
 		private boolean addCombinationChild(DbNode A, DbNode B, LinkedList<DbNode> lastCombination, DbNode root, byte attacker, boolean attacking) {
 
-			int attacker_i			= (attacker == MY_PLAYER) ? 0 : 1;
+			int attacker_i			= Auxiliary.getPlayerBit(attacker);
 			int max_threat			= Math.min(A.getMaxTier(), B.getMaxTier());
 			BoardBitDb new_board	= A.board.getCombined(B.board, attacker, max_threat);
 			DbNode new_child		= null;
@@ -885,7 +884,7 @@ public class DbSearch {
 
 			// if already analyzed and saved in TT
 			if(entry != null && entry.state[attacker_i] != null){
-				if(entry.state[attacker_i] == Auxiliary.gameState2CX(Auxiliary.cellState2winState(attacker)) )
+				if(entry.state[attacker_i] == Auxiliary.cellState2winStateCX(attacker) )
 					// already proved
 					return true;
 				else
@@ -1009,7 +1008,7 @@ public class DbSearch {
 			/* remmove TT "open" entries from lastCombination
 			*/
 			ListIterator<DbNode> it = lastCombination.listIterator();
-			int attacker_i = (attacker == MY_PLAYER) ? 0 : 1;
+			int attacker_i = Auxiliary.getPlayerBit(attacker);
 
 			while(it.hasNext()) {
 				long hash = it.next().board.hash;
