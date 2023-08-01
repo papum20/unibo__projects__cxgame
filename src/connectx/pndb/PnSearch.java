@@ -47,6 +47,8 @@ public class PnSearch implements CXPlayer {
 	protected long timer_end;			//time (millisecs) at which to stop timer
 	protected Runtime runtime;
 
+	// debug
+	private boolean DEBUG_ON = false;
 
 	
 	
@@ -118,6 +120,7 @@ public class PnSearch implements CXPlayer {
 		private void visit() {
 
 			String log = "start";
+			int loops_n = 0;
 			try {
 
 				boolean my_turn = true;
@@ -156,6 +159,18 @@ public class PnSearch implements CXPlayer {
 					//for(PnNode child : root.children) {
 					//	System.out.println(child.col + ":" + child.n[PROOF] + "," + child.n[DISPROOF]);
 					//}
+
+					// Debug
+					if(DEBUG_ON) {
+						System.out.println("root numbers: " + root.n[0] + ", " + root.n[1]);
+						System.out.println("root children:");
+						for(PnNode child : root.children) {
+							System.out.println(child.col + ":" + child.n[PROOF] + "," + child.n[DISPROOF]);
+						}
+						board.print();
+						loops_n++;
+						if(loops_n > 2) break;
+					}
 				}
 
 				resetBoard(currentNode, root);
@@ -227,7 +242,7 @@ public class PnSearch implements CXPlayer {
 				 * then the current player could play `x`, and apply his winning sequence as planned,
 				 * because the opponent's move is useless for such sequence.
 				 */
-				filterChildren(node.parent, res_db.related_squares_by_col);
+				//filterChildren(node.parent, res_db.related_squares_by_col);
 				
 				return true;
 				
