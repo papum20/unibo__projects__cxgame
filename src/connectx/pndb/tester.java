@@ -18,42 +18,20 @@ public class tester {
 
 		BoardBit board = new BoardBit(M, N, X);
 
-		board.mark(1, CellState.P1);
-		board.mark(1, CellState.P1);
-		board.mark(1, CellState.P1);
-		board.mark(1, CellState.P1);
-		board.mark(1, CellState.P2);
-		board.mark(1, CellState.P2);
-		board.mark(1, CellState.P1);
-		board.mark(2, CellState.P1);
-		board.mark(2, CellState.P1);
-		board.mark(2, CellState.P2);
-		board.mark(3, CellState.P2);
-		board.mark(3, CellState.P2);
 		board.mark(3, CellState.P1);
 		board.mark(4, CellState.P1);
-		board.mark(4, CellState.P2);
-		board.mark(4, CellState.P1);
-		board.mark(4, CellState.P1);
 		board.mark(5, CellState.P1);
-		board.mark(5, CellState.P2);
-		board.mark(5, CellState.P1);
-		board.mark(5, CellState.P1);
-		board.mark(5, CellState.P2);
-		board.mark(7, CellState.P2);
-		board.mark(7, CellState.P1);
-		board.mark(7, CellState.P2);
 		board.mark(8, CellState.P2);
 		board.mark(8, CellState.P2);
 		board.mark(8, CellState.P2);
-		board.mark(8, CellState.P1);
+		board.mark(8, CellState.P2);
 
 		DbSearch db = new DbSearch();
 		db.init(M, N, X, first);
 		
 		DbSearchResult res = db.selectColumn(board, null, 10000, CellState.P1);
 
-		System.out.println((!res.won)? null : res.moves_ordered.get(0));
+		System.out.println((res == null)? null : res.winning_col);
 	}
 
 }

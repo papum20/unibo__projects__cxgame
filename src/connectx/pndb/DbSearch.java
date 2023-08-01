@@ -146,7 +146,7 @@ public class DbSearch {
 			board = new BoardBitDb(B);
 			board.setPlayer(player);
 
-			board.findAllAlignments(player, Operators.TIER_MAX, "selCol_");
+			board.findAllAlignments(player, Operators.TIER_MAX, true, "selCol_");
 			//board.findAllAlignments(CellState.P2, Operators.TIER_MAX, "selCol_");
 			//board.updateAlignments(last_move_pair, last_move.state);
 			
@@ -211,8 +211,22 @@ public class DbSearch {
 		board = new BoardBitDb(B);
 		board.setPlayer(player);
 
-		board.findAllAlignments(player, Operators.TIER_MAX, "selCol_");
+		board.findAllAlignments(player, Operators.TIER_MAX, false, "selCol_");
 
+		int[] threats_by_col = new int[N];
+		for(int i = 0; i < M; i++) {
+			for(int j = 0; j < N; j++) {
+				if(board.cellFree(i, j)) {
+					BiNode<BiNode<ThreatPosition>> alignments = board.alignments_by_cell[i][j].getFirst(player);
+					while(alignments != null) {
+						threats_by_col[j] += Operators.indexInTier(alignments.item.item.type);
+						alignments = alignments.next;
+					}
+				}
+			}
+		}
+
+		return threats_by_col;
 	}
 
 
@@ -434,7 +448,7 @@ public class DbSearch {
 				
 				while (
 					!isTimeEnded() && it.hasNext()
-					&& found_win_sequences < MAX_THREAT_SEQUENCES
+					&& (!attacking || found_win_sequences < MAX_THREAT_SEQUENCES)
 					&& ((attacking && !foundWin()) || (!attacking && !found_sequence))
 				) {
 					DbNode node = it.next();
@@ -485,7 +499,7 @@ public class DbSearch {
 
 			while (
 				!isTimeEnded() && it.hasNext()
-				&& found_win_sequences < MAX_THREAT_SEQUENCES
+				&& (!attacking || found_win_sequences < MAX_THREAT_SEQUENCES)
 				&& !found_win
 			) {
 				DbNode node = it.next();
@@ -606,7 +620,7 @@ public class DbSearch {
 										if(addDependentChildren(newChild, attacker, attacking, lev+1, lastDependency, root, max_tier))
 											found_sequence = true;
 
-										if(foundWin() || found_win_sequences >= MAX_THREAT_SEQUENCES) return found_sequence;
+										if(foundWin() || (attacking &&  found_win_sequences >= MAX_THREAT_SEQUENCES)) return found_sequence;
 										else atk_index++;
 									}
 								}
@@ -660,7 +674,7 @@ public class DbSearch {
 		private boolean findAllCombinationNodes(DbNode partner, DbNode node, byte attacker, boolean attacking, LinkedList<DbNode> lastCombination, DbNode root) {
 			
 			try {
-				if(node == null || found_win_sequences >= MAX_THREAT_SEQUENCES || isTimeEnded())
+				if(node == null || (attacking && found_win_sequences >= MAX_THREAT_SEQUENCES) || isTimeEnded())
 					return false;
 
 				/* Partner's and node's state is always open (or it would have been checked earlier, when created in dependency stage).
@@ -743,7 +757,7 @@ public class DbSearch {
 				byte max_tier	= (byte)(Operators.tier(athreats.getFirst().threat.type) - 1);		// only look for threats better than mine
 				DbNode def_root	= DbNode.copy(root.board, true, max_tier, false);
 				def_root.board.setPlayer(Auxiliary.opponent(attacker));
-				def_root.board.findAllAlignments(Auxiliary.opponent(attacker), max_tier, "defRoot_");
+				def_root.board.findAllAlignments(Auxiliary.opponent(attacker), max_tier, true, "defRoot_");
 
 				
 				// DEBUG

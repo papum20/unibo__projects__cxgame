@@ -206,8 +206,11 @@ public class PnSearch implements CXPlayer {
 				/* if a win is found without expanding, need to save the winning move somewhere (in a child)
 				* (especially for the root, or you wouldn't know the correct move)
 				*/
+				/* note: probably, prune is useless now, as evaluate is only called when node hasn't been expanded yet.
+				 */
+
 				if(node != root)
-					node.prove(true, false);
+					node.prove(player == CellState.P1, false);
 					
 				// debug
 				log += "db found win: " + res_db.winning_col + " player: " + player + "\n\n";
@@ -215,7 +218,7 @@ public class PnSearch implements CXPlayer {
 				// root is only evaluated once, before expanding
 				node.expand(1);
 				node.children[0] = new PnNode(res_db.winning_col, node);							// can overwrite a child
-				node.children[0].prove(true, false);
+				node.children[0].prove(player == CellState.P1, false);
 
 				/* Heuristic: update parent's children with iterated related squares.
 				 * If, in the current board, the current player has a winning sequence,
@@ -320,14 +323,24 @@ public class PnSearch implements CXPlayer {
 
 			DbSearchResult res_db = dbSearch.selectColumn(board, node, timer_end - System.currentTimeMillis(), Auxiliary.opponent(player));
 
-			/**
-			 * Heuristic: sorting moves (previously selected from iterated related squares) by number/scores of own threats in them
+			/* Heuristic: sorting moves (previously selected from iterated related squares) by number/scores of own threats in them
 			 * (i.e., for columns, the sum of the scores in the whole column).
 			 */
 
 			int		related_cols_n	= 0;
-			int[]	related_cols	= res_db.related_squares_by_col,
-					threats			= res_db.threat_scores_by_col;
+			int[]	related_cols,
+					threats			= dbSearch.getThreatCounts(board, player);
+
+			/* Heuristic: nodes without any implicit threat should be considered less (or not at all),
+			 * especially after a few moves (as, probably, after a few moves it's "guaranteed" there are always some).
+			 * For now, not considered.
+			 */
+			if(res_db != null)
+				related_cols = res_db.related_squares_by_col;
+			else {
+				related_cols = new int[board.N];
+				for(int j = 0; j < board.N; j++) related_cols[j] = 1;
+			}
 
 			// count the columns, i.e. the number of new children
 			for(int moves_n : related_cols)
@@ -343,9 +356,7 @@ public class PnSearch implements CXPlayer {
 					node.children[current_children++] = new PnNode(j, node);
 
 					// set proof numbers
-					/**
-					 * Heuristic: nodes without any implicit threat should be considered less (or not at all),
-					 * especially after a few moves (as, probably, after a few moves it's "guaranteed" there are always some).
+					/* Heuristic: nodes without any threat should be considered less (or not at all).
 					 */
 					mark(j);
 					setProofAndDisproofNumbers(node.children[current_children - 1], my_turn, (threats[j] == 0) ? 0 : (short)(board.N + 1) );

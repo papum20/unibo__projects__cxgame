@@ -45,7 +45,8 @@ public class Operators {
 	public static final byte THREAT_2T	= 34;	//__x_x___	_OxXxOO_	3 replies	k-2		PREREQUISITE: ...
 	*/
 	
-	private static final byte THREAT_MASK = (byte)240;		//(bin)11110000
+	private static final byte THREAT_TIER_MASK	= (byte)240;		//(bin)11110000
+	private static final byte THREAT_INDEX_MASK	= (byte)15;			//(bin)00001111
 
 	
 	
@@ -218,7 +219,14 @@ public class Operators {
 	
 	// 0...7 (also -8...-1)
 	public static byte tier(byte threat) {
-		return (byte) ((threat & THREAT_MASK) >> (byte)4);
+		return (byte)((threat & THREAT_TIER_MASK) >> (byte)4);
+	}
+	public static byte indexInTier(byte threat) {
+		return (byte)(threat & THREAT_INDEX_MASK);
+	}
+
+	public static int score(byte threat) {
+		return ALIGNMENT_SCORES[tier(threat)][indexInTier(threat)];
 	}
 
 	public static ThreatCells applied(final BoardBitDb board, ThreatPosition op, byte attacker, byte defender) {

@@ -182,7 +182,7 @@ public class BoardBitDb extends BoardBit {
 			removeAlignments(cell, player);
 
 			// add alignments for player
-			findAlignments(cell, cell, player, Operators.TIER_MAX, null, null, -1, "update_");
+			findAlignments(cell, cell, player, Operators.TIER_MAX, null, null, true, -1, "update_");
 
 			//update gameState
 			if(free_n == 0 && game_state == GameState.OPEN) game_state = GameState.DRAW;
@@ -195,7 +195,7 @@ public class BoardBitDb extends BoardBit {
 			if(isWinningMove(cell.i, cell.j))
 				game_state = cell2GameState(cell.i, cell.j);
 			else {
-				findAlignments(cell, cell, cellState(cell), max_tier, null, null, dir_excluded, caller + "checkOne_");
+				findAlignments(cell, cell, cellState(cell), max_tier, null, null, true, dir_excluded, caller + "checkOne_");
 				if(free_n == 0 && game_state == GameState.OPEN) game_state = GameState.DRAW;
 			}
 		}
@@ -211,7 +211,7 @@ public class BoardBitDb extends BoardBit {
 
 				if(game_state == GameState.OPEN) {
 					for(int i = 1; i < cells.length; i++)
-						findAlignmentsInDirection(cells[i], cells[i-1], cellState(cells[i]), dir_index, max_tier, null, null, caller + "checkArray_");
+						findAlignmentsInDirection(cells[i], cells[i-1], cellState(cells[i]), dir_index, max_tier, null, null, true, caller + "checkArray_");
 				}
 				//update gameState
 				if(free_n == 0 && game_state == GameState.OPEN) game_state = GameState.DRAW;
@@ -626,10 +626,10 @@ public class BoardBitDb extends BoardBit {
 			/**
 			 * Find alignments for a cell in all directions.
 			 */
-			private void findAlignments(final MovePair first, final MovePair second, final byte player, int max_tier, BoardBitDb check1, BoardBitDb check2, int dir_excluded, String caller) {
+			private void findAlignments(final MovePair first, final MovePair second, final byte player, int max_tier, BoardBitDb check1, BoardBitDb check2, boolean only_valid, int dir_excluded, String caller) {
 				for(int d = 0; d < alignments_direction_indexes.length; d++) {
 					if(d != dir_excluded)
-						findAlignmentsInDirection(first, second, player, d, max_tier, check1, check2, caller + "find_");
+						findAlignmentsInDirection(first, second, player, d, max_tier, check1, check2, only_valid, caller + "find_");
 				}
 			}
 
@@ -638,7 +638,7 @@ public class BoardBitDb extends BoardBit {
 			 * @param player
 			 * @param max_tier
 			 */
-			public void findAllAlignments(byte player, int max_tier, String caller) {
+			public void findAllAlignments(byte player, int max_tier, boolean only_valid, String caller) {
 
 				MovePair start, end;
 				for(int d = 0; d < alignments_direction_indexes.length; d++)
@@ -649,7 +649,7 @@ public class BoardBitDb extends BoardBit {
 					) {
 						end.reset(start);
 						end.clamp_diag(MIN, MAX, DIRECTIONS[alignments_direction_indexes[d]].getProduct(Math.max(M, N)) );
-						findAlignmentsInDirection(start, end,  player, d, max_tier, null, null, caller + "all_");
+						findAlignmentsInDirection(start, end,  player, d, max_tier, null, null, only_valid, caller + "all_");
 					}
 				}
 			}
@@ -661,7 +661,7 @@ public class BoardBitDb extends BoardBit {
 					for(int i = 0; i < alignments_by_direction[alignments_by_direction_index].size();
 						i++, start = iterateAlignmentDirs(start, alignments_by_direction_index))
 					{
-						findAlignmentsInDirection(start, start, player, alignments_by_direction_index, max_tier, this, B, "combined_");
+						findAlignmentsInDirection(start, start, player, alignments_by_direction_index, max_tier, this, B, true, "combined_");
 					}
 				}
 			}
