@@ -46,26 +46,26 @@ public class DbSearch {
 	private long timer_start;						//turn start (milliseconds)
 	private long timer_end;							//time (millisecs) at which to stop timer
 	private static final float TIMER_RATIO = 0.9f;	// see isTimeEnded() implementation
-	protected Runtime runtime;
+	private Runtime runtime;
 
 
 	private int M, N;
 	private BoardBitDb board;
-	protected TranspositionTable TT;
+	private TranspositionTable TT;
 
 	// VARIABLES FOR A DB-SEARCH EXECUTION
 	private int found_win_sequences;
 	private DbNode win_node;
-	private boolean[][] GOAL_SQUARES;
+	private boolean[][] GOAL_SQUARES;		// used for defensive search.
 	
 	// DEBUG
-	private final boolean DEBUG_ON = false;
-	private final boolean DEBUG_PRINT = false;
-	private final boolean DEBUG_ONLY_FOUND_SEQ = true;
-	int counter = 0;
-	FileWriter file = null;
+	private final boolean DEBUG_ON				= false;
+	private final boolean DEBUG_PRINT			= false;
+	private final boolean DEBUG_ONLY_FOUND_SEQ	= true;
+	int counter			= 0;
+	FileWriter file		= null;
 	int debug_code;
-	int DEBUG_CODE_MAX = 999999999;
+	int DEBUG_CODE_MAX	= 999999999;
 
 
 
@@ -122,16 +122,18 @@ public class DbSearch {
 	
 	/**
 	 * 
-	 * @param board_pn
+	 * @param B
 	 * @param root_pn
 	 * @param time_remaining
-	 * @return a CXCell, containing the state of the winning player, on null if didn't find a sequence.
+	 * @return a DbSearchResult structure, filled as follows:  
+	 * 1.	if found a winning sequence, winning_col is the first winning move,
+	 * 		and related_squares_by_col contains, for each column j, the number of squares related to the winning sequence, in column j;
+	 * 2.	otherwise, it's null.
 	 */
-	public DbSearchResult selectColumn(BoardBit board_pn, PnNode root_pn, long time_remaining, byte player) {
-
+	public DbSearchResult selectColumn(BoardBit B, PnNode root_pn, long time_remaining, byte player) {
+		
 		GOAL_SQUARES = new boolean[M][N];
-		for(int i = 0; i < M; i++)
-			for(int j = 0; j < N; j++) GOAL_SQUARES[i][j] = false;
+		// initialized to false
 
 		String log = "dbSearch\n";
 		try {
@@ -141,7 +143,7 @@ public class DbSearch {
 			timer_end	= timer_start + time_remaining;
 
 			// update own board instance
-			board = new BoardBitDb(board_pn);
+			board = new BoardBitDb(B);
 			board.setPlayer(player);
 
 			board.findAllAlignments(player, Operators.TIER_MAX, "selCol_");
@@ -172,33 +174,44 @@ public class DbSearch {
 			
 			// db init
 			DbNode root = createRoot(board);
-			win_node = null;
-			boolean found_sequence = false;
+			win_node 	= null;
 			found_win_sequences = 0;
 			
 			// recursive call for each possible move
-			found_sequence = visit(root, player, true, Operators.TIER_MAX);
+			visit(root, player, true, Operators.TIER_MAX);
 			root = null;
 
 			// debug
 			try {
 				if(DEBUG_ON) file.close();
 			} catch(Exception e) {}
+
 			if(foundWin()) {
+
+				// debug
 				if(DEBUG_PRINT) System.out.println("found win: " + foundWin() );
 				log += "found win: " + foundWin() + "\n";
 				log += "win node \n";
 				log += win_node.board.printString();
-				return getBestMove(player);
+				
+				return getReturnValue(player);
 			}
 
-			// best move
 			return null;
 
 		} catch (Exception e) {
 			System.out.println(log);
 			throw e;
 		}
+
+	}
+
+	public int[] getThreatCounts(BoardBit B, byte player) {
+
+		board = new BoardBitDb(B);
+		board.setPlayer(player);
+
+		board.findAllAlignments(player, Operators.TIER_MAX, "selCol_");
 
 	}
 
@@ -211,9 +224,9 @@ public class DbSearch {
 		 * @param attacker
 		 * @param attacking
 		 * @param max_tier
-		 * @return
+		 * @return true if the visit was successful, i.e. reached a goal state for the attacker.
 		 */
-		protected boolean visit(DbNode root, byte attacker, boolean attacking, int max_tier) {
+		private boolean visit(DbNode root, byte attacker, boolean attacking, int max_tier) {
 
 			// debug
 			String log = "start";
@@ -250,10 +263,13 @@ public class DbSearch {
 				}
 			
 				// loop
-				boolean found_sequence = false;
-				while(	!isTimeEnded() && isTreeChanged(lastCombination) &&
-						( (attacking && !foundWin() && found_win_sequences < MAX_THREAT_SEQUENCES) ||	//if attacker's visit: stop when found win
-						(!attacking && !found_sequence) )												//if defender's visit: stop when found defense (any threat sequence)
+				/* Heuristic: only for attacker, stop after visiting a certain number of possible winning sequences.
+				 * 
+				 */
+				boolean found_goal_state = false;
+				while(	!isTimeEnded() && isTreeChanged(lastCombination)
+						&& !found_goal_state
+						&& (!attacking || found_win_sequences < MAX_THREAT_SEQUENCES)
 				) {
 					
 					// debug filename
@@ -279,14 +295,14 @@ public class DbSearch {
 					// HEURISTIC: only for attacker, only search for threats of tier < max tier found in defenses
 					int max_tier_t = attacking? max_tier : root.getMaxTier();
 					if(addDependencyStage(attacker, attacking, lastDependency, lastCombination, root, max_tier_t))	//uses lastCombination, fills lastDependency
-						found_sequence = true;
+						found_goal_state = true;
 						
 						// debug
 					log = "added dependency";
 					if(!lastDependency.isEmpty()) found_something = true;
 					
 					// START COMBINATIO STAGE
-					if((attacking && !foundWin()) || (!attacking && !found_sequence)) {
+					if((attacking && !foundWin()) || (!attacking && !found_goal_state)) {
 						lastCombination.clear();
 						
 						// DEBUG
@@ -296,7 +312,7 @@ public class DbSearch {
 						}
 
 						if(addCombinationStage(root, attacker, attacking, lastDependency, lastCombination))				//uses lasdtDependency, fills lastCombination
-							found_sequence = true;
+							found_goal_state = true;
 
 						// debug
 						log = "added combination";
@@ -316,7 +332,7 @@ public class DbSearch {
 					// DEBUG
 					if(DEBUG_ON) {
 						file.write("ATTACKING: " + (attacking? "ATTACKER":"DEFENDER") + "\n");
-						file.write("FOUND SEQUENCE: " + found_sequence + "\n");
+						file.write("FOUND SEQUENCE: " + found_goal_state + "\n");
 						file.write("VISIT WON: " + foundWin() + "\n");
 						//if(attacking) {
 						//	file.close();
@@ -337,13 +353,13 @@ public class DbSearch {
 						file.close();
 						if(!found_something) {
 							File todel = new File(filename_current);
-							if(DEBUG_ONLY_FOUND_SEQ && !found_sequence)
+							if(DEBUG_ONLY_FOUND_SEQ && !found_goal_state)
 								todel.delete();
 						}
 					}
 				}
 
-				return found_sequence;
+				return found_goal_state;
 
 			} 
 			catch (ArrayIndexOutOfBoundsException e) {
@@ -369,7 +385,7 @@ public class DbSearch {
 		/**
 		 * @param root
 		 * @param attacker
-		 * @return true if found a defense (i.e. threat sequence was not wining)
+		 * @return true if found a defense (i.e. threat sequence was not winning)
 		 */
 		private boolean visitGlobalDefense(DbNode possible_win, DbNode root, byte attacker) {
 
@@ -398,11 +414,17 @@ public class DbSearch {
 			return defended;
 		}
 
-		/** (for now) assumptions:
-		 * - the game ends only after a dependency stage is added (almost certain about proof)
-		 * 	actually not true for mnk game (if you put 3 lined in a board, other 2 in another one, then merge the boards...)
+		/**
+		 * 
+		 * @param attacker
+		 * @param attacking
+		 * @param lastDependency
+		 * @param lastCombination
+		 * @param root
+		 * @param max_tier
+		 * @return true if reached a goal state for the current player.
 		 */
-		protected boolean addDependencyStage(byte attacker, boolean attacking, LinkedList<DbNode> lastDependency, LinkedList<DbNode> lastCombination, DbNode root, int max_tier) {
+		private boolean addDependencyStage(byte attacker, boolean attacking, LinkedList<DbNode> lastDependency, LinkedList<DbNode> lastCombination, DbNode root, int max_tier) {
 
 			String log = "start dep stage";
 			try {
@@ -454,9 +476,9 @@ public class DbSearch {
 		 * @param attacking
 		 * @param lastDependency
 		 * @param lastCombination
-		 * @return
+		 * @return only return true if the dbSearch should end, because a checked and won node was found in the TT.
 		 */
-		protected boolean addCombinationStage(DbNode root, byte attacker, boolean attacking, LinkedList<DbNode> lastDependency, LinkedList<DbNode> lastCombination) {
+		private boolean addCombinationStage(DbNode root, byte attacker, boolean attacking, LinkedList<DbNode> lastDependency, LinkedList<DbNode> lastCombination) {
 			
 			ListIterator<DbNode> it = lastDependency.listIterator();
 			boolean found_win = false;
@@ -500,9 +522,9 @@ public class DbSearch {
 		 * @param lastDependency
 		 * @param root
 		 * @param max_tier
-		 * @return true if found at least one possible winning sequence
+		 * @return true if reached a goal state for the current player.
 		 */
-		protected boolean addDependentChildren(DbNode node, byte attacker, boolean attacking, int lev, LinkedList<DbNode> lastDependency, DbNode root, int max_tier) {
+		private boolean addDependentChildren(DbNode node, byte attacker, boolean attacking, int lev, LinkedList<DbNode> lastDependency, DbNode root, int max_tier) {
 
 			String log = "start addDependentChildren";
 			try {
@@ -635,7 +657,7 @@ public class DbSearch {
 		 * @param root
 		 * @return only return true if the dbSearch should end, because a checked and won node was found in the TT.
 		 */
-		protected boolean findAllCombinationNodes(DbNode partner, DbNode node, byte attacker, boolean attacking, LinkedList<DbNode> lastCombination, DbNode root) {
+		private boolean findAllCombinationNodes(DbNode partner, DbNode node, byte attacker, boolean attacking, LinkedList<DbNode> lastCombination, DbNode root) {
 			
 			try {
 				if(node == null || found_win_sequences >= MAX_THREAT_SEQUENCES || isTimeEnded())
@@ -700,7 +722,7 @@ public class DbSearch {
 
 	//#region CREATE
 
-		protected DbNode createRoot(BoardBitDb B) {
+		private DbNode createRoot(BoardBitDb B) {
 
 			DbNode root = DbNode.copy(board, true, Operators.TIER_MAX, true);
 			//NodeBoard root = NodeBoard.copy(board, true, Operators.TIER_MAX, true);
@@ -803,7 +825,7 @@ public class DbSearch {
 		/**
 		 * sets child's game_state if entry exists in TT
 		 */
-		protected DbNode addDependentChild(DbNode node, ThreatCells threat, int atk, LinkedList<DbNode> lastDependency, int level, byte attacker) {
+		private DbNode addDependentChild(DbNode node, ThreatCells threat, int atk, LinkedList<DbNode> lastDependency, int level, byte attacker) {
 			
 			try {
 
@@ -834,7 +856,7 @@ public class DbSearch {
 		 * Only creates the child if the board wasn't already obtained by another combination in the same stage, of the same dbSearch (using TT, see class notes).
 		 * @return (see findAllCombinations())
 		 */
-		protected boolean addCombinationChild(DbNode A, DbNode B, LinkedList<DbNode> lastCombination, DbNode root, byte attacker, boolean attacking) {
+		private boolean addCombinationChild(DbNode A, DbNode B, LinkedList<DbNode> lastCombination, DbNode root, byte attacker, boolean attacking) {
 
 			int attacker_i			= (attacker == MY_PLAYER) ? 0 : 1;
 			int max_threat			= Math.min(A.getMaxTier(), B.getMaxTier());
@@ -899,7 +921,7 @@ public class DbSearch {
 
 	//#region GET_SET
 
-		protected ThreatsByRank getApplicableOperators(BoardBitDb board, byte attacker, int max_tier) {
+		private ThreatsByRank getApplicableOperators(BoardBitDb board, byte attacker, int max_tier) {
 
 			String log = "start getApplicable Operators";
 			try {
@@ -999,16 +1021,25 @@ public class DbSearch {
 
 	//#region HELPER
 
-		protected boolean foundWin() {
+		private boolean foundWin() {
 			return win_node != null;
 		}
 	
-		protected CXCell getBestMove(byte player) {
-			int i = board.MC_n;
-			//return first player's move after initial state
-			while(Auxiliary.CX2cellState(win_node.board.getMarkedCell(i).state) != player)
-				i++;
-			return win_node.board.getMarkedCell(i);
+		private DbSearchResult getReturnValue(byte player) {
+
+			int		winning_col;
+			int[]	related_squares_by_col;
+			
+			// the winning move is the player's move in the first threat in the sequence
+			ThreatApplied winning_threat = win_node.board.markedThreats.getFirst();
+			winning_col = winning_threat.threat.related[winning_threat.related_index].j;
+			
+			// fill the related_squares_by_column with the number of newly made moves for each column
+			related_squares_by_col = new int[N];
+			for(int j = 0; j < N; j++)
+				related_squares_by_col[j] = win_node.board.free[j] - board.free[j];
+			
+			return new DbSearchResult(winning_col, related_squares_by_col);
 		}
 		
 		/**
@@ -1023,11 +1054,11 @@ public class DbSearch {
 			* however, dependency node are created from other dependency nodes only in the same level,
 			* so such iteration would be useless
 			*/
-		protected boolean isTreeChanged(LinkedList<DbNode> lastCombination) {
+		private boolean isTreeChanged(LinkedList<DbNode> lastCombination) {
 			return lastCombination.size() > 0;
 		}
 
-		protected void printMemory() {
+		private void printMemory() {
 			long freeMemory = runtime.maxMemory() - (runtime.totalMemory() - runtime.freeMemory());
 			System.out.println("memory: max=" + runtime.maxMemory() + " " + ", allocated=" + runtime.totalMemory() + ", free=" + runtime.freeMemory() + ", realFree=" + freeMemory);
 		}

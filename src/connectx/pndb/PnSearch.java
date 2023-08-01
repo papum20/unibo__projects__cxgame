@@ -28,8 +28,6 @@ public class PnSearch implements CXPlayer {
 	private static final byte PROOF		= PnNode.PROOF;
 	private static final byte DISPROOF	= PnNode.DISPROOF;
 
-	private static final short OFFSET_MULTIPLIER = 3;
-
 	private CXCellState MY_CX_WIN = CXCellState.P1;
 
 	//#endregion CONSTANTS
@@ -173,9 +171,9 @@ public class PnSearch implements CXPlayer {
 		 * @param node
 		 * @param game_state
 		 * @param player who has to move in node's board.
-		 * @return
+		 * @return true if evaluated the node, i.e. it's an ended state or db found a win sequence.
 		 */
-		private int[] evaluate(PnNode node, byte game_state, byte player) {
+		private boolean evaluate(PnNode node, byte game_state, byte player) {
 		
 			if(game_state == GameState.OPEN)
 				return evaluateDb(node, player);
@@ -185,7 +183,7 @@ public class PnSearch implements CXPlayer {
 				else										// your win or draw
 					node.prove(false, node != root);
 
-				return null;
+				return true;
 			}
 		}
 
@@ -193,17 +191,17 @@ public class PnSearch implements CXPlayer {
 		 * Evaluate `node` according to a DbSearch.
 		 * @param node
 		 * @param player
-		 * @return db_result.threat scores, as it's the only field returned by dbSearch which is needed outside
+		 * @return true if found a win.
 		 */
-		private int[] evaluateDb(PnNode node, byte player) {
+		private boolean evaluateDb(PnNode node, byte player) {
 
 			String log = "evaliuate: \n";
 			try {
 				
 				DbSearchResult res_db = dbSearch.selectColumn(board, node, timer_end - System.currentTimeMillis(), player);
 		
-				if(!res_db.won)
-					return res_db.threat_scores_by_col;
+				if(res_db == null)
+					return false;
 
 				/* if a win is found without expanding, need to save the winning move somewhere (in a child)
 				* (especially for the root, or you wouldn't know the correct move)
@@ -212,11 +210,11 @@ public class PnSearch implements CXPlayer {
 					node.prove(true, false);
 					
 				// debug
-				log += "db found win: " + res_db.moves_ordered.get(0) + " player: " + player + "\n\n";
+				log += "db found win: " + res_db.winning_col + " player: " + player + "\n\n";
 				
 				// root is only evaluated once, before expanding
 				node.expand(1);
-				node.children[0] = new PnNode(res_db.moves_ordered.get(0), node);							// can overwrite a child
+				node.children[0] = new PnNode(res_db.winning_col, node);							// can overwrite a child
 				node.children[0].prove(true, false);
 
 				/* Heuristic: update parent's children with iterated related squares.
@@ -228,7 +226,7 @@ public class PnSearch implements CXPlayer {
 				 */
 				filterChildren(node.parent, res_db.related_squares_by_col);
 				
-				return null;
+				return true;
 				
 			} catch (Exception e) {
 				System.out.println(log);
@@ -297,12 +295,11 @@ public class PnSearch implements CXPlayer {
 		 */
 		private void developNode(PnNode node, boolean my_turn, byte player) {
 
-			int[] threat_scores_by_col = evaluate(node, board.game_state, player);
-
-			if(threat_scores_by_col == null)
+			if(evaluate(node, board.game_state, player))
 				return;
 
-			generateAllChildren(node, threat_scores_by_col, my_turn, player);
+			// if the game is still open
+			generateAllChildren(node, my_turn, player);
 		}
 
 		/**
@@ -310,7 +307,7 @@ public class PnSearch implements CXPlayer {
 		 * @param node
 		 * @param threat_scores_by_col
 		 */
-		public void generateAllChildren(PnNode node, int[] threat_scores_by_col, boolean my_turn, byte player) {
+		public void generateAllChildren(PnNode node, boolean my_turn, byte player) {
 
 			/* Heuristic: implicit threat.
 			 * Only inspect moves in an implicit threat, i.e. a sequence by which the opponent could win
@@ -318,60 +315,48 @@ public class PnSearch implements CXPlayer {
 			 * In fact, the opponent could apply such winning sequence, if the current player was to 
 			 * make a move outside it, thus not changing his plans.
 			 */
+			/* note: related_cols should already contain only available, not full, columns.
+			 */
 
 			DbSearchResult res_db = dbSearch.selectColumn(board, node, timer_end - System.currentTimeMillis(), Auxiliary.opponent(player));
-
-			/**
-			 * Heuristic: nodes without any implicit threat should be considered less (or not at all),
-			 * especially after a few moves (as, probably, after a few moves it's "guaranteed" there are always some).
-			 */
 
 			/**
 			 * Heuristic: sorting moves (previously selected from iterated related squares) by number/scores of own threats in them
 			 * (i.e., for columns, the sum of the scores in the whole column).
 			 */
 
+			int		related_cols_n	= 0;
+			int[]	related_cols	= res_db.related_squares_by_col,
+					threats			= res_db.threat_scores_by_col;
+
 			// count the columns, i.e. the number of new children
-			int implicit_threat_cols = 0;
-			for(int moves_n : res_db.related_squares_by_col)
-				if(moves_n > 0) implicit_threat_cols++;
+			for(int moves_n : related_cols)
+				if(moves_n > 0) related_cols_n++;
 
-			node.expand(implicit_threat_cols);
-			int i = 0;
+			node.expand(related_cols_n);
+			int current_children = 0, j, k;
 
-			// fill children with such columns
-			for(int j = 0; j < board.N; j++)
-				if(res_db.related_squares_by_col[j] > 0)
-					node.children[i++] = new PnNode(res_db.related_squares_by_col[j], node);
+			// fill children with such columns, and sort by threat_scores at the same time
+			for(j = 0; j < board.N && current_children < related_cols_n; j++) {
+				if(related_cols[j] > 0) {
+					// then insert
+					node.children[current_children++] = new PnNode(j, node);
 
-			// sort them by threat_scores
-
-			// set proof numbers
-
-			boolean[] used_cols = new boolean[board.N];
-			short i = 0;
-			
-			
-			// create children for threat cells
-			for(Integer col : threat_scores_by_col) {
-				node.children[i] = new PnNode(col, node);
-				node.children[i++].setProofAndDisproof(i, i);
-				used_cols[col] = true;
-			}
-
-			// create other, secondary, children
-			for(int j = 0; j < board.N; j++) {
-				if(!used_cols[j] && board.freeCol(j)) {
-					node.children[i] = new PnNode(j, node);
+					// set proof numbers
+					/**
+					 * Heuristic: nodes without any implicit threat should be considered less (or not at all),
+					 * especially after a few moves (as, probably, after a few moves it's "guaranteed" there are always some).
+					 */
 					mark(j);
-					setProofAndDisproofNumbers(node.children[i], my_turn, (short)threat_scores_by_col.size());
+					setProofAndDisproofNumbers(node.children[current_children - 1], my_turn, (threats[j] == 0) ? 0 : (short)(board.N + 1) );
 					unmark(j);
-					i++;
+
+					// move back the new child in the right place
+					for(k = current_children - 1; (k > 0) && (threats[node.children[k - 1].col] > threats[j]); k--)
+						Auxiliary.swap(node.children, k, k - 1);
 				}
 			}
 
-			// debug
-			//System.out.println("in developNode: node col=" + node.col + ", node.chidren len=" + node.children.length);
 		}
 
 
@@ -456,11 +441,11 @@ public class PnSearch implements CXPlayer {
 	//#region AUXILIARY
 
 		/**
-		 * Init proof numbers to (offset * OFFSET_MULTIPLIER) + current level in game tree.
+		 * Init proof numbers to offset + current level in game tree.
 		 * @param node
 		 */
 		private void initProofAndDisproofNumbers(PnNode node, short offset) {
-			short number = (short)(offset * OFFSET_MULTIPLIER + level);		// never less than 1, as level init to 1
+			short number = (short)(offset + level);		// never less than 1, as level init to 1
 			node.setProofAndDisproof(number, number);
 		}
 		/**

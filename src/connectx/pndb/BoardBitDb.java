@@ -393,8 +393,18 @@ public class BoardBitDb extends BoardBit {
 			 * 3 -	that said, we will only need to increase existing alignments by 1 symbol, and to add
 			 * 		new alignments of K-MIN_SYM_LINE.
 			 * HOWEVER, this will be a future enhancement: for now, the function simply deletes and recreates all
+			 * 
+			 * @param first
+			 * @param second
+			 * @param player
+			 * @param dir_index
+			 * @param max_tier
+			 * @param check1
+			 * @param check2
+			 * @param only_valid if true, only search for immediately applicable threats, i.e. free[j] = i, for each (i,j) in threat
+			 * @param caller
 			 */
-			private void findAlignmentsInDirection(final MovePair first, final MovePair second, final byte player, int dir_index, int max_tier, BoardBitDb check1, BoardBitDb check2, String caller) {
+			private void findAlignmentsInDirection(final MovePair first, final MovePair second, final byte player, int dir_index, int max_tier, BoardBitDb check1, BoardBitDb check2, boolean only_valid, String caller) {
 
 				String filename = "debug/db2/" + player + "_" + caller + count + "_" + (int)(Math.random() * 99999) + "_.txt";
 				count++;
@@ -446,7 +456,7 @@ public class BoardBitDb extends BoardBit {
 					c_it.reset(c1);
 					while(	distance < X + Operators.MAX_FREE_EXTRA - 1 && c_it.inBounds(MIN, MAX)
 							&& (cellState(c_it) != opponent)
-							&& ((dir_index == 1) || (cellState(c_it) == player) || (free[c_it.j] == c_it.i))
+							&& ((dir_index == 1) || (free[c_it.j] == c_it.i) || (!only_valid && (free[c_it.j] < c_it.i)) || (cellState(c_it) == player) )
 					) {
 						if(cellState(c_it) == player) {
 							c1.reset(c_it);
@@ -489,7 +499,7 @@ public class BoardBitDb extends BoardBit {
 							c1found++;
 							//while (c2 == empty && !(c2 reached end_c2) ) line++, in++, c2++;		//impossible at first iteration, when c2=c1, because of the lines above
 
-							while(cellFree(c2.i, c2.j) && !c2.equals(end_c2) && ((dir_index == 1) || (free[c2.j] == c2.i)) ) {
+							while(cellFree(c2.i, c2.j) && !c2.equals(end_c2) && (!only_valid || (dir_index == 1) || (free[c2.j] == c2.i)) ) {
 								//doesn't update line,in when c2==end_c2; however not needed, since in that case it would not check for alignments
 								lined++;
 								in++;
@@ -551,7 +561,7 @@ public class BoardBitDb extends BoardBit {
 
 												for( ;
 													before >= alignment.mnout && after >= alignment.mnout && before + after >= alignment.out											// alignment conditions
-													&& threat_end.inBounds(MIN, MAX) && (after == 0 || (cellFree(threat_end.i, threat_end.j) && free[threat_end.j] == threat_end.i) )	// in bounds and player's cells
+													&& threat_end.inBounds(MIN, MAX) && (after == 0 || (cellFree(threat_end.i, threat_end.j) && (!only_valid || (free[threat_end.j] == threat_end.i)) ) )	// in bounds and player's cells
 													; after++, before--, threat_start.sum(dir), threat_end.sum(dir)
 													) {
 														ThreatPosition threat_pos = new ThreatPosition(threat_start, threat_end, threat_code);
@@ -585,7 +595,7 @@ public class BoardBitDb extends BoardBit {
 							}	//end if (c2==player)
 
 							//increment c1/c2
-							if(c2.equals(end_c2) || lined >= X || cellState(c2) == opponent || free[c2.j] < c2.i) {
+							if(c2.equals(end_c2) || lined >= X || cellState(c2) == opponent || (only_valid && free[c2.j] < c2.i) ) {
 								if(c1.equals(end_c1)) checked_all = true;
 								else {
 									c1.sum(dir);
