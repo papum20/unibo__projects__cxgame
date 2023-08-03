@@ -245,7 +245,8 @@ public class BoardBit implements IBoard<BoardBit> {
 		}
 
 		public boolean freeCol(int j) {
-			return board[j][COL_SIZE(M) - 1] != -1;
+			//return board_mask[j][COL_SIZE(M) - 1] != -1;
+			return (free[j] != M);
 		}
 
 		/**

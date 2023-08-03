@@ -355,7 +355,7 @@ public class PnSearch implements CXPlayer {
 			int		related_cols_n	= 0;
 			int[]	related_cols,
 					threats			= dbSearch.getThreatCounts(board, player);
-			int current_children = 0, j, k;
+			int current_children, j, k;
 
 			/* Heuristic: nodes without any implicit threat should be considered less (or not at all),
 			 * especially after a few moves (as, probably, after a few moves it's "guaranteed" there are always some).
@@ -364,9 +364,9 @@ public class PnSearch implements CXPlayer {
 			if(res_db != null)
 				related_cols = res_db.related_squares_by_col;
 			else {
-				related_cols = new int[board.free_n];
+				related_cols = new int[board.N];
 				for(j = 0; j < board.N; j++)
-					if(board.freeCol(j)) related_cols[current_children++] = 1;
+					if(board.freeCol(j)) related_cols[j] = 1;
 			}
 
 			// count the columns, i.e. the number of new children
