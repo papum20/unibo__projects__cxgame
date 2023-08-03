@@ -220,10 +220,10 @@ public class BoardBitDb extends BoardBit {
 
 		/**
 		 * 
-		 * @param threat : as defined in Operators
-		 * @param atk : attacker's move index in threat
-		 * @param use : as def in Operators
-		 * @param threats : wether to update alignments and threats for this board
+		 * @param threat as defined in Operators
+		 * @param atk attacker's move index in threat
+		 * @param use as def in Operators
+		 * @param threats wether to update alignments and threats for this board
 		 * @return :	a new board resulting after developing this with such threat (dependency stage);
 		 * 				the new board only has alignment involving the newly marked cells
 		 */

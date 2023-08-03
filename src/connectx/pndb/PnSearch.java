@@ -79,8 +79,7 @@ public class PnSearch implements CXPlayer {
 			System.out.println("Opponent: " + last_move.j);
 		}
 		else System.out.println("Opponent: " + last_move);
-		board.print();
-			
+
 		// visit
 		if(last_move == null) root = new PnNode(Board.COL_NULL, null);
 		else root = new PnNode(last_move.j, null);
@@ -142,7 +141,7 @@ public class PnSearch implements CXPlayer {
 					log = "after selectMostProving";
 
 					//System.out.println("most proving: " + mostProvingNode.col);
-					
+		
 					developNode(mostProvingNode, my_turn, current_player);
 					log = "after develop";
 
@@ -172,6 +171,7 @@ public class PnSearch implements CXPlayer {
 						loops_n++;
 						if(loops_n > 2) break;
 					}
+
 				}
 
 				resetBoard(currentNode, root);
@@ -204,7 +204,7 @@ public class PnSearch implements CXPlayer {
 				if(game_state == GameState.P1)				// my win
 					node.prove(true, true);		// root cant be ended, or the game would be
 				else										// your win or draw
-					node.prove(false, node != root);
+					node.prove(false, true);
 
 				return true;
 			}
@@ -220,7 +220,7 @@ public class PnSearch implements CXPlayer {
 
 			String log = "evaliuate: \n";
 			try {
-				
+
 				DbSearchResult res_db = dbSearch.selectColumn(board, node, timer_end - System.currentTimeMillis(), player);
 		
 				if(res_db == null)
@@ -325,7 +325,7 @@ public class PnSearch implements CXPlayer {
 
 			if(evaluate(node, board.game_state, player))
 				return;
-
+			
 			// if the game is still open
 			generateAllChildren(node, my_turn, player);
 		}

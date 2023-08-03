@@ -1,10 +1,7 @@
 package connectx.pndb;
 
-import connectx.CXBoard;
 
-
-
-public class testerPn {
+public class testerDb {
 	
 
 	public static void main(String[] args) {
@@ -14,12 +11,12 @@ public class testerPn {
 			X = 5;
 		boolean first = true;
 		
-		
-		PnSearch pn = new PnSearch();
-		pn.initPlayer(M, N, X, first, 10);
 
-		BoardBit board = pn.board;
-		
+		DbSearch db = new DbSearch();
+		db.init(M, N, X, first);
+
+		BoardBit board = db.board;
+
 		board.mark(0, CellState.P2);
 		board.mark(0, CellState.P2);
 		board.mark(0, CellState.P2);
@@ -61,6 +58,7 @@ public class testerPn {
 		board.mark(6, CellState.P1);
 		board.mark(6, CellState.P1);
 		board.mark(6, CellState.P2);
+		board.mark(6, CellState.P2);
 		board.mark(7, CellState.P2);
 		board.mark(7, CellState.P2);
 		board.mark(7, CellState.P1);
@@ -72,15 +70,9 @@ public class testerPn {
 		board.mark(8, CellState.P2);
 
 		
-		
-		CXBoard last_board = new CXBoard(M, N, X);
-		last_board.markColumn(6);
+		DbSearchResult res = db.selectColumn(board, null, 10000, CellState.P1);
 
-		pn.current_player = CellState.P2;
-		
-		int res = pn.selectColumn(last_board);
-
-		System.out.println(res);
+		System.out.println((res == null)? null : res.winning_col);
 	}
 
 }

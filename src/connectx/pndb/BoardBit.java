@@ -151,13 +151,13 @@ public class BoardBit implements IBoard<BoardBit> {
 			i-k >= 0 && j-k >= 0 &&
 			(board[j-k][(i-k) / BITSTRING_LEN] & mask)		== s * mask &&
 			(board_mask[j-k][(i-k) / BITSTRING_LEN] & mask)	== s_mask * mask;
-			k++, mask = 1 << (k % BITSTRING_LEN))
+			k++, mask = 1 << ((i-k) % BITSTRING_LEN))
 				n++; // backward check
 		for (k = 1, mask = 1 << ((i+k) % BITSTRING_LEN); 
 			i+k < M && j+k < N &&
 			(board[j+k][(i+k) / BITSTRING_LEN] & mask)		== s * mask &&
 			(board_mask[j+k][(i+k) / BITSTRING_LEN] & mask)	== s_mask * mask;
-			k++, mask = 1 << (k % BITSTRING_LEN))
+			k++, mask = 1 << ((i+k) % BITSTRING_LEN))
 				n++; // forward check
 		if (n >= X) return true;
 		
@@ -167,13 +167,13 @@ public class BoardBit implements IBoard<BoardBit> {
 			i-k >= 0 && j+k < N &&
 			(board[j+k][(i-k) / BITSTRING_LEN] & mask)		== s * mask &&
 			(board_mask[j+k][(i-k) / BITSTRING_LEN] & mask)	== s_mask * mask;
-			k++, mask = 1 << (k % BITSTRING_LEN))
+			k++, mask = 1 << ((i-k) % BITSTRING_LEN))
 				n++; // backward check
 		for (k = 1, mask = 1 << ((i+k) % BITSTRING_LEN); 
 			i+k < M && j-k >= 0 &&
 			(board[j-k][(i+k) / BITSTRING_LEN] & mask)		== s * mask &&
 			(board_mask[j-k][(i+k) / BITSTRING_LEN] & mask)	== s_mask * mask;
-			k++, mask = 1 << (k % BITSTRING_LEN))
+			k++, mask = 1 << ((i+k) % BITSTRING_LEN))
 				n++; // forward check
 		if (n >= X) return true;
 			

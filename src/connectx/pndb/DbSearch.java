@@ -49,7 +49,7 @@ public class DbSearch {
 
 
 	private int M, N;
-	private BoardBitDb board;
+	protected BoardBitDb board;
 	private TranspositionTable TT;
 
 	// VARIABLES FOR A DB-SEARCH EXECUTION
