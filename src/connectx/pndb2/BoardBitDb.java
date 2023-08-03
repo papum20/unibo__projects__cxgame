@@ -147,7 +147,6 @@ public class BoardBitDb extends BoardBit {
 			addMC(i, j, cellStateCX(i, j));
 			removeAlignments(new MovePair(i, j), Auxiliary.opponent(player));
 		}
-		@Override
 		public void mark(int j, byte player) {
 			mark(free[j], j, player);
 		}

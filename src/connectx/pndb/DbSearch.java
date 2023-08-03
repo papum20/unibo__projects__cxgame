@@ -450,7 +450,7 @@ public class DbSearch {
 					&& ((attacking && !foundWin()) || (!attacking && !found_sequence))
 				) {
 					DbNode node = it.next();
-					
+
 					// debug
 					if(DEBUG_ON) {
 						if(!attacking) file.write("\t\t\t\t\t\t\t\t");
@@ -562,8 +562,8 @@ public class DbSearch {
 
 								int atk_index = 0;
 								//stops either after checking all threats, or if found a win/defense (for defended it is just any possible winning sequence)
-								while( ((attacking && !foundWin()) || (!attacking && !found_sequence)) &&
-								((atk_index = threat.nextAtk(atk_index)) != -1)
+								while( ((attacking && !foundWin()) || (!attacking && !found_sequence))
+									&& ((atk_index = threat.nextAtk(atk_index)) != -1)
 								) {
 									if(isTimeEnded())
 										return found_sequence;
@@ -958,7 +958,7 @@ public class DbSearch {
 										board.printFile(file, 1);
 									}
 									*/
-									
+
 									ThreatCells cell_threat_operator = Operators.applied(board, alignment.item, attacker, defender);
 
 									// debug

@@ -75,7 +75,7 @@ public class BoardBit implements IBoard<BoardBit> {
 	 * @param player
 	 * @return GameState
 	 */
-	public void mark(int col, byte player) {
+	private void mark(int col, byte player) {
 		hash = TT.getHash(hash, free[col], col, Auxiliary.getPlayerBit(player));
 
 		board[col][free[col] / BITSTRING_LEN]		|= (player & 1) << (free[col] % BITSTRING_LEN);	// =1 for CellState.ME
@@ -238,7 +238,7 @@ public class BoardBit implements IBoard<BoardBit> {
 		 */
 		public byte cellState(MovePair c) {return cellState(c.i, c.j);}
 		public CXCellState cellStateCX(MovePair c) {return cellStateCX(c.i, c.j);}
-		public boolean cellFree(int i, int j) {/*;System.out.println(i+ " "+j+" "+board_mask[j][i/BITSTRING_LEN]);*/return (1 & (board_mask[j][i / BITSTRING_LEN] >> (i % BITSTRING_LEN))) == 0;}
+		public boolean cellFree(int i, int j) {return (1 & (board_mask[j][i / BITSTRING_LEN] >> (i % BITSTRING_LEN))) == 0;}
 
 		/*
 		 * convert cell to GameState, assuming cell is occupied by someone.

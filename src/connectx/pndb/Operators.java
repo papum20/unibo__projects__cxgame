@@ -425,9 +425,9 @@ public class Operators {
 						it.reset(pos.end.i - dir.i, pos.end.j - dir.j);
 						dir.negate();
 					}
-			// DOESN'T PUT res IN ORDER WHEN START AND END ARE INVERTER
+					// DOESN'T PUT res IN ORDER WHEN START AND END ARE INVERTED
 					res.set(pos.start, 0, USE.DEF); 
-					res.set(new MovePair(it), 1, USE.BTH); 
+					res.set(new MovePair(it), 2, USE.BTH); 
 					int ind = 1;
 					//doesn't check termination condition ( && !it.equals(op.end)): assumes the operator is appliable
 					while(ind < 3) {
@@ -435,7 +435,7 @@ public class Operators {
 						//if(it.equals(op.end)) len = 2;	//exit while
 						if(ind < 3) it.sum(dir);
 					}
-					res.set(it, 2, USE.BTH); 
+					res.set(it, 1, USE.BTH); 
 					res.set(pos.end, 3, USE.DEF); 
 					return res;
 				}

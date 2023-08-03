@@ -44,7 +44,7 @@ public class PnSearch implements CXPlayer {
 	protected Runtime runtime;
 
 	// debug
-	private boolean DEBUG_ON = true;
+	private final boolean DEBUG_ON = false;
 
 	
 	
@@ -141,6 +141,7 @@ public class PnSearch implements CXPlayer {
 					log = "after selectMostProving";
 
 					//System.out.println("most proving: " + mostProvingNode.col);
+					//board.print();
 		
 					developNode(mostProvingNode, my_turn, current_player);
 					log = "after develop";
@@ -169,7 +170,7 @@ public class PnSearch implements CXPlayer {
 						}
 						board.print();
 						loops_n++;
-						if(loops_n > 2) break;
+						//if(loops_n > 2) break;
 					}
 
 				}
@@ -325,7 +326,7 @@ public class PnSearch implements CXPlayer {
 
 			if(evaluate(node, board.game_state, player))
 				return;
-			
+				
 			// if the game is still open
 			generateAllChildren(node, my_turn, player);
 		}
@@ -368,7 +369,7 @@ public class PnSearch implements CXPlayer {
 				for(j = 0; j < board.N; j++)
 					if(board.freeCol(j)) related_cols[j] = 1;
 			}
-
+			
 			// count the columns, i.e. the number of new children
 			for(int moves_n : related_cols)
 				if(moves_n > 0) related_cols_n++;
