@@ -1,4 +1,4 @@
-package connectx.pndb;
+package connectx.pndb2;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -7,11 +7,11 @@ import java.util.LinkedList;
 import java.util.ListIterator;
 
 import connectx.CXGameState;
-import connectx.pndb.BiList.BiNode;
-import connectx.pndb.DbNode.BoardsRelation;
-import connectx.pndb.Operators.ThreatsByRank;
-import connectx.pndb.Operators.ThreatCells;
-import connectx.pndb.Operators.USE;
+import connectx.pndb2.BiList.BiNode;
+import connectx.pndb2.DbNode.BoardsRelation;
+import connectx.pndb2.Operators.ThreatsByRank;
+import connectx.pndb2.Operators.ThreatCells;
+import connectx.pndb2.Operators.USE;
 
 
 
@@ -212,14 +212,22 @@ public class DbSearch {
 		board.findAllAlignments(player, Operators.TIER_MAX, false, "selCol_");
 
 		int[] threats_by_col = new int[N];
-		for(int i = 0; i < M; i++) {
-			for(int j = 0; j < N; j++) {
-				if(board.cellFree(i, j)) {
-					BiNode<BiNode<ThreatPosition>> alignments = board.alignments_by_cell[i][j].getFirst(player);
-					while(alignments != null) {
-						threats_by_col[j] += Operators.indexInTier(alignments.item.item.type);
-						alignments = alignments.next;
+
+		for(int d = 0; d < board.alignments_direction_indexes.length; d++) {
+			for(BiList_ThreatPos alignments_in_row : board.alignments_by_direction[d]) {
+
+				BiNode<ThreatPosition> p = alignments_in_row.getFirst(player);
+				while(p != null) {
+					// if in same col
+					if(p.item.start.j == p.item.end.j)
+						threats_by_col[p.item.start.j] += (p.item.start.getDistance(p.item.end) + 1) * Operators.indexInTier(p.item.type);
+					
+					else {
+						for(int j = p.item.start.j; j <= p.item.end.j; j++)
+							threats_by_col[j] += Operators.indexInTier(p.item.type);
 					}
+
+					p = p.next;
 				}
 			}
 		}
@@ -779,9 +787,6 @@ public class DbSearch {
 
 					// debug
 					_node = node;
-					log += (prev.board.alignments_by_cell[athreat.threat.related[athreat.related_index].i][athreat.threat.related[athreat.related_index].j].getFirst(attacker) == null)
-					+ " " + (prev.board.alignments_by_cell[athreat.threat.related[athreat.related_index].i][athreat.threat.related[athreat.related_index].j].getFirst(Auxiliary.opponent(attacker)) == null) 
-					 + "\n";
 					log += athreat.threat.related[athreat.related_index] + " " + attacker + "\n";
 					
 					prev.board.mark(athreat.threat.related[athreat.related_index], attacker);

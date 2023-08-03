@@ -1,4 +1,4 @@
-package connectx.pndb;
+package connectx.pndb2;
 
 import connectx.CXBoard;
 
