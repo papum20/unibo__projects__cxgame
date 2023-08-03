@@ -59,6 +59,7 @@ public class DbSearch {
 	
 	// DEBUG
 	private final boolean DEBUG_ON				= false;
+	private final boolean DEBUG_TIME			= false;
 	private final boolean DEBUG_PRINT			= false;
 	private final boolean DEBUG_ONLY_FOUND_SEQ	= true;
 	int counter			= 0;
@@ -215,19 +216,21 @@ public class DbSearch {
 
 		for(int d = 0; d < board.alignments_direction_indexes.length; d++) {
 			for(BiList_ThreatPos alignments_in_row : board.alignments_by_direction[d]) {
-
-				BiNode<ThreatPosition> p = alignments_in_row.getFirst(player);
-				while(p != null) {
-					// if in same col
-					if(p.item.start.j == p.item.end.j)
-						threats_by_col[p.item.start.j] += (p.item.start.getDistance(p.item.end) + 1) * Operators.indexInTier(p.item.type);
+				if(alignments_in_row != null) {
 					
-					else {
-						for(int j = p.item.start.j; j <= p.item.end.j; j++)
-							threats_by_col[j] += Operators.indexInTier(p.item.type);
-					}
+					BiNode<ThreatPosition> p = alignments_in_row.getFirst(player);
+					while(p != null) {
+						// if in same col
+						if(p.item.start.j == p.item.end.j)
+							threats_by_col[p.item.start.j] += (p.item.start.getDistance(p.item.end) + 1) * Operators.indexInTier(p.item.type);
+						
+						else {
+							for(int j = p.item.start.j; j <= p.item.end.j; j++)
+								threats_by_col[j] += Operators.indexInTier(p.item.type);
+						}
 
-					p = p.next;
+						p = p.next;
+					}
 				}
 			}
 		}
@@ -251,6 +254,8 @@ public class DbSearch {
 			// debug
 			String log = "start";
 			String filename_current = "";
+			long ms;
+			int loops_n = 0;
 
 			try {
 				
@@ -312,12 +317,24 @@ public class DbSearch {
 					// start dependency stage
 					lastDependency.clear();
 					
+					// debug
+					ms = System.currentTimeMillis();
+
 					// HEURISTIC: only for attacker, only search for threats of tier < max tier found in defenses
 					int max_tier_t = attacking? max_tier : root.getMaxTier();
 					if(addDependencyStage(attacker, attacking, lastDependency, lastCombination, root, max_tier_t))	//uses lastCombination, fills lastDependency
 						found_goal_state = true;
 						
-						// debug
+					// debug
+					if(DEBUG_TIME) {
+						ms = System.currentTimeMillis() - ms;
+						if(ms > 0 || loops_n > 0) {
+							System.out.println("db, turn " + loops_n + ", time depStage: " + ms);
+						}
+						ms = System.currentTimeMillis();
+					}
+
+					// debug
 					log = "added dependency";
 					if(!lastDependency.isEmpty()) found_something = true;
 					
@@ -334,6 +351,14 @@ public class DbSearch {
 						if(addCombinationStage(root, attacker, attacking, lastDependency, lastCombination))				//uses lasdtDependency, fills lastCombination
 							found_goal_state = true;
 
+						// debug
+						if(DEBUG_TIME) {
+							ms = System.currentTimeMillis() - ms;
+							if(ms > 0 || loops_n > 0) {
+								System.out.println("db, turn " + loops_n + ", time combStage: " + ms);
+							}
+							ms = System.currentTimeMillis();
+						}
 						// debug
 						log = "added combination";
 						if(!lastCombination.isEmpty()) found_something = true;
@@ -362,6 +387,7 @@ public class DbSearch {
 						//	}
 						//}
 					}
+					loops_n++;
 				}
 
 				// DEBUG

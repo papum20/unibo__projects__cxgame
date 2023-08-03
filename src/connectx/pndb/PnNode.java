@@ -76,7 +76,7 @@ public class PnNode {
 		public short sumChildren(byte ind) {
 			short sum = 0;
 			for (PnNode child : children)
-				sum += child.n[ind];
+				sum = (short)Math.min(sum + child.n[ind], N_INFINITE);
 			return sum;
 		}
 
@@ -134,7 +134,7 @@ public class PnNode {
 			return children != null;
 		}
 		public boolean isProved() {
-			return n[PROOF] == N_ZERO || n[DISPROOF] == N_ZERO;
+			return n[PROOF] == N_INFINITE || n[DISPROOF] == N_INFINITE;
 		}
 	//#endregion BOOL
 	

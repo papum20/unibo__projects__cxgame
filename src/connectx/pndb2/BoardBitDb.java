@@ -325,19 +325,22 @@ public class BoardBitDb extends BoardBit {
 				// foreach direction
 				for(int d = 0; d < alignments_direction_indexes.length; d++) {
 					BiList_ThreatPos alignments_in_row = alignments_by_direction[d].get(alignmentsByDirection_index(DIRECTIONS[alignments_direction_indexes[d]], center));
-					BiNode<ThreatPosition>	p = alignments_in_row.getFirst(player),
-											p_next;
-					
-					while(p != null) {
-						p_next = p.next;
 
-						// debug
-						if(DEBUG_PRINT) System.out.println("remove " + p.item);
+					if(alignments_in_row != null) {
+						BiNode<ThreatPosition>	p = alignments_in_row.getFirst(player),
+												p_next;
+						
+						while(p != null) {
+							p_next = p.next;
 
-						if(center.inBounds_included(p.item.start, p.item.end))
-							alignments_in_row.remove(player, p);
+							// debug
+							if(DEBUG_PRINT) System.out.println("remove " + p.item);
 
-						p = p.next;
+							if(center.inBounds_included(p.item.start, p.item.end))
+								alignments_in_row.remove(player, p);
+
+							p = p_next;
+						}
 					}
 				}
 

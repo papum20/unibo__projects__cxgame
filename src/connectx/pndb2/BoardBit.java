@@ -108,7 +108,7 @@ public class BoardBit implements IBoard<BoardBit> {
 
 		hash = TT.getHash(hash, free[col], col, _cellState(free[col], col));
 		
-		board[col][free[col] / BITSTRING_LEN]		&= -1 ^ (1 << (free[col] % BITSTRING_LEN));
+		board[col][free[col] / BITSTRING_LEN]		&= ~(1 << (free[col] % BITSTRING_LEN));
 		board_mask[col][free[col] / BITSTRING_LEN]	^= 1 << (free[col] % BITSTRING_LEN);
 		free_n++;
 
