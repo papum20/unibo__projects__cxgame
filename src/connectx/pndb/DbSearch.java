@@ -339,7 +339,7 @@ public class DbSearch {
 						}
 
 						if(addCombinationStage(root, attacker, attacking, lastDependency, lastCombination))				//uses lasdtDependency, fills lastCombination
-						found_goal_state = true;
+							found_goal_state = true;
 						
 						// debug
 						if(DEBUG_TIME) {
@@ -1070,7 +1070,8 @@ public class DbSearch {
 			ThreatApplied winning_threat = win_node.board.markedThreats.getFirst();
 			winning_col = winning_threat.threat.related[winning_threat.related_index].j;
 			
-			// fill the related_squares_by_column with the number of newly made moves for each column
+			/* fill the related_squares_by_column with the number of newly made moves for each column
+			*/
 			related_squares_by_col = new int[N];
 			for(int j = 0; j < N; j++)
 				related_squares_by_col[j] = win_node.board.free[j] - board.free[j];

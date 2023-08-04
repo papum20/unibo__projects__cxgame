@@ -102,12 +102,33 @@ public class MovePair {
 	//#endregion MATH_OPERATIONS
 
 	//#region BOUNDS
+
+		/**
+		 * `min.i` <= `max.i` && `min.j` <= `max.j`
+		 * @param min
+		 * @param max
+		 * @return true if the `min` <= caller < `max`
+		 */
 		public boolean inBounds(MovePair min, MovePair max) {
 			return i >= min.i && i < max.i && j >= min.j && j < max.j;
 		}
+		
+		/**
+		 * `min.i` <= `max.i` && `min.j` <= `max.j`
+		 * @param min
+		 * @param max
+		 * @return true if the `min` <= caller <= `max`
+		 */
 		public boolean inBounds_included(MovePair min, MovePair max) {
 			return i >= min.i && i <= max.i && j >= min.j && j <= max.j;
 		}
+		
+		/**
+		 * uses any `first`, `second`z
+		 * @param min
+		 * @param max
+		 * @return true if `min(first.i,second.i)<=caller.i<=max(first.i,second.i)` (and the same for j)
+		 */
 		public boolean inBetween_included(MovePair first, MovePair second) {
 			short imin, imax, jmin, jmax;
 			if(first.i < second.i) {
@@ -122,6 +143,7 @@ public class MovePair {
 			}
 			return i >= imin && i <= imax && j >= jmin && j <= jmax;
 		}
+		
 		public void clampMin(MovePair min) {
 			if(min.i > i) i = min.i;
 			if(min.j > j) j = min.j;

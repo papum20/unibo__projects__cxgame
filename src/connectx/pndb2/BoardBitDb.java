@@ -336,7 +336,7 @@ public class BoardBitDb extends BoardBit {
 							// debug
 							if(DEBUG_PRINT) System.out.println("remove " + p.item);
 
-							if(center.inBounds_included(p.item.start, p.item.end))
+							if(center.inBetween_included(p.item.start, p.item.end))
 								alignments_in_row.remove(player, p);
 
 							p = p_next;

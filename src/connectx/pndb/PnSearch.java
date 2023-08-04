@@ -70,6 +70,10 @@ public class PnSearch implements CXPlayer {
 
 	@Override
 	public int selectColumn(CXBoard B) {
+
+		// debug
+		System.out.println("---\n" + playerName());
+
 		// timer
 		timer_start = System.currentTimeMillis();
 		// update own board
@@ -185,7 +189,7 @@ public class PnSearch implements CXPlayer {
 					//System.out.println("after ancestors\nroot numbers: " + root.n[0] + ", " + root.n[1]);
 					//System.out.println("root children:");
 					//for(PnNode child : root.children) {
-						//	System.out.println(child.col + ":" + child.n[PROOF] + "," + child.n[DISPROOF]);
+					//	System.out.println(child.col + ":" + child.n[PROOF] + "," + child.n[DISPROOF]);
 					//}
 
 					// Debug
@@ -196,7 +200,7 @@ public class PnSearch implements CXPlayer {
 							System.out.println(child.col + ":" + child.n[PROOF] + "," + child.n[DISPROOF]);
 						}
 						board.print();
-						//if(loops_n > 2) break;
+						//if(loops_n > 20) break;
 					}
 					loops_n++;
 					
@@ -384,6 +388,10 @@ public class PnSearch implements CXPlayer {
 			 * if the current player was to make a "null move".
 			 * In fact, the opponent could apply such winning sequence, if the current player was to 
 			 * make a move outside it, thus not changing his plans.
+			 * Applied to CXGame: columns where the opponent has an immediate attacking move - which leads to a win for him -,
+			 * i.e. where the attacker's move corresponds to the first free cell in the column, are for sure
+			 * the most interesting (in fact, you would lose not facing them); however, other columns involved in the sequence are
+			 * not ignored, since they could block the win too, and also to simplify the calculations by approximation.
 			 */
 			/* note: related_cols should already contain only available, not full, columns.
 			 */
@@ -425,7 +433,7 @@ public class PnSearch implements CXPlayer {
 					node.children[current_child++] = new PnNode(j, node);
 
 					// debug
-					if(DEBUG_ON)
+					//if(DEBUG_ON)
 						System.out.println("j: " + j + " " + threats[j]);
 
 					// set proof numbers

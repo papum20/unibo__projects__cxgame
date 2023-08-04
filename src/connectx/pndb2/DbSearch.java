@@ -214,7 +214,7 @@ public class DbSearch {
 
 		int[] threats_by_col = new int[N];
 
-		for(int d = 0; d < board.alignments_direction_indexes.length; d++) {
+		for(int d = 0; d < BoardBitDb.alignments_direction_indexes.length; d++) {
 			for(BiList_ThreatPos alignments_in_row : board.alignments_by_direction[d]) {
 				if(alignments_in_row != null) {
 					
@@ -596,8 +596,8 @@ public class DbSearch {
 
 								int atk_index = 0;
 								//stops either after checking all threats, or if found a win/defense (for defended it is just any possible winning sequence)
-								while( ((attacking && !foundWin()) || (!attacking && !found_sequence)) &&
-								((atk_index = threat.nextAtk(atk_index)) != -1)
+								while( ((attacking && !foundWin()) || (!attacking && !found_sequence))
+									&& ((atk_index = threat.nextAtk(atk_index)) != -1)
 								) {
 									if(isTimeEnded())
 										return found_sequence;
@@ -1077,7 +1077,8 @@ public class DbSearch {
 			ThreatApplied winning_threat = win_node.board.markedThreats.getFirst();
 			winning_col = winning_threat.threat.related[winning_threat.related_index].j;
 			
-			// fill the related_squares_by_column with the number of newly made moves for each column
+			/* fill the related_squares_by_column with the number of newly made moves for each column
+			*/
 			related_squares_by_col = new int[N];
 			for(int j = 0; j < N; j++)
 				related_squares_by_col[j] = win_node.board.free[j] - board.free[j];

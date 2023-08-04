@@ -70,6 +70,10 @@ public class PnSearch implements CXPlayer {
 
 	@Override
 	public int selectColumn(CXBoard B) {
+
+		// debug
+		System.out.println("---\n" + playerName());
+		
 		// timer
 		timer_start = System.currentTimeMillis();
 		// update own board
@@ -369,7 +373,7 @@ public class PnSearch implements CXPlayer {
 				return;
 			
 			// if the game is still open
-			generateAllChildren(node,  player);
+			generateAllChildren(node, player);
 		}
 
 		/**
@@ -384,6 +388,10 @@ public class PnSearch implements CXPlayer {
 			 * if the current player was to make a "null move".
 			 * In fact, the opponent could apply such winning sequence, if the current player was to 
 			 * make a move outside it, thus not changing his plans.
+			 * Applied to CXGame: columns where the opponent has an immediate attacking move - which leads to a win for him -,
+			 * i.e. where the attacker's move corresponds to the first free cell in the column, are for sure
+			 * the most interesting (in fact, you would lose not facing them); however, other columns involved in the sequence are
+			 * not ignored, since they could block the win too, and also to simplify the calculations by approximation.
 			 */
 			/* note: related_cols should already contain only available, not full, columns.
 			 */
