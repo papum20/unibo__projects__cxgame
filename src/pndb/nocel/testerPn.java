@@ -1,4 +1,4 @@
-package pndb.nocells;
+package pndb.nocel;
 
 import connectx.CXBoard;
 import pndb.alpha.BoardBit;

@@ -2,6 +2,7 @@ package pndb.alpha;
 
 import connectx.CXCell;
 import pndb.constants.Auxiliary;
+import pndb.constants.Constants.BoardsRelation;
 
 /**
  * Node for DbSearch, including its own board.
@@ -17,13 +18,6 @@ public class DbNode<B extends IBoardBitDb<B>> {
 
 	protected DbNode<B> first_child;
 	protected DbNode<B> sibling;
-	
-	//#region CLASSES
-	public static enum BoardsRelation {
-		CONFLICT, USELESS, USEFUL
-	}
-
-	//#endregion CLASSES
 
 
 

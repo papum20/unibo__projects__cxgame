@@ -1,4 +1,4 @@
-package pndb.nocells;
+package pndb.nocel;
 
 import pndb.alpha.BoardBit;
 import pndb.alpha.DbSearchResult;

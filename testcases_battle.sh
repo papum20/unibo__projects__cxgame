@@ -13,3 +13,9 @@ fi
 ./ltest 9 9 5 pndb.alpha.Player pndb.nonum.Player -r 5 > debug/match/alpha_nonum_$1.txt
 
 ./ltest 9 9 5 pndb.nocells.Player pndb.nonum.Player -r 5 > debug/match/nocells_nonum_$1.txt
+
+./ltest 15 15  7 pndb.alpha.Player pndb.nocells.Player -r 2 > debug/match/alpha_nocells_$1.txt
+
+./ltest 15 15 7 pndb.alpha.Player pndb.nonum.Player -r 2 > debug/match/alpha_nonum_$1.txt
+
+./ltest 15 15 7 pndb.nocells.Player pndb.nonum.Player -r 2 > debug/match/nocells_nonum_$1.txt

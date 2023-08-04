@@ -8,10 +8,11 @@ import pndb.alpha.threats.ThreatApplied;
 import pndb.alpha.threats.ThreatCells;
 import pndb.alpha.threats.ThreatCells.USE;
 import pndb.constants.MovePair;
+import pndb.constants.Constants.BoardsRelation;
 
 
 
-public interface IBoardBitDb<S extends IBoardBitDb<S>> extends IBoardBit<S> {
+public interface IBoardBitDb<S extends IBoardBitDb<S>> extends IBoardBit {
 	
 
 
@@ -48,6 +49,8 @@ public interface IBoardBitDb<S extends IBoardBitDb<S>> extends IBoardBit<S> {
 		
 		//only checks for alignments not included in the union of A's and B's alignments, i.e. those which involve at  least one cell only present in A and one only in B
 		public abstract S getCombined(S B, byte attacker, int max_tier);
+
+		public abstract BoardsRelation validCombinationWith(S B, byte attacker);
 		
 	//#endregion DB_SEARCH
 

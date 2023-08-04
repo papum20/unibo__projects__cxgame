@@ -12,7 +12,7 @@ import pndb.constants.MovePair;
 /**
  * @type S : self
  */
-public interface IBoardBit<S extends IBoardBit<S>> {
+public interface IBoardBit {
 
 
 	public byte markCheck(int col, byte player);

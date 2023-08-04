@@ -1,4 +1,4 @@
-package pndb.alpha;
+package pndb.nocel.nonmc;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -7,6 +7,10 @@ import java.util.LinkedList;
 
 import connectx.CXCell;
 import connectx.CXCellState;
+import pndb.alpha.BoardBit;
+import pndb.alpha.IBoardBitDb;
+import pndb.alpha.Operators;
+import pndb.constants.Constants.BoardsRelation;
 import pndb.alpha.threats.AlignmentsList;
 import pndb.alpha.threats.BiList_Node_ThreatPos;
 import pndb.alpha.threats.BiList_ThreatPos;
@@ -18,7 +22,6 @@ import pndb.constants.Auxiliary;
 import pndb.constants.CellState;
 import pndb.constants.GameState;
 import pndb.constants.MovePair;
-import pndb.constants.Constants.BoardsRelation;
 import pndb.structures.BiList.BiNode;
 
 
@@ -43,8 +46,6 @@ public class BoardBitDb extends BoardBit implements IBoardBitDb<BoardBitDb> {
 
 	public static byte MY_PLAYER;
 
-	public CXCell[] MC; 							// Marked Cells
-	private int MC_n;								// marked cells number
 	public LinkedList<ThreatApplied> markedThreats;
 
 	//AUXILIARY STRUCTURES (BOARD AND ARRAYS) FOR COUNTING ALIGNMENTS
@@ -110,7 +111,6 @@ public class BoardBitDb extends BoardBit implements IBoardBitDb<BoardBitDb> {
 		markedThreats = new LinkedList<ThreatApplied>();
 
 		copy(B);
-		copyMCfromBoard(B);
 	}
 	
 	BoardBitDb(BoardBitDb B, boolean copy_threats) {
@@ -125,7 +125,6 @@ public class BoardBitDb extends BoardBit implements IBoardBitDb<BoardBitDb> {
 		markedThreats = new LinkedList<ThreatApplied>(B.markedThreats);	//copy marked threats
 		
 		copy(B);
-		copyMC(B);
 	}
 
 	public BoardBitDb getCopy(boolean copy_threats) {
@@ -160,7 +159,6 @@ public class BoardBitDb extends BoardBit implements IBoardBitDb<BoardBitDb> {
 		 */
 		private void mark(int i, int j, byte player) {
 			markCheck(j, player);
-			addMC(i, j, cellStateCX(i, j));
 			removeAlignments(new MovePair(i, j), Auxiliary.opponent(player));
 		}
 		public void mark(int j, byte player) {
@@ -301,17 +299,45 @@ public class BoardBitDb extends BoardBit implements IBoardBitDb<BoardBitDb> {
 			return res;
 		}
 
+
+		/**
+		 * Check if a combination with node is valid, i.e. if they're not in conflict and both have a marked cell the other doesn't.
+		 * Assumes both boards have the same `MY_PLAYER` (i.e. the same bit-byte association for players).
+		 * @param B
+		 * @param attacker
+		 * @return
+		 */
 		@Override
 		public BoardsRelation validCombinationWith(BoardBitDb B, byte attacker) {
-			// TODO Auto-generated method stub
-			return null;
+
+			long flip = (attacker == MY_PLAYER) ? 0 : -1;
+			boolean useful_own = false, useful_other = false;
+
+			for(int i = 0; i < COL_SIZE(M); i++) {
+				for(int j = 0; j < N; j++) {
+					// check conflict
+					if( (board_mask[j][i] & B.board_mask[j][i] & (board[j][i] ^ B.board[j][i])) != 0 )
+						return BoardsRelation.CONFLICT;
+					// check own board adds something for attaacker
+					if( (~(board_mask[j][i] & B.board_mask[j][i]) & (board[j][i] ^ flip)) != 0 )
+						useful_own = true;
+					// check other board adds something for attaacker
+					if( (~(board_mask[j][i] & B.board_mask[j][i]) & (B.board[j][i] ^ flip)) != 0 )
+						useful_own = true;
+					
+					if(useful_own && useful_other)
+						return BoardsRelation.USEFUL;
+				}
+			}
+			return BoardsRelation.USELESS;
+
 		}
 		
 	//#endregion DB_SEARCH
 
 
 	//#region AUXILIARY
-		private void addMC(int y, int x, CXCellState player) {MC[MC_n++] = new CXCell(y, x, player);}
+	
 		public void addThreat(ThreatCells threat, int atk, byte attacker) {
 			// from when appliedThreat was different:
 			//MovePair[] def = new MovePair[threat.related.length - 1];
@@ -802,8 +828,14 @@ public class BoardBitDb extends BoardBit implements IBoardBitDb<BoardBitDb> {
 	
 		public void setPlayer(byte player) {currentPlayer = (player == this.Player_byte[0]) ? 0 : 1;}
 
-		public int getMC_n() {return MC_n;}
-		public CXCell getMarkedCell(int i) {return MC[i];}
+		@Override
+		public int getMC_n() {
+			int MC_n = 0;
+			for(int j = 0; j < N; j++) MC_n += free[j];
+			return MC_n;
+		}
+		@Override
+		public CXCell getMarkedCell(int i) {return null;}
 		public LinkedList<ThreatApplied> getMarkedThreats() {return markedThreats;}
 		
 	//#endregion GET
@@ -816,8 +848,6 @@ public class BoardBitDb extends BoardBit implements IBoardBitDb<BoardBitDb> {
 			board_mask	= new long[N][COL_SIZE(M)];
 			free		= new byte[N];
 			free_n = 0;
-			MC			= new CXCell[M*N];
-			MC_n = 0;
 		}
 		private void initAlignmentStructures() {
 			alignments_rows			= new AlignmentsList(M);
@@ -849,27 +879,6 @@ public class BoardBitDb extends BoardBit implements IBoardBitDb<BoardBitDb> {
 				markedThreats = new LinkedList<ThreatApplied>();
 			}
 			*/
-
-			public void copyMC(BoardBitDb B) {
-				MC_n = B.MC_n;
-				for(int i = 0; i < MC_n; i++) MC[i] = Auxiliary.copyCell(B.MC[i]);
-			}
-			/**
-			 * fill the MC checking the board
-			 * @param B
-			 */
-			private void copyMCfromBoard(BoardBit B) {
-				MC_n = 0;
-				hash = 0;
-				for(int i = 0; i < M; i++) {
-					for(int j = 0; j < N; j++) {
-						if(!cellFree(i, j)) {
-							MC[MC_n++] = new CXCell(i, j, cellStateCX(i, j));
-							hash = TT.getHash(hash, i, j, (Player_byte[currentPlayer] == MY_PLAYER) ? 0 : 1);
-						}
-					}
-				}
-			}
 
 			private void copyAlignmentStructures(BoardBitDb DB) {
 				alignments_rows			= new AlignmentsList(DB.alignments_rows);

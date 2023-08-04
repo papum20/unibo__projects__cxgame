@@ -1,4 +1,4 @@
-package pndb.nocells;
+package pndb.nocel;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -14,7 +14,6 @@ import pndb.alpha.DbSearchResult;
 import pndb.alpha.IDbSearch;
 import pndb.alpha.Operators;
 import pndb.alpha.PnNode;
-import pndb.alpha.DbNode.BoardsRelation;
 import pndb.alpha.threats.AlignmentsList;
 import pndb.alpha.threats.BiList_ThreatPos;
 import pndb.alpha.threats.ThreatApplied;
@@ -25,6 +24,7 @@ import pndb.constants.Auxiliary;
 import pndb.constants.CellState;
 import pndb.constants.GameState;
 import pndb.constants.MovePair;
+import pndb.constants.Constants.BoardsRelation;
 import pndb.structures.BiList.BiNode;
 import pndb.tt.TranspositionElementEntry;
 import pndb.tt.TranspositionTable;
@@ -190,6 +190,7 @@ public class DbSearch extends IDbSearch {
 
 	}
 
+	@Override
 	public int[] getThreatCounts(BoardBit B, byte player) {
 
 		board = new BoardBitDb(B);

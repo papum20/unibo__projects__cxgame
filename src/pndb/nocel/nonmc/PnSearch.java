@@ -1,9 +1,13 @@
-package pndb.alpha;
+package pndb.nocel.nonmc;
 
 import connectx.CXBoard;
 import connectx.CXCell;
 import connectx.CXGameState;
 import connectx.CXPlayer;
+import pndb.alpha.BoardBit;
+import pndb.alpha.DbSearchResult;
+import pndb.alpha.IDbSearch;
+import pndb.alpha.PnNode;
 import pndb.constants.Auxiliary;
 import pndb.constants.CellState;
 import pndb.constants.Constants;
