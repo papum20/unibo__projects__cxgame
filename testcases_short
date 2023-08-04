@@ -1,7 +1,0 @@
-./lcompile
-
-./ltest 9 9 5 connectx.L1.L1 connectx.pndb.PnSearch -r 2 > debug/match/pndb_L1_0.txt
-
-./ltest 9 9 5 connectx.L1.L1 connectx.pndb2.PnSearch -r 2 > debug/match/pndb2_L1_0.txt
-
-./ltest 9 9 5 connectx.pndb.PnSearch connectx.pndb2.PnSearch -r 5 > debug/match/pndb_pndb2_0.txt
