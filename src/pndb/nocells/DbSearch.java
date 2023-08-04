@@ -152,8 +152,8 @@ public class DbSearch extends IDbSearch {
 			}
 			
 			// db init
-			root = createRoot(board);
-			win_node 	= null;
+			root				= createRoot(board);
+			win_node			= null;
 			found_win_sequences = 0;
 			
 			// recursive call for each possible move
