@@ -1,0 +1,39 @@
+./lcompile
+
+./ltest 9 9 5 connectx.L1.L1 connectx.pndb.PnSearch -r 5 > debug/match/pndb_L1_0.txt
+./ltest 9 9 5 connectx.L1.L1 connectx.pndb.PnSearch -r 5 > debug/match/pndb_L1_1.txt
+./ltest 9 9 5 connectx.L1.L1 connectx.pndb.PnSearch -r 5 > debug/match/pndb_L1_2.txt
+
+./ltest 9 9 5 connectx.L1.L1 connectx.pndb2.PnSearch -r 5 > debug/match/pndb2_L1_0.txt
+./ltest 9 9 5 connectx.L1.L1 connectx.pndb2.PnSearch -r 5 > debug/match/pndb2_L1_1.txt
+./ltest 9 9 5 connectx.L1.L1 connectx.pndb2.PnSearch -r 5 > debug/match/pndb2_L1_2.txt
+
+./ltest 9 9 5 connectx.pndb.PnSearch connectx.pndb2.PnSearch -r 5 > debug/match/pndb_pndb2_0.txt
+./ltest 9 9 5 connectx.pndb.PnSearch connectx.pndb2.PnSearch -r 5 > debug/match/pndb_pndb2_1.txt
+./ltest 9 9 5 connectx.pndb.PnSearch connectx.pndb2.PnSearch -r 5 > debug/match/pndb_pndb2_2.txt
+
+./ltest 15 15 7 connectx.L1.L1 connectx.pndb.PnSearch -r 5 > debug/match/15pndb_L1_0.txt
+./ltest 20 20 12 connectx.L1.L1 connectx.pndb.PnSearch -r 5 > debug/match/20pndb_L1_1.txt
+./ltest 23 23 6 connectx.L1.L1 connectx.pndb.PnSearch -r 5 > debug/match/23pndb_L1_2.txt
+
+./ltest 15 15 7 connectx.L1.L1 connectx.pndb2.PnSearch -r 5 > debug/match/15pndb2_L1_0.txt
+./ltest 20 20 12 connectx.L1.L1 connectx.pndb2.PnSearch -r 5 > debug/match/20pndb2_L1_1.txt
+./ltest 23 23 6 connectx.L1.L1 connectx.pndb2.PnSearch -r 5 > debug/match/23pndb2_L1_2.txt
+
+./ltest 15 15 7 connectx.pndb.PnSearch connectx.pndb2.PnSearch -r 5 > debug/match/15pndb_pndb2_0.txt
+./ltest 20 20 12 connectx.pndb.PnSearch connectx.pndb2.PnSearch -r 5 > debug/match/20pndb_pndb2_1.txt
+./ltest 23 23 6 connectx.pndb.PnSearch connectx.pndb2.PnSearch -r 5 > debug/match/23pndb_pndb2_2.txt
+
+
+./ltest 6 7 4 connectx.L1.L1 connectx.pndb.PnSearch -r 5 > debug/match/674pndb_L1_0.txt
+
+./ltest 6 7 4 connectx.L1.L1 connectx.pndb2.PnSearch -r 5 > debug/match/674pndb2_L1_0.txt
+
+./ltest 6 7 4 connectx.pndb.PnSearch connectx.pndb2.PnSearch -r 5 > debug/match/674pndb_pndb2_0.txt
+
+
+./ltest 50 50 12 connectx.L1.L1 connectx.pndb.PnSearch -r 5 > debug/match/50pndb_L1_0.txt
+
+./ltest 50 50 12 connectx.L1.L1 connectx.pndb2.PnSearch -r 5 > debug/match/50pndb2_L1_0.txt
+
+./ltest 50 50 12 connectx.pndb.PnSearch connectx.pndb2.PnSearch -r 5 > debug/match/50pndb_pndb2_0.txt
