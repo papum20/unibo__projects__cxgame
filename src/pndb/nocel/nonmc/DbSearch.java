@@ -1,4 +1,4 @@
-package pndb.alpha;
+package pndb.nocel.nonmc;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -8,6 +8,11 @@ import java.util.ListIterator;
 
 import connectx.CXGameState;
 import pndb.alpha.Operators.ThreatsByRank;
+import pndb.alpha.BoardBit;
+import pndb.alpha.DbSearchResult;
+import pndb.alpha.IDbSearch;
+import pndb.alpha.Operators;
+import pndb.alpha.PnNode;
 import pndb.alpha.threats.AlignmentsList;
 import pndb.alpha.threats.BiList_ThreatPos;
 import pndb.alpha.threats.ThreatApplied;
@@ -140,14 +145,14 @@ public class DbSearch extends IDbSearch {
 			
 			// debug
 			if(DEBUG_ON && board.hasAlignments(player)) {
-				file = new FileWriter("debug/db1main/main" + (counter++) + "_" + debugRandomCode() + "_" + board.getMC_n() + "-" + (board.getMC_n() > 0 ? board.MC[board.getMC_n()-1] : "_") + ".txt");
+				file = new FileWriter("debug/db1main/main" + (counter++) + "_" + debugRandomCode() + "_" + board.getMC_n() + "-" + ".txt");
 				file.write("root board:\n" + board.printString(0) + board.printAlignmentsString(0));
 				file.close();
 			}
 			
 			// db init
-			root = createRoot(board);
-			win_node 	= null;
+			root				= createRoot(board);
+			win_node			= null;
 			found_win_sequences = 0;
 			
 			// recursive call for each possible move
@@ -184,6 +189,7 @@ public class DbSearch extends IDbSearch {
 
 	}
 
+	@Override
 	public int[] getThreatCounts(BoardBit B, byte player) {
 
 		board = new BoardBitDb(B);
@@ -192,13 +198,23 @@ public class DbSearch extends IDbSearch {
 		board.findAllAlignments(player, Operators.TIER_MAX, false, "selCol_");
 
 		int[] threats_by_col = new int[N];
-		for(int i = 0; i < M; i++) {
-			for(int j = 0; j < N; j++) {
-				if(board.cellFree(i, j)) {
-					BiNode<BiNode<ThreatPosition>> alignments = board.alignments_by_cell[i][j].getFirst(player);
-					while(alignments != null) {
-						threats_by_col[j] += Operators.indexInTier(alignments.item.item.type);
-						alignments = alignments.next;
+
+		for(int d = 0; d < BoardBitDb.alignments_direction_indexes.length; d++) {
+			for(BiList_ThreatPos alignments_in_row : board.alignments_by_direction[d]) {
+				if(alignments_in_row != null) {
+					
+					BiNode<ThreatPosition> p = alignments_in_row.getFirst(player);
+					while(p != null) {
+						// if in same col
+						if(p.item.start.j == p.item.end.j)
+							threats_by_col[p.item.start.j] += (p.item.start.getDistance(p.item.end) + 1) * Operators.indexInTier(p.item.type);
+						
+						else {
+							for(int j = p.item.start.j; j <= p.item.end.j; j++)
+								threats_by_col[j] += Operators.indexInTier(p.item.type);
+						}
+
+						p = p.next;
 					}
 				}
 			}
@@ -231,7 +247,7 @@ public class DbSearch extends IDbSearch {
 			if(DEBUG_ON) {
 				if(!attacking) file.write("\t\t\t\t--------\tSTART OF DEFENSE\t--------\n");
 				else {
-					filename_current = "debug/db1/db" + (counter++) + "_" + debugRandomCode() + "_" + root.board.getMC_n() + "-" + (root.board.getMC_n() > 0 ? root.board.MC[root.board.getMC_n()-1] : "_") + "-" + level + ".txt";
+					filename_current = "debug/db1/db" + (counter++) + "_" + debugRandomCode() + "_" + root.board.getMC_n() + "-" + "-" + level + ".txt";
 					file = new FileWriter(filename_current);
 					file.write("attacker, attacking, maxtier = " + attacker + " " + attacking + " " + max_tier + "\n");
 
@@ -366,9 +382,7 @@ public class DbSearch extends IDbSearch {
 				DbNode<BoardBitDb> node = it.next();
 
 				// debug
-				if(DEBUG_ON) file.write(	indent + "DEPENDENCY: parent: \n" + node.board.printString(node.board.getMC_n()) + indent + "children: \n" +
-								((node.board.getMC_n() == 0) ? "no MC\n" :
-									(node.board.MC[node.board.getMC_n()-1].i + " " + node.board.MC[node.board.getMC_n()-1].j + " " + node.board.MC[node.board.getMC_n()-1].state + "\n")));
+				if(DEBUG_ON) file.write(	indent + "DEPENDENCY: parent: \n" + node.board.printString(node.board.getMC_n()) + indent + "children: \n");
 				
 				found_sequence = addDependentChildren(node, attacker, attacking, 1, lastDependency, root, max_tier);
 			}
@@ -377,7 +391,7 @@ public class DbSearch extends IDbSearch {
 		}
 		
 		/**
-		 * (see notes for findAllCombinationNodes() and class notes)
+		 * (see notes for findAllCombinationDbNode<BoardBitDb>s() and class notes)
 		 * @param root
 		 * @param attacker
 		 * @param attacking
@@ -516,7 +530,7 @@ public class DbSearch extends IDbSearch {
 		private boolean findAllCombinationNodes(DbNode<BoardBitDb> partner, DbNode<BoardBitDb> node, byte attacker, boolean attacking, LinkedList<DbNode<BoardBitDb>> lastCombination, DbNode<BoardBitDb> root) throws IOException {
 			
 			// debug
-			log += "combNodes\n";
+			log += "combDbNode<BoardBitDb>s\n";
 			
 			if(node == null || (attacking && found_win_sequences >= MAX_THREAT_SEQUENCES) || isTimeEnded())
 				return false;
@@ -527,7 +541,7 @@ public class DbSearch extends IDbSearch {
 			if(node.board.gameState() != GameState.OPEN) 
 				return false;
 
-			//doesn't check if isDependencyNode() : also combinations of combination nodes could result in alignments
+			//doesn't check if isDependencyDbNode<BoardBitDb>() : also combinations of combination nodes could result in alignments
 			if(partner.validCombinationWith(node, attacker) != BoardsRelation.USEFUL) 
 				return false;
 
@@ -555,7 +569,7 @@ public class DbSearch extends IDbSearch {
 		private DbNode<BoardBitDb> createRoot(BoardBitDb B) {
 
 			DbNode<BoardBitDb> root = NODE_INSTANCE.copy(board, true, Operators.TIER_MAX, true);
-			//NodeBoard root = NodeBoard.copy(board, true, Operators.TIER_MAX, true);
+			//DbNode<BoardBitDb>Board root = DbNode<BoardBitDb>Board.copy(board, true, Operators.TIER_MAX, true);
 			return root;
 		}
 
@@ -625,8 +639,8 @@ public class DbSearch extends IDbSearch {
 			// debug
 			log += "addDepChild\n";
 
-			BoardBitDb new_board			= node.board.getDependant(threat, atk, USE.BTH, node.getMaxTier(), true);
-			DbNode<BoardBitDb> newChild 	= new DbNode<BoardBitDb>(new_board, false, node.getMaxTier());
+			BoardBitDb new_board	= node.board.getDependant(threat, atk, USE.BTH, node.getMaxTier(), true);
+			DbNode<BoardBitDb> newChild 		= new DbNode<BoardBitDb>(new_board, false, node.getMaxTier());
 
 			node.addChild(newChild);
 			lastDependency.add(newChild);
@@ -644,10 +658,10 @@ public class DbSearch extends IDbSearch {
 			// debug
 			log += "addCombChild\n";
 			
-			int attacker_i					= Auxiliary.getPlayerBit(attacker);
-			int max_threat					= Math.min(A.getMaxTier(), B.getMaxTier());
-			BoardBitDb new_board			= A.board.getCombined(B.board, attacker, max_threat);
-			DbNode<BoardBitDb> new_child	= null;
+			int attacker_i			= Auxiliary.getPlayerBit(attacker);
+			int max_threat			= Math.min(A.getMaxTier(), B.getMaxTier());
+			BoardBitDb new_board	= A.board.getCombined(B.board, attacker, max_threat);
+			DbNode<BoardBitDb> new_child		= null;
 			TranspositionElementEntry entry = TT.getState(new_board.hash);
 
 			// debug
@@ -696,39 +710,40 @@ public class DbSearch extends IDbSearch {
 		
 	//#endregion CREATE
 
+
 	//#region GET_SET
 
-		private ThreatsByRank getApplicableOperators(BoardBitDb board, byte attacker, int max_tier) throws IOException {
+	private ThreatsByRank getApplicableOperators(BoardBitDb board, byte attacker, int max_tier) throws IOException {
 
-			log += "start getApplicable Operators\n";
+		log += "start getApplicable Operators\n";
 
-			byte defender		= Auxiliary.opponent(attacker);
-			ThreatsByRank res	= new ThreatsByRank();
+		byte defender		= Auxiliary.opponent(attacker);
+		ThreatsByRank res	= new ThreatsByRank();
 
-			for(AlignmentsList alignments_by_row : board.alignments_by_direction) {
-				for(BiList_ThreatPos alignments_in_row : alignments_by_row) {
-					if(alignments_in_row != null) {
-						
-						BiNode<ThreatPosition> alignment = alignments_in_row.getFirst(attacker);
-						if(alignment != null && Operators.tier(alignment.item.type) <= max_tier) {
-							do {
+		for(AlignmentsList alignments_by_row : board.alignments_by_direction) {
+			for(BiList_ThreatPos alignments_in_row : alignments_by_row) {
+				if(alignments_in_row != null) {
+					
+					BiNode<ThreatPosition> alignment = alignments_in_row.getFirst(attacker);
+					if(alignment != null && Operators.tier(alignment.item.type) <= max_tier) {
+						do {
 
-								// debug
-								if(DEBUG_ON) file.write("applying operator " + alignment.item + " for attacker " + attacker + "\n" + board.printString(1));
+							// debug
+							if(DEBUG_ON) file.write("applying operator " + alignment.item + " for attacker " + attacker + "\n" + board.printString(1));
 
-								ThreatCells cell_threat_operator = Operators.applied(board, alignment.item, attacker, defender);
+							ThreatCells cell_threat_operator = Operators.applied(board, alignment.item, attacker, defender);
 
-								if(cell_threat_operator != null) res.add(cell_threat_operator);
-								alignment = alignment.next;
+							if(cell_threat_operator != null) res.add(cell_threat_operator);
+							alignment = alignment.next;
 
-							} while(alignment != null);
-						}
+						} while(alignment != null);
 					}
 				}
 			}
-
-			return res;
 		}
+
+		return res;
+	}
 
 		private void removeCombinationTTEntries(LinkedList<DbNode<BoardBitDb>> lastCombination, byte attacker) {
 

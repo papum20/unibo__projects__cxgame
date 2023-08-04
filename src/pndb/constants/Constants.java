@@ -25,6 +25,10 @@ public class Constants {
 		new MovePair(0, -1),
 		new MovePair(-1, -1)
 	};
+
+	public static enum BoardsRelation {
+		CONFLICT, USELESS, USEFUL
+	}
 	
 	//#endregion STRUCTS
 

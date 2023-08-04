@@ -16,7 +16,7 @@ import pndb.tt.TranspositionTable;
 
 
 
-public class BoardBit {
+public class BoardBit implements IBoardBit {
 	
 	//#region CONSTANTS
 	public static final int COL_NULL = -1;
@@ -31,8 +31,8 @@ public class BoardBit {
 	// board is an array of columns, each represented by one or more bitstrings.
 	// board =1 for the first player's cells; board_mask =1 for any player's cell.
 	// the least significative bit refers to the bottom of a column.
-	protected long[][] board;
-	protected long[][] board_mask;
+	public long[][] board;
+	public long[][] board_mask;
 	public byte[] free;		// first free position for each column
 	protected int free_n;		// number of free cells
 

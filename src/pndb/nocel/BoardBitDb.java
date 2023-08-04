@@ -1,4 +1,4 @@
-package pndb.nocells;
+package pndb.nocel;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -20,6 +20,7 @@ import pndb.constants.Auxiliary;
 import pndb.constants.CellState;
 import pndb.constants.GameState;
 import pndb.constants.MovePair;
+import pndb.constants.Constants.BoardsRelation;
 import pndb.structures.BiList.BiNode;
 
 
@@ -298,6 +299,12 @@ public class BoardBitDb extends BoardBit implements IBoardBitDb<BoardBitDb> {
 			res.addAllCombinedAlignments(B, attacker, max_tier);
 
 			return res;
+		}
+
+		@Override
+		public BoardsRelation validCombinationWith(BoardBitDb B, byte attacker) {
+			// TODO Auto-generated method stub
+			return null;
 		}
 		
 	//#endregion DB_SEARCH
@@ -771,7 +778,7 @@ public class BoardBitDb extends BoardBit implements IBoardBitDb<BoardBitDb> {
 
 			public void copyMC(BoardBitDb B) {
 				MC_n = B.MC_n;
-				for(int i = 0; i < MC_n; i++) MC[i] = copyCell(B.MC[i]);
+				for(int i = 0; i < MC_n; i++) MC[i] = Auxiliary.copyCell(B.MC[i]);
 			}
 			/**
 			 * fill the MC checking the board
@@ -790,10 +797,6 @@ public class BoardBitDb extends BoardBit implements IBoardBitDb<BoardBitDb> {
 				}
 			}
 
-			// copies an MNKCell
-			private CXCell copyCell(CXCell c) {
-				return new CXCell(c.i, c.j, c.state);
-			}
 			private void copyAlignmentStructures(BoardBitDb DB) {
 				alignments_rows			= new AlignmentsList(DB.alignments_rows);
 				alignments_cols			= new AlignmentsList(DB.alignments_cols);
