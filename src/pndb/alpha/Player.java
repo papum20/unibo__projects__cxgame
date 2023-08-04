@@ -11,4 +11,9 @@ public class Player extends PnSearch<DbSearch> {
 		super.initPlayer(M, N, X, first, timeout_in_secs);
 	}
 
+	@Override
+	public String playerName() {
+		return "pndb alpha";
+	}
+
 }

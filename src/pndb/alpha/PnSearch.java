@@ -495,14 +495,14 @@ public class PnSearch<DB extends IDbSearch> implements CXPlayer {
 		 * Init proof numbers to offset + current level in game tree.
 		 * @param node
 		 */
-		private void initProofAndDisproofNumbers(PnNode node, short offset) {
+		protected void initProofAndDisproofNumbers(PnNode node, short offset) {
 			short number = (short)(offset + level);		// never less than 1, as level init to 1
 			node.setProofAndDisproof(number, number);
 		}
 		/**
 		 * 
 		 */
-		private byte mark(int col) {
+		protected byte mark(int col) {
 			byte res = board.markCheck(col, current_player);
 			current_player = (byte)Constants.opponent(current_player);
 			level++;
