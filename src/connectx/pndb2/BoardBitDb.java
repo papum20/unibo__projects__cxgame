@@ -8,6 +8,9 @@ import java.util.LinkedList;
 import connectx.CXCell;
 import connectx.CXCellState;
 import connectx.pndb2.BiList.BiNode;
+import connectx.pndb.Auxiliary;
+import connectx.pndb.CellState;
+import connectx.pndb.GameState;
 import connectx.pndb2.Operators.ThreatCells;
 import connectx.pndb2.Operators.USE;
 
@@ -820,6 +823,40 @@ public class BoardBitDb extends BoardBit {
 					}
 				}
 				
+			}
+
+			public String printAlignmentsString(int indentation) {
+
+				String	indent = "",
+						res = "";
+				for(int i = 0; i < indentation; i++) indent += '\t';
+
+				res += indent + "ALIGNMENTS:\n";
+				res += indent + "by rows:\n";
+
+				for(int d = 0; d < alignments_direction_indexes.length; d++) {
+					MovePair dir = DIRECTIONS[alignments_direction_indexes[d]];
+					res += indent + "direction: " + dir + "\n";
+
+					for(int player = 0; player < 2; player++) {
+						res += indent + "player " + Player_byte[player] + ":\n\n";
+						for(int i = 0; i < alignments_by_direction[d].size(); i++) {
+
+							if(alignments_by_direction[d].get(i) != null) {
+								res += indent + "index " + i + "\n\n";
+								for(BiNode<ThreatPosition> p = alignments_by_direction[d].getFirst(Player_byte[player], i);
+									p != null; p = p.next
+								) {
+									res += indent + p.item + "\n\n";
+								}
+								
+							}
+						}
+						
+					}
+				}
+
+				return res;
 			}
 
 			public void printAlignmentsFile(FileWriter file, int indentation) {

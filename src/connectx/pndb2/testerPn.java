@@ -1,6 +1,7 @@
 package connectx.pndb2;
 
 import connectx.CXBoard;
+import connectx.pndb.CellState;
 
 
 

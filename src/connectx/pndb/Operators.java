@@ -297,7 +297,7 @@ public class Operators {
 			public static enum USE {ATK, DEF, BTH}
 			public static class ThreatCells {
 				public MovePair[] related;
-				protected USE[] uses;			//0=attacker, 1=defender, 2=both
+				public USE[] uses;			//0=attacker, 1=defender, 2=both
 				public final byte type;
 				private ThreatCells(int related, byte type) {
 					this.related = new MovePair[related];

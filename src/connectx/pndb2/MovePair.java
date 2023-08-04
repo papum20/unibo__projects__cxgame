@@ -1,10 +1,11 @@
 package connectx.pndb2;
 
 import connectx.CXCell;
+import connectx.pndb.Auxiliary;
 
 
 public class MovePair {
-	protected short i, j;
+	public short i, j;
 	
 	//#region CONSTRUCTORS
 		public MovePair() {}

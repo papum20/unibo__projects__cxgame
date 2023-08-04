@@ -1,5 +1,7 @@
 package connectx.pndb2;
 
+import connectx.pndb.CellState;
+import connectx.pndb.DbSearchResult;
 
 public class testerDb {
 	

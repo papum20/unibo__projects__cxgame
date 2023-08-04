@@ -23,7 +23,7 @@ public class PnNode {
 	
 
 	public final byte col;					// move (column)
-	protected final short[] n;				// n_proof, n_disproof
+	public final short[] n;				// n_proof, n_disproof
 	
 	public final PnNode parent;
 	public PnNode[] children;
@@ -138,5 +138,16 @@ public class PnNode {
 		}
 	//#endregion BOOL
 	
+	//#region DEBUG
+	
+	public void debug(PnNode root) {
+		String s = "node with col " + col + ", node==root? " + (this==root) + "; numbers: " + n[0] + ", " + n[1] + "\n";
+		s += "children\n";
+		for(PnNode child : children)
+			s += child.col + ":" + child.n[PROOF] + "," + child.n[DISPROOF] + "\n";
+		System.out.println(s);
+	}
+
+	//#endregion DEBUG
 	
 }

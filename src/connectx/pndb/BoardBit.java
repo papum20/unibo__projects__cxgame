@@ -31,14 +31,14 @@ public class BoardBit implements IBoard<BoardBit> {
 	protected byte[] free;		// first free position for each column
 	protected int free_n;		// number of free cells
 
-	protected byte game_state;	// note: could be put in DbNode.data?
+	public byte game_state;	// note: could be put in DbNode.data?
 
-	protected static TranspositionTable TT;
-	protected long hash;
+	public static TranspositionTable TT;
+	public long hash;
 
 
 
-	BoardBit(int M, int N, int X) {
+	public BoardBit(int M, int N, int X) {
 		this.M = (byte)M;
 		this.N = (byte)N;
 		this.X = (byte)X;
@@ -306,7 +306,7 @@ public class BoardBit implements IBoard<BoardBit> {
 
 	//#region DEBUG
 
-		void print() {
+		public void print() {
 			//boolean[][] out = new boolean[M+1][N];
 			//System.out.println(COL_SIZE(M));
 
@@ -333,13 +333,14 @@ public class BoardBit implements IBoard<BoardBit> {
 		/**
 		 * don't print, return as a string.
 		 */
-		String printString() {
+		public String printString(int indentation) {
 			//boolean[][] out = new boolean[M+1][N];
 			//System.out.println(COL_SIZE(M));
 
 			String lines = "";
 			for(int i = M - 1; i >= 0; i--) {
 				String line = "";
+				for(int k = 0; k < indentation; k++) line += '\t';
 				for(int j = 0; j < N; j++) {
 
 					//System.out.println(i + " " + j + " " + board[j][i / BITSTRING_LEN] + " " + (board[j][i / BITSTRING_LEN] >> (i % BITSTRING_LEN)) );
@@ -359,7 +360,7 @@ public class BoardBit implements IBoard<BoardBit> {
 			return lines;
 		}
 
-		void printFile(FileWriter file, int indentation) {
+		protected void printFile(FileWriter file, int indentation) {
 			//boolean[][] out = new boolean[M+1][N];
 			//System.out.println(COL_SIZE(M));
 

@@ -1,6 +1,7 @@
 package connectx.pndb2;
 
 import connectx.CXCell;
+import connectx.pndb.Auxiliary;
 
 /**
  * Node for DbSearch, including its own board.

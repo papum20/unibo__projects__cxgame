@@ -33,9 +33,9 @@ public class BoardBitDb extends BoardBit {
 
 	public static byte MY_PLAYER;
 
-	protected CXCell[] MC; 							// Marked Cells
-	protected int MC_n;								// marked cells number
-	protected LinkedList<ThreatApplied> markedThreats;
+	public CXCell[] MC; 							// Marked Cells
+	public int MC_n;								// marked cells number
+	public LinkedList<ThreatApplied> markedThreats;
 
 	//AUXILIARY STRUCTURES (BOARD AND ARRAYS) FOR COUNTING ALIGNMENTS
 	protected AlignmentsList alignments_rows;
@@ -939,6 +939,57 @@ public class BoardBitDb extends BoardBit {
 					}
 				}
 
+			}
+
+			public String printAlignmentsString(int indentation) {
+
+				String	indent = "",
+						res = "";
+				for(int i = 0; i < indentation; i++) indent += '\t';
+
+				res += indent + "ALIGNMENTS:\n";
+				res += indent + "by rows:\n";
+
+				for(int d = 0; d < alignments_direction_indexes.length; d++) {
+					MovePair dir = DIRECTIONS[alignments_direction_indexes[d]];
+					res += indent + "direction: " + dir + "\n";
+
+					for(int player = 0; player < 2; player++) {
+						res += indent + "player " + Player_byte[player] + ":\n\n";
+						for(int i = 0; i < alignments_by_direction[d].size(); i++) {
+
+							if(alignments_by_direction[d].get(i) != null) {
+								res += indent + "index " + i + "\n\n";
+								for(BiNode<ThreatPosition> p = alignments_by_direction[d].getFirst(Player_byte[player], i);
+									p != null; p = p.next
+								) {
+									res += indent + p.item + "\n\n";
+								}
+								
+							}
+						}
+						
+					}
+				}
+				
+				res += indent + "by cells:\n\n";
+				
+				for(int player = 0; player < 2; player++)
+				{
+					for(int i = 0; i < M; i++) {
+						for(int j = 0; j < N; j++) {
+							BiNode<BiNode<ThreatPosition>> p = alignments_by_cell[i][j].getFirst(Player_byte[player]);
+							if(p != null) {
+								res += indent + "cell: " + new MovePair(i, j) + "\n\n";
+								do {
+									res += indent + p.item.item + "\n\n";
+								} while((p = p.next) != null);
+							}
+						}
+					}
+				}
+
+				return res;
 			}
 
 			public void printAlignmentsFile(FileWriter file, int indentation) {

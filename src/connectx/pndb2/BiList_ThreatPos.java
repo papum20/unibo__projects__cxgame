@@ -1,11 +1,12 @@
 package connectx.pndb2;
 
+import connectx.pndb.CellState;
 import connectx.pndb2.BiList.BiNode;
+
+
 
 public class BiList_ThreatPos {
 	
-
-
 	private BiList<ThreatPosition> p1;
 	private BiList<ThreatPosition> p2;
 

@@ -4,7 +4,7 @@ import connectx.CXCell;
 
 
 public class MovePair {
-	protected short i, j;
+	public short i, j;
 	
 	//#region CONSTRUCTORS
 		public MovePair() {}
