@@ -1,5 +1,6 @@
 package pndb.alpha;
 
+import java.io.FileWriter;
 import java.util.ArrayList;
 
 import connectx.CXCellState;
@@ -68,6 +69,9 @@ public interface IBoardBit {
 		 * don't print, return as a string.
 		 */
 		public String printString(int indentation);
+
+		public void printFile(FileWriter file, int indentation);
+
 
 	//#endregion DEBUG
 

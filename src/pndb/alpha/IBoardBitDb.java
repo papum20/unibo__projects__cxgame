@@ -4,6 +4,7 @@ import java.io.FileWriter;
 import java.util.LinkedList;
 
 import connectx.CXCell;
+import pndb.alpha.Operators.ThreatsByRank;
 import pndb.alpha.threats.ThreatApplied;
 import pndb.alpha.threats.ThreatCells;
 import pndb.alpha.threats.ThreatCells.USE;
@@ -51,8 +52,17 @@ public interface IBoardBitDb<S extends IBoardBitDb<S>> extends IBoardBit {
 		public abstract S getCombined(S B, byte attacker, int max_tier);
 
 		public abstract BoardsRelation validCombinationWith(S B, byte attacker);
+
 		
 	//#endregion DB_SEARCH
+
+
+	//#region ALIGNMENTS
+		
+		public ThreatsByRank getApplicableOperators(byte attacker, int max_tier);
+		public int[] getThreatCounts(byte player);
+		
+	//#endregion ALIGNMENTS
 
 
 	//#region AUXILIARY
@@ -89,6 +99,8 @@ public interface IBoardBitDb<S extends IBoardBitDb<S>> extends IBoardBit {
 		public abstract int getMC_n();
 		public abstract CXCell getMarkedCell(int i);
 		public abstract LinkedList<ThreatApplied> getMarkedThreats();
+
+		public abstract long getHash();
 		
 	//#endregion GET
 

@@ -7,6 +7,7 @@ import java.util.LinkedList;
 
 import connectx.CXCell;
 import connectx.CXCellState;
+import pndb.alpha.Operators.ThreatsByRank;
 import pndb.alpha.threats.AlignmentsList;
 import pndb.alpha.threats.BiList_Node_ThreatPos;
 import pndb.alpha.threats.BiList_ThreatPos;
@@ -791,6 +792,55 @@ public class BoardBitDb extends BoardBit implements IBoardBitDb<BoardBitDb> {
 
 				return useful;
 			}
+
+			@Override
+			public ThreatsByRank getApplicableOperators(byte attacker, int max_tier) {
+
+			byte defender		= Auxiliary.opponent(attacker);
+			ThreatsByRank res	= new ThreatsByRank();
+
+			for(AlignmentsList alignments_by_row : alignments_by_direction) {
+				for(BiList_ThreatPos alignments_in_row : alignments_by_row) {
+					if(alignments_in_row != null) {
+						
+						BiNode<ThreatPosition> alignment = alignments_in_row.getFirst(attacker);
+						if(alignment != null && Operators.tier(alignment.item.type) <= max_tier) {
+							do {
+								ThreatCells cell_threat_operator = Operators.applied(this, alignment.item, attacker, defender);
+
+								if(cell_threat_operator != null) res.add(cell_threat_operator);
+								alignment = alignment.next;
+
+							} while(alignment != null);
+						}
+					}
+				}
+			}
+
+			return res;
+		}
+
+		public int[] getThreatCounts(byte player) {
+
+			setPlayer(player);
+			findAllAlignments(player, Operators.TIER_MAX, false, "selCol_");
+	
+			int[] threats_by_col = new int[N];
+			for(int i = 0; i < M; i++) {
+				for(int j = 0; j < N; j++) {
+					if(cellFree(i, j)) {
+						BiNode<BiNode<ThreatPosition>> alignments = alignments_by_cell[i][j].getFirst(player);
+						while(alignments != null) {
+							threats_by_col[j] += Operators.indexInTier(alignments.item.item.type);
+							alignments = alignments.next;
+						}
+					}
+				}
+			}
+	
+			return threats_by_col;
+		}
+
 		//#endregion ALIGNMENTS
 		
 	//#endregion AUXILIARY
@@ -805,7 +855,10 @@ public class BoardBitDb extends BoardBit implements IBoardBitDb<BoardBitDb> {
 		public int getMC_n() {return MC_n;}
 		public CXCell getMarkedCell(int i) {return MC[i];}
 		public LinkedList<ThreatApplied> getMarkedThreats() {return markedThreats;}
-		
+
+		@Override
+		public long getHash() {return hash;}
+	
 	//#endregion GET
 
 	//#region INIT

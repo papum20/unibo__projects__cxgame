@@ -1,13 +1,12 @@
 package pndb.nonum;
 
+import pndb.alpha.DbSearch;
 import pndb.alpha.PnNode;
 import pndb.constants.Constants;
-import pndb.alpha.DbSearch;
-import pndb.alpha.PnSearch;
 
 
 
-public class Player extends PnSearch<DbSearch> {
+public class Player extends pndb.alpha.Player {
 
 	@Override
 	public void initPlayer(int M, int N, int X, boolean first, int timeout_in_secs) {

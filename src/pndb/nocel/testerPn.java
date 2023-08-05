@@ -22,36 +22,30 @@ public class testerPn {
 
 		BoardBit board = pn.board;
 		
-		board.markCheck(2, CellState.P1);
-		board.markCheck(2, CellState.P1);
-		board.markCheck(2, CellState.P1);
-		board.markCheck(2, CellState.P1);
-		board.markCheck(2, CellState.P2);
-		board.markCheck(3, CellState.P2);
-		board.markCheck(3, CellState.P2);
-		board.markCheck(3, CellState.P2);
-		board.markCheck(3, CellState.P1);
-		board.markCheck(4, CellState.P2);
-		board.markCheck(4, CellState.P2);
-		board.markCheck(4, CellState.P1);
-		board.markCheck(5, CellState.P2);
-		board.markCheck(5, CellState.P2);
-		board.markCheck(5, CellState.P2);
-		board.markCheck(5, CellState.P1);
-		board.markCheck(6, CellState.P2);
-		board.markCheck(6, CellState.P1);
-		board.markCheck(6, CellState.P2);
-		board.markCheck(6, CellState.P2);
-		board.markCheck(6, CellState.P2);
-		board.markCheck(7, CellState.P1);
-		board.markCheck(7, CellState.P2);
-		board.markCheck(7, CellState.P2);
-		board.markCheck(7, CellState.P1);
-		board.markCheck(7, CellState.P1);
-		board.markCheck(8, CellState.P1);
-		board.markCheck(8, CellState.P1);
-		board.markCheck(8, CellState.P1);
-		board.markCheck(8, CellState.P1);
+		//board.markCheck(2, CellState.P1);
+
+		String[] bb = {
+			"oo.x.....",
+			"xxxo....o",
+			"xooo.xx.x",
+			"xoxo.oo.o",
+			"xooo.xo.o",
+			"ooxxoox.x",
+			"oxxxxoxxx",
+			"oxxxoxxoo",
+			"oxoxxxxoo"
+		};
+
+
+
+		for(int i = 0; i< M; i++) {
+			for(int j = 0; j < N; j++) {
+				if(bb[M-i-1].substring(j, j+1).equals("."))
+					continue;
+				else board.markCheck(j, (bb[M-i-1].substring(j, j+1).equals("x")) ? CellState.P1 : CellState.P2);
+			}
+		}
+		board.print();
 
 		
 		
