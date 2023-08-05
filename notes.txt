@@ -12,6 +12,13 @@
 	[SOLVED?] Transposition table: mysterious error, didnt find element (added in addChild, but didnt find in addChildren right after)
 
 
+ENHANCEMENTS/HEURISTICS to try:
+1.
+	generateChildren: children random order (so not start always 0, and also wider)
+2.
+	otehr init proof numbers (1/2 level)
+
+
 
 	NUOVO!! (FEBBRAIO)
 - controlla se usate e init bene goal_squares

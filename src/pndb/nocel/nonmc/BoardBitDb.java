@@ -6,10 +6,10 @@ import java.io.IOException;
 import java.util.LinkedList;
 
 import connectx.CXCell;
-import connectx.CXCellState;
 import pndb.alpha.BoardBit;
 import pndb.alpha.IBoardBitDb;
 import pndb.alpha.Operators;
+import pndb.alpha.Operators.ThreatsByRank;
 import pndb.constants.Constants.BoardsRelation;
 import pndb.alpha.threats.AlignmentsList;
 import pndb.alpha.threats.BiList_Node_ThreatPos;
@@ -59,8 +59,8 @@ public class BoardBitDb extends BoardBit implements IBoardBitDb<BoardBitDb> {
 	 * dright:		dimension=M+N-1,	indexed: by start of diagonal on the top row, i.e. from -M+1 to N-1
 	 * dleft:		dimension=M+N-1,	indexed: by start of diagonal on the top row, i.e. from 0 to N+M-1
 	 */
-	protected AlignmentsList[] alignments_by_direction;									//for each direction 0-3, contains the reference to the proper lines array(list)
-	protected static final int[] alignments_direction_indexes = new int[]{2, 4, 3, 5};	//indexes in DIRECTIONS, with same order as lines_per_dir
+	public AlignmentsList[]		alignments_by_direction;								//for each direction 0-3, contains the reference to the proper lines array(list)
+	public static final int[]	alignments_direction_indexes = new int[]{2, 4, 3, 5};	//indexes in DIRECTIONS, with same order as lines_per_dir
 	
 
 	protected BiList_Node_ThreatPos[][] alignments_by_cell;
@@ -90,7 +90,7 @@ public class BoardBitDb extends BoardBit implements IBoardBitDb<BoardBitDb> {
 
 
 
-	BoardBitDb(int M, int N, int X) {
+	public BoardBitDb(int M, int N, int X) {
 		super(M, N, X);
 		
 		MAX = new MovePair(M, N);
@@ -101,7 +101,7 @@ public class BoardBitDb extends BoardBit implements IBoardBitDb<BoardBitDb> {
 		
 	}
 
-	BoardBitDb(BoardBit B) {
+	public BoardBitDb(BoardBit B) {
 		super(B.M, B.N, B.X);
 		
 		MAX = new MovePair(M, N);
@@ -817,6 +817,55 @@ public class BoardBitDb extends BoardBit implements IBoardBitDb<BoardBitDb> {
 
 				return useful;
 			}
+			
+			@Override
+			public ThreatsByRank getApplicableOperators(byte attacker, int max_tier) {
+
+			byte defender		= Auxiliary.opponent(attacker);
+			ThreatsByRank res	= new ThreatsByRank();
+
+			for(AlignmentsList alignments_by_row : alignments_by_direction) {
+				for(BiList_ThreatPos alignments_in_row : alignments_by_row) {
+					if(alignments_in_row != null) {
+						
+						BiNode<ThreatPosition> alignment = alignments_in_row.getFirst(attacker);
+						if(alignment != null && Operators.tier(alignment.item.type) <= max_tier) {
+							do {
+								ThreatCells cell_threat_operator = Operators.applied(this, alignment.item, attacker, defender);
+
+								if(cell_threat_operator != null) res.add(cell_threat_operator);
+								alignment = alignment.next;
+
+							} while(alignment != null);
+						}
+					}
+				}
+			}
+
+			return res;
+		}
+
+		public int[] getThreatCounts(byte player) {
+
+			setPlayer(player);
+			findAllAlignments(player, Operators.TIER_MAX, false, "selCol_");
+	
+			int[] threats_by_col = new int[N];
+			for(int i = 0; i < M; i++) {
+				for(int j = 0; j < N; j++) {
+					if(cellFree(i, j)) {
+						BiNode<BiNode<ThreatPosition>> alignments = alignments_by_cell[i][j].getFirst(player);
+						while(alignments != null) {
+							threats_by_col[j] += Operators.indexInTier(alignments.item.item.type);
+							alignments = alignments.next;
+						}
+					}
+				}
+			}
+	
+			return threats_by_col;
+		}
+
 		//#endregion ALIGNMENTS
 		
 	//#endregion AUXILIARY
@@ -838,6 +887,9 @@ public class BoardBitDb extends BoardBit implements IBoardBitDb<BoardBitDb> {
 		public CXCell getMarkedCell(int i) {return null;}
 		public LinkedList<ThreatApplied> getMarkedThreats() {return markedThreats;}
 		
+		@Override
+		public long getHash() {return hash;}
+	
 	//#endregion GET
 
 	//#region INIT

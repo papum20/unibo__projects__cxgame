@@ -1,6 +1,5 @@
-package pndb.nocel;
+package pndb.nocel.nonmc.tryit;
 
-import pndb.alpha.DbSearchResult;
 import pndb.alpha.PnNode;
 import pndb.alpha._PnSearch;
 import pndb.constants.Auxiliary;
@@ -9,19 +8,23 @@ import pndb.constants.CellState;
 
 
 public class Player extends _PnSearch<DbSearchResult, DbSearch> {
-	
+
+
+	private int		deepest_level;
+	private PnNode	deepest_node;
+
 
 	
 	@Override
 	public void initPlayer(int M, int N, int X, boolean first, int timeout_in_secs) {
-		
-		dbSearch = new DbSearch();		
+
+		dbSearch = new DbSearch();
 		super.initPlayer(M, N, X, first, timeout_in_secs);
 	}
 
 	@Override
 	public String playerName() {
-		return "pndb nocel";
+		return "pndb tryit";
 	}
 
 
@@ -70,9 +73,16 @@ public class Player extends _PnSearch<DbSearchResult, DbSearch> {
 				*/
 			//filterChildren(node.parent, res_db.related_squares_by_col);
 			
+			/* Update deepest node.
+			 */
+			if(level + res_db.threats_n > deepest_level) {
+				deepest_level	= level + res_db.threats_n;
+				deepest_node	= node;
+			}
+			
 			return true;
 		}
-		
+
 		/**
 		 * 
 		 * @param node
@@ -147,7 +157,59 @@ public class Player extends _PnSearch<DbSearchResult, DbSearch> {
 			}
 
 		}
-	
+
+		/**
+		 * set proof and disproof; update node.mostProving.
+		 * assuming value=unknown, as nodes are evaluated in developNode.
+		 * @param node
+		 * @param my_turn
+		 * @param offset offset for initProofAndDisproofNumbers, in case of `node` open and not expanded.
+		 */
+		@Override
+		protected void setProofAndDisproofNumbers(PnNode node, boolean my_turn, short offset) {
+
+			super.setProofAndDisproofNumbers(node, my_turn, offset);
+
+			/* In case, update deepest node.
+			 * No need to check node's value: if it's winning, the deepest_node won't be used;
+			 * otherwise, it's not winning and it will be used.
+			 * Also, this won't overwrite calculations in evaluateDb, as that adds moves.
+			 */
+			if(node.isProved() && (level > deepest_level)) {
+				deepest_level	= level;
+				deepest_node	= node;
+			}
+
+		}
+
 	//#endregion PN_SEARCH
+
+
+	//#region HELPER
+
+		@Override
+		protected PnNode bestNode() {
+			
+			// child with min proof/disproof ratio
+			PnNode best = null;
+			for(PnNode child : root.children) {
+				if(child.n[DISPROOF] != 0 && (best == null || (float)child.n[PROOF] / child.n[DISPROOF] < (float)best.n[PROOF] / best.n[DISPROOF]) )
+					best = child;
+			}
+
+			// if all moves are lost, get the first move to the deepest node.
+			if(best == null) {
+				PnNode p = deepest_node;
+				while(p != root) {
+					best = p;
+					p = p.parent;
+				}
+			}
+
+			return best;
+		}
+
+	//#endregion HELPER
+
 
 }
