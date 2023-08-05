@@ -10,7 +10,6 @@ fi
 OUTDIR="debug/match/$1"
 TESTS="7"
 
-mkdir ${OUTDIR}
 
 ./lcompile
 

@@ -1,0 +1,17 @@
+./testcases_all_0.sh: line 16: debug/match/3/alpha_nocel_874.txt: No such file or directory
+./testcases_all_0.sh: line 17: debug/match/3/alpha_nocel_15.txt: No such file or directory
+./testcases_all_0.sh: line 18: debug/match/3/alpha_nocel_2012.txt: No such file or directory
+./testcases_all_0.sh: line 19: debug/match/3/alpha_nocel_504030.txt: No such file or directory
+missing args
+Player 1 (pndb alpha) interrupted due to exception
+ java.util.concurrent.ExecutionException: java.lang.ArrayIndexOutOfBoundsException: Index 0 out of bounds for length 0
+Player 1 (pndb alpha) eventually stopped: round closed
+Player 1 (pndb alpha) interrupted due to exception
+ java.util.concurrent.ExecutionException: java.lang.ArrayIndexOutOfBoundsException
+Player 1 (pndb alpha) eventually stopped: round closed
+Player 1 (pndb alpha) interrupted due to exception
+ java.util.concurrent.ExecutionException: java.lang.ArrayIndexOutOfBoundsException
+Player 1 (pndb alpha) eventually stopped: round closed
+Player 1 (pndb alpha) interrupted due to exception
+ java.util.concurrent.ExecutionException: java.lang.ArrayIndexOutOfBoundsException
+Player 1 (pndb alpha) eventually stopped: round closed
