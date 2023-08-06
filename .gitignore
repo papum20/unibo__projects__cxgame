@@ -10,23 +10,12 @@ out/*
 *.class
 
 #DEBUG
-<<<<<<< HEAD
-debug
-#debug/testmore/out
-myjava*
-=======
 debug/*
 nohup.out
 #myjava*
->>>>>>> 150516644778fefc096c35490b3d58d48a95c6ff
 
 #TRASH
 jv
 
-<<<<<<< HEAD
-#??
-.nfs*
-=======
 #nohup??
 .nfs*
->>>>>>> 150516644778fefc096c35490b3d58d48a95c6ff
