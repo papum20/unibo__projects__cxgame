@@ -28,22 +28,14 @@ import pndb.tt.TranspositionTable;
  * -	For the previous point, boards with a state not open, in case, are added to TT as open, so they are not mistaken
  * 		in the combination stage (for implementation, because of the return type, boolean, of the functions).
  */
-public abstract class _DbSearch<RES, B extends IBoardBitDb<B>, NODE extends _DbNode<NODE, B>> extends IDbSearch<RES> {
+public abstract class _DbSearch<RES, BB extends _BoardBit<BB>, B extends IBoardBitDb<B, BB>, NODE extends _DbNode<NODE,BB,B>> extends IDbSearch<RES> {
 	
 	//#region CONSTANTS
 
-	protected byte MY_PLAYER;
-	/*
-	private CXCellState MY_CX_PLAYER;
-	private CXCellState YOUR_CX_PLAYER;
-	private CXGameState MY_WIN;
-	private CXGameState YOUR_WIN;
-	private byte YOUR_PLAYER;
-	*/
+		protected byte MY_PLAYER;
+		private final int MAX_THREAT_SEQUENCES = 10;
 
-	private final int MAX_THREAT_SEQUENCES = 10;
-
-	private final NODE NODE_INSTANCE;
+		private final NODE NODE_INSTANCE;
 
 	//#endregion CONSTANTS
 
@@ -80,6 +72,7 @@ public abstract class _DbSearch<RES, B extends IBoardBitDb<B>, NODE extends _DbN
 
 
 	public _DbSearch(NODE node_instance) {
+
 		runtime = Runtime.getRuntime();
 		NODE_INSTANCE = node_instance;
 	}
@@ -494,18 +487,11 @@ public abstract class _DbSearch<RES, B extends IBoardBitDb<B>, NODE extends _DbN
 					B node_board = prev.board.getDependant(athreat.threat, athreat.related_index, USE.DEF, prev.getMaxTier(), false);
 					node = createNode(node_board, true, prev.getMaxTier());
 					prev.addChild(node);
-					
-					// now included in getDependant()
-					//node.board.markCells(threat.def, YOUR_MNK_PLAYER);
-					// for future enhancements?
-					//node.board.addThreat(threat);
 				}
-				//the new node doesn't check alignments
 				
 				//DEBUG
 				if(DEBUG_ON) {
-					file.write("\t\t\t\t" + athreat.threat.related[athreat.related_index] + "\n");
-					prev.board.printFile(file, prev.board.getMC_n());
+					file.write("\t\t\t\t" + athreat.threat.related[athreat.related_index] + "\n" + prev.board.printString(prev.board.getMC_n()));
 					for(MovePair m : athreat.threat.related) file.write("\t\t\t\t" + m + " ");
 					file.write("\n");
 				}
@@ -636,19 +622,14 @@ public abstract class _DbSearch<RES, B extends IBoardBitDb<B>, NODE extends _DbN
 		}
 
 		/* tree is changed if either lastdCombination o lastDependency are not empty;
-			* however, dependency node are created from other dependency nodes only in the same level,
-			* so such iteration would be useless
-			*/
+		* however, dependency node are created from other dependency nodes only in the same level,
+		* so such iteration would be useless
+		*/
 		private boolean isTreeChanged(LinkedList<NODE> lastCombination) {
 			return lastCombination.size() > 0;
 		}
 
 		//#region DEBUG
-
-			private void printMemory() {
-				long freeMemory = runtime.maxMemory() - (runtime.totalMemory() - runtime.freeMemory());
-				System.out.println("memory: max=" + runtime.maxMemory() + " " + ", allocated=" + runtime.totalMemory() + ", free=" + runtime.freeMemory() + ", realFree=" + freeMemory);
-			}
 
 			protected void printTime() {
 				ms = System.currentTimeMillis() - ms;

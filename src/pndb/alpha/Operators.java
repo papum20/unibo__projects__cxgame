@@ -231,7 +231,7 @@ public class Operators {
 		return ALIGNMENT_SCORES[tier(threat)][indexInTier(threat)];
 	}
 
-	public static <B extends IBoardBitDb<B>> ThreatCells applied(final B board, ThreatPosition op, byte attacker, byte defender) {
+	public static <B extends _BoardBitDb<B, BB>, BB extends _BoardBit<BB>> ThreatCells applied(final _BoardBitDb<B, BB> board, ThreatPosition op, byte attacker, byte defender) {
 		try {
 			return OPERATORS[tier(op.type)].get((int)(op.type)).getThreatCells(board, op, attacker, defender);
 		} catch(Exception e) {
@@ -290,7 +290,7 @@ public class Operators {
 			private static interface Applier {
 				//given a board and and an alignment relative to it,
 				//returns a threatArray, that contains the cells to mark to apply an operator
-				public <B extends IBoardBitDb<B>> ThreatCells getThreatCells(final B board, ThreatPosition pos, byte attacker, byte defender);
+				public <B extends _BoardBitDb<B, BB>, BB extends _BoardBit<BB>> ThreatCells getThreatCells(final _BoardBitDb<B, BB> board, ThreatPosition pos, byte attacker, byte defender);
 			}
 			public static class AppliersMap extends HashMap<Integer, Applier> {
 				private AppliersMap(byte[] keys, Applier[] values) {
@@ -316,12 +316,12 @@ public class Operators {
 		//#endregion MAIN
 		//#region APPLIERS
 			private static class ApplierNull implements Applier {
-				public <B extends IBoardBitDb<B>> ThreatCells getThreatCells(final B board, ThreatPosition pos, byte attacker, byte defender) {
+				public <B extends _BoardBitDb<B, BB>, BB extends _BoardBit<BB>> ThreatCells getThreatCells(final _BoardBitDb<B, BB> board, ThreatPosition pos, byte attacker, byte defender) {
 					return null;
 				}
 			}
 			private static class Applier1first implements Applier {
-				public <B extends IBoardBitDb<B>> ThreatCells getThreatCells(final B board, ThreatPosition pos, byte attacker, byte defender) {
+				public <B extends _BoardBitDb<B, BB>, BB extends _BoardBit<BB>> ThreatCells getThreatCells(final _BoardBitDb<B, BB> board, ThreatPosition pos, byte attacker, byte defender) {
 					ThreatCells res = new ThreatCells(1, pos.type);
 					if(board.cellFree(pos.start.i, pos.start.j))	res.set(pos.start, 0, USE.ATK);
 					else											res.set(pos.end, 0, USE.ATK);
@@ -329,7 +329,7 @@ public class Operators {
 				}
 			}
 			private static class Applier1in implements Applier {
-				public <B extends IBoardBitDb<B>> ThreatCells getThreatCells(final B board, ThreatPosition pos, byte attacker, byte defender) {
+				public <B extends _BoardBitDb<B, BB>, BB extends _BoardBit<BB>> ThreatCells getThreatCells(final _BoardBitDb<B, BB> board, ThreatPosition pos, byte attacker, byte defender) {
 					ThreatCells res = new ThreatCells(1, pos.type);
 					MovePair dir	= pos.start.getDirection(pos.end);
 					MovePair it		= pos.start.getSum(dir);
@@ -341,7 +341,7 @@ public class Operators {
 				}
 			}
 			private static class Applier1second implements Applier {
-				public <B extends IBoardBitDb<B>> ThreatCells getThreatCells(final B board, ThreatPosition pos, byte attacker, byte defender) {
+				public <B extends _BoardBitDb<B, BB>, BB extends _BoardBit<BB>> ThreatCells getThreatCells(final _BoardBitDb<B, BB> board, ThreatPosition pos, byte attacker, byte defender) {
 					ThreatCells res	= new ThreatCells(1, pos.type);
 					MovePair dir	= pos.start.getDirection(pos.end);
 					MovePair cell	= pos.start.getSum(dir);
@@ -352,7 +352,7 @@ public class Operators {
 			}
 			//like 1kc, but starts from the free border
 			private static class Applier1_1first_or_in implements Applier {
-				public <B extends IBoardBitDb<B>> ThreatCells getThreatCells(final B board, ThreatPosition pos, byte attacker, byte defender) {
+				public <B extends _BoardBitDb<B, BB>, BB extends _BoardBit<BB>> ThreatCells getThreatCells(final _BoardBitDb<B, BB> board, ThreatPosition pos, byte attacker, byte defender) {
 					ThreatCells res = new ThreatCells(2, pos.type);
 					MovePair dir;
 					MovePair it;
@@ -374,7 +374,7 @@ public class Operators {
 				}
 			}
 			private static class Applier1_1in_or_in implements Applier {
-				public <B extends IBoardBitDb<B>> ThreatCells getThreatCells(final B board, ThreatPosition pos, byte attacker, byte defender) {
+				public <B extends _BoardBitDb<B, BB>, BB extends _BoardBit<BB>> ThreatCells getThreatCells(final _BoardBitDb<B, BB> board, ThreatPosition pos, byte attacker, byte defender) {
 					ThreatCells res = new ThreatCells(2, pos.type);
 					MovePair dir = pos.start.getDirection(pos.end);
 					MovePair it = new MovePair(pos.start);
@@ -389,7 +389,7 @@ public class Operators {
 				}
 			}
 			private static class Applier1_3second_or_in implements Applier {
-				public <B extends IBoardBitDb<B>> ThreatCells getThreatCells(final B board, ThreatPosition pos, byte attacker, byte defender) {
+				public <B extends _BoardBitDb<B, BB>, BB extends _BoardBit<BB>> ThreatCells getThreatCells(final _BoardBitDb<B, BB> board, ThreatPosition pos, byte attacker, byte defender) {
 					ThreatCells res = new ThreatCells(4, pos.type);
 					MovePair dir = pos.start.getDirection(pos.end);
 					MovePair it = pos.start.getSum(dir);
@@ -413,7 +413,7 @@ public class Operators {
 				}
 			}
 			private static class Applier1_3in_or_in implements Applier {
-				public <B extends IBoardBitDb<B>> ThreatCells getThreatCells(final B board, ThreatPosition pos, byte attacker, byte defender) {
+				public <B extends _BoardBitDb<B, BB>, BB extends _BoardBit<BB>> ThreatCells getThreatCells(final _BoardBitDb<B, BB> board, ThreatPosition pos, byte attacker, byte defender) {
 					ThreatCells res = new ThreatCells(4, pos.type);
 					MovePair dir = pos.start.getDirection(pos.end);
 					MovePair it = new MovePair(pos.start);
@@ -430,7 +430,7 @@ public class Operators {
 				}
 			}
 			private static class Applier1_2third implements Applier {
-				public <B extends IBoardBitDb<B>> ThreatCells getThreatCells(final B board, ThreatPosition pos, byte attacker, byte defender) {
+				public <B extends _BoardBitDb<B, BB>, BB extends _BoardBit<BB>> ThreatCells getThreatCells(final _BoardBitDb<B, BB> board, ThreatPosition pos, byte attacker, byte defender) {
 					ThreatCells res = new ThreatCells(3, pos.type);
 					MovePair dir = pos.start.getDirection(pos.end);
 					res.set(pos.start.getSum(dir), 0, USE.DEF);
@@ -444,7 +444,7 @@ public class Operators {
 				}
 			}
 			private static class Applier1_2in implements Applier {
-				public <B extends IBoardBitDb<B>> ThreatCells getThreatCells(final B board, ThreatPosition pos, byte attacker, byte defender) {
+				public <B extends _BoardBitDb<B, BB>, BB extends _BoardBit<BB>> ThreatCells getThreatCells(final _BoardBitDb<B, BB> board, ThreatPosition pos, byte attacker, byte defender) {
 					ThreatCells res = new ThreatCells(3, pos.type);
 					MovePair dir = pos.start.getDirection(pos.end);
 					MovePair it = pos.start.getSum(dir);

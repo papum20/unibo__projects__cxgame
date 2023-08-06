@@ -14,7 +14,6 @@
 
 ENHANCEMENTS/HEURISTICS to try:
 1.
-	generateChildren: children random order (so not start always 0, and also wider)
 
 
 

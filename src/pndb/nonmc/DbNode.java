@@ -1,4 +1,4 @@
-package pndb.nocel.nonmc;
+package pndb.nonmc;
 
 import pndb.alpha.IBoardBit;
 import pndb.alpha.IBoardBitDb;
@@ -10,7 +10,7 @@ import pndb.constants.Constants.BoardsRelation;
 /**
  * Node for DbSearch, including its own board.
  */
-public class DbNode<BB extends IBoardBit, B extends IBoardBitDb<B, BB>> extends _DbNode<DbNode<BB, B>, BB, B> {
+public class DbNode<BB extends IBoardBit, B extends IBoardBitDb<B, BB>> extends _DbNode<DbNode<BB,B>, BB, B> {
 
 	
 	public DbNode() {
