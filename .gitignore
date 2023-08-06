@@ -10,12 +10,12 @@ out/*
 *.class
 
 #DEBUG
-#debug/player
-#debug/testmore/out
-myjava*
+debug/*
+nohup.out
+#myjava*
 
 #TRASH
 jv
 
-#??
+#nohup??
 .nfs*
