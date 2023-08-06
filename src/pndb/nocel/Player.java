@@ -8,6 +8,10 @@ import pndb.constants.CellState;
 
 
 
+
+/**
+ * Removes alignments_by_cell and their uses.
+ */
 public class Player extends _PnSearch<DbSearchResult, DbSearch> {
 	
 

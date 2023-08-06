@@ -2,12 +2,12 @@
 	PnNode: children= sibling/child (where child=most proving), instead of array, to reduce memory usage.
 2.
 	PnSearch: evaluate: manage when lost (try to win something)
-3.
-	PnNode: proof values, infinite, overflow. maybe ok to lower?
+	FIX: tryit
 4.
 	goal squares: could be bitstrings
 5.
 	db: doesn't try much vertical -> should add new operator(s) to stimulate
+	EDIT: too much vertical
 7.
 	[SOLVED?] Transposition table: mysterious error, didnt find element (added in addChild, but didnt find in addChildren right after)
 
@@ -15,8 +15,6 @@
 ENHANCEMENTS/HEURISTICS to try:
 1.
 	generateChildren: children random order (so not start always 0, and also wider)
-2.
-	otehr init proof numbers (1/2 level)
 
 
 

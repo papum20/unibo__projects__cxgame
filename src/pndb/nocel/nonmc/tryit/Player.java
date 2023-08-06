@@ -5,15 +5,24 @@ import pndb.alpha.PnNode;
 import pndb.alpha._PnSearch;
 import pndb.constants.Auxiliary;
 import pndb.constants.CellState;
+import pndb.constants.Constants;
 import pndb.constants.GameState;
 import pndb.tt.TranspositionElementEntry;
 
 
 
+
+/**
+ * Saves all levels for endgames (in TT) and, for each visit, saves the deepest one,
+ * so it can return it in case all moves are losing.
+ * TT uses global depths.
+ */
 public class Player extends _PnSearch<DbSearchResult, DbSearch> {
 
 
-	private int		deepest_level;
+	private short	level_root;		// tree depth starting from empty board
+
+	private int		deepest_level;	// absolute (from empty board)
 	private PnNode	deepest_node;
 
 
@@ -22,6 +31,7 @@ public class Player extends _PnSearch<DbSearchResult, DbSearch> {
 	public void initPlayer(int M, int N, int X, boolean first, int timeout_in_secs) {
 
 		dbSearch = new DbSearch();
+		level_root = first ? Constants.SHORT_0 : Constants.SHORT_1;
 		super.initPlayer(M, N, X, first, timeout_in_secs);
 	}
 
@@ -30,6 +40,7 @@ public class Player extends _PnSearch<DbSearchResult, DbSearch> {
 		
 		deepest_level	= -1;	// any level is > -1
 		deepest_node	= null;
+		level_root++;			// at each visit, it indicates root's level
 
 		return super.selectColumn(B);
 	}
@@ -43,6 +54,8 @@ public class Player extends _PnSearch<DbSearchResult, DbSearch> {
 	//#region PN_SEARCH
 
 		/**
+		 * Tryit ADD: while deepest_level for end-state can be updated in setProofAndDisproofNumbers,
+		 * when an end-state is found in TT, it should be updated here.
 		 * 
 		 * @param node
 		 * @param game_state
@@ -70,7 +83,8 @@ public class Player extends _PnSearch<DbSearchResult, DbSearch> {
 				return true;
 			}
 			else {
-				if(game_state == GameState.WINP1)				// my win
+				
+				if(game_state == GameState.WINP1)			// my win
 					node.prove(true, true);		// root cant be ended, or the game would be
 				else										// your win or draw
 					node.prove(false, true);
@@ -95,7 +109,7 @@ public class Player extends _PnSearch<DbSearchResult, DbSearch> {
 			if(res_db == null)
 				return false;
 
-			TT.setStateOrInsert(player, Auxiliary.cellState2winState(player), Auxiliary.getPlayerBit(player), (short)(level + res_db.threats_n * 2 + 1));
+			TT.setStateOrInsert(player, Auxiliary.cellState2winState(player), Auxiliary.getPlayerBit(player), (short)(level_root + current_level + res_db.threats_n * 2 + 1));
 				
 			/* note: probably, prune is useless now, as evaluate is only called when node hasn't been expanded yet.
 				*/
@@ -124,8 +138,8 @@ public class Player extends _PnSearch<DbSearchResult, DbSearch> {
 			
 			/* Update deepest node.
 			 */
-			if(level + (res_db.threats_n * 2 + 1) > deepest_level) {
-				deepest_level	= level + res_db.threats_n * 2 + 1;	// each threat counts as a move per each, except the last, winning move 
+			if(level_root + current_level + (res_db.threats_n * 2 + 1) > deepest_level) {
+				deepest_level	= level_root + current_level + (res_db.threats_n * 2 + 1);	// each threat counts as a move per each, except the last, winning move 
 				deepest_node	= node;
 			}
 			
@@ -224,8 +238,8 @@ public class Player extends _PnSearch<DbSearchResult, DbSearch> {
 			 * otherwise, it's not winning and it will be used.
 			 * Also, this won't overwrite calculations in evaluateDb, as that adds moves.
 			 */
-			if(node.isProved() && (level > deepest_level)) {
-				deepest_level	= level;
+			if(node.isProved() && (level_root + current_level > deepest_level)) {
+				deepest_level	= level_root + current_level;
 				deepest_node	= node;
 			}
 

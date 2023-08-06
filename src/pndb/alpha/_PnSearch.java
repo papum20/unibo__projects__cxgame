@@ -37,7 +37,7 @@ public abstract class _PnSearch<RES, DB extends IDbSearch<RES>> implements CXPla
 	public BoardBit board;				// public for debug
 	protected TranspositionTable TT;
 	public byte current_player;			// public for debug
-	protected short level;				// current tree level (height)
+	protected short current_level;		// current tree level (height)
 	protected DB dbSearch;
 
 	// nodes
@@ -99,7 +99,7 @@ public abstract class _PnSearch<RES, DB extends IDbSearch<RES>> implements CXPla
 			if(last_move == null) root = new PnNode(Board.COL_NULL, null);
 			else root = new PnNode(last_move.j, null);
 
-			level = 1;
+			current_level = 1;
 			visit();
 
 			// return
@@ -391,7 +391,7 @@ public abstract class _PnSearch<RES, DB extends IDbSearch<RES>> implements CXPla
 		 * @param node
 		 */
 		protected void initProofAndDisproofNumbers(PnNode node, short offset) {
-			short number = (short)(offset + level);		// never less than 1, as level init to 1
+			short number = (short)(offset + current_level);		// never less than 1, as level init to 1
 			node.setProofAndDisproof(number, number);
 		}
 		/**
@@ -400,7 +400,7 @@ public abstract class _PnSearch<RES, DB extends IDbSearch<RES>> implements CXPla
 		protected byte mark(int col) {
 			byte res = board.markCheck(col, current_player);
 			current_player = (byte)Constants.opponent(current_player);
-			level++;
+			current_level++;
 			return res;
 		}
 		/**
@@ -410,7 +410,7 @@ public abstract class _PnSearch<RES, DB extends IDbSearch<RES>> implements CXPla
 		protected void unmark(int col) {
 			board.unmark(col);
 			current_player = (byte)Constants.opponent(current_player);
-			level--;
+			current_level--;
 		}
 		/**
 		 * 
