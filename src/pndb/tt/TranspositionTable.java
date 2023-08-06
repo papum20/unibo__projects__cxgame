@@ -18,6 +18,11 @@ public class TranspositionTable {
 
 
 
+	/**
+	 * Complexity: O(M*N*PLAYERS_N + size + M*N*PLAYERS_N) = O(2MN + 2**16 + 2MN) = O(4MN + 2**16)
+	 * @param M
+	 * @param N
+	 */
 	public TranspositionTable(int M, int N) {
 		Random random = new Random();
 		moves = new long[M][N][PLAYERS_N];
@@ -46,6 +51,10 @@ public class TranspositionTable {
 		return (hash ^ move_hash);
 	}
 
+	/**
+	 * Complexity: O(n), with n length of the list
+	 * @param key
+	 */
 	public void insert(long key) {
 		Element e = new Element(key);
 		int index = Element.index(key);
@@ -55,7 +64,7 @@ public class TranspositionTable {
 			table[index].addNext(e);
 	}
 	/**
-	 * 
+	 * Complexity: O(n), with n length of the list
 	 * @param key
 	 * @param state
 	 * @param idx: 0=attacker, 1=defender, 2=both
@@ -71,6 +80,13 @@ public class TranspositionTable {
 		else
 			table[index].addNext(e);
 	}
+	/**
+	 * Complexity: O(n), with n length of the list
+	 * @param key
+	 * @param state
+	 * @param idx
+	 * @param depth
+	 */
 	public void insert(long key, byte state, int idx, short depth) {
 		Element e = new Element(key);
 		if(idx == 0) e.setState(state, GameState.NULL, depth);
@@ -85,13 +101,14 @@ public class TranspositionTable {
 
 	/**
 	 * Remove element entry.
+ 	 * Complexity: O(n), with n length of the list
 	 * @param key
 	 */
-	public void remove(long key) {
+	  public void remove(long key) {
 		int index = Element.index(key);
 		Element compare = new Element(key);
 		Element e = table[index];
-
+		
 		if(e != null) {
 			while(e.next != null) {
 				if(e.next.equals(compare)) {
@@ -105,6 +122,7 @@ public class TranspositionTable {
 
 	/**
 	 * Remove state from element, or remove the element entry if both states remain null.
+	 * Complexity: O(3n), with n length of the list
 	 * @param key
 	 * @param idx
 	 */

@@ -87,6 +87,10 @@ public class MovePair {
 			this.i += B.i;
 			this.j += B.j;
 		}
+		public void subtract(MovePair B) {
+			this.i -= B.i;
+			this.j -= B.j;
+		}
 		public MovePair getSum(MovePair B) {
 			return new MovePair(i + B.i, j + B.j);
 		}

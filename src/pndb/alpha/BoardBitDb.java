@@ -89,11 +89,11 @@ public class BoardBitDb extends _BoardBitDb<BoardBitDb, BoardBit> {
 						//if(DEBUG_ON) {
 						if(DEBUG_PRINT) {
 							System.out.println("\t\trm: " + alignments_in_cell.item.item);
-							System.out.println("\t\t" + alignmentsByDirection_index(dir, center));
+							System.out.println("\t\t" + getIndex_for_alignmentsByDirection(dir, center));
 						}
 
 						//delete for line
-						alignments_by_direction[dirsIndexes(dir)].remove(player, alignmentsByDirection_index(dir, center), alignments_in_cell.item);
+						alignments_by_direction[dirsIndexes(dir)].remove(player, getIndex_for_alignmentsByDirection(dir, center), alignments_in_cell.item);
 
 						//delete for this cell
 						BiNode<BiNode<ThreatPosition>> tmp = alignments_in_cell;

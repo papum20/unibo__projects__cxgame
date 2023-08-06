@@ -10,7 +10,7 @@ out/*
 *.class
 
 #DEBUG
-debug/*
+debug/*/*
 nohup.out
 #myjava*
 

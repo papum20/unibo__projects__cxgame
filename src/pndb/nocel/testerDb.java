@@ -36,16 +36,17 @@ public class testerDb {
 		*/
 
 		String[] bb = {
-		"oo.x....o",
-		"xxxo....o",
-		"xooo.xx.x",
-		"xoxo.oo.o",
-		"xooo.xo.o",
-		"ooxxoox.x",
-		"oxxxxoxxx",
-		"oxxxoxxoo",
-		"oxoxxxxoo"
+			".........",
+			".........",
+			".........",
+			".........",
+			"..x......",
+			"..o.o....",
+			"xoo.xxx..",
+			"oxxxxoo.x",
+			"xoooxxxoo"
 		};
+
 
 
 
@@ -58,10 +59,10 @@ public class testerDb {
 		}
 		board.print();
 
-		board.markCheck(8, CellState.P1);
+		board.markCheck(8, CellState.P2);
 
 		
-		DbSearchResult res = db.selectColumn(board, null, 10000, CellState.P1);
+		DbSearchResult res = db.selectColumn(board, null, 10000, CellState.P2);
 
 		System.out.println((res == null)? null : res.winning_col);
 	}

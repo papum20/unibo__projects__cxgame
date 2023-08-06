@@ -263,23 +263,29 @@ public class Operators {
 			public static class AlignmentPattern {
 				public final short line, mark, in, out, mnout;
 				private AlignmentPattern(short line, short mark, short in, short out, short mnout) {
-					this.line = line;
-					this.mark = mark;
-					this.in = in;
-					this.out = out;
-					this.mnout = mnout;
+					this.line	= line;
+					this.mark	= mark;
+					this.in		= in;
+					this.out	= out;
+					this.mnout	= mnout;
 				}
 				private AlignmentPattern(int line, int mark, int in, int out, int mnout) {
-					this.line = (short)line;
-					this.mark = (short) mark;
-					this.in = (short)in;
-					this.out = (short)out;
-					this.mnout = (short)mnout;
+					this.line	= (short)line;
+					this.mark	= (short) mark;
+					this.in		= (short)in;
+					this.out	= (short)out;
+					this.mnout	= (short)mnout;
 				}
+
+				public boolean isCompatible(int X, int lined, int marks, int holes) {
+					return lined == X + this.line && marks == X + this.mark && holes == this.in;
+				}
+				
 				@Override public String toString() {
 					return line + "," + mark + "," + in + "," + out + "," + mnout;
 				}
 			}
+
 			public static class AlignmentsMap extends HashMap<Integer, AlignmentPattern> {
 				private AlignmentsMap(byte[] keys, AlignmentPattern[] values) {
 					super(keys.length);

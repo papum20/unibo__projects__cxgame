@@ -56,7 +56,7 @@ public abstract class _DbSearch<RES, BB extends _BoardBit<BB>, B extends IBoardB
 	protected boolean[][] GOAL_SQUARES;		// used for defensive search.
 	
 	// DEBUG
-	protected final boolean DEBUG_ON			= false;
+	protected final boolean DEBUG_ON			= true;
 	private final boolean DEBUG_TIME			= false;
 	protected final boolean DEBUG_PRINT			= false;
 	private final boolean DEBUG_ONLY_FOUND_SEQ	= true;
@@ -255,7 +255,7 @@ public abstract class _DbSearch<RES, BB extends _BoardBit<BB>, B extends IBoardB
 
 				// debug
 				if(DEBUG_ON) file.write(	indent + "DEPENDENCY: parent: \n" + node.board.printString(node.board.getMC_n()) + indent + "children: \n" +
-								((node.board.getMC_n() == 0) ? "no MC\n" :
+								((node.board.getMC_n() == 0 || node.board.getMarkedCell(node.board.getMC_n()-1) == null) ? "no MC\n" :
 									(node.board.getMarkedCell(node.board.getMC_n()-1).i + " " + node.board.getMarkedCell(node.board.getMC_n()-1).j + " " + node.board.getMarkedCell(node.board.getMC_n()-1).state + "\n")));
 				
 				found_sequence = addDependentChildren(node, attacker, attacking, 1, lastDependency, root, max_tier);
