@@ -60,3 +60,32 @@ Player 1 (pndb alpha) eventually stopped: round closed
 ./testcases_all_0.sh: line 23: debug/match/3/alpha_nonum_874.txt: No such file or directory
 ./testcases_all_0.sh: line 24: debug/match/3/alpha_nonum_15.txt: No such file or directory
 ./testcases_all_0.sh: line 25: debug/match/3/alpha_nonum_2012.txt: No such file or directory
+./testcases_all_0.sh: line 26: debug/match/3/alpha_nonum_504030.txt: No such file or directory
+java.lang.IllegalArgumentException: Illegal argument: 'pndb.nonum.Player' class not found
+./testcases_all_0.sh: line 27: debug/match/3/alpha_nonum_504013.txt: No such file or directory
+java.lang.IllegalArgumentException: Illegal argument: 'pndb.nonum.Player' class not found
+./testcases_all_0.sh: line 28: debug/match/3/alpha_nonum_706021.txt: No such file or directory
+java.lang.IllegalArgumentException: Illegal argument: 'pndb.nonum.Player' class not found
+./testcases_all_0.sh: line 30: debug/match/3/alpha_nonmc_874.txt: No such file or directory
+Player 1 (pndb alpha) interrupted due to exception
+ java.util.concurrent.ExecutionException: java.lang.ArrayIndexOutOfBoundsException: Index 7 out of bounds for length 7
+Player 1 (pndb alpha) eventually stopped: round closed
+Player 1 (pndb alpha) interrupted due to exception
+ java.util.concurrent.ExecutionException: java.lang.ArrayIndexOutOfBoundsException
+Player 1 (pndb alpha) eventually stopped: round closed
+Player 1 (pndb alpha) interrupted due to exception
+ java.util.concurrent.ExecutionException: java.lang.ArrayIndexOutOfBoundsException
+Player 1 (pndb alpha) eventually stopped: round closed
+Player 1 (pndb alpha) interrupted due to exception
+ java.util.concurrent.ExecutionException: java.lang.ArrayIndexOutOfBoundsException
+Player 1 (pndb alpha) eventually stopped: round closed
+Player 1 (pndb alpha) interrupted due to exception
+ java.util.concurrent.ExecutionException: java.lang.ArrayIndexOutOfBoundsException
+Player 1 (pndb alpha) eventually stopped: round closed
+Player 1 (pndb alpha) interrupted due to exception
+ java.util.concurrent.ExecutionException: java.lang.ArrayIndexOutOfBoundsException
+Player 1 (pndb alpha) eventually stopped: round closed
+Player 1 (pndb alpha) interrupted due to exception
+ java.util.concurrent.ExecutionException: java.lang.ArrayIndexOutOfBoundsException
+Player 1 (pndb alpha) eventually stopped: round closed
+./testcases_all_0.sh: line 31: debug/match/3/alpha_nonmc_15.txt: No such file or directory

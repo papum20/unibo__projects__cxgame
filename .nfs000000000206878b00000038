@@ -13,3 +13,9 @@ Player 2 (pndb tryit) interrupted due to exception
  java.util.concurrent.ExecutionException: java.lang.NullPointerException: Cannot read field "parent" because "<local2>" is null
 Player 2 (pndb tryit) eventually stopped: round closed
 mkdir: cannot create directory ‘debug/match/giovanna’: File exists
+Player 2 (pndb tryit) interrupted due to exception
+ java.util.concurrent.ExecutionException: java.lang.ArrayIndexOutOfBoundsException: Index 0 out of bounds for length 0
+Player 2 (pndb tryit) eventually stopped: round closed
+Player 2 (pndb tryit) interrupted due to exception
+ java.util.concurrent.ExecutionException: java.lang.NullPointerException: Cannot read the array length because "<local2>" is null
+Player 2 (pndb tryit) eventually stopped: round closed
