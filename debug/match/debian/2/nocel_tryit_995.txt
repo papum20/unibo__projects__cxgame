@@ -4352,3 +4352,1203 @@ x.ooxxox.
 xxooxxox.
 
 
+node with col 0, node==root? true; numbers: 412, 5258
+children
+8:452,341
+0:448,1092
+1:412,1544
+2:447,486
+3:447,512
+6:448,1283
+
+My move: 1
+....ox.x.
+....ox.o.
+....xoxo.
+o..xxoxo.
+o.xoooxo.
+o.oxxoox.
+x.ooxxox.
+xxooxxox.
+xxooxxox.
+
+
+---
+pndb tryit
+Opponent: 1
+....xo.o.
+....xo.x.
+....oxox.
+x..ooxox.
+x.oxxxox.
+x.xooxxo.
+o.xxooxo.
+ooxxooxo.
+ooxxooxo.
+
+
+node with col 1, node==root? true; numbers: 3175, 520
+children
+1:32767,0
+2:3175,91
+3:3195,91
+6:32767,0
+8:3176,81
+0:3180,257
+
+My move: 0
+....xo.o.
+....xo.x.
+x...oxox.
+x..ooxox.
+x.oxxxox.
+x.xooxxo.
+o.xxooxo.
+ooxxooxo.
+ooxxooxo.
+
+
+---
+pndb nocel
+Opponent: 0
+....ox.x.
+....ox.o.
+o...xoxo.
+o..xxoxo.
+o.xoooxo.
+o.oxxoox.
+x.ooxxox.
+xxooxxox.
+xxooxxox.
+
+
+node with col 0, node==root? true; numbers: 823, 16389
+children
+0:823,16389
+
+My move: 0
+....ox.x.
+x...ox.o.
+o...xoxo.
+o..xxoxo.
+o.xoooxo.
+o.oxxoox.
+x.ooxxox.
+xxooxxox.
+xxooxxox.
+
+
+---
+pndb tryit
+Opponent: 0
+....xo.o.
+o...xo.x.
+x...oxox.
+x..ooxox.
+x.oxxxox.
+x.xooxxo.
+o.xxooxo.
+ooxxooxo.
+ooxxooxo.
+
+
+node with col 0, node==root? true; numbers: 18054, 854
+children
+0:18054,196
+1:32767,0
+2:18062,252
+3:18055,243
+6:32767,0
+8:18056,163
+
+My move: 2
+....xo.o.
+o...xo.x.
+x...oxox.
+x.xooxox.
+x.oxxxox.
+x.xooxxo.
+o.xxooxo.
+ooxxooxo.
+ooxxooxo.
+
+
+---
+pndb nocel
+Opponent: 2
+....ox.x.
+x...ox.o.
+o...xoxo.
+o.oxxoxo.
+o.xoooxo.
+o.oxxoox.
+x.ooxxox.
+xxooxxox.
+xxooxxox.
+
+
+node with col 2, node==root? true; numbers: 445, 32767
+children
+8:479,2951
+0:445,4427
+1:478,9781
+2:481,4837
+3:480,4539
+6:478,6232
+
+My move: 1
+....ox.x.
+x...ox.o.
+o...xoxo.
+o.oxxoxo.
+o.xoooxo.
+o.oxxoox.
+xxooxxox.
+xxooxxox.
+xxooxxox.
+
+
+---
+pndb tryit
+Opponent: 1
+....xo.o.
+o...xo.x.
+x...oxox.
+x.xooxox.
+x.oxxxox.
+x.xooxxo.
+ooxxooxo.
+ooxxooxo.
+ooxxooxo.
+
+
+node with col 1, node==root? true; numbers: 19536, 812
+children
+1:19536,812
+
+My move: 1
+....xo.o.
+o...xo.x.
+x...oxox.
+x.xooxox.
+x.oxxxox.
+xxxooxxo.
+ooxxooxo.
+ooxxooxo.
+ooxxooxo.
+
+
+---
+pndb nocel
+Opponent: 1
+....ox.x.
+x...ox.o.
+o...xoxo.
+o.oxxoxo.
+o.xoooxo.
+oooxxoox.
+xxooxxox.
+xxooxxox.
+xxooxxox.
+
+
+node with col 1, node==root? true; numbers: 729, 17603
+children
+0:797,1614
+1:791,3528
+2:729,3558
+3:795,3652
+8:790,1752
+6:790,3499
+
+My move: 2
+....ox.x.
+x...ox.o.
+o.x.xoxo.
+o.oxxoxo.
+o.xoooxo.
+oooxxoox.
+xxooxxox.
+xxooxxox.
+xxooxxox.
+
+
+---
+pndb tryit
+Opponent: 2
+....xo.o.
+o...xo.x.
+x.o.oxox.
+x.xooxox.
+x.oxxxox.
+xxxooxxo.
+ooxxooxo.
+ooxxooxo.
+ooxxooxo.
+
+
+node with col 2, node==root? true; numbers: 9006, 1368
+children
+6:32767,0
+8:9006,260
+0:9013,232
+1:32767,0
+2:9006,225
+3:9007,651
+
+My move: 3
+....xo.o.
+o...xo.x.
+x.oxoxox.
+x.xooxox.
+x.oxxxox.
+xxxooxxo.
+ooxxooxo.
+ooxxooxo.
+ooxxooxo.
+
+
+---
+pndb nocel
+Opponent: 3
+....ox.x.
+x...ox.o.
+o.xoxoxo.
+o.oxxoxo.
+o.xoooxo.
+oooxxoox.
+xxooxxox.
+xxooxxox.
+xxooxxox.
+
+
+node with col 3, node==root? true; numbers: 530, 11438
+children
+1:530,11438
+
+My move: 1
+....ox.x.
+x...ox.o.
+o.xoxoxo.
+o.oxxoxo.
+oxxoooxo.
+oooxxoox.
+xxooxxox.
+xxooxxox.
+xxooxxox.
+
+
+---
+pndb tryit
+Opponent: 1
+....xo.o.
+o...xo.x.
+x.oxoxox.
+x.xooxox.
+xooxxxox.
+xxxooxxo.
+ooxxooxo.
+ooxxooxo.
+ooxxooxo.
+
+
+node with col 1, node==root? true; numbers: 32767, 0
+children
+1:32767,0
+
+My move: 1
+....xo.o.
+o...xo.x.
+x.oxoxox.
+xxxooxox.
+xooxxxox.
+xxxooxxo.
+ooxxooxo.
+ooxxooxo.
+ooxxooxo.
+
+
+---
+pndb nocel
+Opponent: 1
+....ox.x.
+x...ox.o.
+o.xoxoxo.
+oooxxoxo.
+oxxoooxo.
+oooxxoox.
+xxooxxox.
+xxooxxox.
+xxooxxox.
+
+
+node with col 1, node==root? true; numbers: 868, 9471
+children
+0:868,1946
+1:919,1528
+2:920,1384
+3:917,1624
+8:921,1567
+6:916,1422
+
+My move: 0
+x...ox.x.
+x...ox.o.
+o.xoxoxo.
+oooxxoxo.
+oxxoooxo.
+oooxxoox.
+xxooxxox.
+xxooxxox.
+xxooxxox.
+
+
+---
+pndb tryit
+Opponent: 0
+o...xo.o.
+o...xo.x.
+x.oxoxox.
+xxxooxox.
+xooxxxox.
+xxxooxxo.
+ooxxooxo.
+ooxxooxo.
+ooxxooxo.
+
+
+node with col 0, node==root? true; numbers: 32767, 0
+children
+1:32767,0
+2:32767,0
+3:32767,0
+6:32767,0
+8:32767,0
+
+My move: 2
+o...xo.o.
+o.x.xo.x.
+x.oxoxox.
+xxxooxox.
+xooxxxox.
+xxxooxxo.
+ooxxooxo.
+ooxxooxo.
+ooxxooxo.
+
+
+---
+pndb nocel
+Opponent: 2
+x...ox.x.
+x.o.ox.o.
+o.xoxoxo.
+oooxxoxo.
+oxxoooxo.
+oooxxoox.
+xxooxxox.
+xxooxxox.
+xxooxxox.
+
+
+node with col 2, node==root? true; numbers: 0, 32767
+children
+1:243,363
+2:0,32767
+3:245,418
+8:242,343
+6:242,299
+
+My move: 2
+x.x.ox.x.
+x.o.ox.o.
+o.xoxoxo.
+oooxxoxo.
+oxxoooxo.
+oooxxoox.
+xxooxxox.
+xxooxxox.
+xxooxxox.
+
+
+---
+pndb tryit
+Opponent: 2
+o.o.xo.o.
+o.x.xo.x.
+x.oxoxox.
+xxxooxox.
+xooxxxox.
+xxxooxxo.
+ooxxooxo.
+ooxxooxo.
+ooxxooxo.
+
+
+node with col 2, node==root? true; numbers: 32767, 0
+children
+1:32767,0
+3:32767,0
+6:32767,0
+8:32767,0
+
+My move: 3
+o.o.xo.o.
+o.xxxo.x.
+x.oxoxox.
+xxxooxox.
+xooxxxox.
+xxxooxxo.
+ooxxooxo.
+ooxxooxo.
+ooxxooxo.
+
+
+---
+pndb nocel
+Opponent: 3
+x.x.ox.x.
+x.ooox.o.
+o.xoxoxo.
+oooxxoxo.
+oxxoooxo.
+oooxxoox.
+xxooxxox.
+xxooxxox.
+xxooxxox.
+
+
+node with col 3, node==root? true; numbers: 0, 32767
+children
+1:63,59
+3:0,32767
+8:62,94
+6:62,64
+
+My move: 3
+x.xxox.x.
+x.ooox.o.
+o.xoxoxo.
+oooxxoxo.
+oxxoooxo.
+oooxxoox.
+xxooxxox.
+xxooxxox.
+xxooxxox.
+
+
+---
+pndb tryit
+Opponent: 3
+o.ooxo.o.
+o.xxxo.x.
+x.oxoxox.
+xxxooxox.
+xooxxxox.
+xxxooxxo.
+ooxxooxo.
+ooxxooxo.
+ooxxooxo.
+
+
+node with col 3, node==root? true; numbers: 32767, 0
+children
+1:32767,0
+6:32767,0
+8:32767,0
+
+My move: 1
+o.ooxo.o.
+o.xxxo.x.
+xxoxoxox.
+xxxooxox.
+xooxxxox.
+xxxooxxo.
+ooxxooxo.
+ooxxooxo.
+ooxxooxo.
+
+
+---
+pndb nocel
+Opponent: 1
+x.xxox.x.
+x.ooox.o.
+ooxoxoxo.
+oooxxoxo.
+oxxoooxo.
+oooxxoox.
+xxooxxox.
+xxooxxox.
+xxooxxox.
+
+
+node with col 1, node==root? true; numbers: 0, 32767
+children
+1:0,32767
+8:30,60
+6:30,7
+
+My move: 1
+x.xxox.x.
+xxooox.o.
+ooxoxoxo.
+oooxxoxo.
+oxxoooxo.
+oooxxoox.
+xxooxxox.
+xxooxxox.
+xxooxxox.
+
+
+---
+pndb tryit
+Opponent: 1
+o.ooxo.o.
+ooxxxo.x.
+xxoxoxox.
+xxxooxox.
+xooxxxox.
+xxxooxxo.
+ooxxooxo.
+ooxxooxo.
+ooxxooxo.
+
+
+node with col 1, node==root? true; numbers: 32767, 0
+children
+1:32767,0
+6:32767,0
+8:32767,0
+
+My move: 1
+oxooxo.o.
+ooxxxo.x.
+xxoxoxox.
+xxxooxox.
+xooxxxox.
+xxxooxxo.
+ooxxooxo.
+ooxxooxo.
+ooxxooxo.
+
+
+---
+pndb nocel
+Opponent: 1
+xoxxox.x.
+xxooox.o.
+ooxoxoxo.
+oooxxoxo.
+oxxoooxo.
+oooxxoox.
+xxooxxox.
+xxooxxox.
+xxooxxox.
+
+
+node with col 1, node==root? true; numbers: 0, 32767
+children
+8:0,32767
+6:32767,0
+
+My move: 8
+xoxxox.x.
+xxooox.o.
+ooxoxoxo.
+oooxxoxo.
+oxxoooxo.
+oooxxoox.
+xxooxxox.
+xxooxxox.
+xxooxxoxx
+
+
+---
+pndb tryit
+Opponent: 8
+oxooxo.o.
+ooxxxo.x.
+xxoxoxox.
+xxxooxox.
+xooxxxox.
+xxxooxxo.
+ooxxooxo.
+ooxxooxo.
+ooxxooxoo
+
+
+node with col 8, node==root? true; numbers: 32767, 0
+children
+6:32767,0
+8:32767,0
+
+My move: 8
+oxooxo.o.
+ooxxxo.x.
+xxoxoxox.
+xxxooxox.
+xooxxxox.
+xxxooxxo.
+ooxxooxo.
+ooxxooxox
+ooxxooxoo
+
+
+---
+pndb nocel
+Opponent: 8
+xoxxox.x.
+xxooox.o.
+ooxoxoxo.
+oooxxoxo.
+oxxoooxo.
+oooxxoox.
+xxooxxox.
+xxooxxoxo
+xxooxxoxx
+
+
+node with col 8, node==root? true; numbers: 0, 32767
+children
+8:0,32767
+6:32767,0
+
+My move: 8
+xoxxox.x.
+xxooox.o.
+ooxoxoxo.
+oooxxoxo.
+oxxoooxo.
+oooxxoox.
+xxooxxoxx
+xxooxxoxo
+xxooxxoxx
+
+
+---
+pndb tryit
+Opponent: 8
+oxooxo.o.
+ooxxxo.x.
+xxoxoxox.
+xxxooxox.
+xooxxxox.
+xxxooxxo.
+ooxxooxoo
+ooxxooxox
+ooxxooxoo
+
+
+node with col 8, node==root? true; numbers: 32767, 0
+children
+6:32767,0
+8:32767,0
+
+My move: 8
+oxooxo.o.
+ooxxxo.x.
+xxoxoxox.
+xxxooxox.
+xooxxxox.
+xxxooxxox
+ooxxooxoo
+ooxxooxox
+ooxxooxoo
+
+
+---
+pndb nocel
+Opponent: 8
+xoxxox.x.
+xxooox.o.
+ooxoxoxo.
+oooxxoxo.
+oxxoooxo.
+oooxxooxo
+xxooxxoxx
+xxooxxoxo
+xxooxxoxx
+
+
+node with col 8, node==root? true; numbers: 0, 32767
+children
+8:0,32767
+6:12,12
+
+My move: 8
+xoxxox.x.
+xxooox.o.
+ooxoxoxo.
+oooxxoxo.
+oxxoooxox
+oooxxooxo
+xxooxxoxx
+xxooxxoxo
+xxooxxoxx
+
+
+---
+pndb tryit
+Opponent: 8
+oxooxo.o.
+ooxxxo.x.
+xxoxoxox.
+xxxooxox.
+xooxxxoxo
+xxxooxxox
+ooxxooxoo
+ooxxooxox
+ooxxooxoo
+
+
+node with col 8, node==root? true; numbers: 32767, 0
+children
+6:32767,0
+8:32767,0
+
+My move: 8
+oxooxo.o.
+ooxxxo.x.
+xxoxoxox.
+xxxooxoxx
+xooxxxoxo
+xxxooxxox
+ooxxooxoo
+ooxxooxox
+ooxxooxoo
+
+
+---
+pndb nocel
+Opponent: 8
+xoxxox.x.
+xxooox.o.
+ooxoxoxo.
+oooxxoxoo
+oxxoooxox
+oooxxooxo
+xxooxxoxx
+xxooxxoxo
+xxooxxoxx
+
+
+node with col 8, node==root? true; numbers: 0, 32767
+children
+8:0,32767
+6:12,12
+
+My move: 8
+xoxxox.x.
+xxooox.o.
+ooxoxoxox
+oooxxoxoo
+oxxoooxox
+oooxxooxo
+xxooxxoxx
+xxooxxoxo
+xxooxxoxx
+
+
+---
+pndb tryit
+Opponent: 8
+oxooxo.o.
+ooxxxo.x.
+xxoxoxoxo
+xxxooxoxx
+xooxxxoxo
+xxxooxxox
+ooxxooxoo
+ooxxooxox
+ooxxooxoo
+
+
+node with col 8, node==root? true; numbers: 32767, 0
+children
+6:32767,0
+8:32767,0
+
+My move: 8
+oxooxo.o.
+ooxxxo.xx
+xxoxoxoxo
+xxxooxoxx
+xooxxxoxo
+xxxooxxox
+ooxxooxoo
+ooxxooxox
+ooxxooxoo
+
+
+---
+pndb nocel
+Opponent: 8
+xoxxox.x.
+xxooox.oo
+ooxoxoxox
+oooxxoxoo
+oxxoooxox
+oooxxooxo
+xxooxxoxx
+xxooxxoxo
+xxooxxoxx
+
+
+node with col 8, node==root? true; numbers: 0, 32767
+children
+8:0,32767
+6:12,12
+
+My move: 8
+xoxxox.xx
+xxooox.oo
+ooxoxoxox
+oooxxoxoo
+oxxoooxox
+oooxxooxo
+xxooxxoxx
+xxooxxoxo
+xxooxxoxx
+
+
+---
+pndb tryit
+Opponent: 8
+oxooxo.oo
+ooxxxo.xx
+xxoxoxoxo
+xxxooxoxx
+xooxxxoxo
+xxxooxxox
+ooxxooxoo
+ooxxooxox
+ooxxooxoo
+
+
+node with col 8, node==root? true; numbers: 32767, 0
+children
+6:32767,0
+
+My move: 6
+oxooxo.oo
+ooxxxoxxx
+xxoxoxoxo
+xxxooxoxx
+xooxxxoxo
+xxxooxxox
+ooxxooxoo
+ooxxooxox
+ooxxooxoo
+
+
+---
+pndb nocel
+Opponent: 6
+xoxxox.xx
+xxoooxooo
+ooxoxoxox
+oooxxoxoo
+oxxoooxox
+oooxxooxo
+xxooxxoxx
+xxooxxoxo
+xxooxxoxx
+
+
+node with col 6, node==root? true; numbers: 0, 32767
+children
+6:0,32767
+
+My move: 6
+xoxxoxxxx
+xxoooxooo
+ooxoxoxox
+oooxxoxoo
+oxxoooxox
+oooxxooxo
+xxooxxoxx
+xxooxxoxo
+xxooxxoxx
+
+
+---
+pndb nocel
+Opponent: null
+.........
+.........
+.........
+.........
+.........
+.........
+.........
+.........
+.........
+
+
+node with col -1, node==root? true; numbers: 3927, 6066
+children
+0:3963,558
+1:3977,566
+2:3928,567
+3:3928,836
+4:3927,1011
+5:3927,837
+6:3927,567
+7:3977,566
+8:3963,558
+
+My move: 4
+.........
+.........
+.........
+.........
+.........
+.........
+.........
+.........
+....x....
+
+
+---
+pndb tryit
+Opponent: 4
+.........
+.........
+.........
+.........
+.........
+.........
+.........
+.........
+....o....
+
+
+node with col 4, node==root? true; numbers: 5333, 5103
+children
+0:5334,567
+1:5334,567
+2:5334,567
+3:5334,567
+4:5333,567
+5:5333,567
+6:5333,567
+7:5333,567
+8:5333,567
+
+My move: 4
+.........
+.........
+.........
+.........
+.........
+.........
+.........
+....x....
+....o....
+
+
+---
+pndb nocel
+Opponent: 4
+.........
+.........
+.........
+.........
+.........
+.........
+.........
+....o....
+....x....
+
+
+node with col 4, node==root? true; numbers: 2527, 11162
+children
+0:2536,693
+1:2531,1038
+2:2528,1367
+3:2528,2176
+4:2529,560
+5:2527,2176
+6:2530,1406
+7:2529,1004
+8:2527,742
+
+My move: 5
+.........
+.........
+.........
+.........
+.........
+.........
+.........
+....o....
+....xx...
+
+
+---
+pndb tryit
+Opponent: 5
+.........
+.........
+.........
+.........
+.........
+.........
+.........
+....x....
+....oo...
+
+
+node with col 5, node==root? true; numbers: 5685, 3763
+children
+0:5748,161
+1:5703,418
+2:5685,567
+3:5685,567
+4:5748,161
+5:5701,320
+6:5685,584
+7:5685,567
+8:5690,418
+
+My move: 6
+.........
+.........
+.........
+.........
+.........
+.........
+.........
+....x....
+....oox..
+
+
+---
+pndb nocel
+Opponent: 6
+.........
+.........
+.........
+.........
+.........
+.........
+.........
+....o....
+....xxo..
+
+
+node with col 6, node==root? true; numbers: 2825, 10061
+children
+0:2825,567
+1:2834,2198
+2:2831,2189
+3:2828,2198
+4:2825,567
+5:2825,641
+6:2825,567
+7:2825,567
+8:2825,567
+
+My move: 3
+.........
+.........
+.........
+.........
+.........
+.........
+.........
+....o....
+...xxxo..
+
+
+---
+pndb tryit
+Opponent: 3
+.........
+.........
+.........
+.........
+.........
+.........
+.........
+....x....
+...ooox..
+
+
+node with col 3, node==root? true; numbers: 5008, 6089
+children
+0:5023,566
+1:5008,713
+2:5010,1002
+3:5072,720
+4:5011,587
+5:5048,720
+6:5013,649
+7:5010,566
+8:5010,566
+
+My move: 2
+.........
+.........
+.........
+.........
+.........
+.........
+.........
+....x....
+..xooox..
+
+
+---
+pndb nocel
+Opponent: 2
+.........
+.........
+.........
+.........
+.........
+.........
+.........
+....o....
+..oxxxo..
+
+
+node with col 2, node==root? true; numbers: 5275, 5251
+children
+0:5282,567
+1:5320,567
+2:5275,567
+3:5275,641
+4:5275,567
+5:5275,641
+6:5275,567
+7:5320,567
+8:5275,567
+
+My move: 3
+.........
+.........
+.........
+.........
+.........
+.........
+.........
+...xo....
+..oxxxo..
+
+
+---
+pndb tryit
+Opponent: 3
+.........
+.........
+.........
+.........
+.........
+.........
+.........
+...ox....
+..xooox..
+
+
