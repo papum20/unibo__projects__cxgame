@@ -8,6 +8,11 @@ public class TranspositionElementEntry {
 
 	public byte[] state;	//0=attacker, 1=defender
 	
+	/**
+	 * Complexity: O(1)
+	 * @param state_a
+	 * @param state_d
+	 */
 	private TranspositionElementEntry(byte state_a, byte state_d) {
 			this.state = new byte[]{state_a, state_d};
 	}

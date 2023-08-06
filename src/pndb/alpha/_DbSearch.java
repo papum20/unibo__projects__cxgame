@@ -312,7 +312,7 @@ public abstract class _DbSearch<RES, BB extends _BoardBit<BB>, B extends IBoardB
 		 */
 		private boolean addDependentChildren(NODE node, byte attacker, boolean attacking, int lev, LinkedList<NODE> lastDependency, NODE root, int max_tier) throws IOException {
 
-			log += "addDependentChildren";
+			log += "addDependentChildren\n";
 
 			byte state = node.board.gameState();
 			if(state == GameState.OPEN)
