@@ -1,9 +1,12 @@
 package pndb.nocel.nonmc.tryit;
 
+import connectx.CXBoard;
 import pndb.alpha.PnNode;
 import pndb.alpha._PnSearch;
 import pndb.constants.Auxiliary;
 import pndb.constants.CellState;
+import pndb.constants.GameState;
+import pndb.tt.TranspositionElementEntry;
 
 
 
@@ -23,12 +26,58 @@ public class Player extends _PnSearch<DbSearchResult, DbSearch> {
 	}
 
 	@Override
+	public int selectColumn(CXBoard B) {
+		
+		deepest_level	= -1;	// any level is > -1
+		deepest_node	= null;
+
+		return super.selectColumn(B);
+	}
+
+	@Override
 	public String playerName() {
 		return "pndb tryit";
 	}
 
 
 	//#region PN_SEARCH
+
+		/**
+		 * 
+		 * @param node
+		 * @param game_state
+		 * @param player who has to move in node's board.
+		 * @return true if evaluated the node, i.e. it's an ended state or db found a win sequence.
+		 */
+		@Override
+		protected boolean evaluate(PnNode node, byte game_state, byte player) {
+
+			// debug
+			log += "evaluate\n";
+		
+			if(game_state == GameState.OPEN) {
+				TranspositionElementEntry entry = TT.getState(board.hash);
+
+				if(entry == null || entry.state[Auxiliary.getPlayerBit(player)] == GameState.NULL)
+					return evaluateDb(node, player);
+
+			short entry_depth = TT.getFinalDepth(board.hash);
+			if(entry_depth > deepest_level) {
+				deepest_level	= entry_depth; 
+				deepest_node	= node;
+			}
+				node.prove( entry.state[Auxiliary.getPlayerBit(player)] == MY_WIN, false);
+				return true;
+			}
+			else {
+				if(game_state == GameState.WINP1)				// my win
+					node.prove(true, true);		// root cant be ended, or the game would be
+				else										// your win or draw
+					node.prove(false, true);
+
+				return true;
+			}
+		}
 
 		/**
 		 * Evaluate `node` according to a DbSearch.
@@ -46,7 +95,7 @@ public class Player extends _PnSearch<DbSearchResult, DbSearch> {
 			if(res_db == null)
 				return false;
 
-			TT.setStateOrInsert(player, Auxiliary.cellState2winStateCX(player), Auxiliary.getPlayerBit(player));
+			TT.setStateOrInsert(player, Auxiliary.cellState2winState(player), Auxiliary.getPlayerBit(player), (short)(level + res_db.threats_n * 2 + 1));
 				
 			/* note: probably, prune is useless now, as evaluate is only called when node hasn't been expanded yet.
 				*/
@@ -75,8 +124,8 @@ public class Player extends _PnSearch<DbSearchResult, DbSearch> {
 			
 			/* Update deepest node.
 			 */
-			if(level + res_db.threats_n > deepest_level) {
-				deepest_level	= level + res_db.threats_n;
+			if(level + (res_db.threats_n * 2 + 1) > deepest_level) {
+				deepest_level	= level + res_db.threats_n * 2 + 1;	// each threat counts as a move per each, except the last, winning move 
 				deepest_node	= node;
 			}
 			

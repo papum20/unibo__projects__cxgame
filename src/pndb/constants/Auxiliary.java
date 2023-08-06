@@ -53,7 +53,7 @@ public class Auxiliary {
 		return (cell_state == CXCellState.P1) ? CXGameState.WINP1 : CXGameState.WINP2;
 	}
 	public static byte cellState2winState(byte cell_state) {
-		return (cell_state == CellState.P1) ? GameState.P1 : GameState.P2;
+		return (cell_state == CellState.P1) ? GameState.WINP1 : GameState.WINP2;
 	}
 	public static CXGameState cellState2winStateCX(byte cell_state) {
 		return (cell_state == CellState.P1) ? CXGameState.WINP1 : CXGameState.WINP2;
@@ -71,16 +71,16 @@ public class Auxiliary {
 	public static byte CX2gameState(CXGameState game_state) {
 		switch(game_state) {
 			case DRAW:	return GameState.DRAW;
-			case WINP1:	return GameState.P1;
-			case WINP2:	return GameState.P2;
+			case WINP1:	return GameState.WINP1;
+			case WINP2:	return GameState.WINP2;
 			default:	return GameState.OPEN;
 		}
 	}
 	public static CXGameState gameState2CX(byte game_state) {
 		switch(game_state) {
 			case GameState.DRAW:	return CXGameState.DRAW;
-			case GameState.P1:		return CXGameState.WINP1;
-			case GameState.P2:		return CXGameState.WINP2;
+			case GameState.WINP1:		return CXGameState.WINP1;
+			case GameState.WINP2:		return CXGameState.WINP2;
 			default:				return CXGameState.OPEN;
 		}
 	}

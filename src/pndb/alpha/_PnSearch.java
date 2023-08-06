@@ -2,7 +2,6 @@ package pndb.alpha;
 
 import connectx.CXBoard;
 import connectx.CXCell;
-import connectx.CXGameState;
 import connectx.CXPlayer;
 import pndb.constants.Auxiliary;
 import pndb.constants.CellState;
@@ -30,7 +29,7 @@ public abstract class _PnSearch<RES, DB extends IDbSearch<RES>> implements CXPla
 	protected static final byte PROOF		= PnNode.PROOF;
 	protected static final byte DISPROOF	= PnNode.DISPROOF;
 
-	private byte MY_WIN = CellState.P1;
+	protected byte MY_WIN = CellState.P1;
 
 	//#endregion CONSTANTS
 
@@ -197,7 +196,7 @@ public abstract class _PnSearch<RES, DB extends IDbSearch<RES>> implements CXPla
 		 * @param player who has to move in node's board.
 		 * @return true if evaluated the node, i.e. it's an ended state or db found a win sequence.
 		 */
-		private boolean evaluate(PnNode node, byte game_state, byte player) {
+		protected boolean evaluate(PnNode node, byte game_state, byte player) {
 
 			// debug
 			log += "evaluate\n";
@@ -205,14 +204,14 @@ public abstract class _PnSearch<RES, DB extends IDbSearch<RES>> implements CXPla
 			if(game_state == GameState.OPEN) {
 				TranspositionElementEntry entry = TT.getState(board.hash);
 
-				if(entry == null || entry.state[Auxiliary.getPlayerBit(player)] == null)
+				if(entry == null || entry.state[Auxiliary.getPlayerBit(player)] == GameState.NULL)
 					return evaluateDb(node, player);
 
-				node.prove( Auxiliary.CX2gameState(entry.state[Auxiliary.getPlayerBit(player)]) == MY_WIN, false);
+				node.prove( entry.state[Auxiliary.getPlayerBit(player)] == MY_WIN, false);
 				return true;
 			}
 			else {
-				if(game_state == GameState.P1)				// my win
+				if(game_state == GameState.WINP1)				// my win
 					node.prove(true, true);		// root cant be ended, or the game would be
 				else										// your win or draw
 					node.prove(false, true);
@@ -246,10 +245,10 @@ public abstract class _PnSearch<RES, DB extends IDbSearch<RES>> implements CXPla
 			{
 				if(node.n[PROOF] == 0) {
 					node.prove(true, node != root);
-					TT.setStateOrInsert(board.hash, CXGameState.WINP1, 0);
+					TT.setStateOrInsert(board.hash, GameState.WINP1, 0);
 				} else {
 					node.prove(node.n[PROOF] == 0 ? true : false, node != root);
-					TT.setStateOrInsert(board.hash, CXGameState.WINP2, 1);
+					TT.setStateOrInsert(board.hash, GameState.WINP2, 1);
 				}
 			}
 			// if node has children, set numbers according to children numbers
@@ -271,7 +270,7 @@ public abstract class _PnSearch<RES, DB extends IDbSearch<RES>> implements CXPla
 			else if(board.game_state == GameState.OPEN)
 				initProofAndDisproofNumbers(node, offset);
 			else 
-				node.prove(board.game_state == GameState.P1, node != root);
+				node.prove(board.game_state == GameState.WINP1, node != root);
 
 		}
 
