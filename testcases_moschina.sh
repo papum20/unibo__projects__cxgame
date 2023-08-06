@@ -7,7 +7,7 @@ then
 fi
 
 
-_OUTDIR="debug/match/porgy"
+_OUTDIR="debug/match/moschina"
 OUTDIR="${_OUTDIR}/$1"
 TESTS="4"
 

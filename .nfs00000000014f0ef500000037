@@ -59,3 +59,4 @@ Player 1 (pndb alpha) interrupted due to exception
 Player 1 (pndb alpha) eventually stopped: round closed
 ./testcases_all_0.sh: line 23: debug/match/3/alpha_nonum_874.txt: No such file or directory
 ./testcases_all_0.sh: line 24: debug/match/3/alpha_nonum_15.txt: No such file or directory
+./testcases_all_0.sh: line 25: debug/match/3/alpha_nonum_2012.txt: No such file or directory
