@@ -1,3 +1,4 @@
 ./testcases_tryit.sh: line 9: x: command not found
 mkdir: cannot create directory ‘debug/match/debian’: File exists
 ./testcases_tryit.sh: line 20: /ltest: No such file or directory
+java.lang.IllegalArgumentException: Illegal argument: 'pndb.alpha.nonum.Player' class not found

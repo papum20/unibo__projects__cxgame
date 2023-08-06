@@ -30,6 +30,7 @@ public class Player extends pndb.alpha.Player {
 		 * Init proof numbers to offset + current level in game tree.
 		 * @param node
 		 */
+		@Override
 		protected void initProofAndDisproofNumbers(PnNode node, short offset) {
 			short number = (short)(offset + current_level / 2 + 1);		// +1 so never < 1
 			node.setProofAndDisproof(number, number);
