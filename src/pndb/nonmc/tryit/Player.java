@@ -47,7 +47,7 @@ public class Player extends _PnSearch<DbSearchResult, DbSearch> {
 
 	@Override
 	public String playerName() {
-		return "pndb tryit";
+		return "pndb tryt0";
 	}
 
 
