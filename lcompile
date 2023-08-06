@@ -1,1 +1,1 @@
-javac -d out -sourcepath src src/connectx/*.java src/connectx/*/*.java src/pndb/*/*.java src/pndb/*/*/*.java src/pndb/*/*/*/*.java src/pndb/*/*/*/*/*.java src/LXCONO/LXMARGIN/*.java
+javac -d out -sourcepath src src/connectx/*.java src/connectx/*/*.java src/pndb/*/*.java src/pndb/*/*/*.java src/pndb/*/*/*/*.java src/pndb/*/*/*/*/*.java src/pndb/*/*/*/*/*.java src/LXCONO/LXMARGIN/*.java

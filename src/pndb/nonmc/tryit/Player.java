@@ -154,6 +154,7 @@ public class Player extends _PnSearch<DbSearchResult, DbSearch> {
 		@Override
 		public void generateAllChildren(PnNode node, byte player) {
 
+			System.out.println("caac");
 			// debug
 			log += "generateChildren\n";
 

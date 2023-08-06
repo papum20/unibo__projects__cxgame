@@ -1,0 +1,7 @@
+mkdir: cannot create directory ‘debug/match/debian’: File exists
+Player 1 (pndb alpha) interrupted due to exception
+ java.util.concurrent.ExecutionException: java.lang.ArrayIndexOutOfBoundsException: Index 9 out of bounds for length 9
+Player 1 (pndb alpha) eventually stopped: round closed
+Player 1 (pndb alpha) interrupted due to exception
+ java.util.concurrent.ExecutionException: java.lang.ArrayIndexOutOfBoundsException: Index -1 out of bounds for length 9
+Player 1 (pndb alpha) eventually stopped: round closed
