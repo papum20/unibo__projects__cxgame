@@ -7,7 +7,7 @@ import pndb.constants.Constants.BoardsRelation;
 /**
  * Node for DbSearch, including its own board.
  */
-public abstract class _DbNode<S extends _DbNode<S, B>, B extends IBoardBitDb<B>> {
+public abstract class _DbNode<S extends _DbNode<S,BB,B>, BB extends IBoardBit, B extends IBoardBitDb<B, BB>> {
 
 	public final B board;
 	/* 
@@ -55,7 +55,7 @@ public abstract class _DbNode<S extends _DbNode<S, B>, B extends IBoardBitDb<B>>
 		/*
 		 * helper, only one direction
 		 */
-		protected BoardsRelation _validCombinationWith(_DbNode<S,B> node, byte attacker) {
+		protected BoardsRelation _validCombinationWith(_DbNode<S,BB,B> node, byte attacker) {
 
 			boolean added_own = false;
 			CXCell cell;

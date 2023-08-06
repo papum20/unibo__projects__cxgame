@@ -114,5 +114,16 @@ public class Auxiliary {
 		}
 
 	//#endregion ARRAYS
+
+
+	//#region DEBUG
+
+
+		public static void printMemory(Runtime runtime) {
+			long freeMemory = runtime.maxMemory() - (runtime.totalMemory() - runtime.freeMemory());
+			System.out.println("memory: max=" + runtime.maxMemory() + " " + ", allocated=" + runtime.totalMemory() + ", free=" + runtime.freeMemory() + ", realFree=" + freeMemory);
+		}
+	
+	//#endregion DEBUG
 	
 }

@@ -16,7 +16,7 @@ public class testerDb {
 		DbSearch db = new DbSearch();
 		db.init(M, N, X, first);
 
-		BoardBit board = db.board;
+		BoardBit board = new BoardBit(M, N, X);
 
 		board.markCheck(0, CellState.P1);
 		board.markCheck(0, CellState.P1);

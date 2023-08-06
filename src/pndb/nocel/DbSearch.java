@@ -27,13 +27,13 @@ import pndb.tt.TranspositionTable;
  * -	For the previous point, boards with a state not open, in case, are added to TT as open, so they are not mistaken
  * 		in the combination stage (for implementation, because of the return type, boolean, of the functions).
  */
-public class DbSearch extends _DbSearch<DbSearchResult, BoardBitDb, DbNode<BoardBitDb>> {
+public class DbSearch extends _DbSearch<DbSearchResult, BoardBit, BoardBitDb, DbNode<BoardBit, BoardBitDb>> {
 	
 
 
 
 	public DbSearch() {
-		super(new DbNode<BoardBitDb>());
+		super(new DbNode<BoardBit, BoardBitDb>());
 	}
 
 	public void init(int M, int N, int X, boolean first) {
@@ -49,6 +49,8 @@ public class DbSearch extends _DbSearch<DbSearchResult, BoardBitDb, DbNode<Board
 		
 		BoardBitDb.TT = TT;
 
+		GOAL_SQUARES = new boolean[M][N];
+		// initialized to false
 	}
 
 	/**
@@ -66,13 +68,10 @@ public class DbSearch extends _DbSearch<DbSearchResult, BoardBitDb, DbNode<Board
 		// debug
 		log = "__\ndbSearch\n";
 
-		DbNode<BoardBitDb> root = null;;
+		DbNode<BoardBit, BoardBitDb> root = null;;
 
 		try {
 
-			GOAL_SQUARES = new boolean[M][N];
-			// initialized to false
-			
 			// timer
 			timer_start	= System.currentTimeMillis();
 			timer_end	= timer_start + time_remaining;
@@ -139,20 +138,20 @@ public class DbSearch extends _DbSearch<DbSearchResult, BoardBitDb, DbNode<Board
 	//#region CREATE
 
 		@Override
-		protected DbNode<BoardBitDb> createNode(BoardBitDb board, boolean is_combination, int max_tier) {
-			return new DbNode<BoardBitDb>(board, is_combination, max_tier);
+		protected DbNode<BoardBit, BoardBitDb> createNode(BoardBitDb board, boolean is_combination, int max_tier) {
+			return new DbNode<BoardBit, BoardBitDb>(board, is_combination, max_tier);
 		}
 
 		/**
 		 * sets child's game_state if entry exists in TT
 		 */
-		protected DbNode<BoardBitDb> addDependentChild(DbNode<BoardBitDb> node, ThreatCells threat, int atk, LinkedList<DbNode<BoardBitDb>> lastDependency, byte attacker) {
+		protected DbNode<BoardBit, BoardBitDb> addDependentChild(DbNode<BoardBit, BoardBitDb> node, ThreatCells threat, int atk, LinkedList<DbNode<BoardBit, BoardBitDb>> lastDependency, byte attacker) {
 			
 			// debug
 			log += "addDepChild\n";
 
 			BoardBitDb new_board			= node.board.getDependant(threat, atk, USE.BTH, node.getMaxTier(), true);
-			DbNode<BoardBitDb> newChild 	= new DbNode<BoardBitDb>(new_board, false, node.getMaxTier());
+			DbNode<BoardBit, BoardBitDb> newChild 	= new DbNode<BoardBit, BoardBitDb>(new_board, false, node.getMaxTier());
 
 			node.addChild(newChild);
 			lastDependency.add(newChild);

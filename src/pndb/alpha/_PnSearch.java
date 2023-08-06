@@ -167,11 +167,8 @@ public abstract class _PnSearch<RES, DB extends IDbSearch<RES>> implements CXPla
 				
 				// debug
 				if(DEBUG_TIME) printTime();
-				//System.out.println("after develop\nroot numbers: " + root.n[0] + ", " + root.n[1]);
-				//System.out.println("root children:");
-				//for(PnNode child : root.children) {
-					//	System.out.println(child.col + ":" + child.n[PROOF] + "," + child.n[DISPROOF]);
-					//}
+				//System.out.println("after develop\nroot numbers: " + root.n[0] + ", " + root.n[1] + "\nroot children");
+				//for(PnNode child : root.children) System.out.println(child.col + ":" + child.n[PROOF] + "," + child.n[DISPROOF]);
 				
 				currentNode = updateAncestorsWhileChanged(mostProvingNode);
 				
@@ -394,8 +391,11 @@ public abstract class _PnSearch<RES, DB extends IDbSearch<RES>> implements CXPla
 			short number = (short)(offset + current_level);		// never less than 1, as level init to 1
 			node.setProofAndDisproof(number, number);
 		}
+
 		/**
-		 * 
+		 * mark/unmark and update current_player.
+		 * @param col : col to mark/unmark
+		 * @return new game_state
 		 */
 		protected byte mark(int col) {
 			byte res = board.markCheck(col, current_player);
@@ -403,30 +403,18 @@ public abstract class _PnSearch<RES, DB extends IDbSearch<RES>> implements CXPla
 			current_level++;
 			return res;
 		}
-		/**
-		 * unmark and update current_player.
-		 * @param col : col to unmark
-		 */
 		protected void unmark(int col) {
 			board.unmark(col);
 			current_player = (byte)Constants.opponent(current_player);
 			current_level--;
 		}
-		/**
-		 * 
-		 * @return
-		 */
+
 		protected boolean isMyTurn() {
 			return current_player == CellState.P1;
 		}
-		/**
-		 * 
-		 * @return
-		 */
+		
 		protected PnNode bestNode() {
-			// take child with min proof
-			// int move = root.minChild(PROOF).col;
-			// child with min proof/disproof ratio
+			// child with min proof/disproof ratio (note that if a child has proof zero, it will be chosen)
 			PnNode best = null;
 			for(PnNode child : root.children) {
 				if(child.n[DISPROOF] != 0 && (best == null || (float)child.n[PROOF] / child.n[DISPROOF] < (float)best.n[PROOF] / best.n[DISPROOF]) )
@@ -450,11 +438,6 @@ public abstract class _PnSearch<RES, DB extends IDbSearch<RES>> implements CXPla
 			// max memory useable by jvm - (allocatedMemory = memory actually allocated by system for jvm - free memory in totalMemory)
 			long freeMemory = runtime.maxMemory() - (runtime.totalMemory() - runtime.freeMemory());
 			return freeMemory < runtime.maxMemory() * (5 / 100);
-		}
-
-		protected void printMemory() {
-			long freeMemory = runtime.maxMemory() - (runtime.totalMemory() - runtime.freeMemory());
-			System.out.println("memory: max=" + runtime.maxMemory() + " " + ", allocated=" + runtime.totalMemory() + ", free=" + runtime.freeMemory() + ", realFree=" + freeMemory);
 		}
 
 		protected void printTime() {

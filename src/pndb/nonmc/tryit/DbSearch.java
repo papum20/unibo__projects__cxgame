@@ -1,11 +1,10 @@
-package pndb.nocel.nonmc;
+package pndb.nonmc.tryit;
 
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.LinkedList;
 
 import pndb.alpha.BoardBit;
-import pndb.alpha.DbSearchResult;
 import pndb.alpha.Operators;
 import pndb.alpha.PnNode;
 import pndb.alpha._DbSearch;
@@ -13,6 +12,8 @@ import pndb.alpha.threats.ThreatApplied;
 import pndb.alpha.threats.ThreatCells;
 import pndb.alpha.threats.ThreatCells.USE;
 import pndb.constants.CellState;
+import pndb.nonmc.BoardBitDb;
+import pndb.nocel.nonmc.DbNode;
 import pndb.tt.TranspositionTable;
 
 
@@ -29,11 +30,12 @@ import pndb.tt.TranspositionTable;
 public class DbSearch extends _DbSearch<DbSearchResult, BoardBit, BoardBitDb, DbNode<BoardBit, BoardBitDb>> {
 	
 
-	
+
+
 	public DbSearch() {
 		super(new DbNode<BoardBit, BoardBitDb>());
 	}
-
+	
 	public void init(int M, int N, int X, boolean first) {
 		
 		this.M = M;
@@ -135,7 +137,7 @@ public class DbSearch extends _DbSearch<DbSearchResult, BoardBit, BoardBitDb, Db
 	}
 
 
-	//#region CREATE
+		//#region ALGORITHM
 
 
 		@Override
@@ -143,14 +145,17 @@ public class DbSearch extends _DbSearch<DbSearchResult, BoardBit, BoardBitDb, Db
 			return new DbNode<BoardBit, BoardBitDb>(board, is_combination, max_tier);
 		}
 
+		/**
+		 * sets child's game_state if entry exists in TT
+		 */
 		@Override
 		protected DbNode<BoardBit, BoardBitDb> addDependentChild(DbNode<BoardBit, BoardBitDb> node, ThreatCells threat, int atk, LinkedList<DbNode<BoardBit, BoardBitDb>> lastDependency, byte attacker) {
 			
 			// debug
 			log += "addDepChild\n";
 
-			BoardBitDb new_board			= node.board.getDependant(threat, atk, USE.BTH, node.getMaxTier(), true);
-			DbNode<BoardBit, BoardBitDb> newChild 	= new DbNode<BoardBit, BoardBitDb>(new_board, false, node.getMaxTier());
+			BoardBitDb new_board	= node.board.getDependant(threat, atk, USE.BTH, node.getMaxTier(), true);
+			DbNode<BoardBit, BoardBitDb> newChild 		= new DbNode<BoardBit, BoardBitDb>(new_board, false, node.getMaxTier());
 
 			node.addChild(newChild);
 			lastDependency.add(newChild);
@@ -161,7 +166,7 @@ public class DbSearch extends _DbSearch<DbSearchResult, BoardBit, BoardBitDb, Db
 	//#endregion CREATE
 
 
-	//#region HELPER
+	//#region GET_SET
 
 		@Override
 		protected DbSearchResult getReturnValue(byte player) {
@@ -179,10 +184,9 @@ public class DbSearch extends _DbSearch<DbSearchResult, BoardBit, BoardBitDb, Db
 			for(int j = 0; j < N; j++)
 				related_squares_by_col[j] = win_node.board.free[j] - board.free[j];
 			
-			return new DbSearchResult(winning_col, related_squares_by_col);
+			return new DbSearchResult(winning_col, related_squares_by_col, win_node.board.markedThreats.size());
 		}
-
-
+		
 	//#endregion HELPER
 
 }

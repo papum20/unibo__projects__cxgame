@@ -1,4 +1,4 @@
-package pndb.nocel.nonmc;
+package pndb.nonmc;
 
 import pndb.alpha.BoardBit;
 import pndb.alpha._BoardBitDb;

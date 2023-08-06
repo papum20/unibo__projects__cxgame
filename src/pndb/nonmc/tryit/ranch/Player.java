@@ -1,74 +1,28 @@
-package pndb.alpha;
+package pndb.nonmc.tryit.ranch;
 
+import pndb.alpha.PnNode;
 import pndb.constants.Auxiliary;
-import pndb.constants.CellState;
+import pndb.nocel.nonmc.tryit.DbSearchResult;
 
-public class Player extends _PnSearch<DbSearchResult, DbSearch> {
-	
-	@Override
-	public void initPlayer(int M, int N, int X, boolean first, int timeout_in_secs) {
-		
-		dbSearch = new DbSearch();		
-		super.initPlayer(M, N, X, first, timeout_in_secs);
-	}
+
+
+
+/**
+ * Randomly shuffles children with same priority, so they are analyzed in a different order.
+ * Also uses `halfn` heuristic.
+ */
+public class Player extends pndb.nocel.nonmc.tryit.Player {
+
+
 
 	@Override
 	public String playerName() {
-		return "pndb alpha";
+		return "pndb ranch";
 	}
 
 
 	//#region PN_SEARCH
 
-		/**
-		 * Evaluate `node` according to a DbSearch.
-		 * @param node
-		 * @param player
-		 * @return true if found a win.
-		 */
-		@Override
-		protected boolean evaluateDb(PnNode node, byte player) {
-
-			log += "evaluateDb\n";
-
-			DbSearchResult res_db = dbSearch.selectColumn(board, node, timer_end - System.currentTimeMillis(), player);
-	
-			if(res_db == null)
-				return false;
-
-			TT.setStateOrInsert(player, Auxiliary.cellState2winState(player), Auxiliary.getPlayerBit(player));
-				
-			/* note: probably, prune is useless now, as evaluate is only called when node hasn't been expanded yet.
-				*/
-			
-			/* if a win is found without expanding, need to save the winning move somewhere (in a child)
-			* (especially for the root, or you wouldn't know the correct move)
-			*/
-			if(node != root)
-				node.prove(player == CellState.P1, false);
-			
-			// root is only evaluated once, before expanding
-			node.expand(1);
-			node.children[0] = new PnNode(res_db.winning_col, node);							// can overwrite a child
-			node.children[0].prove(player == CellState.P1, false);
-
-			/* Heuristic: update parent's children with iterated related squares.
-			 * If, in the current board, the current player has a winning sequence,
-			 * starting with a certain move `x` in column `X` involving certain cells `s` (thus certain columns `S`),
-			 * if the other player (who moved in the parent node) was to make a move not in any of `S`,
-			 * then the current player could play `x`, and apply his winning sequence as planned,
-			 * because the opponent's move is useless for such sequence.
-			 *
-			 * As an additional proof, if current player could create a new threat or avoid the opponent's one with 
-			 * such different move, then `s` wouldn't represent a winning sequence (Db also checks defenses).
-			 * 
-			 * Probably that's already taken in count in parent's null-move dbSearch (generateAllChildren).
-			 */
-			//filterChildren(node.parent, res_db.related_squares_by_col);
-			
-			return true;
-		}
-		
 		/**
 		 * 
 		 * @param node
@@ -142,8 +96,30 @@ public class Player extends _PnSearch<DbSearchResult, DbSearch> {
 				}
 			}
 
+			// shuffle children with same priority
+			int start, end;
+			for(start = 0; start < related_cols_n; start++) {
+				for(end = start + 1;
+					end < related_cols_n && threats[node.children[end].col] == threats[node.children[start].col];
+					end++
+				) ;
+				Auxiliary.shuffleArrayRange(node.children, start, end);
+				start = end;
+			}
+			
 		}
-	
+
+		/**
+		 * Init proof numbers to offset + current level in game tree.
+		 * @param node
+		 */
+		@Override
+		protected void initProofAndDisproofNumbers(PnNode node, short offset) {
+			short number = (short)(offset + current_level / 2 + 1);		// +1 so never < 1
+			node.setProofAndDisproof(number, number);
+		}
+
 	//#endregion PN_SEARCH
+
 
 }

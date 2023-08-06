@@ -1,22 +1,33 @@
-package pndb.alpha;
+package pndb.nonmc;
 
+import pndb.alpha.DbSearchResult;
+import pndb.alpha.PnNode;
+import pndb.alpha._PnSearch;
 import pndb.constants.Auxiliary;
 import pndb.constants.CellState;
 
+
+
+/**
+ * Saves all levels for endgames (in TT) and, for each visit, saves the deepest one,
+ * so it can return it in case all moves are losing.
+ */
+/**
+ * Removes MC and their uses.
+ */
 public class Player extends _PnSearch<DbSearchResult, DbSearch> {
-	
+
 	@Override
 	public void initPlayer(int M, int N, int X, boolean first, int timeout_in_secs) {
-		
-		dbSearch = new DbSearch();		
+
+		dbSearch = new DbSearch();
 		super.initPlayer(M, N, X, first, timeout_in_secs);
 	}
 
 	@Override
 	public String playerName() {
-		return "pndb alpha";
+		return "pndb nonmc";
 	}
-
 
 	//#region PN_SEARCH
 
@@ -53,17 +64,14 @@ public class Player extends _PnSearch<DbSearchResult, DbSearch> {
 			node.children[0].prove(player == CellState.P1, false);
 
 			/* Heuristic: update parent's children with iterated related squares.
-			 * If, in the current board, the current player has a winning sequence,
-			 * starting with a certain move `x` in column `X` involving certain cells `s` (thus certain columns `S`),
-			 * if the other player (who moved in the parent node) was to make a move not in any of `S`,
-			 * then the current player could play `x`, and apply his winning sequence as planned,
-			 * because the opponent's move is useless for such sequence.
-			 *
-			 * As an additional proof, if current player could create a new threat or avoid the opponent's one with 
-			 * such different move, then `s` wouldn't represent a winning sequence (Db also checks defenses).
-			 * 
-			 * Probably that's already taken in count in parent's null-move dbSearch (generateAllChildren).
-			 */
+				* If, in the current board, the current player has a winning sequence,
+				* starting with a certain move `x` in column `X` involving certain cells `s` (thus certain columns `S`),
+				* if the other player (who moved in the parent node) was to make a move not in any of `S`,
+				* then the current player could play `x`, and apply his winning sequence as planned,
+				* because the opponent's move is useless for such sequence.
+				* As an additional proof, if current player could create a new threat or avoid the opponent's one with 
+				* such different move, then `s` wouldn't represent a winning sequence (Db also checks defenses).
+				*/
 			//filterChildren(node.parent, res_db.related_squares_by_col);
 			
 			return true;
@@ -145,5 +153,6 @@ public class Player extends _PnSearch<DbSearchResult, DbSearch> {
 		}
 	
 	//#endregion PN_SEARCH
+
 
 }

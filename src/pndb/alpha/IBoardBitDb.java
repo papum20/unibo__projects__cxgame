@@ -13,13 +13,13 @@ import pndb.constants.Constants.BoardsRelation;
 
 
 
-public interface IBoardBitDb<S extends IBoardBitDb<S>> extends IBoardBit {
+public interface IBoardBitDb<S extends IBoardBitDb<S, BB>, BB extends IBoardBit> extends IBoardBit {
 	
 
 
 	public S getCopy(boolean copy_threats);
 
-	public void copy(S B);
+	public void copy(BB B);
 	
 
 	//#region BOARD
