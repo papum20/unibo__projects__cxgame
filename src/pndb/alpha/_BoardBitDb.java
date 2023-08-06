@@ -271,7 +271,7 @@ public abstract class _BoardBitDb<S extends _BoardBitDb<S, BB>, BB extends _Boar
 			S res = getCopy(true);
 
 			for(ThreatApplied athreat : B.markedThreats) {
-				if(this.isUsefulThreat(athreat, attacker)) {
+				if(isUsefulThreat(athreat, attacker)) {
 					//mark other board's threat on res
 					for(int i = 0; i < athreat.threat.related.length; i++) {
 						MovePair c = athreat.threat.related[i];
