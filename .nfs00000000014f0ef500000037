@@ -15,3 +15,47 @@ Player 1 (pndb alpha) eventually stopped: round closed
 Player 1 (pndb alpha) interrupted due to exception
  java.util.concurrent.ExecutionException: java.lang.ArrayIndexOutOfBoundsException
 Player 1 (pndb alpha) eventually stopped: round closed
+./testcases_all_0.sh: error reading input file: Stale file handle
+Player 1 (pndb alpha) interrupted due to exception
+ java.util.concurrent.ExecutionException: java.lang.ArrayIndexOutOfBoundsException
+Player 1 (pndb alpha) eventually stopped: round closed
+Player 1 (pndb alpha) interrupted due to exception
+ java.util.concurrent.ExecutionException: java.lang.ArrayIndexOutOfBoundsException
+Player 1 (pndb alpha) eventually stopped: round closed
+./testcases_all_0.sh: line 20: debug/match/3/alpha_nocel_504013.txt: No such file or directory
+Player 2 (pndb nocel) interrupted due to exception
+ java.util.concurrent.ExecutionException: java.lang.ArrayIndexOutOfBoundsException: Index 0 out of bounds for length 0
+Player 2 (pndb nocel) eventually stopped: round closed
+Player 1 (pndb alpha) interrupted due to exception
+ java.util.concurrent.ExecutionException: java.lang.ArrayIndexOutOfBoundsException
+Player 1 (pndb alpha) eventually stopped: round closed
+Player 1 (pndb alpha) interrupted due to exception
+ java.util.concurrent.ExecutionException: java.lang.ArrayIndexOutOfBoundsException
+Player 1 (pndb alpha) eventually stopped: round closed
+Player 2 (pndb nocel) interrupted due to exception
+ java.util.concurrent.ExecutionException: java.lang.NullPointerException: Cannot read the array length because "<local2>" is null
+Player 2 (pndb nocel) eventually stopped: round closed
+Player 1 (pndb alpha) interrupted due to exception
+ java.util.concurrent.ExecutionException: java.lang.ArrayIndexOutOfBoundsException
+Player 1 (pndb alpha) eventually stopped: round closed
+Player 1 (pndb alpha) interrupted due to exception
+ java.util.concurrent.ExecutionException: java.lang.ArrayIndexOutOfBoundsException
+Player 1 (pndb alpha) eventually stopped: round closed
+./testcases_all_0.sh: line 21: debug/match/3/alpha_nocel_706021.txt: No such file or directory
+Player 1 (pndb alpha) interrupted due to exception
+ java.util.concurrent.ExecutionException: java.lang.ArrayIndexOutOfBoundsException: Index 0 out of bounds for length 0
+Player 1 (pndb alpha) eventually stopped: round closed
+Player 2 (pndb nocel) interrupted due to exception
+ java.util.concurrent.ExecutionException: java.lang.ArrayIndexOutOfBoundsException
+Player 2 (pndb nocel) eventually stopped: round closed
+Player 1 (pndb alpha) interrupted due to exception
+ java.util.concurrent.ExecutionException: java.lang.ArrayIndexOutOfBoundsException
+Player 1 (pndb alpha) eventually stopped: round closed
+Player 1 (pndb alpha) interrupted due to exception
+ java.util.concurrent.ExecutionException: java.lang.ArrayIndexOutOfBoundsException
+Player 1 (pndb alpha) eventually stopped: round closed
+Player 1 (pndb alpha) interrupted due to exception
+ java.util.concurrent.ExecutionException: java.lang.NullPointerException: Cannot read the array length because "<local2>" is null
+Player 1 (pndb alpha) eventually stopped: round closed
+./testcases_all_0.sh: line 23: debug/match/3/alpha_nonum_874.txt: No such file or directory
+./testcases_all_0.sh: line 24: debug/match/3/alpha_nonum_15.txt: No such file or directory

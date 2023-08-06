@@ -1,0 +1,15 @@
+Player 2 (pndb tryit) interrupted due to exception
+ java.util.concurrent.ExecutionException: java.lang.NullPointerException: Cannot read field "parent" because "<local2>" is null
+Player 2 (pndb tryit) eventually stopped: round closed
+Player 2 (pndb tryit) interrupted due to exception
+ java.util.concurrent.ExecutionException: java.lang.NullPointerException: Cannot read field "parent" because "<local2>" is null
+Player 2 (pndb tryit) eventually stopped: round closed
+java.lang.IllegalArgumentException: Illegal argument: 'pndb.nocell.Player' class not found
+java.lang.IllegalArgumentException: Illegal argument: 'pndb.nonmc.Player' class not found
+Player 2 (pndb tryit) interrupted due to exception
+ java.util.concurrent.ExecutionException: java.lang.NullPointerException: Cannot read field "parent" because "<local2>" is null
+Player 2 (pndb tryit) eventually stopped: round closed
+Player 2 (pndb tryit) interrupted due to exception
+ java.util.concurrent.ExecutionException: java.lang.NullPointerException: Cannot read field "parent" because "<local2>" is null
+Player 2 (pndb tryit) eventually stopped: round closed
+mkdir: cannot create directory ‘debug/match/giovanna’: File exists
