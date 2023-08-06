@@ -45,6 +45,12 @@ public abstract class _BoardBit<BB extends _BoardBit<BB>> implements IBoardBit {
 
 
 
+	/**
+	 *  Complexity: O(3N) if M <= 64 else O(5N)
+	 * @param M
+	 * @param N
+	 * @param X
+	 */
 	public _BoardBit(int M, int N, int X) {
 		this.M = (byte)M;
 		this.N = (byte)N;
@@ -57,7 +63,8 @@ public abstract class _BoardBit<BB extends _BoardBit<BB>> implements IBoardBit {
 	}
 
 	/**
-	 * copy all
+	 * Copy all.
+	 * Complexity: O(N * COL_SIZE(M))) = O(N) if M <= 64 else O(2N)
 	 * @param B to copy
 	 */
 	public void copy(BB B) {
@@ -76,7 +83,7 @@ public abstract class _BoardBit<BB extends _BoardBit<BB>> implements IBoardBit {
 	}
 
 	/**
-	 * 
+	 * Complexity: O(1)
 	 * @param col
 	 * @param player
 	 * @return GameState
@@ -90,7 +97,7 @@ public abstract class _BoardBit<BB extends _BoardBit<BB>> implements IBoardBit {
 		free_n--;
 	}
 	/**
-	 * 
+	 * Complexity: O(4X)
 	 * @param col
 	 * @param player
 	 * @return GameState
@@ -105,6 +112,9 @@ public abstract class _BoardBit<BB extends _BoardBit<BB>> implements IBoardBit {
 		return game_state;
 	}
 
+	/**
+	 * Complexity: O(1)
+	 */
 	public void unmark(int col) {
 		free[col]--;
 
@@ -117,6 +127,12 @@ public abstract class _BoardBit<BB extends _BoardBit<BB>> implements IBoardBit {
 		game_state = GameState.OPEN;
 	}
 
+	/**
+	 * Complexity: O(4X)
+	 * @param i
+	 * @param j
+	 * @return
+	 */
 	protected boolean isWinningMove(int i, int j) {
 		long	mask_ij = 1 << (i % BITSTRING_LEN);
 		long	s		= (board[j][i / BITSTRING_LEN] & mask_ij)		>> (i % BITSTRING_LEN),
@@ -189,18 +205,23 @@ public abstract class _BoardBit<BB extends _BoardBit<BB>> implements IBoardBit {
 	//#region GET_SET
 
 		/*
-		 * return board's value, i.e. 1 if occupied by first player.
+		 * Return board's value, i.e. 1 if occupied by first player.
+		 * Complexity: O(1)
 		 */
 		public byte _cellState(int i, int j) {
 			return (byte)(1 & (board[j][i / BITSTRING_LEN] >> (i % BITSTRING_LEN)));
 		}
 		/*
-		 * return board_mask's value, i.e. 1 if occupied by someone.
+		 * Return board_mask's value, i.e. 1 if occupied by someone.
+		 * Complexity: O(1)
 		 */
 		public byte _cellMaskState(int i, int j) {
 			return (byte)(1 & (board_mask[j][i / BITSTRING_LEN] >> (i % BITSTRING_LEN)));
 		}
 
+		/**
+		 * Complexity: O(1)
+		 */
 		public byte cellState(int i, int j) {
 			switch(_cellState(i, j)) {
 				case 1:
@@ -214,6 +235,9 @@ public abstract class _BoardBit<BB extends _BoardBit<BB>> implements IBoardBit {
 					}
 			}
 		}
+		/**
+		 * Complexity: O(1)
+		 */
 		public CXCellState cellStateCX(int i, int j) {
 			switch(_cellState(i, j)) {
 				case 1:
@@ -228,33 +252,52 @@ public abstract class _BoardBit<BB extends _BoardBit<BB>> implements IBoardBit {
 			}
 		}
 		/**
-		 * 
+		 * Complexity: O(1)
 		 * @param c
 		 * @return the cell's state, as CellState
 		 */
 		public byte cellState(MovePair c) {return cellState(c.i, c.j);}
+		/**
+		 * Complexity: O(1)
+		 */
 		public CXCellState cellStateCX(MovePair c) {return cellStateCX(c.i, c.j);}
 
+		/**
+		 * Complexity: O(1)
+		 */
 		public boolean cellFree(int i, int j) {return (1 & (board_mask[j][i / BITSTRING_LEN] >> (i % BITSTRING_LEN))) == 0;}
 		
 		/*
-		 * convert cell to GameState, assuming cell is occupied by someone.
+		 * Convert cell to GameState, assuming cell is occupied by someone.
+		 * Complexity: O(1)
 		 */
 		public byte cell2GameState(int i, int j) {
 			return (_cellState(i, j) == 1)? GameState.WINP1 : GameState.WINP2;
 		}
+		/**
+		 * Complexity: O(1)
+		 */
 		public byte cell2GameState(byte cell_state) {
 			return (cell_state == CellState.P1)? GameState.WINP1 : GameState.WINP2;
 		}
+		/**
+		 * Complexity: O(1)
+		 */
 		public CXGameState cell2GameStateCX(int i, int j) {
 			return (_cellState(i, j) == 1)? CXGameState.WINP1 : CXGameState.WINP2;
 		}
 
+		/**
+		 * Complexity: O(1)
+		 */
 		public boolean freeCol(int j) {
 			//return board_mask[j][COL_SIZE(M) - 1] != -1;
 			return (free[j] != M);
 		}
 
+		/**
+		 * Complexity: O(2N)
+		 */
 		public ArrayList<Integer> freeCols() {
 			ArrayList<Integer> res = new ArrayList<Integer>(N);
 			for(int j = 0; j < N; j++)
@@ -262,15 +305,24 @@ public abstract class _BoardBit<BB extends _BoardBit<BB>> implements IBoardBit {
 			return res;
 		}
 
+		/**
+		 * Complexity: O(1)
+		 */
 		public byte gameState() {return game_state;}
+		/**
+		 * Complexity: O(1)
+		 */
 		public CXGameState gameStateCX() {
 			switch(game_state) {
 				case GameState.DRAW:	return CXGameState.DRAW;
-				case GameState.WINP1:		return CXGameState.WINP1;
-				case GameState.WINP2:		return CXGameState.WINP2;
+				case GameState.WINP1:	return CXGameState.WINP1;
+				case GameState.WINP2:	return CXGameState.WINP2;
 				default:				return CXGameState.OPEN;
 			}
 		}
+		/**
+		 * Complexity: O(1)
+		 */
 		public void setGameState(CXGameState state) {game_state = Auxiliary.CX2gameState(state); }
 		
 	//#endregion GET_SET
@@ -278,7 +330,8 @@ public abstract class _BoardBit<BB extends _BoardBit<BB>> implements IBoardBit {
 	//#region MACROS
 
 		/**
-		 * how many bitstrings (long) a column of col_cells cells takes.
+		 * How many bitstrings (long) a column of col_cells cells takes.
+		 * Complexity: O(1)
 		 * @param col_cells
 		 * @return
 		 */
@@ -288,6 +341,9 @@ public abstract class _BoardBit<BB extends _BoardBit<BB>> implements IBoardBit {
 
 	//#region INIT
 
+		/**
+		 * Complexity: O(2 * (N * COL_SIZE(M)) + N + 1) = O(3N) if M <= 64 else O(5N)
+		 */
 		protected void createStructures() {
 			board		= new long[N][COL_SIZE(M)];
 			board_mask	= new long[N][COL_SIZE(M)];

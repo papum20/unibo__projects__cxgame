@@ -33,6 +33,14 @@ public class TranspositionTable {
 		}
 	}
 
+	/**
+	 * Complexity: O(1)
+	 * @param hash
+	 * @param i
+	 * @param j
+	 * @param k
+	 * @return
+	 */
 	public long getHash(long hash, int i, int j, int k) {
 		long move_hash = moves[i][j][k];
 		return (hash ^ move_hash);
@@ -108,6 +116,11 @@ public class TranspositionTable {
 			remove(key);
 	}
 
+	/**
+	 * Complexity: O(n), with n length of the list
+	 * @param key
+	 * @return
+	 */
 	public Boolean exists(long key) {
 		int index = Element.index(key);
 		if(table[index] == null) return false;
@@ -116,6 +129,11 @@ public class TranspositionTable {
 			return (table[index].getNext(compare) != null);
 		}
 	}
+	/**
+	 * Complexity: O(n), with n length of the list
+	 * @param key
+	 * @return
+	 */
 	public TranspositionElementEntry getState(long key) {
 		int index = Element.index(key);
 		if(table[index] == null) return null;
@@ -126,6 +144,11 @@ public class TranspositionTable {
 			else return e.getState();
 		}
 	}
+	/**
+	 * Complexity: O(n), with n length of the list
+	 * @param key
+	 * @return
+	 */
 	public short getFinalDepth(long key) {
 		int index = Element.index(key);
 		if(table[index] == null) return -1;
@@ -138,7 +161,7 @@ public class TranspositionTable {
 	}
 
 	/**
-	 * 
+	 * Complexity: O(n), with n length of the list
 	 * @param key
 	 * @param state
 	 * @param idx: 0=attacker, 1=defender, 2=both
@@ -153,6 +176,13 @@ public class TranspositionTable {
 			else if(idx == 2) e.setState(state, state);
 		}
 	}
+	/**
+	 * Complexity: O(n), with n length of the list
+	 * @param key
+	 * @param state
+	 * @param idx
+	 * @param depth
+	 */
 	public void setState(long key, byte state, int idx, short depth) {
 		int index = Element.index(key);
 		if(table[index] != null) {
@@ -166,6 +196,7 @@ public class TranspositionTable {
 
 	/**
 	 * Try to set state, or insert if doesn't exist.
+	 * Complexity: O(2n), with n length of the list
 	 * @param key
 	 * @param state
 	 * @param idx
@@ -176,6 +207,13 @@ public class TranspositionTable {
 		else
 			insert(key, state, idx);
 	}
+	/**
+	 * Complexity: O(2n), with n length of the list
+	 * @param key
+	 * @param state
+	 * @param idx
+	 * @param depth
+	 */
 	public void setStateOrInsert(long key, byte state, int idx, short depth) {
 		if(exists(key))
 			setState(key, state, idx, depth);
@@ -183,6 +221,10 @@ public class TranspositionTable {
 			insert(key, state, idx, depth);
 	}
 
+	/**
+	 * Complexity: O(1)
+	 * @param key
+	 */
 	public void clear(long key) {
 		int index = Element.index(key);
 		table[index] = null;
@@ -203,17 +245,29 @@ public class TranspositionTable {
 		private static final int MASK2_BITS = TABLE_SIZE + Integer.SIZE;
 		private static final int MASK1 = 65535;		//2**16-1 = 16 ones
 
+		/**
+		 * Complexity: O(1)
+		 */
 		protected Element(long key) {
 			key2 = (int)(key >> TABLE_SIZE);
 			key1 = (short)(key >> MASK2_BITS);
 			state = 6;	//OPEN
 		}
 
+		/**
+		 * Complexity: O(n), with n length of the list
+		 * @param e
+		 */
 		protected void addNext(Element e) {
 			if(next == null) next = e;
 			else next.addNext(e);
 		}
 
+		/**
+		 * Complexity: O(1)
+		 * @param state_a
+		 * @param state_d
+		 */
 		protected void setState(byte state_a, byte state_d) {
 			if(state_a == GameState.NULL) state_a = TranspositionElementEntry.ELEMENT_ENTRIES[state].state[0];
 			if(state_d == GameState.NULL) state_d = TranspositionElementEntry.ELEMENT_ENTRIES[state].state[1];
@@ -228,33 +282,66 @@ public class TranspositionTable {
 			else if(state_d == GameState.WINP2) state += 4;
 		}
 
+		/**
+		 * Complexity: O(1)
+		 * @param state_a
+		 * @param state_d
+		 * @param depth
+		 */
 		protected void setState(byte state_a, byte state_d, short depth) {
 			setState(state_a, state_d);
 			this.depth = depth;
 		}
 
+		/**
+		 * Complexity: O(1)
+		 * @return
+		 */
 		protected TranspositionElementEntry getState() {
 			return TranspositionElementEntry.ELEMENT_ENTRIES[state];
 		}
+		/**
+		 * Complexity: O(1)
+		 * @return
+		 */
 		protected short getFinalDepth() {
 			return depth;
 		}
 
-		//returns the element if cmp==this or a next element in the list (assuming the index is the same)
+		/**
+		 * Returns the element if cmp==this or a next element in the list (assuming the index is the same)
+		 * Complexity: O(n), with n length of the list
+		 * @param cmp
+		 * @return
+		 */
 		protected Element getNext(Element cmp) {
 			if (equals(cmp)) return this;
 			else if(next == null) return null;
 			else return next.getNext(cmp);
 		}
 
+		/**
+		 * Complexity: O(1)
+		 * @return
+		 */
 		protected static int tableSize() {
 			return TABLE_SIZE;
 		}
 
+		/**
+		 * Complexity: O(1)
+		 * @param key
+		 * @return
+		 */
 		protected static int index(long key) {
 			return (int)(key & MASK1);
 		}
 
+		/**
+		 * Complexity: O(1)
+		 * @param cmp
+		 * @return
+		 */
 		protected boolean equals(Element cmp) {
 			return (cmp.key1 == key1) && (cmp.key2 == key2);
 		}
