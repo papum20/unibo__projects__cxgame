@@ -17,7 +17,7 @@ public class Player extends pndb.nocel.nonmc.tryit.Player {
 
 	@Override
 	public String playerName() {
-		return "pndb ranch";
+		return "pndb rnch0";
 	}
 
 
@@ -97,12 +97,14 @@ public class Player extends pndb.nocel.nonmc.tryit.Player {
 			}
 
 			// shuffle children with same priority
-			int start, end;
+			int start, end=0;
 			for(start = 0; start < related_cols_n; start++) {
+				System.out.println(start+" "+related_cols_n);
 				for(end = start + 1;
 					end < related_cols_n && threats[node.children[end].col] == threats[node.children[start].col];
 					end++
 				) ;
+				System.out.println(start+" "+end);
 				Auxiliary.shuffleArrayRange(node.children, start, end);
 				start = end;
 			}

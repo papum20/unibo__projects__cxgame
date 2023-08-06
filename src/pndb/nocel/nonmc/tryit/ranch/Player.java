@@ -99,7 +99,7 @@ public class Player extends pndb.nocel.nonmc.tryit.Player {
 			// shuffle children with same priority
 			int start, end;
 			for(start = 0; start < related_cols_n; start++) {
-				for(end = 0;
+				for(end = start + 1;
 					end < related_cols_n && threats[node.children[end].col] == threats[node.children[start].col];
 					end++
 				) ;
