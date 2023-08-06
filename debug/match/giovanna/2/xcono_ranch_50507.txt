@@ -1,3 +1,7 @@
+
+
+MARG Score: 3 Won: 0 Lost: 0 Draw: 0 Error: 0
+pndb ranch Score: 0 Won: 0 Lost: 0 Draw: 0 Error: 1
 #!/bin/bash
 
 if [[ $# < 1 ]]
