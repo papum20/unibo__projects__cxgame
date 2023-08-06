@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.util.LinkedList;
 import java.util.ListIterator;
 
-import connectx.CXGameState;
 import pndb.alpha.Operators.ThreatsByRank;
 import pndb.alpha.BoardBit;
 import pndb.alpha.IDbSearch;
@@ -669,8 +668,8 @@ public class DbSearch extends IDbSearch<DbSearchResult> {
 			if(DEBUG_ON) new_board.printFile(file, new_board.getMC_n());
 
 			// if already analyzed and saved in TT
-			if(entry != null && entry.state[attacker_i] != null){
-				if(entry.state[attacker_i] == Auxiliary.cellState2winStateCX(attacker) )
+			if(entry != null && entry.state[attacker_i] != GameState.NULL){
+				if(entry.state[attacker_i] == Auxiliary.cellState2winState(attacker) )
 					// already proved
 					return true;
 				else
@@ -689,7 +688,7 @@ public class DbSearch extends IDbSearch<DbSearchResult> {
 				lastCombination.add(new_child);
 
 				// if not present in TT for attacker
-				TT.setStateOrInsert(new_board.hash, CXGameState.OPEN, attacker_i);
+				TT.setStateOrInsert(new_board.hash, GameState.OPEN, attacker_i);
 			}
 
 			return false;
@@ -757,7 +756,7 @@ public class DbSearch extends IDbSearch<DbSearchResult> {
 				long hash = it.next().board.hash;
 				TranspositionElementEntry entry = TT.getState(hash);
 				
-				if(entry != null && entry.state[attacker_i] == CXGameState.OPEN)
+				if(entry != null && entry.state[attacker_i] == GameState.OPEN)
 					TT.removeState(hash, attacker_i);
 			}
 		}

@@ -249,10 +249,10 @@ public class BoardBit implements IBoardBit {
 		 * convert cell to GameState, assuming cell is occupied by someone.
 		 */
 		public byte cell2GameState(int i, int j) {
-			return (_cellState(i, j) == 1)? GameState.P1 : GameState.P2;
+			return (_cellState(i, j) == 1)? GameState.WINP1 : GameState.WINP2;
 		}
 		public byte cell2GameState(byte cell_state) {
-			return (cell_state == CellState.P1)? GameState.P1 : GameState.P2;
+			return (cell_state == CellState.P1)? GameState.WINP1 : GameState.WINP2;
 		}
 		public CXGameState cell2GameStateCX(int i, int j) {
 			return (_cellState(i, j) == 1)? CXGameState.WINP1 : CXGameState.WINP2;
@@ -277,8 +277,8 @@ public class BoardBit implements IBoardBit {
 		public CXGameState gameStateCX() {
 			switch(game_state) {
 				case GameState.DRAW:	return CXGameState.DRAW;
-				case GameState.P1:		return CXGameState.WINP1;
-				case GameState.P2:		return CXGameState.WINP2;
+				case GameState.WINP1:		return CXGameState.WINP1;
+				case GameState.WINP2:		return CXGameState.WINP2;
 				default:				return CXGameState.OPEN;
 			}
 		}

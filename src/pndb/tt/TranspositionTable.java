@@ -2,7 +2,7 @@ package pndb.tt;
 
 import java.util.Random;
 
-import connectx.CXGameState;
+import pndb.constants.GameState;
 
 
 
@@ -52,11 +52,22 @@ public class TranspositionTable {
 	 * @param state
 	 * @param idx: 0=attacker, 1=defender, 2=both
 	 */
-	public void insert(long key, CXGameState state, int idx) {
+	public void insert(long key, byte state, int idx) {
 		Element e = new Element(key);
-		if(idx == 0) e.setState(state, null);
-		else if(idx == 1) e.setState(null, state);
+		if(idx == 0) e.setState(state, GameState.NULL);
+		else if(idx == 1) e.setState(GameState.NULL, state);
 		else if(idx == 2) e.setState(state, state);
+		int index = Element.index(key);
+		if(table[index] == null)
+			table[index] = e;
+		else
+			table[index].addNext(e);
+	}
+	public void insert(long key, byte state, int idx, short depth) {
+		Element e = new Element(key);
+		if(idx == 0) e.setState(state, GameState.NULL, depth);
+		else if(idx == 1) e.setState(GameState.NULL, state, depth);
+		else if(idx == 2) e.setState(state, state, depth);
 		int index = Element.index(key);
 		if(table[index] == null)
 			table[index] = e;
@@ -90,10 +101,10 @@ public class TranspositionTable {
 	 * @param idx
 	 */
 	public void removeState(long key, int idx) {
-		setState(key, null, idx);
+		setState(key, GameState.NULL, idx);
 
 		TranspositionElementEntry entry = getState(key);
-		if(entry.state[0] == null && entry.state[1] == null)
+		if(entry.state[0] == GameState.NULL && entry.state[1] == GameState.NULL)
 			remove(key);
 	}
 
@@ -115,20 +126,41 @@ public class TranspositionTable {
 			else return e.getState();
 		}
 	}
+	public short getFinalDepth(long key) {
+		int index = Element.index(key);
+		if(table[index] == null) return -1;
+		else {
+			Element compare = new Element(key);
+			Element e = table[index].getNext(compare);
+			if(e == null) return -1;
+			else return e.getFinalDepth();
+		}
+	}
+
 	/**
 	 * 
 	 * @param key
 	 * @param state
 	 * @param idx: 0=attacker, 1=defender, 2=both
 	 */
-	public void setState(long key, CXGameState state, int idx) {
+	public void setState(long key, byte state, int idx) {
 		int index = Element.index(key);
 		if(table[index] != null) {
 			Element compare = new Element(key);
 			Element e = table[index].getNext(compare);
-			if(idx == 0) e.setState(state, null);
-			else if(idx == 1) e.setState(null, state);
+			if(idx == 0) e.setState(state, GameState.NULL);
+			else if(idx == 1) e.setState(GameState.NULL, state);
 			else if(idx == 2) e.setState(state, state);
+		}
+	}
+	public void setState(long key, byte state, int idx, short depth) {
+		int index = Element.index(key);
+		if(table[index] != null) {
+			Element compare = new Element(key);
+			Element e = table[index].getNext(compare);
+			if(idx == 0) e.setState(state, GameState.NULL, depth);
+			else if(idx == 1) e.setState(GameState.NULL, state, depth);
+			else if(idx == 2) e.setState(state, state, depth);
 		}
 	}
 
@@ -138,11 +170,17 @@ public class TranspositionTable {
 	 * @param state
 	 * @param idx
 	 */
-	public void setStateOrInsert(long key, CXGameState state, int idx) {
+	public void setStateOrInsert(long key, byte state, int idx) {
 		if(exists(key))
 			setState(key, state, idx);
 		else
 			insert(key, state, idx);
+	}
+	public void setStateOrInsert(long key, byte state, int idx, short depth) {
+		if(exists(key))
+			setState(key, state, idx, depth);
+		else
+			insert(key, state, idx, depth);
 	}
 
 	public void clear(long key) {
@@ -158,6 +196,7 @@ public class TranspositionTable {
 		private short key1;
 		private int key2;
 		private byte state;
+		private short depth;	// tree depth of endgame
 		protected Element next;
 
 		private static final int TABLE_SIZE = 16;
@@ -175,22 +214,30 @@ public class TranspositionTable {
 			else next.addNext(e);
 		}
 
-		protected void setState(CXGameState state_a, CXGameState state_d) {
-			if(state_a == null) state_a = TranspositionElementEntry.ELEMENT_ENTRIES[state].state[0];
-			if(state_d == null) state_d = TranspositionElementEntry.ELEMENT_ENTRIES[state].state[1];
+		protected void setState(byte state_a, byte state_d) {
+			if(state_a == GameState.NULL) state_a = TranspositionElementEntry.ELEMENT_ENTRIES[state].state[0];
+			if(state_d == GameState.NULL) state_d = TranspositionElementEntry.ELEMENT_ENTRIES[state].state[1];
 			state = 0;
-			if(state_a == CXGameState.OPEN) state += 5;
-			else if(state_a == CXGameState.DRAW) state += 10;
-			else if(state_a == CXGameState.WINP1) state += 15;
-			else if(state_a == CXGameState.WINP2) state += 20;
-			if(state_d == CXGameState.OPEN) state += 1;
-			else if(state_d == CXGameState.DRAW) state += 2;
-			else if(state_d == CXGameState.WINP1) state += 3;
-			else if(state_d == CXGameState.WINP2) state += 4;
+			if(state_a == GameState.OPEN) state += 5;
+			else if(state_a == GameState.DRAW) state += 10;
+			else if(state_a == GameState.WINP1) state += 15;
+			else if(state_a == GameState.WINP2) state += 20;
+			if(state_d == GameState.OPEN) state += 1;
+			else if(state_d == GameState.DRAW) state += 2;
+			else if(state_d == GameState.WINP1) state += 3;
+			else if(state_d == GameState.WINP2) state += 4;
+		}
+
+		protected void setState(byte state_a, byte state_d, short depth) {
+			setState(state_a, state_d);
+			this.depth = depth;
 		}
 
 		protected TranspositionElementEntry getState() {
 			return TranspositionElementEntry.ELEMENT_ENTRIES[state];
+		}
+		protected short getFinalDepth() {
+			return depth;
 		}
 
 		//returns the element if cmp==this or a next element in the list (assuming the index is the same)

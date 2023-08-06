@@ -40,7 +40,7 @@ public class Player extends _PnSearch<DbSearchResult, DbSearch> {
 			if(res_db == null)
 				return false;
 
-			TT.setStateOrInsert(player, Auxiliary.cellState2winStateCX(player), Auxiliary.getPlayerBit(player));
+			TT.setStateOrInsert(player, Auxiliary.cellState2winState(player), Auxiliary.getPlayerBit(player));
 				
 			/* note: probably, prune is useless now, as evaluate is only called when node hasn't been expanded yet.
 				*/
