@@ -10,7 +10,7 @@ out/*
 *.class
 
 #DEBUG
-#debug/player
+debug
 #debug/testmore/out
 myjava*
 
