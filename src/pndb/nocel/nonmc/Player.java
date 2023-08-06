@@ -8,6 +8,13 @@ import pndb.constants.CellState;
 
 
 
+/**
+ * Saves all levels for endgames (in TT) and, for each visit, saves the deepest one,
+ * so it can return it in case all moves are losing.
+ */
+/**
+ * Removes MC and their uses.
+ */
 public class Player extends _PnSearch<DbSearchResult, DbSearch> {
 
 	@Override
