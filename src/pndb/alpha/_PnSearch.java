@@ -49,8 +49,8 @@ public abstract class _PnSearch<RES, DB extends IDbSearch<RES>> implements CXPla
 	protected Runtime runtime;
 
 	// debug
-	private final boolean DEBUG_ON = false;
-	private final boolean DEBUG_TIME = false;
+	private final boolean DEBUG_ON		= false;
+	private final boolean DEBUG_TIME	= false;
 	protected String log;
 	private long ms;
 	private int visit_loops_n;

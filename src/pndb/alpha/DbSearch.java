@@ -104,7 +104,7 @@ public class DbSearch extends _DbSearch<DbSearchResult, BoardBit, BoardBitDb, Db
 		} catch (IOException io) {
 			return null;
 		} catch (ArrayIndexOutOfBoundsException e) {
-			root.board.print();
+			//root.board.print();
 			System.out.println(log + "\n");
 			if(DEBUG_ON) try {file.close();} catch(IOException io) {}
 			throw e;

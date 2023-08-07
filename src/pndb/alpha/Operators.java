@@ -122,7 +122,7 @@ public class Operators {
 				new AlignmentPattern(-3, -3, 0, 4, 2),	//__xx__
 				new AlignmentPattern(-3, -3, 0, 4, 1),	//_xx___
 				new AlignmentPattern(-3, -3, 0, 5, 2),	//__xx___
-				new AlignmentPattern(-2, -3, 1, 4, 2)		//__x_x__->_oxxxo_
+				new AlignmentPattern(-2, -3, 1, 4, 2)	//__x_x__->_oxxxo_
 			}
 		)
 	};

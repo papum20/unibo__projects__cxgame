@@ -426,7 +426,7 @@ public abstract class _BoardBitDb<S extends _BoardBitDb<S, BB>, BB extends _Boar
 				for( c_it.reset(start), distance = 0
 					; distance < max_distance && c_it.inBounds(MIN, MAX) && !c_it.equals(stop_cell)
 					&& ((!only_target && cellState(c_it) != stop_value) || (only_target && cellState(c_it) == target))
-					&& ( (dir_index == 1) || (free[c_it.j] == c_it.i) || (!only_valid && (free[c_it.j] < c_it.i)) || (cellState(c_it) == target && free[c_it.j] == c_it.i) )
+					&& ( (dir_index == DIR_IDX_VERTICAL) || (free[c_it.j] == c_it.i) || (!only_valid && (free[c_it.j] < c_it.i)) || (target != CellState.FREE && cellState(c_it) == target) )
 					; c_it.sum(incr), distance++
 				) {
 					if(cellState(c_it) == target) {
@@ -507,7 +507,8 @@ public abstract class _BoardBitDb<S extends _BoardBitDb<S, BB>, BB extends _Boar
 						
 					for( _findOccurrenceUntil(c1, c1.reset(first), dir_neg, MAX, X + Operators.MAX_FREE_EXTRA - 1, player, opponent, false, false, only_valid, dir_index)	// find furthest c1 back, from center
 						; !c1.equals(end_c1) && !(c2_passed_endc1 && c1_reset_to_c2)
-						; _findOccurrenceUntil(c1, c1.sum(dir), dir, end_c1, MAX_SIDE, player, CellState.NULL, false, true, only_valid, dir_index)					// find first player cell, before end_c1
+						&& cellState(c1) == player
+						; _findOccurrenceUntil(c1, c1.sum(dir), dir, end_c1, MAX_SIDE, player, CellState.NULL, false, true, only_valid, dir_index)							// find first player cell, before end_c1
 					) {
 						lined = 0;					// always c2-c1+1.
 						marks = 0;					// we are assured c1 (thus c2) contains player, or the loop would end.
@@ -530,7 +531,7 @@ public abstract class _BoardBitDb<S extends _BoardBitDb<S, BB>, BB extends _Boar
 							if(c2.equals(end_c1)) c2_passed_endc1 = true;
 							lined++;
 							if (cellFree(c2.i, c2.j)) {
-								if(!only_valid || dir_index == 1 || free[c2.j] == c2.i) {
+								if(!only_valid || dir_index == DIR_IDX_VERTICAL || free[c2.j] == c2.i) {
 									in++;
 									continue;										// c2 must be player's
 								} else {
@@ -574,7 +575,7 @@ public abstract class _BoardBitDb<S extends _BoardBitDb<S, BB>, BB extends _Boar
 									for( before = _findOccurrenceUntil(threat_start.reset(c1), c1.getDiff(dir), dir_neg, MAX, alignment.out - alignment.mnout, CellState.FREE, CellState.NULL, true, false, only_valid, dir_index),
 										after = _findOccurrenceUntil(threat_end.reset(c2), c2.getSum(dir), dir, MAX, alignment.out - before, CellState.FREE, CellState.NULL, true, false, only_valid, dir_index)
 										; before >= alignment.mnout && after >= alignment.mnout && before + after >= alignment.out																// alignment conditions
-										&& threat_end.inBounds(MIN, MAX) && (after == 0 || (cellFree(threat_end.i, threat_end.j) && (!only_valid || dir_index == 1 || free[threat_end.j] == threat_end.i) ) )	// in bounds and player's cells
+										&& threat_end.inBounds(MIN, MAX) && (after == 0 || (cellFree(threat_end.i, threat_end.j) && (!only_valid || dir_index == DIR_IDX_VERTICAL || free[threat_end.j] == threat_end.i) ) )	// in bounds and player's cells
 										; after++, before--, threat_start.sum(dir), threat_end.sum(dir)
 									) {
 										ThreatPosition threat_pos = new ThreatPosition(threat_start, threat_end, threat_code);
@@ -739,7 +740,7 @@ public abstract class _BoardBitDb<S extends _BoardBitDb<S, BB>, BB extends _Boar
 							if(alignment != null && Operators.tier(alignment.item.type) <= max_tier) {
 								do {
 									ThreatCells cell_threat_operator = Operators.applied(this, alignment.item, attacker, defender);
-
+									
 									if(cell_threat_operator != null) res.add(cell_threat_operator);
 									alignment = alignment.next;
 
