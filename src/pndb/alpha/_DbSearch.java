@@ -41,7 +41,7 @@ public abstract class _DbSearch<RES, BB extends _BoardBit<BB>, B extends IBoardB
 
 	// time / memory
 	protected long timer_start;						//turn start (milliseconds)
-	protected long timer_end;							//time (millisecs) at which to stop timer
+	protected long timer_end;						//time (millisecs) at which to stop timer
 	private static final float TIMER_RATIO = 0.9f;	// see isTimeEnded() implementation
 	private Runtime runtime;
 
@@ -59,7 +59,7 @@ public abstract class _DbSearch<RES, BB extends _BoardBit<BB>, B extends IBoardB
 	protected final boolean DEBUG_ON			= false;
 	private final boolean DEBUG_TIME			= false;
 	protected final boolean DEBUG_PRINT			= false;
-	private final boolean DEBUG_ONLY_FOUND_SEQ	= true;
+	private final boolean DEBUG_ONLY_FOUND_SEQ	= false;
 	protected int counter			= 0;
 	protected FileWriter file		= null;
 	private int DEBUG_CODE_MAX	= 999999999;
@@ -255,7 +255,7 @@ public abstract class _DbSearch<RES, BB extends _BoardBit<BB>, B extends IBoardB
 
 				// debug
 				if(DEBUG_ON) file.write(	indent + "DEPENDENCY: parent: \n" + node.board.printString(node.board.getMC_n()) + indent + "children: \n" +
-								((node.board.getMC_n() == 0) ? "no MC\n" :
+								((node.board.getMC_n() == 0 || node.board.getMarkedCell(node.board.getMC_n()-1) == null) ? "no MC\n" :
 									(node.board.getMarkedCell(node.board.getMC_n()-1).i + " " + node.board.getMarkedCell(node.board.getMC_n()-1).j + " " + node.board.getMarkedCell(node.board.getMC_n()-1).state + "\n")));
 				
 				found_sequence = addDependentChildren(node, attacker, attacking, 1, lastDependency, root, max_tier);

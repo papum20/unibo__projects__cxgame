@@ -61,11 +61,11 @@ public class DbSearch extends _DbSearch<DbSearchResult, BoardBit, BoardBitDb, Db
 			// timer
 			timer_start	= System.currentTimeMillis();
 			timer_end	= timer_start + time_remaining;
-
+			
 			// update own board instance
 			board = new BoardBitDb(B);
 			board.setPlayer(player);
-
+			
 			board.findAllAlignments(player, Operators.TIER_MAX, true, "selCol_");
 			
 			// debug
@@ -74,6 +74,7 @@ public class DbSearch extends _DbSearch<DbSearchResult, BoardBit, BoardBitDb, Db
 				file.write("root board:\n" + board.printString(0) + board.printAlignmentsString(0));
 				file.close();
 			}
+			
 			
 			// db init
 			root = createRoot(board);
@@ -103,8 +104,9 @@ public class DbSearch extends _DbSearch<DbSearchResult, BoardBit, BoardBitDb, Db
 		} catch (IOException io) {
 			return null;
 		} catch (ArrayIndexOutOfBoundsException e) {
-			root.board.print();
+			//root.board.print();
 			System.out.println(log + "\n");
+			if(DEBUG_ON) try {file.close();} catch(IOException io) {}
 			throw e;
 		} catch (Exception e) {
 			System.out.println(log);

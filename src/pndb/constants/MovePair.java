@@ -31,13 +31,15 @@ public class MovePair {
 		 * set i, j to move.i, move.j.
 		 * @param move
 		 */
-		public void reset(MovePair move) {
+		public MovePair reset(MovePair move) {
 			this.i = move.i;
 			this.j = move.j;
+			return this;
 		}
-		public void reset(int i, int j) {
+		public MovePair reset(int i, int j) {
 			this.i = (short)i;
 			this.j = (short)j;
+			return this;
 		}
 
 		/**
@@ -70,8 +72,8 @@ public class MovePair {
 		 * @param direction
 		 * @param distance
 		 */
-		public void resetVector(MovePair center, MovePair direction, int distance) {
-			reset(center.i + direction.i * distance, center.j + direction.j * distance);	
+		public MovePair resetToVector(MovePair center, MovePair direction, int distance) {
+			return reset(center.i + direction.i * distance, center.j + direction.j * distance);	
 		}
 
 	//#endregion CONSTRUCTORS
@@ -83,9 +85,15 @@ public class MovePair {
 		public boolean equals(MovePair move) {return i == move.i && j == move.j;}
 		public void negate() {i = (short)(-i); j = (short)(-j);}
 		public MovePair getNegative() {return new MovePair(-i, -j);}
-		public void sum(MovePair B) {
+		public MovePair sum(MovePair B) {
 			this.i += B.i;
 			this.j += B.j;
+			return this;
+		}
+		public MovePair subtract(MovePair B) {
+			this.i -= B.i;
+			this.j -= B.j;
+			return this;
 		}
 		public MovePair getSum(MovePair B) {
 			return new MovePair(i + B.i, j + B.j);
@@ -157,10 +165,10 @@ public class MovePair {
 			clampMax(max);
 		}
 		
-		public void clamp_diag(MovePair min, MovePair max, MovePair dir) {
+		public MovePair clamp_diag(MovePair min, MovePair max, MovePair dir, int distance) {
 			short old_i = i, old_j = j;
-			i = (short)Auxiliary.clamp(i + dir.i, min.i, max.i);
-			j = (short)Auxiliary.clamp(j + dir.j, min.j, max.j);
+			i = (short)Auxiliary.clamp(i + dir.i * distance, min.i, max.i);
+			j = (short)Auxiliary.clamp(j + dir.j * distance, min.j, max.j);
 			
 			if(dir.i != 0 && dir.j != 0) {
 				int diff_i = Math.abs(i - old_i), diff_j = Math.abs(j - old_j);
@@ -173,6 +181,7 @@ public class MovePair {
 					else i = (short)(old_i + diff_j);
 				}
 			}
+			return this;
 		}
 		
 		public MovePair getDirection(MovePair target) {

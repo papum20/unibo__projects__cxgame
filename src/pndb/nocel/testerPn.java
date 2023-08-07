@@ -25,15 +25,15 @@ public class testerPn {
 		//board.markCheck(2, CellState.P1);
 
 		String[] bb = {
-			"oo.x.....",
-			"xxxo....o",
-			"xooo.xx.x",
-			"xoxo.oo.o",
-			"xooo.xo.o",
-			"ooxxoox.x",
-			"oxxxxoxxx",
-			"oxxxoxxoo",
-			"oxoxxxxoo"
+			".........",
+			".........",
+			".........",
+			".........",
+			"..x......",
+			"..o......",
+			"xoo...x..",
+			"oxxxxoo.x",
+			"xoooxxxoo"
 		};
 
 

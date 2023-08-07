@@ -45,12 +45,12 @@ public abstract class _PnSearch<RES, DB extends IDbSearch<RES>> implements CXPla
 
 	// time / memory
 	protected long timer_start;			//turn start (milliseconds)
-	protected long timer_end;			//time (millisecs) at which to stop timer
+	protected long timer_duration;			//time (millisecs) at which to stop timer
 	protected Runtime runtime;
 
 	// debug
-	private final boolean DEBUG_ON = false;
-	private final boolean DEBUG_TIME = false;
+	private final boolean DEBUG_ON		= false;
+	private final boolean DEBUG_TIME	= false;
 	protected String log;
 	private long ms;
 	private int visit_loops_n;
@@ -69,7 +69,7 @@ public abstract class _PnSearch<RES, DB extends IDbSearch<RES>> implements CXPla
 		if(first)	current_player = CellState.P1;
 		else		current_player = CellState.P2;
 
-		timer_end = (timeout_in_secs - 1) * 1000;
+		timer_duration = (timeout_in_secs - 1) * 1000;
 		runtime = Runtime.getRuntime();
 
 		// dbSearch instantiated by subclass
@@ -428,7 +428,7 @@ public abstract class _PnSearch<RES, DB extends IDbSearch<RES>> implements CXPla
 		 * @return true if it's time to end the turn
 		 */
 		private boolean isTimeEnded() {
-			return (System.currentTimeMillis() - timer_start) >= timer_end;
+			return (System.currentTimeMillis() - timer_start) >= timer_duration;
 		}
 
 		/**

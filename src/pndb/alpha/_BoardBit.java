@@ -98,18 +98,28 @@ public abstract class _BoardBit<BB extends _BoardBit<BB>> implements IBoardBit {
 	}
 	/**
 	 * Complexity: O(4X)
+	 * @param i
+	 * @param j
+	 * @param player
+	 * @return
+	 */
+	protected byte check(int i, int j, byte player) {
+		if(isWinningMove(i, j)) game_state = cell2GameState(player);
+		else if(free_n == 0) game_state = GameState.DRAW;
+		else game_state = GameState.OPEN;
+		
+		return game_state;
+
+	}
+	/**
+	 * Complexity: O(4X)
 	 * @param col
 	 * @param player
 	 * @return GameState
 	 */
 	public byte markCheck(int col, byte player) {
 		mark(col, player);
-
-		if(isWinningMove(free[col] - 1, col)) game_state = cell2GameState(player);
-		else if(free_n == 0) game_state = GameState.DRAW;
-		else game_state = GameState.OPEN;
-		
-		return game_state;
+		return check(free[col] - 1, col, player);
 	}
 
 	/**
