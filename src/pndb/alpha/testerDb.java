@@ -18,38 +18,27 @@ public class testerDb {
 
 		BoardBit board = new BoardBit(M, N, X);
 
-		board.markCheck(0, CellState.P1);
-		board.markCheck(0, CellState.P1);
-		board.markCheck(0, CellState.P1);
-		board.markCheck(0, CellState.P1);
-		board.markCheck(0, CellState.P2);
-		board.markCheck(1, CellState.P1);
-		board.markCheck(1, CellState.P1);
-		board.markCheck(1, CellState.P1);
-		board.markCheck(1, CellState.P2);
-		board.markCheck(2, CellState.P1);
-		board.markCheck(2, CellState.P1);
-		board.markCheck(2, CellState.P1);
-		board.markCheck(2, CellState.P1);
-		board.markCheck(2, CellState.P2);
-		board.markCheck(3, CellState.P2);
-		board.markCheck(3, CellState.P2);
-		board.markCheck(3, CellState.P2);
-		board.markCheck(3, CellState.P1);
-		board.markCheck(3, CellState.P2);
-		board.markCheck(4, CellState.P1);
-		board.markCheck(4, CellState.P2);
-		board.markCheck(5, CellState.P2);
-		board.markCheck(5, CellState.P2);
-		board.markCheck(5, CellState.P2);
-		board.markCheck(5, CellState.P2);
-		board.markCheck(5, CellState.P1);
-		board.markCheck(6, CellState.P2);
-		board.markCheck(6, CellState.P2);
-		board.markCheck(6, CellState.P1);
-		board.markCheck(7, CellState.P2);
-		board.markCheck(7, CellState.P1);
-		board.markCheck(7, CellState.P2);
+
+		String[] bb = {
+			".........",
+			".........",
+			".x.......",
+			".o...o...",
+			".x.oxo...",
+			".o.xxx...",
+			".ooxxx...",
+			".ooxox.o.",
+			"oooxox.x."		
+		};
+
+		for(int i = 0; i< M; i++) {
+			for(int j = 0; j < N; j++) {
+				if(bb[M-i-1].substring(j, j+1).equals("."))
+					continue;
+				else board.markCheck(j, (bb[M-i-1].substring(j, j+1).equals("x")) ? CellState.P1 : CellState.P2);
+			}
+		}
+		
 
 		
 		DbSearchResult res = db.selectColumn(board, null, 10000, CellState.P1);
