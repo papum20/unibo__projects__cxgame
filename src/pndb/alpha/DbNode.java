@@ -11,6 +11,12 @@ public class DbNode<BB extends IBoardBit, B extends IBoardBitDb<B, BB>> extends 
 		super();
 	}
 	
+	/**
+	 * Complexity: O(1)
+	 * @param B
+	 * @param is_combination
+	 * @param max_tier
+	 */
 	public DbNode(B B, boolean is_combination, int max_tier) {
 		super(B, is_combination, max_tier);
 	}

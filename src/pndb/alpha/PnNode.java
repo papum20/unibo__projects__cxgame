@@ -34,7 +34,7 @@ public class PnNode {
 	
 
 	/**
-	 * 
+	 * Complexity: O(1)
 	 * @param col : column
 	 * @param n : proof and disproof
 	 */
@@ -52,13 +52,19 @@ public class PnNode {
 
 	//#region GET
 
+		/**
+		 * Complexity: O(1)
+		 * @return
+		 */
 		public Value value() {
 			if(n[PROOF] == N_ZERO && n[DISPROOF] == N_INFINITE)			return Value.TRUE;
 			else if(n[PROOF] == N_INFINITE && n[DISPROOF] == N_ZERO)	return Value.FALSE;
 			else return Value.UNKNOWN;
 		}
 		/**
-		 * find and return the child with min proof/disproof number
+		 * find and return the child with min proof/disproof number.
+		 * Complexity: O(children_n)
+		 * 	-	worst: O(N)
 		 * @param ind : index of n[], = PROOF | DISPROOF
 		 * @return child with min n[ind]
 		 */
@@ -69,7 +75,9 @@ public class PnNode {
 			return mn;
 		}
 		/**
-		 * sum all proof/disproof number of children
+		 * sum all proof/disproof number of children.
+		 * Complexity: O(children_n)
+		 * 	-	worst: O(N)
 		 * @param ind : index of n[] = PROOF | DISPROOF
 		 * @return the sum
 		 */
@@ -80,6 +88,13 @@ public class PnNode {
 			return sum;
 		}
 
+		/**
+		 * Complexity: O(children_n)
+		 * 	-	worst: O(N)
+		 * @param ind
+		 * @param n
+		 * @return
+		 */
 		public PnNode findChild(byte ind, byte n) {
 			for(PnNode child : children)
 				if(child.n[ind] == n) return child;
@@ -91,7 +106,7 @@ public class PnNode {
 
 	//#region SET
 		/**
-		 * 
+		 * Complexity: O(1)
 		 * @param p
 		 * @param d
 		 */
@@ -110,14 +125,17 @@ public class PnNode {
 
 		/**
 		 * expand node,
-		 * i.e. create array of children (uninitialized!)
+		 * i.e. create array of children (uninitialized).
+		 * Complexity: O(children_n)
+		 * 	-	worst: O(N)
 		 * @param children_n : number of children
 		 */
 		public void expand(int children_n) {
 			children = new PnNode[children_n];
 		}
 		/**
-		 * prove node, i.e. assign value
+		 * prove node, i.e. assign value.
+		 * Complexity: O(1)
 		 * @param value value to assing (True/False for binary trees)
 		 * @param prune if true, prune children (i.e. set to null)
 		 */
@@ -130,9 +148,15 @@ public class PnNode {
 	//#endregion SET
 
 	//#region BOOL
+		/**
+		 * Complexity: O(1)
+		 */
 		public boolean isExpanded() {
 			return children != null;
 		}
+		/**
+		 * Complexity: O(1)
+		 */
 		public boolean isProved() {
 			return n[PROOF] == N_INFINITE || n[DISPROOF] == N_INFINITE;
 		}
