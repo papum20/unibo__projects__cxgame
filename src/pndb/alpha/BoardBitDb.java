@@ -89,11 +89,11 @@ public class BoardBitDb extends _BoardBitDb<BoardBitDb, BoardBit> {
 						//if(DEBUG_ON) {
 						if(DEBUG_PRINT) {
 							System.out.println("\t\trm: " + alignments_in_cell.item.item);
-							System.out.println("\t\t" + getIndex_for_alignmentsByDirection(dir, center));
+							System.out.println("\t\t" + getIndex_for_alignmentsByDir(dir, center));
 						}
 
 						//delete for line
-						alignments_by_direction[dirsIndexes(dir)].remove(player, getIndex_for_alignmentsByDirection(dir, center), alignments_in_cell.item);
+						alignments_by_dir[dirIdx_fromDir(dir)].remove(player, getIndex_for_alignmentsByDir(dir, center), alignments_in_cell.item);
 
 						//delete for this cell
 						BiNode<BiNode<ThreatPosition>> tmp = alignments_in_cell;
@@ -106,11 +106,11 @@ public class BoardBitDb extends _BoardBitDb<BoardBitDb, BoardBit> {
 					
 					//delete for each involved cell
 					MovePair first, last;
-					for(int d = 0; d < alignments_direction_indexes.length; d++)
+					for(int d = 0; d < DIR_ABS_N; d++)
 					{
-						MovePair dir = DIRECTIONS[alignments_direction_indexes[d]];
-						first	= new MovePair(center).clamp_diag(MIN, MAX, DIRECTIONS[alignments_direction_indexes[d]], -(MAX_ALIGNMENT - 1) );
-						last	= new MovePair(center).clamp_diag(MIN, MAX, DIRECTIONS[alignments_direction_indexes[d]], MAX_ALIGNMENT - 1 );
+						MovePair dir = DIRECTIONS[d];
+						first	= new MovePair(center).clamp_diag(MIN, MAX, DIRECTIONS[d], -(MAX_ALIGNMENT - 1) );
+						last	= new MovePair(center).clamp_diag(MIN, MAX, DIRECTIONS[d], MAX_ALIGNMENT - 1 );
 
 						for(; !first.equals(last); first.sum(dir)) {
 							// already removed in the `center` cell
@@ -150,7 +150,7 @@ public class BoardBitDb extends _BoardBitDb<BoardBitDb, BoardBit> {
 					node_alignment	= node_alignment.next;
 
 					//remove if involved
-					if(dirsIndexes(dir_alignment) == dirsIndexes(dir_involved) && involved.inBounds_included(start, end))
+					if(dirIdx_fromDir(dir_alignment) == dirIdx_fromDir(dir_involved) && involved.inBounds_included(start, end))
 						alignments_in_cell.remove(player, node_tmp);
 				}
 			}
@@ -240,9 +240,9 @@ public class BoardBitDb extends _BoardBitDb<BoardBitDb, BoardBit> {
 					for(int j = 0; j < N; j++)
 						alignments_by_cell[i][j] = new BiList_Node_ThreatPos();
 				}
-				for(int d = 0; d < alignments_by_direction.length; d++) {
-					AlignmentsList alignments_by_row	= alignments_by_direction[d];
-					MovePair dir						= DIRECTIONS[alignments_direction_indexes[d]];
+				for(int d = 0; d < alignments_by_dir.length; d++) {
+					AlignmentsList alignments_by_row	= alignments_by_dir[d];
+					MovePair dir						= DIRECTIONS[d];
 					for(int i = 0; i < alignments_by_row.size(); i++) {
 						if(alignments_by_row.get(i) != null) {
 							copyAlignmentInCells(alignments_by_row.getFirst(CellState.P1, i), CellState.P1, dir);

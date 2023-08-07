@@ -28,16 +28,25 @@ public abstract class _BoardBitDb<S extends _BoardBitDb<S, BB>, BB extends _Boar
 
 	//#region CONSTANTS
 		
+		/* order: clockwise, from right, with 0 above.
+		 */
 		public static final MovePair DIRECTIONS[] = {
-			new MovePair(-1, 0),
-			new MovePair(-1, 1),
 			new MovePair(0, 1),
 			new MovePair(1, 1),
 			new MovePair(1, 0),
 			new MovePair(1, -1),
 			new MovePair(0, -1),
-			new MovePair(-1, -1)
+			new MovePair(-1, -1),
+			new MovePair(-1, 0),
+			new MovePair(-1, 1)
 		};
+		/* number of absolute directions */
+		protected static final int DIR_ABS_N = 4;
+		/* indexes for alignments_by_dir */
+		private static int	DIR_IDX_HORIZONTAL	= 0,
+							DIR_IDX_DIAGLEFT	= 1,
+							DIR_IDX_VERTICAL	= 2,
+							DIR_IDX_DIAGRIGHT 	= 3;
 
 		protected static final MovePair MIN = new MovePair(0, 0);
 		protected final MovePair MAX;
@@ -54,7 +63,7 @@ public abstract class _BoardBitDb<S extends _BoardBitDb<S, BB>, BB extends _Boar
 	/*
 	 * alignments_by_direction contains an array of all alignments for each row in a certain direction,
 	 * for each direction.
-	 * The direction corresponding to each index d, is DIRECTIONS[alignments_direction_indexes[d]].
+	 * The direction corresponding to each index d, is DIRECTIONS[d%4].
 	 * Generally, it refers to the column index, except for the horizontal direction where it refers to the row index
 	 * (for diagonal, imagine to extend the board such that all diagonals reach row 0).
 	 *
@@ -64,15 +73,14 @@ public abstract class _BoardBitDb<S extends _BoardBitDb<S, BB>, BB extends _Boar
 	 * dleft:		dimension=M+N-1,	indexed: by start of diagonal on the top row, i.e. from 0 to N+M-1
 	 */
 	protected AlignmentsList alignments_rows;
+	protected AlignmentsList alignments_diagleft;		//diagonals from top-right to bottom-left
 	protected AlignmentsList alignments_cols;
 	protected AlignmentsList alignments_diagright;		//diagonals from top-left to bottom-right
-	protected AlignmentsList alignments_diagleft;		//diagonals from top-right to bottom-left
 
-	protected AlignmentsList[] alignments_by_direction;
-	protected static final int[] alignments_direction_indexes = new int[]{2, 4, 3, 5};
+	protected AlignmentsList[] alignments_by_dir;
 	
 
-	protected final byte[] Player_byte 		= {CellState.P1, CellState.P2};
+	protected final byte[] Player_byte 	= {CellState.P1, CellState.P2};
 	protected int currentPlayer;		// currentPlayer plays next move (= 0 or 1)
 
 	/* implementation
@@ -245,7 +253,7 @@ public abstract class _BoardBitDb<S extends _BoardBitDb<S, BB>, BB extends _Boar
 				checkAlignments(cells[0], max_tier, -1, caller + "checkArray_");
 			} else {
 				MovePair dir = cells[0].getDirection(cells[1]);
-				int dir_index = dirsIndexes(dir);
+				int dir_index = dirIdx_fromDir(dir);
 
 				for(int i = 0; i < cells.length && game_state == GameState.OPEN; i++)
 					checkAlignments(cells[i], max_tier, dir_index, caller + "checkArray_");
@@ -353,15 +361,11 @@ public abstract class _BoardBitDb<S extends _BoardBitDb<S, BB>, BB extends _Boar
 		}
 
 		//returns index in lines_per_dir to the line related to this direction
-		protected int dirsIndexes(MovePair dir) {
-			if(dir.equals(DIRECTIONS[0]))		return 1;
-			else if(dir.equals(DIRECTIONS[1]))	return 3;
-			else if(dir.equals(DIRECTIONS[2]))	return 0;
-			else if(dir.equals(DIRECTIONS[3]))	return 2;
-			else if(dir.equals(DIRECTIONS[4]))	return 1;
-			else if(dir.equals(DIRECTIONS[5]))	return 3;
-			else if(dir.equals(DIRECTIONS[6]))	return 0;
-			else /*if(dir==DIRECTIONS[7]) */	return 2;
+		protected int dirIdx_fromDir(MovePair dir) {
+			for(int d = 0; d < DIR_ABS_N; d++)
+				if(dir.equals(DIRECTIONS[d]) || dir.equals(DIRECTIONS[d + 4]))
+					return d;
+			return -1;	// useless
 		}
 
 		//#region ALIGNMENTS
@@ -373,8 +377,8 @@ public abstract class _BoardBitDb<S extends _BoardBitDb<S, BB>, BB extends _Boar
 				//	System.out.println("\nremoveAlignments START:");
 				
 				// foreach direction
-				for(int d = 0; d < alignments_direction_indexes.length; d++) {
-					BiList_ThreatPos alignments_in_row = alignments_by_direction[d].get(getIndex_for_alignmentsByDirection(DIRECTIONS[alignments_direction_indexes[d]], center));
+				for(int d = 0; d < DIR_ABS_N; d++) {
+					BiList_ThreatPos alignments_in_row = alignments_by_dir[d].get(getIndex_for_alignmentsByDir(DIRECTIONS[d], center));
 
 					if(alignments_in_row != null) {
 						BiNode<ThreatPosition>	p = alignments_in_row.getFirst(player),
@@ -464,9 +468,8 @@ public abstract class _BoardBitDb<S extends _BoardBitDb<S, BB>, BB extends _Boar
 				try {
 
 					byte opponent						= Auxiliary.opponent(player);
-					MovePair dir						= DIRECTIONS[alignments_direction_indexes[dir_index]];
-					MovePair dir_neg					= DIRECTIONS[(alignments_direction_indexes[dir_index] + 4) % 8];
-					int alignments_by_direction_index	= getIndex_for_alignmentsByDirection(dir, first);
+					MovePair dir						= DIRECTIONS[dir_index];
+					MovePair dir_neg					= DIRECTIONS[(dir_index + 4) % 8];
 
 					// swap first, second if not first->second in same direction as dir
 					if(!dir.equals( first.getDirection(second)) ) {
@@ -498,9 +501,9 @@ public abstract class _BoardBitDb<S extends _BoardBitDb<S, BB>, BB extends _Boar
 					int found = 0;
 					if(DEBUG_ON) {
 						file = new FileWriter(filename);
-						file.write(printString(0) + "\naddAlignments START, for player " + player + ", moves " + first + " " + second + " dir: " + DIRECTIONS[alignments_direction_indexes[dir_index]] + ", end_c1/c2:" + end_c1 + " " + end_c2 + ", onlyvalid:" + only_valid + ":\n");
+						file.write(printString(0) + "\naddAlignments START, for player " + player + ", moves " + first + " " + second + " dir: " + DIRECTIONS[dir_index] + ", end_c1/c2:" + end_c1 + " " + end_c2 + ", onlyvalid:" + only_valid + ":\n");
 					}
-					if(DEBUG_PRINT) System.out.println(printString(0) + "\naddAlignments START, for player " + player + ", moves " + first + " " + second + " dir: " + DIRECTIONS[alignments_direction_indexes[dir_index]] + ", end_c1/c2:" + end_c1 + " " + end_c2 + ", onlyvalid:" + only_valid + ":\n");
+					if(DEBUG_PRINT) System.out.println(printString(0) + "\naddAlignments START, for player " + player + ", moves " + first + " " + second + " dir: " + DIRECTIONS[dir_index] + ", end_c1/c2:" + end_c1 + " " + end_c2 + ", onlyvalid:" + only_valid + ":\n");
 						
 					for( _findOccurrenceUntil(c1, c1.reset(first), dir_neg, MAX, X + Operators.MAX_FREE_EXTRA - 1, player, opponent, false, false, only_valid, dir_index)	// find furthest c1 back, from center
 						; !c1.equals(end_c1) && !(c2_passed_endc1 && c1_reset_to_c2)
@@ -575,7 +578,7 @@ public abstract class _BoardBitDb<S extends _BoardBitDb<S, BB>, BB extends _Boar
 										; after++, before--, threat_start.sum(dir), threat_end.sum(dir)
 									) {
 										ThreatPosition threat_pos = new ThreatPosition(threat_start, threat_end, threat_code);
-										alignments_by_direction[dir_index].add(player, alignments_by_direction_index, threat_pos);				//add to array for alignments in row/col/diag
+										alignments_by_dir[dir_index].add(player, dir_index, threat_pos);				//add to array for alignments in row/col/diag
 										
 										// debug
 										found++;
@@ -605,7 +608,7 @@ public abstract class _BoardBitDb<S extends _BoardBitDb<S, BB>, BB extends _Boar
 			 * Find alignments for a cell in all directions.
 			 */
 			private void findAlignments(final MovePair first, final MovePair second, final byte player, int max_tier, _BoardBitDb<S, ?> check1, _BoardBitDb<S, ?> check2, boolean only_valid, int dir_excluded, String caller) {
-				for(int d = 0; d < alignments_direction_indexes.length; d++) {
+				for(int d = 0; d < DIR_ABS_N; d++) {
 					if(d != dir_excluded)
 						findAlignmentsInDirection(first, second, player, d, max_tier, check1, check2, only_valid, caller + "find_");
 				}
@@ -620,13 +623,13 @@ public abstract class _BoardBitDb<S extends _BoardBitDb<S, BB>, BB extends _Boar
 			public void findAllAlignments(byte player, int max_tier, boolean only_valid, String caller) {
 
 				MovePair start, end;
-				for(int d = 0; d < alignments_direction_indexes.length; d++)
+				for(int d = 0; d < DIR_ABS_N; d++)
 				{
-					for(start = iterateAlignmentDirs(null, d), end = new MovePair();
+					for(start = nextStartOfRow_inDir(null, d), end = new MovePair();
 						start.inBounds(MIN, MAX);
-						start = iterateAlignmentDirs(start, d)
+						start = nextStartOfRow_inDir(start, d)
 					) {
-						end.reset(start).clamp_diag(MIN, MAX, DIRECTIONS[alignments_direction_indexes[d]], Math.max(M, N));
+						end.reset(start).clamp_diag(MIN, MAX, DIRECTIONS[d], Math.max(M, N));
 						findAlignmentsInDirection(start, end,  player, d, max_tier, null, null, only_valid, caller + "all_");
 					}
 				}
@@ -634,10 +637,10 @@ public abstract class _BoardBitDb<S extends _BoardBitDb<S, BB>, BB extends _Boar
 
 			protected void addAllCombinedAlignments(S B, byte player, int max_tier) {
 
-				for(int alignments_by_direction_index = 0; alignments_by_direction_index < alignments_by_direction.length; alignments_by_direction_index++) {
-					MovePair start = iterateAlignmentDirs(null, alignments_by_direction_index);
-					for(int i = 0; i < alignments_by_direction[alignments_by_direction_index].size();
-						i++, start = iterateAlignmentDirs(start, alignments_by_direction_index))
+				for(int alignments_by_direction_index = 0; alignments_by_direction_index < alignments_by_dir.length; alignments_by_direction_index++) {
+					MovePair start = nextStartOfRow_inDir(null, alignments_by_direction_index);
+					for(int i = 0; i < alignments_by_dir[alignments_by_direction_index].size();
+						i++, start = nextStartOfRow_inDir(start, alignments_by_direction_index))
 					{
 						findAlignmentsInDirection(start, start, player, alignments_by_direction_index, max_tier, this, B, true, "combined_");
 					}
@@ -649,7 +652,7 @@ public abstract class _BoardBitDb<S extends _BoardBitDb<S, BB>, BB extends _Boar
 			 * Complexity: O(1)
 			 * @return the index where, in alignments_by_direction, is contained position in direction dir
 			 */
-			protected int getIndex_for_alignmentsByDirection(MovePair dir, MovePair position) {
+			protected int getIndex_for_alignmentsByDir(MovePair dir, MovePair position) {
 				if(dir.i == 0)				return position.i;				//horizontal
 				else if(dir.j == 0)			return position.j;				//vertical
 				else if(dir.i == dir.j)		return dir.j - dir.i + M - 1;	//dright
@@ -662,26 +665,26 @@ public abstract class _BoardBitDb<S extends _BoardBitDb<S, BB>, BB extends _Boar
 			 * -	single iteration: M, N, M+N-1, M+N-1 for each direction (col, row, diag, anti-diag)
 			 * -	all directions: O(M + N + M+N-1 + M+N-1) = O(3MN)
 			 * @param start
-			 * @param lines_dirs_index
+			 * @param dir_index
 			 * @return
 			 */
-			private MovePair iterateAlignmentDirs(MovePair start, int lines_dirs_index) {
+			private MovePair nextStartOfRow_inDir(MovePair start, int dir_index) {
 				if(start == null) {
-					if(lines_dirs_index == 2) start = new MovePair(M - 1, 0);	//dright
-					else start = new MovePair(0, 0);
-				} else {
-					if(lines_dirs_index == 0) start.reset(start.i + 1, start.j);
-					else if(lines_dirs_index == 1) start.reset(start.i, start.j + 1);
-					else if(lines_dirs_index == 2) {
-						if(start.i == 0) start.reset(start.i, start.j + 1);
-						else start.reset(start.i - 1, start.j);
-					}
-					else {
-						if(start.j == N - 1) start.reset(start.i + 1, start.j);
-						else start.reset(start.i, start.j + 1);
-					}
+					if(dir_index == DIR_IDX_DIAGRIGHT) return new MovePair(M - 1, 0);	//dright
+					else return new MovePair(0, 0);
 				}
-				return start;
+
+				if(dir_index == DIR_IDX_HORIZONTAL)
+						return start.reset(start.i + 1, start.j);
+				else if(dir_index == DIR_IDX_DIAGLEFT) {
+						if(start.j == N - 1)	return start.reset(start.i + 1, start.j);
+						else					return start.reset(start.i, start.j + 1);
+				} else if(dir_index == DIR_IDX_VERTICAL)
+						return start.reset(start.i, start.j + 1);
+				else {	// DIR_IDX_DIAGRIGHT
+					if(start.i == 0)	return start.reset(start.i, start.j + 1);
+					else				return start.reset(start.i - 1, start.j);
+				}
 			}
 
 			/**
@@ -691,9 +694,9 @@ public abstract class _BoardBitDb<S extends _BoardBitDb<S, BB>, BB extends _Boar
 			 */
 			public boolean hasAlignments(byte player) {
 
-				for(int i = 0; i < alignments_by_direction.length; i++) {
-					for(int j = 0; j < alignments_by_direction[i].size(); j++) {
-						BiList_ThreatPos t = alignments_by_direction[i].get(j);
+				for(int i = 0; i < alignments_by_dir.length; i++) {
+					for(int j = 0; j < alignments_by_dir[i].size(); j++) {
+						BiList_ThreatPos t = alignments_by_dir[i].get(j);
 						if(t != null && !t.isEmpty(player)) return true;
 					}
 				}
@@ -728,7 +731,7 @@ public abstract class _BoardBitDb<S extends _BoardBitDb<S, BB>, BB extends _Boar
 				byte defender		= Auxiliary.opponent(attacker);
 				ThreatsByRank res	= new ThreatsByRank();
 
-				for(AlignmentsList alignments_by_row : alignments_by_direction) {
+				for(AlignmentsList alignments_by_row : alignments_by_dir) {
 					for(BiList_ThreatPos alignments_in_row : alignments_by_row) {
 						if(alignments_in_row != null) {
 							
@@ -760,8 +763,8 @@ public abstract class _BoardBitDb<S extends _BoardBitDb<S, BB>, BB extends _Boar
 		
 				int[] threats_by_col = new int[N];
 
-				for(int d = 0; d < BoardBitDb.alignments_direction_indexes.length; d++) {
-					for(BiList_ThreatPos alignments_in_row : alignments_by_direction[d]) {
+				for(int d = 0; d < DIR_ABS_N; d++) {
+					for(BiList_ThreatPos alignments_in_row : alignments_by_dir[d]) {
 						if(alignments_in_row != null) {
 							
 							BiNode<ThreatPosition> p = alignments_in_row.getFirst(player);
@@ -838,10 +841,10 @@ public abstract class _BoardBitDb<S extends _BoardBitDb<S, BB>, BB extends _Boar
 		 */
 		protected void initAlignmentStructures() {
 			alignments_rows			= new AlignmentsList(M);
+			alignments_diagleft		= new AlignmentsList(M + N - 1);
 			alignments_cols			= new AlignmentsList(N);
 			alignments_diagright	= new AlignmentsList(M + N - 1);
-			alignments_diagleft		= new AlignmentsList(M + N - 1);
-			alignments_by_direction	= new AlignmentsList[]{alignments_rows, alignments_cols, alignments_diagright, alignments_diagleft};
+			alignments_by_dir	= new AlignmentsList[]{alignments_rows, alignments_diagleft, alignments_cols, alignments_diagright};
 		}
 		//#region COPY
 
@@ -851,10 +854,10 @@ public abstract class _BoardBitDb<S extends _BoardBitDb<S, BB>, BB extends _Boar
 			 */
 			protected void copyAlignmentStructures(S DB) {
 				alignments_rows			= new AlignmentsList(DB.alignments_rows);
+				alignments_diagleft		= new AlignmentsList(DB.alignments_diagleft);
 				alignments_cols			= new AlignmentsList(DB.alignments_cols);
 				alignments_diagright	= new AlignmentsList(DB.alignments_diagright);
-				alignments_diagleft		= new AlignmentsList(DB.alignments_diagleft);
-				alignments_by_direction	= new AlignmentsList[]{alignments_rows, alignments_cols, alignments_diagright, alignments_diagleft};
+				alignments_by_dir	= new AlignmentsList[]{alignments_rows, alignments_diagleft, alignments_cols, alignments_diagright};
 			}
 
 		//#endregion COPY
@@ -878,17 +881,17 @@ public abstract class _BoardBitDb<S extends _BoardBitDb<S, BB>, BB extends _Boar
 			res += indent + "ALIGNMENTS:\n";
 			res += indent + "by rows:\n";
 
-			for(int d = 0; d < alignments_direction_indexes.length; d++) {
-				MovePair dir = DIRECTIONS[alignments_direction_indexes[d]];
+			for(int d = 0; d < DIR_ABS_N; d++) {
+				MovePair dir = DIRECTIONS[d % DIR_ABS_N];
 				res += indent + "direction: " + dir + "\n";
 
 				for(int player = 0; player < 2; player++) {
 					res += indent + "player " + Player_byte[player] + ":\n\n";
-					for(int i = 0; i < alignments_by_direction[d].size(); i++) {
+					for(int i = 0; i < alignments_by_dir[d].size(); i++) {
 
-						if(alignments_by_direction[d].get(i) != null) {
+						if(alignments_by_dir[d].get(i) != null) {
 							res += indent + "index " + i + "\n\n";
-							for(BiNode<ThreatPosition> p = alignments_by_direction[d].getFirst(Player_byte[player], i);
+							for(BiNode<ThreatPosition> p = alignments_by_dir[d].getFirst(Player_byte[player], i);
 								p != null; p = p.next
 							) {
 								res += indent + p.item + "\n\n";
