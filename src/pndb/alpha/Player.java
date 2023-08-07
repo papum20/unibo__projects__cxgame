@@ -22,6 +22,7 @@ public class Player extends _PnSearch<DbSearchResult, DbSearch> {
 
 		/**
 		 * Evaluate `node` according to a DbSearch.
+		 * Complexity: O(DbSearch)
 		 * @param node
 		 * @param player
 		 * @return true if found a win.
@@ -70,7 +71,10 @@ public class Player extends _PnSearch<DbSearchResult, DbSearch> {
 		}
 		
 		/**
-		 * 
+		 * Complexity: O(DbSearch + getThreatCounts + children_generation + loop + sorting )
+		 *		= O(DbSearch + O(6M + 10N + MN) + N + N(4X) + N**2 ) = O(DbSearch + MN + N**2 + 6M + 11N + 4XN )
+		 		= O(DbSearch + 2N**2 + (17+4X)N ) if M similar to N
+				note: setProofAndDisproofNumbers can't go in expanded case from here, so it's O(1)
 		 * @param node
 		 * @param threat_scores_by_col
 		 */

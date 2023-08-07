@@ -17,6 +17,11 @@ public interface IBoardBitDb<S extends IBoardBitDb<S, BB>, BB extends IBoardBit>
 	
 
 
+	/**
+	 * Complexity: O(marked_threats.length + N**2 + 13N)
+	 * @param copy_threats
+	 * @return
+	 */
 	public S getCopy(boolean copy_threats);
 
 	public void copy(BB B);

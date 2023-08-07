@@ -25,6 +25,9 @@ public abstract class _DbNode<S extends _DbNode<S,BB,B>, BB extends IBoardBit, B
 		board = null;
 	}
 	
+	/**
+	 * Complexity: O(1)
+	 */
 	public _DbNode(B board, boolean is_combination, int max_tier) {
 		this.board = board;
 		setData(is_combination, max_tier);
@@ -52,8 +55,9 @@ public abstract class _DbNode<S extends _DbNode<S,BB,B>, BB extends IBoardBit, B
 		//}
 
 
-		/*
-		 * helper, only one direction
+		/**
+		 * helper, only one direction.
+		 * Complexity: worst: O(mc_n)
 		 */
 		protected BoardsRelation _validCombinationWith(_DbNode<S,BB,B> node, byte attacker) {
 
@@ -73,8 +77,10 @@ public abstract class _DbNode<S extends _DbNode<S,BB,B>, BB extends IBoardBit, B
 			return added_own? BoardsRelation.USEFUL : BoardsRelation.USELESS;
 		}
 
-		/*
+		/**
 		 * Check if a combination with node is valid, i.e. if they're not in conflict and both have a marked cell the other doesn't.
+		 * Complexity:
+		 * 		worst (both not conflict): O(this.mc_n + node.mc_n)
 		 */
 		public BoardsRelation validCombinationWith(S node, byte attacker) {
 
@@ -102,6 +108,10 @@ public abstract class _DbNode<S extends _DbNode<S,BB,B>, BB extends IBoardBit, B
 	public S getFirstChild() {return first_child; }
 	public S getSibling() {return sibling; }
 
+	/**
+	 * Complexity: O(children_n)
+	 * @param child
+	 */
 	public void addChild(S child) {
 		if(first_child == null) first_child = child;
 		else first_child.addSibling(child);

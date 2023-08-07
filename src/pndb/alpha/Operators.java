@@ -320,13 +320,20 @@ public class Operators {
 			}
 
 		//#endregion MAIN
+		
 		//#region APPLIERS
 			private static class ApplierNull implements Applier {
+				/**
+				 * Complexity: O(1)
+				 */
 				public <B extends _BoardBitDb<B, BB>, BB extends _BoardBit<BB>> ThreatCells getThreatCells(final _BoardBitDb<B, BB> board, ThreatPosition pos, byte attacker, byte defender) {
 					return null;
 				}
 			}
 			private static class Applier1first implements Applier {
+				/**
+				 * Complexity: O(1)
+				 */
 				public <B extends _BoardBitDb<B, BB>, BB extends _BoardBit<BB>> ThreatCells getThreatCells(final _BoardBitDb<B, BB> board, ThreatPosition pos, byte attacker, byte defender) {
 					ThreatCells res = new ThreatCells(1, pos.type);
 					if(board.cellFree(pos.start.i, pos.start.j))	res.set(pos.start, 0, USE.ATK);
@@ -335,6 +342,9 @@ public class Operators {
 				}
 			}
 			private static class Applier1in implements Applier {
+				/**
+				 * Complexity: worst: O(X)
+				 */
 				public <B extends _BoardBitDb<B, BB>, BB extends _BoardBit<BB>> ThreatCells getThreatCells(final _BoardBitDb<B, BB> board, ThreatPosition pos, byte attacker, byte defender) {
 					ThreatCells res = new ThreatCells(1, pos.type);
 					MovePair dir	= pos.start.getDirection(pos.end);
@@ -347,6 +357,9 @@ public class Operators {
 				}
 			}
 			private static class Applier1second implements Applier {
+				/**
+				 * Complexity: O(1)
+				 */
 				public <B extends _BoardBitDb<B, BB>, BB extends _BoardBit<BB>> ThreatCells getThreatCells(final _BoardBitDb<B, BB> board, ThreatPosition pos, byte attacker, byte defender) {
 					ThreatCells res	= new ThreatCells(1, pos.type);
 					MovePair dir	= pos.start.getDirection(pos.end);
@@ -358,6 +371,9 @@ public class Operators {
 			}
 			//like 1kc, but starts from the free border
 			private static class Applier1_1first_or_in implements Applier {
+				/**
+				 * Complexity: worst: O(X)
+				 */
 				public <B extends _BoardBitDb<B, BB>, BB extends _BoardBit<BB>> ThreatCells getThreatCells(final _BoardBitDb<B, BB> board, ThreatPosition pos, byte attacker, byte defender) {
 					ThreatCells res = new ThreatCells(2, pos.type);
 					MovePair dir;
@@ -380,21 +396,25 @@ public class Operators {
 				}
 			}
 			private static class Applier1_1in_or_in implements Applier {
+				/**
+				 * Complexity: worst: O(X)
+				 */
 				public <B extends _BoardBitDb<B, BB>, BB extends _BoardBit<BB>> ThreatCells getThreatCells(final _BoardBitDb<B, BB> board, ThreatPosition pos, byte attacker, byte defender) {
 					ThreatCells res = new ThreatCells(2, pos.type);
-					MovePair dir = pos.start.getDirection(pos.end);
-					MovePair it = new MovePair(pos.start);
+					MovePair	dir = pos.start.getDirection(pos.end),
+								it = new MovePair(pos.start);
 					int len = 0;
-					//doesn't check termination condition ( && !it.equals(op.end)): assumes the operator is appliable
 					while(len < 2) {
 						if(board.cellFree(it.i, it.j)) res.set(new MovePair(it), len++, USE.BTH);
-						//if(it.equals(op.end)) len = 2;	//exit while
 						it.sum(dir);
 					}
 					return res;
 				}
 			}
 			private static class Applier1_3second_or_in implements Applier {
+				/**
+				 * Complexity: worst: O(X)
+				 */
 				public <B extends _BoardBitDb<B, BB>, BB extends _BoardBit<BB>> ThreatCells getThreatCells(final _BoardBitDb<B, BB> board, ThreatPosition pos, byte attacker, byte defender) {
 					ThreatCells res = new ThreatCells(4, pos.type);
 					MovePair dir = pos.start.getDirection(pos.end);
@@ -410,7 +430,6 @@ public class Operators {
 					//doesn't check termination condition ( && !it.equals(op.end)): assumes the operator is appliable
 					while(ind < 3) {
 						if(board.cellFree(it.i, it.j)) ind++;
-						//if(it.equals(op.end)) len = 2;	//exit while
 						if(ind < 3) it.sum(dir);
 					}
 					res.set(it, 1, USE.BTH); 
@@ -419,23 +438,28 @@ public class Operators {
 				}
 			}
 			private static class Applier1_3in_or_in implements Applier {
+				/**
+				 * Complexity: worst: O(X)
+				 */
 				public <B extends _BoardBitDb<B, BB>, BB extends _BoardBit<BB>> ThreatCells getThreatCells(final _BoardBitDb<B, BB> board, ThreatPosition pos, byte attacker, byte defender) {
 					ThreatCells res = new ThreatCells(4, pos.type);
-					MovePair dir = pos.start.getDirection(pos.end);
-					MovePair it = new MovePair(pos.start);
+					MovePair	dir = pos.start.getDirection(pos.end),
+								it = new MovePair(pos.start);
 					res.set(pos.start, 0, USE.DEF);
 					int ind = 1;
 					//doesn't check termination condition ( && !it.equals(op.end)): assumes the operator is appliable
 					while(ind < 3) {
 						it.sum(dir);
 						if(board.cellFree(it.i, it.j)) res.set(new MovePair(it), ind++, USE.BTH);
-						//if(it.equals(op.end)) len = 2;	//exit while
 					}
 					res.set(pos.end, 3, USE.DEF);
 					return res;
 				}
 			}
 			private static class Applier1_2third implements Applier {
+				/**
+				 * Complexity: O(1)
+				 */
 				public <B extends _BoardBitDb<B, BB>, BB extends _BoardBit<BB>> ThreatCells getThreatCells(final _BoardBitDb<B, BB> board, ThreatPosition pos, byte attacker, byte defender) {
 					ThreatCells res = new ThreatCells(3, pos.type);
 					MovePair dir = pos.start.getDirection(pos.end);
@@ -450,6 +474,9 @@ public class Operators {
 				}
 			}
 			private static class Applier1_2in implements Applier {
+				/**
+				 * Complexity: worst: O(X)
+				 */
 				public <B extends _BoardBitDb<B, BB>, BB extends _BoardBit<BB>> ThreatCells getThreatCells(final _BoardBitDb<B, BB> board, ThreatPosition pos, byte attacker, byte defender) {
 					ThreatCells res = new ThreatCells(3, pos.type);
 					MovePair dir = pos.start.getDirection(pos.end);
@@ -459,7 +486,6 @@ public class Operators {
 					//doesn't check termination condition ( && !it.equals(op.end)): assumes the operator is appliable
 					while(ind < 2) {
 						if(board.cellFree(it.i, it.j)) ind++;
-						//if(it.equals(op.end)) len = 2;	//exit while
 						if(ind < 2) it.sum(dir);
 					}
 					res.set(it, 1, USE.ATK);

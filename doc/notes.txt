@@ -14,7 +14,17 @@
 
 ENHANCEMENTS/HEURISTICS to try:
 1.
-
+	hasAlignments: save number
+2.
+	use such number in combination, to choose parent
+3.
+	getDependant, when nothing to remove
+4. 
+	improve trees with head/sibling, moving pointer to child / last sibling
+5.
+	(for checkalignments/mark more) findAlignentsInDirection for more cells, no for
+6.
+	useless smalled alignment when theres bigger
 
 
 	NUOVO!! (FEBBRAIO)

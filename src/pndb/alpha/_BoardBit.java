@@ -277,7 +277,7 @@ public abstract class _BoardBit<BB extends _BoardBit<BB>> implements IBoardBit {
 		 */
 		public boolean cellFree(int i, int j) {return (1 & (board_mask[j][i / BITSTRING_LEN] >> (i % BITSTRING_LEN))) == 0;}
 		
-		/*
+		/**
 		 * Convert cell to GameState, assuming cell is occupied by someone.
 		 * Complexity: O(1)
 		 */

@@ -27,16 +27,28 @@ public class BoardBitDb extends _BoardBitDb<BoardBitDb, BoardBit> {
 		super(M, N, X);
 	}
 
+	/**
+	 * Complexity: O(3M+7N + MN)
+	 * @param B
+	 */
 	BoardBitDb(BoardBit B) {
 		super(B);
 		copyMCfromBoard(B);
 	}
 	
+	/**
+	 * Complexity: O(3M + 10N + B.marked_threats.length + MN) = O(B.marked_threats.length + N**2 + 13N)
+	 * @param B
+	 * @param copy_threats
+	 */
 	BoardBitDb(BoardBitDb B, boolean copy_threats) {
 		super(B, copy_threats);
 		copyMC(B);
 	}
 
+	/**
+	 * Complexity: O(marked_threats.length + N**2 + 13N)
+	 */
 	public BoardBitDb getCopy(boolean copy_threats) {
 		return new BoardBitDb(this, copy_threats);
 	}
@@ -210,12 +222,16 @@ public class BoardBitDb extends _BoardBitDb<BoardBitDb, BoardBit> {
 		}
 		//#region COPY
 
+			/**
+			 * Complexity: worst: O(M*N)
+			 */
 			private void copyMC(BoardBitDb B) {
 				MC_n = B.MC_n;
 				for(int i = 0; i < MC_n; i++) MC[i] = Auxiliary.copyCell(B.MC[i]);
 			}
 			/**
-			 * fill the MC checking the board
+			 * fill the MC checking the board.
+			 * Complexity: O(MN)
 			 * @param B
 			 */
 			private void copyMCfromBoard(BoardBit B) {

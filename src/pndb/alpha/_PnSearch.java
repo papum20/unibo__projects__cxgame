@@ -58,6 +58,9 @@ public abstract class _PnSearch<RES, DB extends IDbSearch<RES>> implements CXPla
 	
 	
 	
+	/**
+	 * Complexity: O(5N + 4MN + 2**16 + (5MN + 3M+4N + 2**16) ) = O(9MN + 3M+9N + 2**17)
+	 */
 	@Override
 	public void initPlayer(int M, int N, int X, boolean first, int timeout_in_secs) {
 
@@ -76,6 +79,9 @@ public abstract class _PnSearch<RES, DB extends IDbSearch<RES>> implements CXPla
 		dbSearch.init(M, N, X, first);
 	}
 
+	/**
+	 * Complexity: O(4X + )
+	 */
 	@Override
 	public int selectColumn(CXBoard B) {
 
@@ -132,7 +138,48 @@ public abstract class _PnSearch<RES, DB extends IDbSearch<RES>> implements CXPla
 	//#region PN-SEARCH
 
 		/**
-		 * iterative loop for visit
+		 * iterative loop for visit.
+		 * Complexity: 
+		 * 		one iteration:
+		 * 			O( (h + 4X) + (2DbSearch + 2N**2 + (17+4X)N) + (Nh) )
+		 * 			= O( 2DbSearch + (N+1)h + 2N**2 + (17+8X)N )
+		 * 			= O( 2DbSearch + 2N**2 + Nh + 17N + 8XN ), with M similar to N
+		 * 
+		 * 		full tree:
+		 * 			N*O(2Db+2N**2+N+17N+8XN) + N**2*O(2Db+2N**2+2N+17N+8XN) + ...
+		 * 			... + N**N*O(2Db+2N**2+NN+17N+8XN) + ...
+		 * 			... + N**(N*M)*O(2Db+2N**2+NMN+17N+8XN)
+		 * 
+		 * 			= (N+N**2+..+N**(NM)) * (it)			+ (N*N + N**2*2N + N**3*3N +..+ N**(NM)*NMN)
+		 * 			= ( (N**(NM+1) - N) / (N-1) ) * (it)	+ (N**2 + 2N**3 + 3N**4 +..+ N**(N**2)*N**3)
+		 * 			= (N**NM) * (it)						+ ( (N**(N**2+3) - N**2) / (N - 1) )
+		 * 			= (N**(N**2)) * (it)					+ (N**(N**2+2))
+		 * 
+		 * 			= (N**(N**2)) * (2DbSearch + 2N**2 + 17N + 8XN) + (N**(N**2+2))
+		 * 			= (N**(N**2)) * (2DbSearch + 2N**2 + 17N + 8XN) + (N**(N**2+2))
+		 * 
+		 * 			assuming a quite broad development of the tree (or, anyway, you consider an avg h).
+		 * 
+		 * 		H=max depth reached:
+		 * 			= (N + N**2 +..+ N**H) * (it)		+ (N**2 + 2N**3 + 3N**4 +..+ N**(H+1)*HN)
+		 * 			= ( (N**(H+1) - N) / (N-1) ) * (it)	+ ( (N**(H+1+1+1) - N**2) / (N - 1) )
+		 * 			= O(N**H) * (it)					+ O(N**(H+2))
+		 * 			= O(N**H) * (2DbSearch + 2N**2 + 17N + 8XN)					+ O(N**(H+2))
+		 * 			= O(N**H * 2DbSearch + 2N**(H+2) + 17N**(H+1) + N**(H+1)8X)	+ O(N**H)
+		 * 			= O(N**H * 2DbSearch + 2N**(H+2) + N**(H+2) + N**(H+2))		+ O(N**H) 	-- note(1)
+		 * 			= O(N**H * 2DbSearch + 4N**(H+2))	+ O(N**H)
+		 * 			= O(N**H * 2DbSearch + 4N**(H+2))
+		 * 
+		 * 			assuming all moves at each depth are developed, which is not true at all.
+		 * 			assuming H << N (otherwise, you would have to add 1 to exponent).
+		 * 			actually: updateAncestors doesn't always go to top, so it must cost less.
+		 * 			note(1): 8X is probably similar to N, and 17 too (sometimes), so we can round it all, also
+		 * 				considering some other overhead from constants, and round al to O(N**(NH+2)), which is absorbed
+		 * 				by the other O(N**(NH+2)) anyway.
+		 * 
+		 * ---
+		 * 			Notes: N*M is the max depth, N**h is the number of children at depth h.
+		 * 			it = O(iteration) - Nh = O(2DbSearch + 2N**2 + 17N + 8XN);
 		 * @return
 		 */
 		private void visit() {
@@ -187,7 +234,9 @@ public abstract class _PnSearch<RES, DB extends IDbSearch<RES>> implements CXPla
 		}
 
 		/**
-		 * 
+		 * Complexity:
+		 * 	-	endgame: O(1)
+		 * 	-	else: O(DbSearch)
 		 * @param node
 		 * @param game_state
 		 * @param player who has to move in node's board.
@@ -219,6 +268,7 @@ public abstract class _PnSearch<RES, DB extends IDbSearch<RES>> implements CXPla
 
 		/**
 		 * Evaluate `node` according to a DbSearch.
+		 * Complexity: O(DbSearch)
 		 * @param node
 		 * @param player
 		 * @return true if found a win.
@@ -229,6 +279,10 @@ public abstract class _PnSearch<RES, DB extends IDbSearch<RES>> implements CXPla
 		/**
 		 * set proof and disproof; update node.mostProving.
 		 * assuming value=unknown, as nodes are evaluated in developNode.
+		 * Complexity: 
+		 * 	-	case proved: O(1)
+		 * 	-	case expanded: O(2N)
+		 * 	-	else: O(1)
 		 * @param node
 		 * @param my_turn
 		 * @param offset offset for initProofAndDisproofNumbers, in case of `node` open and not expanded.
@@ -272,7 +326,7 @@ public abstract class _PnSearch<RES, DB extends IDbSearch<RES>> implements CXPla
 		}
 
 		/**
-		 * 
+		 * Complexity: O(h + 4X), where h is the length of the path calling_node-most_proving_descndant
 		 * @param node
 		 * @return
 		 */
@@ -290,7 +344,8 @@ public abstract class _PnSearch<RES, DB extends IDbSearch<RES>> implements CXPla
 		}
 
 		/**
-		 * 
+		 * Complexity: 
+		 * 		for alpha: O(2DbSearch + 2N**2 + (17+4X)N ) if M similar to N
 		 * @param node
 		 */
 		private void developNode(PnNode node, byte player) {
@@ -315,7 +370,7 @@ public abstract class _PnSearch<RES, DB extends IDbSearch<RES>> implements CXPla
 
 
 		/**
-		 * 
+		 * Complexity: O(h)
 		 * @param current
 		 * @param root
 		 */
@@ -327,7 +382,10 @@ public abstract class _PnSearch<RES, DB extends IDbSearch<RES>> implements CXPla
 		}
 
 		/**
-		 * 
+		 * Complexity:
+		 * 		worst: O(2Nh)
+		 * 			note: setProofAndDisproofNumbers always is called in expanded case, in intermediate nodes.
+		 * 		avg: O(Nh) ?
 		 * @param node
 		 * @return
 		 */
@@ -385,6 +443,7 @@ public abstract class _PnSearch<RES, DB extends IDbSearch<RES>> implements CXPla
 
 		/**
 		 * Init proof numbers to offset + current level in game tree.
+		 * Complexity: O(1)
 		 * @param node
 		 */
 		protected void initProofAndDisproofNumbers(PnNode node, short offset) {
@@ -394,6 +453,7 @@ public abstract class _PnSearch<RES, DB extends IDbSearch<RES>> implements CXPla
 
 		/**
 		 * mark/unmark and update current_player.
+		 * Complexity: O(4X)
 		 * @param col : col to mark/unmark
 		 * @return new game_state
 		 */
@@ -403,16 +463,28 @@ public abstract class _PnSearch<RES, DB extends IDbSearch<RES>> implements CXPla
 			current_level++;
 			return res;
 		}
+		/**
+		 * Complexity: O(1)
+		 * @param col
+		 */
 		protected void unmark(int col) {
 			board.unmark(col);
 			current_player = (byte)Constants.opponent(current_player);
 			current_level--;
 		}
 
+		/**
+		 * Complexity: O(1)
+		 * @return
+		 */
 		protected boolean isMyTurn() {
 			return current_player == CellState.P1;
 		}
 		
+		/**
+		 * Complexity: worst: O(N)
+		 * @return
+		 */
 		protected PnNode bestNode() {
 			// child with min proof/disproof ratio (note that if a child has proof zero, it will be chosen)
 			PnNode best = null;
@@ -424,7 +496,7 @@ public abstract class _PnSearch<RES, DB extends IDbSearch<RES>> implements CXPla
 		}
 		
 		/**
-		 * 
+		 * Complexity: O(1)
 		 * @return true if it's time to end the turn
 		 */
 		private boolean isTimeEnded() {
