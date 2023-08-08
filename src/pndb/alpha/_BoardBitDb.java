@@ -714,21 +714,25 @@ public abstract class _BoardBitDb<S extends _BoardBitDb<S, BB>, BB extends _Boar
 					}
 				}
 			}
-
+			
 			/**
+			 * Same as findAllAlignments, just had problems with types.
 			 * Complexity: O(findAllAlignments) = O(3(M+N) * O(findAlignmentsInDirection) )
 			 * @param B
 			 * @param player
 			 * @param max_tier
 			 */
 			protected void addAllCombinedAlignments(S B, byte player, int max_tier) {
-
-				for(int dir_idx = 0; dir_idx < DIR_ABS_N; dir_idx++) {
-					MovePair start = nextStartOfRow_inDir(null, dir_idx);
-					for(int i = 0; i < alignments_by_dir[dir_idx].size();
-						i++, start = nextStartOfRow_inDir(start, dir_idx))
-					{
-						findAlignmentsInDirection(start, start, player, dir_idx, max_tier, this, B, true, "combined_");
+				
+				MovePair start, end;
+				for(int d = 0; d < DIR_ABS_N; d++)
+				{
+					for(start = nextStartOfRow_inDir(null, d), end = new MovePair();
+						start.inBounds(MIN, MAX);
+						start = nextStartOfRow_inDir(start, d)
+					) {
+						end.reset(start).clamp_diag(MIN, MAX, DIRECTIONS[d], MAX_SIDE);
+						findAlignmentsInDirection(start, start, player, d, max_tier, this, B, true, "combined_");
 					}
 				}
 			}

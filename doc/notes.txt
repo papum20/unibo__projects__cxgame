@@ -23,8 +23,12 @@ ENHANCEMENTS/HEURISTICS to try:
 	improve trees with head/sibling, moving pointer to child / last sibling
 5.
 	(for checkalignments/mark more) findAlignentsInDirection for more cells, no for
+
+	should only find alignments involving them??
 6.
-	useless smalled alignment when theres bigger
+	useless smaller alignment when theres bigger
+7. addAllCombinedAlignments probl tipi
+
 
 
 	NUOVO!! (FEBBRAIO)
