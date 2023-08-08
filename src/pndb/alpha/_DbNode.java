@@ -35,6 +35,14 @@ public abstract class _DbNode<S extends _DbNode<S,BB,B>, BB extends IBoardBit, B
 		this.sibling = null;
 	}
 
+	/**
+	 * Complexity: O(B.getCopy) = O(marked_threats.length + N**2 + 13N)
+	 * @param board
+	 * @param is_combination
+	 * @param max_tier
+	 * @param copy_threats
+	 * @return
+	 */
 	public abstract S copy(B board, boolean is_combination, byte max_tier, boolean copy_threats);
 
 

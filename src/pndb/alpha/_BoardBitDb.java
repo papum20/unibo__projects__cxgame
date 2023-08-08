@@ -43,16 +43,16 @@ public abstract class _BoardBitDb<S extends _BoardBitDb<S, BB>, BB extends _Boar
 		/* number of absolute directions */
 		protected static final int DIR_ABS_N = 4;
 		/* indexes for alignments_by_dir */
-		private static int	DIR_IDX_HORIZONTAL	= 0,
-							DIR_IDX_DIAGLEFT	= 1,
-							DIR_IDX_VERTICAL	= 2,
-							DIR_IDX_DIAGRIGHT 	= 3;
+		protected static int	DIR_IDX_HORIZONTAL	= 0,
+								DIR_IDX_DIAGLEFT	= 1,
+								DIR_IDX_VERTICAL	= 2,
+								DIR_IDX_DIAGRIGHT 	= 3;
 
 		protected static final MovePair MIN = new MovePair(0, 0);
 		protected final MovePair MAX;
-		private final int MAX_SIDE;
+		protected final int MAX_SIDE;
 		/* alignments */
-		private static int MIN_MARKS;
+		protected static int MIN_MARKS;
 
 		public static byte MY_PLAYER;
 
@@ -86,19 +86,19 @@ public abstract class _BoardBitDb<S extends _BoardBitDb<S, BB>, BB extends _Boar
 	/* implementation
 	*/
 	// for findAlignmentsInDirection()
-	private static MovePair	c1				= new MovePair(),
-							c2				= new MovePair(),
-							end_c1			= new MovePair(),
-							end_c2			= new MovePair(),
-							c_it			= new MovePair(),
-							threat_start	= new MovePair(),
-							threat_end		= new MovePair();
+	protected static MovePair	c1				= new MovePair(),
+								c2				= new MovePair(),
+								end_c1			= new MovePair(),
+								end_c2			= new MovePair(),
+								c_it			= new MovePair(),
+								threat_start	= new MovePair(),
+								threat_end		= new MovePair();
 	
 	// Debug
 	int count = 0;
-	private static boolean DEBUG_ON			= false;
+	protected static boolean DEBUG_ON		= false;
 	protected static boolean DEBUG_PRINT	= false;
-	private static FileWriter file;
+	protected static FileWriter file;
   
 
 
@@ -315,30 +315,32 @@ public abstract class _BoardBitDb<S extends _BoardBitDb<S, BB>, BB extends _Boar
 		 */
 		public S getDependant(ThreatCells threat, int atk, USE use, int max_tier, boolean check_threats) {
 			
-			S res = getCopy(false);
+			S res = null;
 			
 			switch(use) {
 				//used for...
 				case ATK:
+				/*
+					res = getCopy(false);
 					MovePair cell = threat.related[threat.nextAtk(atk)];
 					res.mark(cell.i, cell.j, Player_byte[currentPlayer]);
 					if(check_threats) res.checkAlignments(cell, max_tier, -1, "dep");
+				*/
 					break;
-				//used for init defensive visit (marks defensive cells as own)
+					//used for init defensive visit (marks defensive cells as own)
 				case DEF:
-					//res.addThreat(threat, atk, Auxiliary.opponent(Player_byte[currentPlayer]));
-
+					res = getCopy(true);
 					//if there exist any defensive moves
-					if(threat.related.length > 1) {
-						res.markMore(threat.getDefensive(atk), Player_byte[currentPlayer]);
-						//if(check_threats) res.checkAlignments(threat.getDefensive(atk), max_tier, "dep");
-					}
+					if(threat.related.length > 1)
+					res.markMore(threat.getDefensive(atk), Player_byte[currentPlayer]);
+					// add this threat and check_alignments are done in getDefensiveRoot
 					break;
-				//used for dependency stage
+					//used for dependency stage
 				case BTH:
+					res = getCopy(false);
 					res.markThreat(threat.related, atk);
 					res.addThreat(threat, atk, Player_byte[currentPlayer]);
-					if(check_threats) res.checkAlignments(threat.related, max_tier, "dep");
+					if(check_threats) res.checkAlignments(threat.related[atk], max_tier, -1, "dep");
 			}
 			return res;
 		}
@@ -430,7 +432,6 @@ public abstract class _BoardBitDb<S extends _BoardBitDb<S, BB>, BB extends _Boar
 				// debug
 				//if(DEBUG_ON)
 				//	System.out.println("\nremoveAlignments START:");
-				
 				// foreach direction
 				for(int d = 0; d < DIR_ABS_N; d++) {
 					BiList_ThreatPos alignments_in_row = alignments_by_dir[d].get(getIndex_for_alignmentsByDir(DIRECTIONS[d], center));
@@ -444,6 +445,7 @@ public abstract class _BoardBitDb<S extends _BoardBitDb<S, BB>, BB extends _Boar
 
 							// debug
 							if(DEBUG_PRINT) System.out.println("remove " + p.item);
+							System.out.println("remove " + p.item);
 
 							if(center.inBetween_included(p.item.start, p.item.end))
 								alignments_in_row.remove(player, p);
@@ -476,7 +478,7 @@ public abstract class _BoardBitDb<S extends _BoardBitDb<S, BB>, BB extends _Boar
 			 * @param dir_index
 			 * @return the distance found
 			 */
-			private int _findOccurrenceUntil(MovePair res, final MovePair start, MovePair incr, MovePair stop_cell, int max_distance, byte target, byte stop_value, boolean only_target, boolean find_first, boolean only_valid, int dir_index) {
+			protected int _findOccurrenceUntil(MovePair res, final MovePair start, MovePair incr, MovePair stop_cell, int max_distance, byte target, byte stop_value, boolean only_target, boolean find_first, boolean only_valid, int dir_index) {
 				
 				int distance;
 
@@ -510,9 +512,13 @@ public abstract class _BoardBitDb<S extends _BoardBitDb<S, BB>, BB extends _Boar
 			 * 	-	whole line: O(max{M,N}**2 * 6 * 3) = O(18 max{M,N}**2), 
 			 * 			where 6 is the max number of alignments to check in a tier,
 			 * 			and 3 is the maximum number of free cells on one side of an alignment (i.e. number of iteration for before, after).
-			 *  -	single cell: O((2X)**2 * 6 * 3) = O(72 X**2),
+			 *  -	single cell: O((2X)**2 * 6 * 3)
+			 * 				= O(72 X**2),
 			 * 			as c1,c2 get at most X cells distant from center, on each side.
-			 *  -	sequence: O( (2X+(second-first))**2 * 6*3 ) = O(18(2X+second-first)**2 )
+			 *  -	sequence: O( (2X+(second-first))**2 * 6*3 )
+			 * 				= O(18(2X+second-first)**2 )
+			 * 				= O(18(3X)**2 ) if second-first==X
+			 * 				= O(162X**2 )
 			 * @param first
 			 * @param second
 			 * @param player
@@ -523,7 +529,7 @@ public abstract class _BoardBitDb<S extends _BoardBitDb<S, BB>, BB extends _Boar
 			 * @param only_valid if true, only search for immediately applicable threats, i.e. free[j] = i, for each (i,j) in threat
 			 * @param caller
 			 */
-			private void findAlignmentsInDirection(MovePair first, MovePair second, byte player, int dir_index, int max_tier, _BoardBitDb<S, ?> check1, _BoardBitDb<S, ?> check2, boolean only_valid, String caller) {
+			protected void findAlignmentsInDirection(MovePair first, MovePair second, byte player, int dir_index, int max_tier, _BoardBitDb<S, ?> check1, _BoardBitDb<S, ?> check2, boolean only_valid, String caller) {
 
 				String filename = "debug/db2/" + player + "_" + caller + count + "_" + (int)(Math.random() * 99999) + "_.txt";
 				count++;
@@ -650,7 +656,7 @@ public abstract class _BoardBitDb<S extends _BoardBitDb<S, BB>, BB extends _Boar
 										; after++, before--, threat_start.sum(dir), threat_end.sum(dir)
 									) {
 										ThreatPosition threat_pos = new ThreatPosition(threat_start, threat_end, threat_code);
-										alignments_by_dir[dir_index].add(player, dir_index, threat_pos);				//add to array for alignments in row/col/diag
+										alignments_by_dir[dir_index].add(player, getIndex_for_alignmentsByDir(dir, threat_start), threat_pos);			//add to array for alignments in row/col/diag
 										
 										// debug
 										found++;

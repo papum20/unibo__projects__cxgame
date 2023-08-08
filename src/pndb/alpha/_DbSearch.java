@@ -11,6 +11,7 @@ import pndb.alpha.threats.ThreatApplied;
 import pndb.alpha.threats.ThreatCells;
 import pndb.alpha.threats.ThreatCells.USE;
 import pndb.constants.Auxiliary;
+import pndb.constants.CellState;
 import pndb.constants.GameState;
 import pndb.constants.MovePair;
 import pndb.constants.Constants.BoardsRelation;
@@ -78,9 +79,25 @@ public abstract class _DbSearch<RES, BB extends _BoardBit<BB>, B extends IBoardB
 	}
 	
 
-	public abstract void init(int M, int N, int X, boolean first);
+	public void init(int M, int N, int X, boolean first) {
+		
+		this.M = M;
+		this.N = N;
+
+		MY_PLAYER	= CellState.P1;
+		BoardBitDb.MY_PLAYER = MY_PLAYER;
+		
+		board = createBoardDb(M, N, X);
+		TT = new TranspositionTable(M, N);
+		
+		BoardBitDb.TT = TT;
+
+		GOAL_SQUARES = new boolean[M][N];
+		// initialized to false
+	}
 
 	
+
 	/**
 	 * 
 	 * @param B
@@ -91,14 +108,115 @@ public abstract class _DbSearch<RES, BB extends _BoardBit<BB>, B extends IBoardB
 	 * 		and related_squares_by_col contains, for each column j, the number of squares related to the winning sequence, in column j;
 	 * 2.	otherwise, it's null.
 	 */
-	public abstract RES selectColumn(BoardBit B, PnNode root_pn, long time_remaining, byte player);
+	public RES selectColumn(BB B, PnNode root_pn, long time_remaining, byte player) {
+		
+		// debug
+		log = "__\ndbSearch\n";
 
+		NODE root = null;;
+
+		try {
+			
+			// timer
+			timer_start	= System.currentTimeMillis();
+			timer_end	= timer_start + time_remaining;
+			
+			// update own board instance
+			board = createBoardDb(B);
+			board.setPlayer(player);
+			
+			board.findAllAlignments(player, Operators.TIER_MAX, true, "selCol_");
+			
+			// debug
+			if(DEBUG_ON && board.hasAlignments(player)) {
+				file = new FileWriter("debug/db1main/main" + (counter++) + "_" + debugRandomCode() + "_" + board.getMC_n() + ".txt");
+				file.write("root board:\n" + board.printString(0) + board.printAlignmentsString(0));
+				file.close();
+			}
+			
+			
+			// db init
+			root = createRoot(board);
+			win_node 	= null;
+			found_win_sequences = 0;
+			
+			// recursive call for each possible move
+			visit(root, player, true, Operators.TIER_MAX);
+			root = null;
+
+			// debug
+			if(DEBUG_ON) file.close();
+			if(foundWin()) {
+				if(DEBUG_PRINT)
+					System.out.println("found win: " + foundWin() );
+				log += "found win: " + foundWin() + "\n";
+				log += "win node \n";
+				log += win_node.board.printString(0);
+			}
+			
+
+			if(foundWin())
+				return getReturnValue(player);
+
+			return null;
+
+		} catch (IOException io) {
+			return null;
+		} catch (ArrayIndexOutOfBoundsException e) {
+			root.board.print();
+			root.board.printAlignments();
+			System.out.println(log + "\nout of bounds in db\n");
+			if(DEBUG_ON) try {file.close();} catch(IOException io) {}
+			throw e;
+		} catch (Exception e) {
+			root.board.print();
+			root.board.printAlignments();
+			System.out.println(log + "\nany error in db\n");
+			if(DEBUG_ON) try {file.close();} catch(IOException io) {}
+			throw e;
+		}
+
+	}
 	public abstract int[] getThreatCounts(BoardBit B, byte player);
 
 
 		//#region ALGORITHM
 
 		/**
+		 * Complexity: 
+		 * 		iteration: O(addDependencyStage + addCombinationStage + lastDependency.clear + lastCombination.clear)
+		 * 				= O(addDependencyStage + addCombinationStage + lastDependency.length + lastCombination.length)
+		 * 
+		 * 			case rooot.applicable_threats==0:
+		 * 				= O( 6XN + lastDependency.length + lastCombination.length)
+		 * 
+		 * 			case rooot.applicable_threats>0:
+		 * 				= O(addDependencyStage + addCombinationStage)
+		 * 				= O(addDependencyStage + addCombinationStage)
+		 * 
+		 *		  		case attacking:
+		 * 					O(	lastCombination.length *
+		 * 							* {
+		 * 								[P(!end_game)* node.applicable_threats_n**2 * 27X**2] +
+		 * 								+ P(endgame) * O(visitGlobalDefenses(node))
+		 * 							} 			-- [for each node in lastCombination]
+		 * 						+ lastDependency.length *
+		 * 							* (A.marked_threats.length + N**2 + 16X * B.marked_threats.length * A.avg_threats_per_dir_per_line + A.threats
+		 * 							)			-- [for each A,B in lastDependency]
+		 * 					)
+		 * 			case !attacking:
+		 * 					O(	lastCombination.length *
+		 * 							* [
+		 * 								P(!end_game) * node.applicable_threats_n**2 * (27X**2 )
+		 * 							]			-- [for each node in lastCombination]
+		 * 						+ lastDependency.length *
+		 * 							* (A.marked_threats.length + N**2 + 16X * B.marked_threats.length * A.avg_threats_per_dir_per_line + A.threats
+		 * 							)			-- [for each A,B in lastDependency]
+		 * 					)
+		 * 
+		 * 
+
+		 * 					notes: combinationStage is not executed if lastCombination.length==0, i.e. if (end_game || applicable_threats==0)
 		 * 
 		 * @param root
 		 * @param attacker
@@ -229,6 +347,22 @@ public abstract class _DbSearch<RES, BB extends _BoardBit<BB>, B extends IBoardB
 		}
 
 		/**
+		 * Complexity:
+		 * 			O(addDependentChildren * lastCombination.length)
+		 * 			= lastCombination.length *
+		 * 				( P(!end_game) * {[P(applicable_threats_n==0) * O(6XN)] + [P(applicable_threats_n>0) * O( node.applicable_threats_n**2 * (27X**2 ))]} +
+		 * 				+ {P(endgame) * P(attacking) * O(visitGlobalDefenses)}
+		 * 				)
+		 * 		case attacking:
+		 * 				O(lastCombination.length *
+		 * 				( P(!end_game) * {[P(applicable_threats_n==0) * O(6XN)] + [P(applicable_threats_n>0) * O( node.applicable_threats_n**2 * (27X**2 ))]} +
+		 * 				+ {P(endgame) P(attacking) * O(visitGlobalDefenses)}
+		 * 				))
+		 * 		case !attacking:
+		 * 				O(lastCombination.length *
+		 * 				P(!end_game) * {[P(applicable_threats_n==0) * O(6XN)] + [P(applicable_threats_n>0) * O( node.applicable_threats_n**2 * (27X**2 ))]}
+		 * 				)
+		 * 				note: with !attacking, goal_squares and max_tier could reduce iterations number
 		 * 
 		 * @param attacker
 		 * @param attacking
@@ -254,7 +388,7 @@ public abstract class _DbSearch<RES, BB extends _BoardBit<BB>, B extends IBoardB
 				NODE node = it.next();
 
 				// debug
-				if(DEBUG_ON) file.write(	indent + "DEPENDENCY: parent: \n" + node.board.printString(node.board.getMC_n()) + indent + "children: \n" +
+				if(DEBUG_ON) file.write(	indent + "DEPENDENCY: parent: \n" + node.board.printString(node.board.getMC_n()) + node.board.printAlignmentsString(node.board.getMC_n()) + indent + "children: \n" +
 								((node.board.getMC_n() == 0 || node.board.getMarkedCell(node.board.getMC_n()-1) == null) ? "no MC\n" :
 									(node.board.getMarkedCell(node.board.getMC_n()-1).i + " " + node.board.getMarkedCell(node.board.getMC_n()-1).j + " " + node.board.getMarkedCell(node.board.getMC_n()-1).state + "\n")));
 				
@@ -266,6 +400,12 @@ public abstract class _DbSearch<RES, BB extends _BoardBit<BB>, B extends IBoardB
 		
 		/**
 		 * (see notes for findAllCombinationNodes() and class notes)
+		 * Complexity: 
+		 * 		= lastDependency.length * O(findAllCombinationNodes) + O(removeCombinationTTEntries)
+		 * 		= lastDependency.length * O( A.marked_threats.length + N**2 + 16X * B.marked_threats.length * A.avg_threats_per_dir_per_line + A.threats ) + O(lastCombination.length)
+		 * 		= lastDependency.length * O( A.marked_threats.length + N**2 + 16X * B.marked_threats.length * A.avg_threats_per_dir_per_line + A.threats )
+		 * 		= O(lastDependency.length * (A.marked_threats.length + N**2 + 16X * B.marked_threats.length * A.avg_threats_per_dir_per_line + A.threats) )
+		 * 
 		 * @param root
 		 * @param attacker
 		 * @param attacking
@@ -301,9 +441,23 @@ public abstract class _DbSearch<RES, BB extends _BoardBit<BB>, B extends IBoardB
 
 		/**
 		 * Complexity:
-		 * 		iteration: P(!end_game) * [O(getApplicableOperators) + O(operators_n * addDependantChild)] + (1-P()) * O(visitGlobalDefensive)
-		 * 		case !end_game: O( 3X(M+N)  operators_n*(27X**2 + 4X + 64 + node.children_n) )
-		 * 						= O( 3X(M+N)  operators_n*(27X**2 + 4X + 64 + node.children_n) )
+		 * 		iteration: P(!end_game) * [O(getApplicableOperators) + O(applicable_threats_n * addDependantChild)] + P(endgame) * O(visitGlobalDefensive)
+		 * 				= P(!end_game) * {[P(applicable_threats_n==0) * O(6XN)] + [P(applicable_threats_n>0) * O( node.applicable_threats_n**2 * (27X**2 ))]} +
+		 * 				+ {P(endgame) P(attacking) * O(visitGlobalDefensive) + P(!attacking) * O(1) }
+		 * 				= P(!end_game) * {[P(applicable_threats_n==0) * O(6XN)] + [P(applicable_threats_n>0) * O( node.applicable_threats_n**2 * (27X**2 ))]} +
+		 * 				+ {P(endgame) P(attacking) * O(visitGlobalDefensive)}
+		 * 		case !end_game: O( 3X(M+N)	+ node.applicable_threats_n*(27X**2 + 4X + 64 + newChild.applicable_threats_n) )
+		 * 						= O( 3X2N	+ node.applicable_threats_n*(27X**2 + 4X + 64 + newChild.children_n) )
+		 * 						= O( 6XN	+ node.applicable_threats_n*(27X**2 + 4X + 64 + newChild.children_n) )
+		 * 			case applicable_threats_n=0: O(6XN)
+		 * 			case applicable_threats_n>0: O( node.applicable_threats_n*(27X**2 + 4X + 64 + newChild.applicable_threats_n) )
+		 * 										= O( node.applicable_threats_n**2 * (27X**2 ))
+		 * 										= O( node.applicable_threats_n**2 * (27X**2 ))
+		 * 										, assuming similar number of applicable threats.
+		 * 		case end_game: O(visitGlobalDefensive)
+		 * 						if attacking, else O(1)
+		 * 
+		 * 		, with P(X)=probability of X
 		 * @param node
 		 * @param attacker
 		 * @param attacking
@@ -363,7 +517,7 @@ public abstract class _DbSearch<RES, BB extends _BoardBit<BB>, B extends IBoardB
 									NODE newChild = addDependentChild(node, threat, atk_index, lastDependency, attacker);
 
 									// debug
-									if(DEBUG_ON) file.write(indent + "-" + lev + "\t---\n" + newChild.board.printString(lev) + indent + "---\n");
+									if(DEBUG_ON) file.write(indent + "-" + lev + "\t---\n" + newChild.board.printString(lev) + newChild.board.printAlignmentsString(lev) + indent + "---\n");
 
 									if(addDependentChildren(newChild, attacker, attacking, lev+1, lastDependency, root, max_tier))
 										found_sequence = true;
@@ -402,8 +556,9 @@ public abstract class _DbSearch<RES, BB extends _BoardBit<BB>, B extends IBoardB
 		 * 
 		 * Complexity:
 		 * 		iteration: O(validCombinationWith) + O(addCombinationChild)
-		 * 				= O(partner.mc_n + node.mc_n) + O( A.marked_threats.length + 4N**2 + B.marked_threats.length * (16X * A.avg_threats_per_dir_per_line) + children_n(A) )
-		 * 				= O( A.marked_threats.length + 4N**2 + B.marked_threats.length * (16X * A.avg_threats_per_dir_per_line) + A.threats )
+		 * 				= O(A.mc_n + B.mc_n) + O( A.marked_threats.length + N**2 + B.marked_threats.length * (16X * A.avg_threats_per_dir_per_line) + children_n(A) )
+		 * 				= O( A.marked_threats.length + N**2 + 16X * B.marked_threats.length * A.avg_threats_per_dir_per_line + A.threats )
+		 * 				, with A=partned, B=node
 		 * @param partner fixed node for combination
 		 * @param node iterating node for combination
 		 * @param attacker
@@ -459,6 +614,22 @@ public abstract class _DbSearch<RES, BB extends _BoardBit<BB>, B extends IBoardB
 		 * @return
 		 */
 		protected abstract NODE createNode(B board, boolean is_combination, int max_tier);
+
+		/**
+		 * Complexity: O(10N) --nocel.nonmc
+		 * @param BB
+		 * @return
+		 */
+		protected abstract B createBoardDb(BB BB);
+	
+		/**
+		 * Complexity: O(7N) --nocel.nonmc
+		 * @param M
+		 * @param N
+		 * @param X
+		 * @return
+		 */
+		protected abstract B createBoardDb(int M, int N, int X);
 	
 		protected NODE createRoot(B B) {
 
@@ -467,6 +638,17 @@ public abstract class _DbSearch<RES, BB extends _BoardBit<BB>, B extends IBoardB
 			return root;
 		}
 
+		/**
+		 * Complexity: O(DbNode.copy )
+		 * 
+		 * 	 * 		with mc: O(3M + 10N + B.marked_threats.length + MN) = O(B.marked_threats.length + N**2 + 13N)
+	 * 		no mc: O(3M + 10N + B.marked_threats.length) = O(B.marked_threats.length + 13N)
+		 * @param root
+		 * @param athreats
+		 * @param attacker
+		 * @return
+		 * @throws IOException
+		 */
 		private NODE createDefensiveRoot(NODE root, LinkedList<ThreatApplied> athreats, byte attacker) throws IOException {
 
 			// debug
@@ -484,27 +666,37 @@ public abstract class _DbSearch<RES, BB extends _BoardBit<BB>, B extends IBoardB
 			
 			// debug
 			if(DEBUG_ON) file.write("MAX THREAT: " + max_tier + "\n");
+			// debug
+			if(DEBUG_ON) file.write("def_root before loop" + "\n" + def_root.board.printString(0) + def_root.board.printAlignmentsString(0) + "\n");
 			
 			//add a node for each threat, each node child/dependant from the previous one
 			NODE prev, node = def_root;
 			while(it.hasNext()) {
 
+				
 				athreat = it.next();
 				prev = node;
 				prev.board.mark(athreat.threat.related[athreat.related_index], attacker);
+
+				// debug
+				if(DEBUG_ON) file.write("prev after mark atk" + "\n" + prev.board.printString(0) + prev.board.printAlignmentsString(0) + "\n");
 				
 				// related > 1 means there is at least 1 defensive move (bc there's always an attacker one)
 				if(it.hasNext() || athreat.threat.related.length > 1) {
 					
 					// the last node doesn't have any defensive squares, as it's a win.
 					if(athreat_prev != null && athreat_prev.threat.related.length > 1)
-						prev.board.checkAlignments(athreat_prev.threat.getDefensive(athreat_prev.related_index), prev.getMaxTier(), "createDefRoot");
-						
+					prev.board.checkAlignments(athreat_prev.threat.getDefensive(athreat_prev.related_index), prev.getMaxTier(), "createDefRoot");
+					
 					athreat_prev = athreat;
 					
 					B node_board = prev.board.getDependant(athreat.threat, athreat.related_index, USE.DEF, prev.getMaxTier(), false);
 					node = createNode(node_board, true, prev.getMaxTier());
 					prev.addChild(node);
+
+					// debug
+					if(DEBUG_ON) file.write("node after mark def" + "\n" + node.board.printString(0) + node.board.printAlignmentsString(0) + "\n");
+					
 				}
 				
 				//DEBUG
@@ -519,7 +711,7 @@ public abstract class _DbSearch<RES, BB extends _BoardBit<BB>, B extends IBoardB
 		}
 
 		/**
-		 * Complexity:  O(27X**2 + 4X + 64) + O(node.children_n)
+		 * Complexity:  O(27X**2 + 4X + 64) + O(node.applicable_threats_n)
 		 * sets child's game_state if entry exists in TT
 		 */
 		protected abstract NODE addDependentChild(NODE node, ThreatCells threat, int atk, LinkedList<NODE> lastDependency, byte attacker);
@@ -529,12 +721,22 @@ public abstract class _DbSearch<RES, BB extends _BoardBit<BB>, B extends IBoardB
 		 * Only creates the child if the board wasn't already obtained by another combination in the same stage, of the same dbSearch (using TT, see class notes).
 		 * 
 		 * Complexity:
-		 * 		O( O(A.marked_threats.length + N**2 + 13N) + O(B.marked_threats.length * (8 + 16X * A.avg_threats_per_dir_per_line) ) + (3(M+N)) + children_n(A) )
-		 * 		= O( A.marked_threats.length + N**2 + 13N + B.marked_threats.length * (8 + 16X * A.avg_threats_per_dir_per_line) + 3N**2 + children_n(A) )
-		 * 		= O( A.marked_threats.length + 4N**2 + B.marked_threats.length * (16X * A.avg_threats_per_dir_per_line) + children_n(A) )
-		 * 		= O( A.marked_threats.length + 4N**2 + B.marked_threats.length * (16X * A.avg_threats_per_dir_per_line) + A.threats )
+		 * 		if !added: O(A.getCombined(B))
+		 *		 		= O( O(A.marked_threats.length + N**2 + 13N) + O(B.marked_threats.length * (8 + 16X * A.avg_threats_per_dir_per_line) ) 
+		 *		 		= O( A.marked_threats.length + N**2 + 13N + B.marked_threats.length * (8 + 16X * A.avg_threats_per_dir_per_line) ) 
+		 *		 		= O( A.marked_threats.length + N**2 + 13N + 16X * B.marked_threats.length* A.avg_threats_per_dir_per_line ) 
+		 * 		if added: O(A.getCombined(B)) + O(hasAlignments) + O(A.addChild)
+		 *		 		= O( O(A.marked_threats.length + N**2 + 13N) + O(B.marked_threats.length * (8 + 16X * A.avg_threats_per_dir_per_line) ) + (3(M+N)) + children_n(A) )
+		 *		 		= O( A.marked_threats.length + N**2 + 13N + B.marked_threats.length * (8 + 16X * A.avg_threats_per_dir_per_line) + 3N**2 + children_n(A) )
+		 *		 		= O( A.marked_threats.length + 4N**2 + B.marked_threats.length * (16X * A.avg_threats_per_dir_per_line) + children_n(A) )
+		 *		 		= O( A.marked_threats.length + 4N**2 + 16X * B.marked_threats.length * A.avg_threats_per_dir_per_line + A.threats )
 		 * 
+		 * 		anyway: 
+		 *		 		O( A.marked_threats.length + N**2 + 13N + 16X * B.marked_threats.length* A.avg_threats_per_dir_per_line ) 
+		 * 		
 		 * 		note: usually few children.
+		 * 
+		 * = O(marked_threats.length + N**2) + O(B.marked_threats.length * (16X * avg_threats_per_dir_per_line) )
 		 * 
 		 * @return (see findAllCombinations())
 		 */
