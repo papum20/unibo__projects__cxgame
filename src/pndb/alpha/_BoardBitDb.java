@@ -445,7 +445,6 @@ public abstract class _BoardBitDb<S extends _BoardBitDb<S, BB>, BB extends _Boar
 
 							// debug
 							if(DEBUG_PRINT) System.out.println("remove " + p.item);
-							System.out.println("remove " + p.item);
 
 							if(center.inBetween_included(p.item.start, p.item.end))
 								alignments_in_row.remove(player, p);

@@ -77,6 +77,10 @@ public abstract class _PnSearch<RES, DB extends IDbSearch<RES>> implements CXPla
 
 		// dbSearch instantiated by subclass
 		dbSearch.init(M, N, X, first);
+
+		// debug
+		System.out.println("\n-_-\nSTART GAME\n-_-\n");
+		
 	}
 
 	/**
