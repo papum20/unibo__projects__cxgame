@@ -24,7 +24,9 @@ public class Player extends pndb.nocel.nonmc.tryit.Player {
 	//#region PN_SEARCH
 
 		/**
-		 * 
+		 * Complexity: O(super.generateAllChildren + shuffle)
+		 * 			= O(DbSearch + 2N**2 + 17N + 4XN + N )
+		 * 			= O(DbSearch + N**2 + 18N + 4XN )
 		 * @param node
 		 * @param threat_scores_by_col
 		 */

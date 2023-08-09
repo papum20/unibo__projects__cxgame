@@ -75,11 +75,6 @@ public abstract class _BoardBitDb<S extends _BoardBitDb<S, BB>, BB extends _Boar
 	 * dright:		dimension=M+N-1,	indexed: by start of diagonal on the top row, i.e. from -M+1 to N-1
 	 * dleft:		dimension=M+N-1,	indexed: by start of diagonal on the top row, i.e. from 0 to N+M-1
 	 */
-	protected AlignmentsList alignments_rows;
-	protected AlignmentsList alignments_diagleft;		//diagonals from top-right to bottom-left
-	protected AlignmentsList alignments_cols;
-	protected AlignmentsList alignments_diagright;		//diagonals from top-left to bottom-right
-
 	protected AlignmentsList[] alignments_by_dir;
 	
 
@@ -948,11 +943,12 @@ public abstract class _BoardBitDb<S extends _BoardBitDb<S, BB>, BB extends _Boar
 		 * Complexity: O(M + N + M+N-1 + M+N-1 + 4) = O(3(M+N))
 		 */
 		protected void initAlignmentStructures() {
-			alignments_rows			= new AlignmentsList(M);
-			alignments_diagleft		= new AlignmentsList(M + N - 1);
-			alignments_cols			= new AlignmentsList(N);
-			alignments_diagright	= new AlignmentsList(M + N - 1);
-			alignments_by_dir		= new AlignmentsList[]{alignments_rows, alignments_diagleft, alignments_cols, alignments_diagright};
+			alignments_by_dir		= new AlignmentsList[]{
+				new AlignmentsList(M),			// horizontal
+				new AlignmentsList(M + N - 1),	// diagright
+				new AlignmentsList(N),			// vertical
+				new AlignmentsList(M + N - 1),	// diagleft
+			};
 		}
 		//#region COPY
 
@@ -961,11 +957,12 @@ public abstract class _BoardBitDb<S extends _BoardBitDb<S, BB>, BB extends _Boar
 			 * @param DB
 			 */
 			protected void copyAlignmentStructures(S DB) {
-				alignments_rows			= new AlignmentsList(DB.alignments_rows);
-				alignments_diagleft		= new AlignmentsList(DB.alignments_diagleft);
-				alignments_cols			= new AlignmentsList(DB.alignments_cols);
-				alignments_diagright	= new AlignmentsList(DB.alignments_diagright);
-				alignments_by_dir		= new AlignmentsList[]{alignments_rows, alignments_diagleft, alignments_cols, alignments_diagright};
+				alignments_by_dir		= new AlignmentsList[]{
+					new AlignmentsList(DB.alignments_by_dir[0]),
+					new AlignmentsList(DB.alignments_by_dir[1]),
+					new AlignmentsList(DB.alignments_by_dir[2]),
+					new AlignmentsList(DB.alignments_by_dir[3])
+				};
 			}
 
 		//#endregion COPY
