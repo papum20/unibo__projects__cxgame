@@ -21,32 +21,44 @@ public abstract class _Operators {
 
 	
 	//public static final short MAX_LINE			= 0;	//max length of alignment (K+MAX_LINE) (including marks and spaces inside)
-	public final short MAX_FREE_EXTRA;			//max length by which a sequence of aligned symbols can extend, with empty squares
-	public final short MAX_FREE_EXTRA_TOT;	//left+right
-	public final short MAX_FREE_IN;			//max number of missing symbols such that K-MAX_FREE_LINE is considered an alignment
-	//MAX_LINE = X
+	public final short MAX_OUT_ONE_SIDE;			//max length by which a sequence of aligned symbols can extend, with empty squares
+	public final short[] MAX_OUT_ONE_SIDE_PER_TIER;
+	public final short MAX_OUT;						//left+right
+	public final short[] MAX_OUT_PER_TIER;
+	public final short MAX_IN;						//max number of missing symbols such that K-MAX_FREE_LINE is considered an alignment
+	public final short MIN_LINED;
+	public final short MAX_LINED;
 	//min-max x such that there must be, for a threat, k-x marks aligned
 	public final short MARK_DIFF_MIN;
-	public final short MARK_DIFF_MAX;
 	
 	public final int TIER_N;	//number of tiers for alignments (K-1 to K-3, not excluding K even if it is won)
 	public final byte TIER_MAX;
 
 
 
-	protected _Operators(	short MAX_FREE_EXTRA,
-				short MAX_FREE_EXTRA_TOT,
-				short MAX_FREE_IN,
+	protected _Operators(	short MAX_OUT_ONE_SIDE,
+				short MAX_OUT,
+				short MIN_LINED,
+				short MAX_LINED,
+				short MAX_IN,
 				short MARK_DIFF_MIN,
-				short MARK_DIFF_MAX,
+
+				short[] MAX_OUT_ONE_SIDE_PER_TIER,
+				short[] MAX_OUT_PER_TIER,
+				
 				int TIER_N,
 				byte TIER_MAX
-	) {
-		this.MAX_FREE_EXTRA		= MAX_FREE_EXTRA;
-		this.MAX_FREE_EXTRA_TOT	= MAX_FREE_EXTRA_TOT;
-		this.MAX_FREE_IN		= MAX_FREE_IN;
+				) {
+		this.MAX_OUT_ONE_SIDE	= MAX_OUT_ONE_SIDE;
+		this.MAX_OUT			= MAX_OUT;
+		this.MIN_LINED			= MIN_LINED;
+		this.MAX_LINED			= MAX_LINED;
+		this.MAX_IN				= MAX_IN;
 		this.MARK_DIFF_MIN		= MARK_DIFF_MIN;
-		this.MARK_DIFF_MAX		= MARK_DIFF_MAX;
+		
+		this.MAX_OUT_ONE_SIDE_PER_TIER = MAX_OUT_ONE_SIDE_PER_TIER;
+		this.MAX_OUT_PER_TIER	= MAX_OUT_PER_TIER;
+
 		this.TIER_N				= TIER_N;
 		this.TIER_MAX			= TIER_MAX;
 	}

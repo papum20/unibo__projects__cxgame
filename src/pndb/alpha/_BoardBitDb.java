@@ -569,8 +569,8 @@ public abstract class _BoardBitDb<S extends _BoardBitDb<S, BB>, BB extends _Boar
 						c1 goes from center-MAX_LEN to center, c2 from c1 to center+MAX_LEN
 					*/
 
-					end_c1.reset(second).clamp_diag(MIN, MAX, dir, OPERATORS.MAX_FREE_EXTRA);
-					end_c2.reset(second).clamp_diag(MIN, MAX, dir, X + OPERATORS.MAX_FREE_EXTRA);
+					end_c1.reset(second).clamp_diag(MIN, MAX, dir, OPERATORS.MAX_OUT_ONE_SIDE);
+					end_c2.reset(second).clamp_diag(MIN, MAX, dir, X + OPERATORS.MAX_OUT_ONE_SIDE);
 					
 					int	lined,			// alignment length, i.e. max distance. It's always c2-c1+1
 						marks,			// marks in alignment
@@ -591,7 +591,7 @@ public abstract class _BoardBitDb<S extends _BoardBitDb<S, BB>, BB extends _Boar
 					}
 					if(DEBUG_PRINT) System.out.println(printString(0) + "\naddAlignments START, for player " + player + ", moves " + first + " " + second + " dir: " + DIRECTIONS[dir_index] + ", end_c1/c2:" + end_c1 + " " + end_c2 + ", onlyvalid:" + only_valid + ":\n");
 						
-					for( _findOccurrenceUntil(c1, c1.reset(first), dir_neg, MAX, X + OPERATORS.MAX_FREE_EXTRA - 1, player, opponent, false, false, only_valid, dir_index)	// find furthest c1 back, from center
+					for( _findOccurrenceUntil(c1, c1.reset(first), dir_neg, MAX, X + OPERATORS.MAX_OUT_ONE_SIDE - 1, player, opponent, false, false, only_valid, dir_index)	// find furthest c1 back, from center
 						; !c1.equals(end_c1) && !(c2_passed_endc1 && c1_reset_to_c2)
 						&& cellState(c1) == player
 						; _findOccurrenceUntil(c1, c1.sum(dir), dir, end_c1, MAX_SIDE, player, CellState.NULL, false, true, only_valid, dir_index)							// find first player cell, before end_c1
@@ -621,7 +621,7 @@ public abstract class _BoardBitDb<S extends _BoardBitDb<S, BB>, BB extends _Boar
 									in++;
 									continue;										// c2 must be player's
 								} else {
-									if(c2.getDistance(c1) < MIN_MARKS + 2){
+									if(c2.getDistanceAbs(c1) < MIN_MARKS + 2){
 										c1.reset(c2);								// skip useless c1's
 										c1_reset_to_c2 = true;
 									}
@@ -630,7 +630,7 @@ public abstract class _BoardBitDb<S extends _BoardBitDb<S, BB>, BB extends _Boar
 							}
 							else if	(cellState(c2) == player) marks++;	
 							else {													// opponent: c1++
-								if(c2.getDistance(c1) < MIN_MARKS + 2) {
+								if(c2.getDistanceAbs(c1) < MIN_MARKS + 2) {
 									c1.reset(c2);
 									c1_reset_to_c2 = true;
 								}
@@ -888,7 +888,7 @@ public abstract class _BoardBitDb<S extends _BoardBitDb<S, BB>, BB extends _Boar
 							while(p != null) {
 								// if in same col
 								if(p.item.start.j == p.item.end.j)
-									threats_by_col[p.item.start.j] += (p.item.start.getDistance(p.item.end) + 1) * OPERATORS.indexInTier(p.item.type);
+									threats_by_col[p.item.start.j] += (p.item.start.getDistanceAbs(p.item.end) + 1) * OPERATORS.indexInTier(p.item.type);
 								
 								else {
 									for(int j = p.item.start.j; j <= p.item.end.j; j++)

@@ -194,8 +194,23 @@ public class MovePair {
 			else					dir_j = -1;
 			return new MovePair(dir_i, dir_j);
 		}
-		//abs(difference), excluded
-		public int getDistance(MovePair target) {
+
+		/**
+		 * difference (distance) from this to target (this excluded), along direction,
+		 * assuming this and target are aligned on such direction;
+		 * anyway the result rounded to axis with biggest diff.
+		 */
+		public int getDistanceInDir(MovePair target, MovePair dir) {
+			if(Math.abs(i - target.i) > Math.abs(j - target.j))
+				return (i - target.i) * dir.i;
+			else
+				return (j - target.j) * dir.j;
+		}
+		/** 
+		 * abs(difference), excluded;
+		 * rounded to axis with biggest diff.
+		 */
+		public int getDistanceAbs(MovePair target) {
 			return Math.max(Math.abs(i - target.i), Math.abs(j - target.j));
 		}
 

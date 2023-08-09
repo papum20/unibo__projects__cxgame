@@ -66,10 +66,14 @@ public class Operators extends _Operators {
 		super(
 			(short)3,
 			(short)5,
+			(short)-3,
+			(short)0,
 			(short)2,
 			(short)3,
-			(short)0,	
 			
+			new short[]{0, 1, 2, 3},
+			new short[]{0, 2, 4, 5},
+
 			ALIGNMENT_CODES.length,
 			(byte)ALIGNMENT_CODES.length
 		);
