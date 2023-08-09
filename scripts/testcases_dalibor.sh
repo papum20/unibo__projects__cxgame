@@ -17,9 +17,9 @@ mkdir ${OUTDIR}
 ./lcompile
 
 
-./ltest 9 9 5		pndb.alpha.Player pndb.alpha.nondb.Player				-r ${TESTS} > ${OUTDIR}/alpha_nondb_995.txt
+./ltest 9 9 5		pndb.alpha.Player pndb.alpha.halfn.nondb.Player				-r ${TESTS} > ${OUTDIR}/alpha_nondb_995.txt
 cat scripts/testcases_dalibor.sh >> ${OUTDIR}/alpha_nondb_995.txt
-./ltest 18 20 7		pndb.alpha.Player pndb.alpha.nondb.Player				-r ${TESTS} > ${OUTDIR}/alpha_nondb_18207.txt
+./ltest 18 20 7		pndb.alpha.Player pndb.alpha.halfn.nondb.Player				-r ${TESTS} > ${OUTDIR}/alpha_nondb_18207.txt
 cat scripts/testcases_dalibor.sh >> ${OUTDIR}/alpha_nondb_18207.txt
 
 

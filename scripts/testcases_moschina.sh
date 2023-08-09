@@ -17,14 +17,14 @@ mkdir ${OUTDIR}
 ./lcompile
 
 
-./ltest 9 9 5		LXCONO.LXMARGIN.LXMARGIN pndb.alpha.nondb.Player				-r ${TESTS} > ${OUTDIR}/xcono_nondb_995.txt
+./ltest 9 9 5		LXCONO.LXMARGIN.LXMARGIN pndb.alpha.halfn.nondb.Player				-r ${TESTS} > ${OUTDIR}/xcono_nondb_995.txt
 cat scripts/testcases_moschina.sh >> ${OUTDIR}/xcono_nondb_995.txt
-./ltest 18 20 7		LXCONO.LXMARGIN.LXMARGIN pndb.alpha.nondb.Player				-r ${TESTS} > ${OUTDIR}/xcono_nondb_18207.txt
+./ltest 18 20 7		LXCONO.LXMARGIN.LXMARGIN pndb.alpha.halfn.nondb.Player				-r ${TESTS} > ${OUTDIR}/xcono_nondb_18207.txt
 cat scripts/testcases_moschina.sh >> ${OUTDIR}/xcono_nondb_18207.txt
 
-./ltest 9 9 5		LXCONO.LXMARGIN.LXMARGIN pndb.alpha.orddb.Player				-r ${TESTS} > ${OUTDIR}/xcono_orddb_995.txt
+./ltest 9 9 5		LXCONO.LXMARGIN.LXMARGIN pndb.alpha.halfn.orddb.Player				-r ${TESTS} > ${OUTDIR}/xcono_orddb_995.txt
 cat scripts/testcases_moschina.sh >> ${OUTDIR}/xcono_orddb_995.txt
-./ltest 18 20 7		LXCONO.LXMARGIN.LXMARGIN pndb.alpha.orddb.Player				-r ${TESTS} > ${OUTDIR}/xcono_orddb_18207.txt
+./ltest 18 20 7		LXCONO.LXMARGIN.LXMARGIN pndb.alpha.halfn.orddb.Player				-r ${TESTS} > ${OUTDIR}/xcono_orddb_18207.txt
 cat scripts/testcases_moschina.sh >> ${OUTDIR}/xcono_orddb_18207.txt
 
 

@@ -17,9 +17,9 @@ mkdir ${OUTDIR}
 ./lcompile
 
 
-./ltest 9 9 5		pndb.alpha.Player pndb.alpha.orddb.Player				-r ${TESTS} > ${OUTDIR}/alpha_orddb_995.txt
+./ltest 9 9 5		pndb.alpha.Player pndb.alpha.halfn.orddb.Player				-r ${TESTS} > ${OUTDIR}/alpha_orddb_995.txt
 cat scripts/testcases_giovanna.sh >> ${OUTDIR}/alpha_orddb_995.txt
-./ltest 18 20 7		pndb.alpha.Player pndb.alpha.orddb.Player				-r ${TESTS} > ${OUTDIR}/alpha_orddb_18207.txt
+./ltest 18 20 7		pndb.alpha.Player pndb.alpha.halfn.orddb.Player				-r ${TESTS} > ${OUTDIR}/alpha_orddb_18207.txt
 cat scripts/testcases_giovanna.sh >> ${OUTDIR}/alpha_orddb_18207.txt
 
 #./ltest 9 9 5		LXCONO.LXMARGIN.LXMARGIN pndb.nocel.nonmc.tryit.ranch.Player		-r ${TESTS} > ${OUTDIR}/xcono_ranch_995.txt
