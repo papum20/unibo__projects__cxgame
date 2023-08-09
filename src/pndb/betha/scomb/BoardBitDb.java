@@ -1,4 +1,6 @@
-package pndb.betha;
+package pndb.betha.scomb;
+
+import java.util.LinkedList;
 
 import pndb.alpha.BoardBit;
 import pndb.alpha._BoardBitDb;
@@ -115,6 +117,7 @@ public class BoardBitDb extends _BoardBitDb<BoardBitDb, BoardBit> {
 		public BoardBitDb getCombined(BoardBitDb B, byte attacker, int max_tier) {
 
 			BoardBitDb res = getCopy(true);
+			LinkedList<MovePair> added_threat_attacks = new LinkedList<MovePair>();
 
 			for(ThreatApplied athreat : B.markedThreats) {
 				if(isUsefulThreat(athreat, attacker)) {
@@ -123,7 +126,10 @@ public class BoardBitDb extends _BoardBitDb<BoardBitDb, BoardBit> {
 						MovePair c = athreat.threat.related[i];
 
 						if(cellFree(c.i, c.j)) {
-							if(i == athreat.related_index) res.mark(c, athreat.attacker);
+							if(i == athreat.related_index) {
+								res.mark(c, athreat.attacker);
+								added_threat_attacks.add(c);
+							}
 							else res.mark(c, Auxiliary.opponent(athreat.attacker));
 						}
 					}
@@ -132,8 +138,9 @@ public class BoardBitDb extends _BoardBitDb<BoardBitDb, BoardBit> {
 				}
 			}
 
-			//re-calculate alignments
-			res.addAllCombinedAlignments(B, attacker, Math.min(max_tier, 2));
+			// calculate alignments
+			for(MovePair m = added_threat_attacks.pop(); !added_threat_attacks.isEmpty(); m = added_threat_attacks.pop())
+				findAlignments(m, attacker,  Math.min(max_tier, 2), this, B, true, 1, "combined_");
 
 			return res;
 		}

@@ -33,6 +33,12 @@ ENHANCEMENTS/HEURISTICS to try:
 7.
 	addAllCombinedAlignments probl tipi
 
+COMPARES:
+1. db/nodb
+	nodb faster only on very small board (<10?), where you can calculate almost the whole game tree anyway.
+	On bigger, you absolutely need evaluation.
+	orddb and nondb are equal on small boards (but orddb much better on bigger).
+
 
 
 	NUOVO!! (FEBBRAIO)

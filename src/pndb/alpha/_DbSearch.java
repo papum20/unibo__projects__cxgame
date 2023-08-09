@@ -203,7 +203,7 @@ public abstract class _DbSearch<RES, BB extends _BoardBit<BB>, B extends IBoardB
 		 * 								+ P(endgame) * O(visitGlobalDefenses(node))
 		 * 							} 			-- [for each node in lastCombination]
 		 * 						+ lastDependency.length *
-		 * 							* (A.marked_threats.length + N**2 + 16X * B.marked_threats.length * A.avg_threats_per_dir_per_line + A.threats
+		 * 							* (A.marked_threats.length + N**2 + 4 B.marked_threats.length(X + A.avg_threats_per_dir_per_line) + 6N O(findAlignmentsInDirection) + A.threats
 		 * 							)			-- [for each A,B in lastDependency]
 		 * 					)
 		 * 			case !attacking:
@@ -212,7 +212,7 @@ public abstract class _DbSearch<RES, BB extends _BoardBit<BB>, B extends IBoardB
 		 * 								P(!end_game) * node.applicable_threats_n**2 * (27X**2 )
 		 * 							]			-- [for each node in lastCombination]
 		 * 						+ lastDependency.length *
-		 * 							* (A.marked_threats.length + N**2 + 16X * B.marked_threats.length * A.avg_threats_per_dir_per_line + A.threats
+		 * 							* (A.marked_threats.length + N**2 + 4 B.marked_threats.length(X + A.avg_threats_per_dir_per_line) + 6N O(findAlignmentsInDirection) + A.threats
 		 * 							)			-- [for each A,B in lastDependency]
 		 * 					)
 		 * 
@@ -719,22 +719,22 @@ public abstract class _DbSearch<RES, BB extends _BoardBit<BB>, B extends IBoardB
 		protected abstract NODE addDependentChild(NODE node, ThreatCells threat, int atk, LinkedList<NODE> lastDependency, byte attacker);
 
 		/**
-		 * (I hope) adding the child to both parents is useless, for now.
+		 * Adding the child to both parents is useless, and also would create problems with infinite recursion/repetitions.
 		 * Only creates the child if the board wasn't already obtained by another combination in the same stage, of the same dbSearch (using TT, see class notes).
 		 * 
 		 * Complexity:
 		 * 		if !added: O(A.getCombined(B))
-		 *		 		= O( O(A.marked_threats.length + N**2 + 13N) + O(B.marked_threats.length * (8 + 16X * A.avg_threats_per_dir_per_line) ) 
-		 *		 		= O( A.marked_threats.length + N**2 + 13N + B.marked_threats.length * (8 + 16X * A.avg_threats_per_dir_per_line) ) 
-		 *		 		= O( A.marked_threats.length + N**2 + 13N + 16X * B.marked_threats.length* A.avg_threats_per_dir_per_line ) 
+		 *		 		= O( O(A.marked_threats.length + N**2 + 13N) + O(B.marked_threats.length * (4X + 4 A.avg_threats_per_dir_per_line) + O(6N * O(findAlignmentsInDirection) ))
+		 *		 		= O( A.marked_threats.length + N**2 + 13N + B.marked_threats.length * (4X + 4 A.avg_threats_per_dir_per_line) + O(6N * O(findAlignmentsInDirection) ) ) 
+		 *		 		= O( A.marked_threats.length + N**2 + 13N + 4 B.marked_threats.length*(X + A.avg_threats_per_dir_per_line) + 6N * O(findAlignmentsInDirection) ) 
 		 * 		if added: O(A.getCombined(B)) + O(hasAlignments) + O(A.addChild)
-		 *		 		= O( O(A.marked_threats.length + N**2 + 13N) + O(B.marked_threats.length * (8 + 16X * A.avg_threats_per_dir_per_line) ) + (3(M+N)) + children_n(A) )
-		 *		 		= O( A.marked_threats.length + N**2 + 13N + B.marked_threats.length * (8 + 16X * A.avg_threats_per_dir_per_line) + 3N**2 + children_n(A) )
-		 *		 		= O( A.marked_threats.length + 4N**2 + B.marked_threats.length * (16X * A.avg_threats_per_dir_per_line) + children_n(A) )
-		 *		 		= O( A.marked_threats.length + 4N**2 + 16X * B.marked_threats.length * A.avg_threats_per_dir_per_line + A.threats )
+		 *		 		= O( O(A.marked_threats.length + N**2 + 13N) + O(B.marked_threats.length * (4X + 4 A.avg_threats_per_dir_per_line) ) + 6N O(findAlignmentsInDirection) + (3(M+N)) + children_n(A) )
+		 *		 		= O( A.marked_threats.length + N**2 + 13N + B.marked_threats.length * (8 + 16X * A.avg_threats_per_dir_per_line) + 6N O(findAlignmentsInDirection) + 3N**2 + children_n(A) )
+		 *		 		= O( A.marked_threats.length + 4N**2 + B.marked_threats.length * (16X * A.avg_threats_per_dir_per_line) + 6N O(findAlignmentsInDirection) + children_n(A) )
+		 *		 		= O( A.marked_threats.length + 4N**2 + 4 B.marked_threats.length(X + A.avg_threats_per_dir_per_line) + 6N O(findAlignmentsInDirection + A.threats )
 		 * 
 		 * 		anyway: 
-		 *		 		O( A.marked_threats.length + N**2 + 13N + 16X * B.marked_threats.length* A.avg_threats_per_dir_per_line ) 
+		 *		 		O( A.marked_threats.length + N**2 + 13N + 4 B.marked_threats.length(X + A.avg_threats_per_dir_per_line) + O(6N * O(findAlignmentsInDirection) ) 
 		 * 		
 		 * 		note: usually few children.
 		 * 
