@@ -19,7 +19,7 @@ public class Player extends pndb.alpha.halfn.Player {
 
 	@Override
 	public String playerName() {
-		return "pndb halfn";
+		return "pndb nondb";
 	}
 
 
@@ -56,8 +56,10 @@ public class Player extends pndb.alpha.halfn.Player {
 			related_cols = new int[board.N];
 			for(j = 0; j < board.N; j++)
 				if(board.freeCol(j)) related_cols[j] = 1;
+			// count the columns, i.e. the number of new children
 			
-			related_cols_n = board.N;
+			for(int moves_n : related_cols)
+				if(moves_n > 0) related_cols_n++;
 
 			node.expand(related_cols_n);
 			current_child = 0;

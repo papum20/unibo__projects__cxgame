@@ -57,7 +57,7 @@ public abstract class _DbSearch<RES, BB extends _BoardBit<BB>, B extends IBoardB
 	protected boolean[][] GOAL_SQUARES;		// used for defensive search.
 	
 	// DEBUG
-	protected final boolean DEBUG_ON			= true;
+	protected final boolean DEBUG_ON			= false;
 	private final boolean DEBUG_TIME			= false;
 	protected final boolean DEBUG_PRINT			= false;
 	private final boolean DEBUG_ONLY_FOUND_SEQ	= false;

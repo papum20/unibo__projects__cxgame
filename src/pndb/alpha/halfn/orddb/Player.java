@@ -18,7 +18,7 @@ public class Player extends pndb.alpha.halfn.Player {
 
 	@Override
 	public String playerName() {
-		return "pndb halfn";
+		return "pndb orddb";
 	}
 
 
@@ -61,7 +61,8 @@ public class Player extends pndb.alpha.halfn.Player {
 			for(j = 0; j < board.N; j++)
 				if(board.freeCol(j)) related_cols[j] = 1;
 			
-			related_cols_n = board.N;
+			for(int moves_n : related_cols)
+				if(moves_n > 0) related_cols_n++;
 
 			node.expand(related_cols_n);
 			current_child = 0;
