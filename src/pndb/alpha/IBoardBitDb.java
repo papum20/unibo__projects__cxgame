@@ -4,7 +4,7 @@ import java.io.FileWriter;
 import java.util.LinkedList;
 
 import connectx.CXCell;
-import pndb.alpha.Operators.ThreatsByRank;
+import pndb.alpha._Operators.ThreatsByRank;
 import pndb.alpha.threats.ThreatApplied;
 import pndb.alpha.threats.ThreatCells;
 import pndb.alpha.threats.ThreatCells.USE;

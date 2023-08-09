@@ -5,6 +5,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 import connectx.CXCell;
+import pndb.alpha._Operators.AlignmentPattern;
 import pndb.alpha.threats.AlignmentsList;
 import pndb.alpha.threats.BiList_Node_ThreatPos;
 import pndb.alpha.threats.ThreatPosition;
@@ -27,16 +28,16 @@ public class BoardBitDb extends _BoardBitDb<BoardBitDb, BoardBit> {
 
 
 
-	BoardBitDb(int M, int N, int X) {
-		super(M, N, X);
+	BoardBitDb(int M, int N, int X, _Operators operators) {
+		super(M, N, X, operators);
 	}
 
 	/**
 	 * Complexity: O(3M+7N + MN)
 	 * @param B
 	 */
-	BoardBitDb(BoardBit B) {
-		super(B);
+	BoardBitDb(BoardBit B, _Operators operators) {
+		super(B, operators);
 		copyMCfromBoard(B);
 	}
 	
@@ -47,8 +48,8 @@ public class BoardBitDb extends _BoardBitDb<BoardBitDb, BoardBit> {
 	 * @param B
 	 * @param copy_threats
 	 */
-	BoardBitDb(BoardBitDb B, boolean copy_threats) {
-		super(B, copy_threats);
+	BoardBitDb(BoardBitDb B, boolean copy_threats, _Operators operators) {
+		super(B, copy_threats, operators);
 		copyMC(B);
 	}
 
@@ -56,7 +57,7 @@ public class BoardBitDb extends _BoardBitDb<BoardBitDb, BoardBit> {
 	 * Complexity: O(marked_threats.length + N**2 + 13N)
 	 */
 	public BoardBitDb getCopy(boolean copy_threats) {
-		return new BoardBitDb(this, copy_threats);
+		return new BoardBitDb(this, copy_threats, OPERATORS);
 	}
 	
 
@@ -96,7 +97,7 @@ public class BoardBitDb extends _BoardBitDb<BoardBitDb, BoardBit> {
 					// debug
 					if(DEBUG_PRINT) System.out.println("remove " + alignments_in_cell.item.item);
 
-					int MAX_ALIGNMENT = X + Operators.MAX_FREE_EXTRA_TOT;
+					int MAX_ALIGNMENT = X + OPERATORS.MAX_FREE_EXTRA_TOT;
 						
 					do {
 						MovePair	start	= alignments_in_cell.item.item.start,
@@ -228,8 +229,8 @@ public class BoardBitDb extends _BoardBitDb<BoardBitDb, BoardBit> {
 						c1 goes from center-MAX_LEN to center, c2 from c1 to center+MAX_LEN
 					*/
 
-					end_c1.reset(second).clamp_diag(MIN, MAX, dir, Operators.MAX_FREE_EXTRA);
-					end_c2.reset(second).clamp_diag(MIN, MAX, dir, X + Operators.MAX_FREE_EXTRA);
+					end_c1.reset(second).clamp_diag(MIN, MAX, dir, OPERATORS.MAX_FREE_EXTRA);
+					end_c2.reset(second).clamp_diag(MIN, MAX, dir, X + OPERATORS.MAX_FREE_EXTRA);
 					
 					int	lined,			// alignment length, i.e. max distance. It's always c2-c1+1
 						marks,			// marks in alignment
@@ -250,7 +251,7 @@ public class BoardBitDb extends _BoardBitDb<BoardBitDb, BoardBit> {
 					}
 					if(DEBUG_PRINT) System.out.println(printString(0) + "\naddAlignments START, for player " + player + ", moves " + first + " " + second + " dir: " + DIRECTIONS[dir_index] + ", end_c1/c2:" + end_c1 + " " + end_c2 + ", onlyvalid:" + only_valid + ":\n");
 						
-					for( _findOccurrenceUntil(c1, c1.reset(first), dir_neg, MAX, X + Operators.MAX_FREE_EXTRA - 1, player, opponent, false, false, only_valid, dir_index)	// find furthest c1 back, from center
+					for( _findOccurrenceUntil(c1, c1.reset(first), dir_neg, MAX, X + OPERATORS.MAX_FREE_EXTRA - 1, player, opponent, false, false, only_valid, dir_index)	// find furthest c1 back, from center
 						; !c1.equals(end_c1) && !(c2_passed_endc1 && c1_reset_to_c2)
 						&& cellState(c1) == player
 						; _findOccurrenceUntil(c1, c1.sum(dir), dir, end_c1, MAX_SIDE, player, CellState.NULL, false, true, only_valid, dir_index)							// find first player cell, before end_c1
@@ -308,9 +309,9 @@ public class BoardBitDb extends _BoardBitDb<BoardBitDb, BoardBit> {
 								continue;
 
 							// check alignments, foreach alignment of mark marks
-							for(byte threat_code : Operators.ALIGNMENT_CODES[tier])
+							for(byte threat_code : OPERATORS.alignmentCodes(tier))
 							{
-								Operators.AlignmentPattern alignment = Operators.ALIGNMENTS[tier].get((int)threat_code);
+								AlignmentPattern alignment = OPERATORS.alignmentPatterns(tier).get((int)threat_code);
 
 								// debug
 								if(DEBUG_ON) file.write("\t\t\t\t\tstart checking alignment = " + alignment + "\n");
@@ -372,7 +373,7 @@ public class BoardBitDb extends _BoardBitDb<BoardBitDb, BoardBit> {
 			public int[] getThreatCounts(byte player) {
 
 				setPlayer(player);
-				findAllAlignments(player, Operators.TIER_MAX, false, "selCol_");
+				findAllAlignments(player, OPERATORS.TIER_MAX, false, "selCol_");
 		
 				int[] threats_by_col = new int[N];
 				for(int i = 0; i < M; i++) {
@@ -380,7 +381,7 @@ public class BoardBitDb extends _BoardBitDb<BoardBitDb, BoardBit> {
 						if(cellFree(i, j)) {
 							BiNode<BiNode<ThreatPosition>> alignments = alignments_by_cell[i][j].getFirst(player);
 							while(alignments != null) {
-								threats_by_col[j] += Operators.indexInTier(alignments.item.item.type);
+								threats_by_col[j] += OPERATORS.indexInTier(alignments.item.item.type);
 								alignments = alignments.next;
 							}
 						}

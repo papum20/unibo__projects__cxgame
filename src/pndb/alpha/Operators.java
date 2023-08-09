@@ -7,10 +7,6 @@
 
 package pndb.alpha;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedList;
-
 import pndb.alpha.threats.ThreatCells;
 import pndb.alpha.threats.ThreatPosition;
 import pndb.alpha.threats.ThreatCells.USE;
@@ -19,7 +15,7 @@ import pndb.constants.MovePair;
 
 
 
-public class Operators {
+public class Operators extends _Operators {
 
 	//byte CODES FOR THREATS (ALIGNMENTS)
 	public static final byte LINE_0		= 0;	//xxxxx				k
@@ -51,16 +47,6 @@ public class Operators {
 	private static final byte THREAT_INDEX_MASK	= (byte)15;			//(bin)00001111
 
 	
-	
-	//public static final short MAX_LINE				= 0;	//max length of alignment (K+MAX_LINE) (including marks and spaces inside)
-	public static final short MAX_FREE_EXTRA		= 3;	//max length by which a sequence of aligned symbols can extend, with empty squares
-	public static final short MAX_FREE_EXTRA_TOT	= 5;	//left+right
-	public static final short MAX_FREE_IN			= 2;	//max number of missing symbols such that K-MAX_FREE_LINE is considered an alignment
-	//MAX_LINE = K
-	//min-max x such that there must be, for a threat, k-x marks aligned
-	public static final short MARK_DIFF_MIN	= 3;
-	public static final short MARK_DIFF_MAX	= 0;
-	
 	// STATIC INSTANCES OF APPLIERS
 	private static ApplierNull				applierNull				= new ApplierNull();
 	private static Applier1first			applier1first			= new Applier1first();
@@ -75,16 +61,48 @@ public class Operators {
 
 	
 
+
+	public Operators() {
+		super(
+			(short)3,
+			(short)5,
+			(short)2,
+			(short)3,
+			(short)0,	
+			
+			ALIGNMENT_CODES.length,
+			(byte)ALIGNMENT_CODES.length
+		);
+	}
+
+	@Override
+	public byte[] alignmentCodes(int tier) {
+		return ALIGNMENT_CODES[tier];
+	}
+	@Override
+	public AlignmentsMap alignmentPatterns(int tier) {
+		return ALIGNMENTS[tier];
+	}
+	@Override
+	public AppliersMap appliers(int tier) {
+		return APPLIERS[tier];
+	}
+	@Override
+	public int[] scores(int tier) {
+		return ALIGNMENT_SCORES[tier];
+	}
+
+
 	
 	// ARRAY OF ALIGNMENTS (REPRESENTED AS CODES), GROUPED BY TIER
-	public static final byte[][] ALIGNMENT_CODES = {
+	private static final byte[][] ALIGNMENT_CODES = {
 		new byte[]{LINE_0},
 		new byte[]{LINE_1F, LINE_1a, LINE_1b},
 		new byte[]{LINE_2B, LINE_2, LINE_2T, LINE_21a, LINE_21b, LINE_21c},
 		new byte[]{LINE_3B, LINE_3B2, LINE_3, LINE_32, LINE_3T, LINE_3Bb}
 	};
 	// ARRAY OF ALIGNMENTS (REPRESENTED AS class Alignment), GROUPED BY TIER
-	public static final AlignmentsMap[] ALIGNMENTS = {
+	private static final AlignmentsMap[] ALIGNMENTS = {
 		//TIER 0
 		new AlignmentsMap(
 			ALIGNMENT_CODES[0],
@@ -135,11 +153,8 @@ public class Operators {
 	 * 	mnout:	min free cells per sided (min )
 	 */
 	
-	public static final int TIER_N = ALIGNMENT_CODES.length;	//number of tiers for alignments (K-1 to K-3, not excluding K even if it is won)
-	public static final byte TIER_MAX = (byte)TIER_N;
-	
 	// ARRAY OF OPERATORS, GROUPED BY TIER, i.e. APPLICATIONS OF CONVERSIONS FROM ALIGNMENTS TO THREATS
-	public static final AppliersMap[] OPERATORS = {
+	private static final AppliersMap[] APPLIERS = {
 		//TIER 0
 		new AppliersMap(
 			ALIGNMENT_CODES[0],
@@ -184,7 +199,7 @@ public class Operators {
 
 	// ARRAY OF ALIGNMENTS, GROUPED BY TIER, REPRESENTED AS SCORES (USED AS HEURISTIC FOR MOVE ORDERING)
 	// 0 = not considered
-	public static final int[][] ALIGNMENT_SCORES = {
+	private static final int[][] ALIGNMENT_SCORES = {
 		//TIER 0
 		/*
 		{
@@ -220,20 +235,24 @@ public class Operators {
 	
 	
 	// 0...7 (also -8...-1)
-	public static byte tier(byte threat) {
+	@Override
+	public byte tier(byte threat) {
 		return (byte)((threat & THREAT_TIER_MASK) >> (byte)4);
 	}
-	public static byte indexInTier(byte threat) {
+	@Override
+	public byte indexInTier(byte threat) {
 		return (byte)(threat & THREAT_INDEX_MASK);
 	}
-
-	public static int score(byte threat) {
+	
+	@Override
+	public int score(byte threat) {
 		return ALIGNMENT_SCORES[tier(threat)][indexInTier(threat)];
 	}
 
-	public static <B extends _BoardBitDb<B, BB>, BB extends _BoardBit<BB>> ThreatCells applied(final _BoardBitDb<B, BB> board, ThreatPosition op, byte attacker, byte defender) {
+	@Override
+	public <B extends _BoardBitDb<B, BB>, BB extends _BoardBit<BB>> ThreatCells applied(final _BoardBitDb<B, BB> board, ThreatPosition op, byte attacker, byte defender) {
 		try {
-			return OPERATORS[tier(op.type)].get((int)(op.type)).getThreatCells(board, op, attacker, defender);
+			return APPLIERS[tier(op.type)].get((int)(op.type)).getThreatCells(board, op, attacker, defender);
 		} catch(Exception e) {
 			board.print();
 			board.printAlignments();
@@ -250,77 +269,7 @@ public class Operators {
 
 
 	//#region CLASSES
-		//#region MAIN
-			/**
-			 * An AlignmentPattern is a way to recgnize and categorize an alignment.
-			 * an operator ìs defined by the following parameters:
-			 * 	line:	K+line aligned cells, i.e. longest allowed distance between two marks
-			 * 	mark:	K+mark marked
-			 * 	in:		free cells needed inside aligned cells (i.e. at least one mark before, one after)
-			 * 	out:	tot free cells outside (before and after) aligned cells
-			 * 	mnout:	min free cells per sided (min )
-			 */
-			public static class AlignmentPattern {
-				public final short line, mark, in, out, mnout;
-				private AlignmentPattern(short line, short mark, short in, short out, short mnout) {
-					this.line	= line;
-					this.mark	= mark;
-					this.in		= in;
-					this.out	= out;
-					this.mnout	= mnout;
-				}
-				private AlignmentPattern(int line, int mark, int in, int out, int mnout) {
-					this.line	= (short)line;
-					this.mark	= (short) mark;
-					this.in		= (short)in;
-					this.out	= (short)out;
-					this.mnout	= (short)mnout;
-				}
 
-				public boolean isCompatible(int X, int lined, int marks, int holes) {
-					return lined == X + this.line && marks == X + this.mark && holes == this.in;
-				}
-				
-				@Override public String toString() {
-					return line + "," + mark + "," + in + "," + out + "," + mnout;
-				}
-			}
-
-			public static class AlignmentsMap extends HashMap<Integer, AlignmentPattern> {
-				private AlignmentsMap(byte[] keys, AlignmentPattern[] values) {
-					super(keys.length);
-					for(int i = 0; i < keys.length; i++)
-						put((int)(keys[i]), values[i]);
-				}
-			}
-			private static interface Applier {
-				//given a board and and an alignment relative to it,
-				//returns a threatArray, that contains the cells to mark to apply an operator
-				public <B extends _BoardBitDb<B, BB>, BB extends _BoardBit<BB>> ThreatCells getThreatCells(final _BoardBitDb<B, BB> board, ThreatPosition pos, byte attacker, byte defender);
-			}
-			public static class AppliersMap extends HashMap<Integer, Applier> {
-				private AppliersMap(byte[] keys, Applier[] values) {
-					super(keys.length);
-					for(int i = 0; i < keys.length; i++)
-						put((int)(keys[i]), values[i]);
-				}
-			}
-
-			public static class ThreatsByRank extends ArrayList<LinkedList<ThreatCells>> {
-
-				public ThreatsByRank() {
-					super(TIER_N);
-					for(int i = 0; i < TIER_N; i++) add(i, null);
-				}
-				public void add(ThreatCells threat) {
-					int tier = tier(threat.type);
-					if(get(tier) == null) set(tier, new LinkedList<ThreatCells>());
-					get(tier).add(threat);
-				}
-			}
-
-		//#endregion MAIN
-		
 		//#region APPLIERS
 			private static class ApplierNull implements Applier {
 				/**
@@ -493,8 +442,9 @@ public class Operators {
 					return res;
 				}
 			}
-			
+	
 		//#endregion APPLIERS
+
 	//#endregion CLASSES
 
 }

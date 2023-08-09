@@ -6,7 +6,8 @@ import java.io.IOException;
 import java.util.LinkedList;
 
 import connectx.CXCell;
-import pndb.alpha.Operators.ThreatsByRank;
+import pndb.alpha._Operators.AlignmentPattern;
+import pndb.alpha._Operators.ThreatsByRank;
 import pndb.alpha.threats.AlignmentsList;
 import pndb.alpha.threats.BiList_ThreatPos;
 import pndb.alpha.threats.ThreatApplied;
@@ -55,6 +56,8 @@ public abstract class _BoardBitDb<S extends _BoardBitDb<S, BB>, BB extends _Boar
 		protected static int MIN_MARKS;
 
 		public static byte MY_PLAYER;
+
+		protected static _Operators OPERATORS;
 
 	//#endregion CONSTANTS
 		
@@ -109,12 +112,14 @@ public abstract class _BoardBitDb<S extends _BoardBitDb<S, BB>, BB extends _Boar
 	 * @param N
 	 * @param X
 	 */
-	protected _BoardBitDb(int M, int N, int X) {
+	protected _BoardBitDb(int M, int N, int X, _Operators operators) {
 		super(M, N, X);
+
+		_BoardBitDb.OPERATORS = operators;
 		
 		MAX = new MovePair(M, N);
 		MAX_SIDE = Math.max(M, N);
-		MIN_MARKS = X - Operators.MARK_DIFF_MIN;
+		MIN_MARKS = X - operators.MARK_DIFF_MIN;
 		currentPlayer = 0;
 		
 		initAlignmentStructures();
@@ -125,12 +130,14 @@ public abstract class _BoardBitDb<S extends _BoardBitDb<S, BB>, BB extends _Boar
 	 * Complexity: O(3N + 3(M+N) + N) = O(3M + 7N)
 	 * @param B
 	 */
-	protected _BoardBitDb(BB B) {
+	protected _BoardBitDb(BB B, _Operators operators) {
 		super(B.M, B.N, B.X);
+
+		_BoardBitDb.OPERATORS = operators;
 		
 		MAX = new MovePair(M, N);
 		MAX_SIDE = Math.max(M, N);
-		MIN_MARKS = X - Operators.MARK_DIFF_MIN;
+		MIN_MARKS = X - _BoardBitDb.OPERATORS.MARK_DIFF_MIN;
 		currentPlayer = 0;
 		
 		initAlignmentStructures();
@@ -144,12 +151,14 @@ public abstract class _BoardBitDb<S extends _BoardBitDb<S, BB>, BB extends _Boar
 	 * @param B
 	 * @param copy_threats
 	 */
-	protected _BoardBitDb(S B, boolean copy_threats) {
+	protected _BoardBitDb(S B, boolean copy_threats, _Operators operators) {
 		super(B.M, B.N, B.X);
+
+		_BoardBitDb.OPERATORS = operators;
 		
 		MAX = new MovePair(M, N);
 		MAX_SIDE = Math.max(M, N);
-		MIN_MARKS = X - Operators.MARK_DIFF_MIN;
+		MIN_MARKS = X - _BoardBitDb.OPERATORS.MARK_DIFF_MIN;
 		currentPlayer = B.currentPlayer;
 		hash = B.hash;
 		
@@ -551,8 +560,8 @@ public abstract class _BoardBitDb<S extends _BoardBitDb<S, BB>, BB extends _Boar
 						c1 goes from center-MAX_LEN to center, c2 from c1 to center+MAX_LEN
 					*/
 
-					end_c1.reset(second).clamp_diag(MIN, MAX, dir, Operators.MAX_FREE_EXTRA);
-					end_c2.reset(second).clamp_diag(MIN, MAX, dir, X + Operators.MAX_FREE_EXTRA);
+					end_c1.reset(second).clamp_diag(MIN, MAX, dir, OPERATORS.MAX_FREE_EXTRA);
+					end_c2.reset(second).clamp_diag(MIN, MAX, dir, X + OPERATORS.MAX_FREE_EXTRA);
 					
 					int	lined,			// alignment length, i.e. max distance. It's always c2-c1+1
 						marks,			// marks in alignment
@@ -573,7 +582,7 @@ public abstract class _BoardBitDb<S extends _BoardBitDb<S, BB>, BB extends _Boar
 					}
 					if(DEBUG_PRINT) System.out.println(printString(0) + "\naddAlignments START, for player " + player + ", moves " + first + " " + second + " dir: " + DIRECTIONS[dir_index] + ", end_c1/c2:" + end_c1 + " " + end_c2 + ", onlyvalid:" + only_valid + ":\n");
 						
-					for( _findOccurrenceUntil(c1, c1.reset(first), dir_neg, MAX, X + Operators.MAX_FREE_EXTRA - 1, player, opponent, false, false, only_valid, dir_index)	// find furthest c1 back, from center
+					for( _findOccurrenceUntil(c1, c1.reset(first), dir_neg, MAX, X + OPERATORS.MAX_FREE_EXTRA - 1, player, opponent, false, false, only_valid, dir_index)	// find furthest c1 back, from center
 						; !c1.equals(end_c1) && !(c2_passed_endc1 && c1_reset_to_c2)
 						&& cellState(c1) == player
 						; _findOccurrenceUntil(c1, c1.sum(dir), dir, end_c1, MAX_SIDE, player, CellState.NULL, false, true, only_valid, dir_index)							// find first player cell, before end_c1
@@ -631,9 +640,9 @@ public abstract class _BoardBitDb<S extends _BoardBitDb<S, BB>, BB extends _Boar
 								continue;
 
 							// check alignments, foreach alignment of mark marks
-							for(byte threat_code : Operators.ALIGNMENT_CODES[tier])
+							for(byte threat_code : OPERATORS.alignmentCodes(tier))
 							{
-								Operators.AlignmentPattern alignment = Operators.ALIGNMENTS[tier].get((int)threat_code);
+								AlignmentPattern alignment = OPERATORS.alignmentPatterns(tier).get((int)threat_code);
 
 								// debug
 								if(DEBUG_ON) file.write("\t\t\t\t\tstart checking alignment = " + alignment + "\n");
@@ -828,16 +837,16 @@ public abstract class _BoardBitDb<S extends _BoardBitDb<S, BB>, BB extends _Boar
 			public ThreatsByRank getApplicableOperators(byte attacker, int max_tier) {
 
 				byte defender		= Auxiliary.opponent(attacker);
-				ThreatsByRank res	= new ThreatsByRank();
+				ThreatsByRank res	= OPERATORS.new ThreatsByRank();
 
 				for(AlignmentsList alignments_by_row : alignments_by_dir) {
 					for(BiList_ThreatPos alignments_in_row : alignments_by_row) {
 						if(alignments_in_row != null) {
 							
 							BiNode<ThreatPosition> alignment = alignments_in_row.getFirst(attacker);
-							if(alignment != null && Operators.tier(alignment.item.type) <= max_tier) {
+							if(alignment != null && OPERATORS.tier(alignment.item.type) <= max_tier) {
 								do {
-									ThreatCells cell_threat_operator = Operators.applied(this, alignment.item, attacker, defender);
+									ThreatCells cell_threat_operator = OPERATORS.applied(this, alignment.item, attacker, defender);
 									
 									if(cell_threat_operator != null) res.add(cell_threat_operator);
 									alignment = alignment.next;
@@ -858,7 +867,7 @@ public abstract class _BoardBitDb<S extends _BoardBitDb<S, BB>, BB extends _Boar
 			public int[] getThreatCounts(byte player) {
 
 				setPlayer(player);
-				findAllAlignments(player, Operators.TIER_MAX, false, "selCol_");
+				findAllAlignments(player, OPERATORS.TIER_MAX, false, "selCol_");
 		
 				int[] threats_by_col = new int[N];
 
@@ -870,11 +879,11 @@ public abstract class _BoardBitDb<S extends _BoardBitDb<S, BB>, BB extends _Boar
 							while(p != null) {
 								// if in same col
 								if(p.item.start.j == p.item.end.j)
-									threats_by_col[p.item.start.j] += (p.item.start.getDistance(p.item.end) + 1) * Operators.indexInTier(p.item.type);
+									threats_by_col[p.item.start.j] += (p.item.start.getDistance(p.item.end) + 1) * OPERATORS.indexInTier(p.item.type);
 								
 								else {
 									for(int j = p.item.start.j; j <= p.item.end.j; j++)
-										threats_by_col[j] += Operators.indexInTier(p.item.type);
+										threats_by_col[j] += OPERATORS.indexInTier(p.item.type);
 								}
 		
 								p = p.next;

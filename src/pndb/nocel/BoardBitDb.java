@@ -3,6 +3,7 @@ package pndb.nocel;
 import connectx.CXCell;
 import pndb.alpha.BoardBit;
 import pndb.alpha._BoardBitDb;
+import pndb.alpha._Operators;
 import pndb.constants.Auxiliary;
 import pndb.constants.MovePair;
 
@@ -16,22 +17,22 @@ public class BoardBitDb extends _BoardBitDb<BoardBitDb, BoardBit> {
 	private int MC_n;								// marked cells number
 
 
-	BoardBitDb(int M, int N, int X) {
-		super(M, N, X);
+	BoardBitDb(int M, int N, int X, _Operators operators) {
+		super(M, N, X, operators);
 	}
 
-	BoardBitDb(BoardBit B) {
-		super(B);
+	BoardBitDb(BoardBit B, _Operators operators) {
+		super(B, operators);
 		copyMCfromBoard(B);
 	}
 	
-	BoardBitDb(BoardBitDb B, boolean copy_threats) {
-		super(B, copy_threats);
+	BoardBitDb(BoardBitDb B, boolean copy_threats, _Operators operators) {
+		super(B, copy_threats, operators);
 		copyMC(B);
 	}
 
 	public BoardBitDb getCopy(boolean copy_threats) {
-		return new BoardBitDb(this, copy_threats);
+		return new BoardBitDb(this, copy_threats, OPERATORS);
 	}
 
 	

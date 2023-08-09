@@ -3,6 +3,7 @@ package pndb.nocel.nonmc.tryit;
 import java.util.LinkedList;
 
 import pndb.alpha.BoardBit;
+import pndb.alpha.Operators;
 import pndb.alpha._DbSearch;
 import pndb.alpha.threats.ThreatApplied;
 import pndb.alpha.threats.ThreatCells;
@@ -29,7 +30,7 @@ public class DbSearch extends _DbSearch<DbSearchResult, BoardBit, BoardBitDb, Db
 
 
 	public DbSearch() {
-		super(new DbNode<BoardBit, BoardBitDb>());
+		super(new DbNode<BoardBit, BoardBitDb>(), new Operators());
 	}
 	
 	public void init(int M, int N, int X, boolean first) {
@@ -40,7 +41,7 @@ public class DbSearch extends _DbSearch<DbSearchResult, BoardBit, BoardBitDb, Db
 		MY_PLAYER	= CellState.P1;
 		BoardBitDb.MY_PLAYER = MY_PLAYER;
 		
-		board = new BoardBitDb(M, N, X);
+		board = new BoardBitDb(M, N, X, OPERATORS);
 		TT = new TranspositionTable(M, N);
 		
 		BoardBitDb.TT = TT;
@@ -53,7 +54,7 @@ public class DbSearch extends _DbSearch<DbSearchResult, BoardBit, BoardBitDb, Db
 	@Override
 	public int[] getThreatCounts(BoardBit B, byte player) {
 
-		board = new BoardBitDb(B);
+		board = new BoardBitDb(B, OPERATORS);
 		return board.getThreatCounts(player);
 	}
 
@@ -68,12 +69,12 @@ public class DbSearch extends _DbSearch<DbSearchResult, BoardBit, BoardBitDb, Db
 
 		@Override
 		protected BoardBitDb createBoardDb(int M, int N, int X) {
-			return new BoardBitDb(M, N, X);
+			return new BoardBitDb(M, N, X, OPERATORS);
 		}
 
 		@Override
 		protected BoardBitDb createBoardDb(BoardBit BB) {
-			return new BoardBitDb(BB);
+			return new BoardBitDb(BB, OPERATORS);
 		}
 
 		/**

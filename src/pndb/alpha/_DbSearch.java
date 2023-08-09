@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.util.LinkedList;
 import java.util.ListIterator;
 
-import pndb.alpha.Operators.ThreatsByRank;
+import pndb.alpha._Operators.ThreatsByRank;
 import pndb.alpha.threats.ThreatApplied;
 import pndb.alpha.threats.ThreatCells;
 import pndb.alpha.threats.ThreatCells.USE;
@@ -50,6 +50,7 @@ public abstract class _DbSearch<RES, BB extends _BoardBit<BB>, B extends IBoardB
 	protected int M, N;
 	public B board;
 	protected TranspositionTable TT;
+	protected static _Operators OPERATORS;
 
 	// VARIABLES FOR A DB-SEARCH EXECUTION
 	protected int found_win_sequences;
@@ -72,10 +73,11 @@ public abstract class _DbSearch<RES, BB extends _BoardBit<BB>, B extends IBoardB
 
 
 
-	public _DbSearch(NODE node_instance) {
+	public _DbSearch(NODE node_instance, _Operators operators) {
 
 		runtime = Runtime.getRuntime();
-		NODE_INSTANCE = node_instance;
+		NODE_INSTANCE	= node_instance;
+		OPERATORS		= operators;
 	}
 	
 
@@ -125,7 +127,7 @@ public abstract class _DbSearch<RES, BB extends _BoardBit<BB>, B extends IBoardB
 			board = createBoardDb(B);
 			board.setPlayer(player);
 			
-			board.findAllAlignments(player, Operators.TIER_MAX, true, "selCol_");
+			board.findAllAlignments(player, OPERATORS.TIER_MAX, true, "selCol_");
 			
 			// debug
 			if(DEBUG_ON && board.hasAlignments(player)) {
@@ -141,7 +143,7 @@ public abstract class _DbSearch<RES, BB extends _BoardBit<BB>, B extends IBoardB
 			found_win_sequences = 0;
 			
 			// recursive call for each possible move
-			visit(root, player, true, Operators.TIER_MAX);
+			visit(root, player, true, OPERATORS.TIER_MAX);
 			root = null;
 
 			// debug
@@ -633,7 +635,7 @@ public abstract class _DbSearch<RES, BB extends _BoardBit<BB>, B extends IBoardB
 	
 		protected NODE createRoot(B B) {
 
-			NODE root = NODE_INSTANCE.copy(board, true, Operators.TIER_MAX, true);
+			NODE root = NODE_INSTANCE.copy(board, true, OPERATORS.TIER_MAX, true);
 			//NodeBoard root = NodeBoard.copy(board, true, Operators.TIER_MAX, true);
 			return root;
 		}
@@ -658,7 +660,7 @@ public abstract class _DbSearch<RES, BB extends _BoardBit<BB>, B extends IBoardB
 			ThreatApplied athreat = null, athreat_prev = null;
 
 			//create defenisve root copying current root, using opponent as player and marking only the move made by the current attacker in the first threat
-			byte max_tier	= (byte)(Operators.tier(athreats.getFirst().threat.type) - 1);		// only look for threats better than mine
+			byte max_tier	= (byte)(OPERATORS.tier(athreats.getFirst().threat.type) - 1);		// only look for threats better than mine
 			NODE def_root	= NODE_INSTANCE.copy(root.board, true, max_tier, false);
 			def_root.board.setPlayer(Auxiliary.opponent(attacker));
 			def_root.board.findAllAlignments(Auxiliary.opponent(attacker), max_tier, true, "defRoot_");
