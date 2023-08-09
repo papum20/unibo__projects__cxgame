@@ -14,7 +14,6 @@ public class Player extends pndb.alpha.halfn.Player {
 	public void initPlayer(int M, int N, int X, boolean first, int timeout_in_secs) {
 
 		super.initPlayer(M, N, X, first, timeout_in_secs);
-		dbSearch = null;
 	}
 
 	@Override
