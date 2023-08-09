@@ -182,6 +182,7 @@ public class BoardBitDb extends _BoardBitDb<BoardBitDb, BoardBit> {
 		/**
 		 * Check if a combination with node is valid, i.e. if they're not in conflict and both have a marked cell the other doesn't.
 		 * Assumes both boards have the same `MY_PLAYER` (i.e. the same bit-byte association for players).
+		 * Complexity: O(N COLSIZE(M)) = O(N)
 		 * @param B
 		 * @param attacker
 		 * @return

@@ -404,9 +404,9 @@ public abstract class _DbSearch<RES, BB extends _BoardBit<BB>, B extends IBoardB
 		 * (see notes for findAllCombinationNodes() and class notes)
 		 * Complexity: 
 		 * 		= lastDependency.length * O(findAllCombinationNodes) + O(removeCombinationTTEntries)
-		 * 		= lastDependency.length * O( A.marked_threats.length + N**2 + 16X * B.marked_threats.length * A.avg_threats_per_dir_per_line + A.threats ) + O(lastCombination.length)
-		 * 		= lastDependency.length * O( A.marked_threats.length + N**2 + 16X * B.marked_threats.length * A.avg_threats_per_dir_per_line + A.threats )
-		 * 		= O(lastDependency.length * (A.marked_threats.length + N**2 + 16X * B.marked_threats.length * A.avg_threats_per_dir_per_line + A.threats) )
+		 * 		= lastDependency.length * O( A.marked_threats.length + N**2 + 4 B.marked_threats.length(X + A.avg_threats_per_dir_per_line) + A.threats ) + O(lastCombination.length)
+		 * 		= lastDependency.length * O( A.marked_threats.length + N**2 + 4 B.marked_threats.length(X + A.avg_threats_per_dir_per_line) + A.threats )
+		 * 		= O(lastDependency.length * (A.marked_threats.length + N**2 + 4 B.marked_threats.length(X + A.avg_threats_per_dir_per_line) + A.threats )
 		 * 
 		 * @param root
 		 * @param attacker
@@ -558,9 +558,13 @@ public abstract class _DbSearch<RES, BB extends _BoardBit<BB>, B extends IBoardB
 		 * 
 		 * Complexity:
 		 * 		iteration: O(validCombinationWith) + O(addCombinationChild)
-		 * 				= O(A.mc_n + B.mc_n) + O( A.marked_threats.length + N**2 + B.marked_threats.length * (16X * A.avg_threats_per_dir_per_line) + children_n(A) )
-		 * 				= O( A.marked_threats.length + N**2 + 16X * B.marked_threats.length * A.avg_threats_per_dir_per_line + A.threats )
+		 * 			with mc:
+		 * 				= O(A.mc_n + B.mc_n) + O( A.marked_threats.length + N**2 + 4 B.marked_threats.length (X + A.avg_threats_per_dir_per_line) + 432 NX**2 )
+		 * 				= O( N**2 + 4 B.marked_threats.length (X + A.avg_threats_per_dir_per_line) + 432 NX**2 )
 		 * 				, with A=partned, B=node
+		 * 			no mc:
+		 * 				O( N + 4 B.marked_threats.length (X + A.avg_threats_per_dir_per_line) + 432 NX**2 )
+		 * 				= O( 4 B.marked_threats.length (X + A.avg_threats_per_dir_per_line) + 432 NX**2 )
 		 * @param partner fixed node for combination
 		 * @param node iterating node for combination
 		 * @param attacker
@@ -734,7 +738,12 @@ public abstract class _DbSearch<RES, BB extends _BoardBit<BB>, B extends IBoardB
 		 *		 		= O( A.marked_threats.length + 4N**2 + 4 B.marked_threats.length(X + A.avg_threats_per_dir_per_line) + 6N O(findAlignmentsInDirection + A.threats )
 		 * 
 		 * 		anyway: 
-		 *		 		O( A.marked_threats.length + N**2 + 13N + 4 B.marked_threats.length(X + A.avg_threats_per_dir_per_line) + O(6N * O(findAlignmentsInDirection) ) 
+		 *		 		O( A.marked_threats.length + N**2	+ 4 B.marked_threats.length(X + A.avg_threats_per_dir_per_line) + 6N * O(findAlignmentsInDirection ) 
+		 *		 		= O(						N**2	+ 4 B.marked_threats.length(X + A.avg_threats_per_dir_per_line) + 6N * O(findAlignmentsInDirection ) 
+		 * 			worst case for findAlignmentsInDirection: 
+		 *		 		O( 							N**2	+ 4 B.marked_threats.length(X + A.avg_threats_per_dir_per_line) + 432 NX**2 ) 
+		 *			no mc (worst case):
+		 *		 		O( 4 B.marked_threats.length(X + A.avg_threats_per_dir_per_line) + 432 NX**2 ) 
 		 * 		
 		 * 		note: usually few children.
 		 * 

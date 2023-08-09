@@ -30,6 +30,7 @@ public class DbNode<BB extends IBoardBit, B extends IBoardBitDb<B, BB>> extends 
 
 		/*
 		 * Check if a combination with node is valid, i.e. if they're not in conflict and both have a marked cell the other doesn't.
+		 * Complexity: O(N)
 		 */
 		public BoardsRelation validCombinationWith(DbNode<BB, B> node, byte attacker) {
 

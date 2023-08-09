@@ -110,9 +110,11 @@ public class BoardBitDb extends _BoardBitDb<BoardBitDb, BoardBit> {
 		
 		/**
 		 * Only checks for alignments not included in the union of A's and B's alignments, i.e. those which involve at  least one cell only present in A and one only in B.
-		 * Complexity: O(marked_threats.length + N**2 + 13N) + O(B.marked_threats.length * (4+4+16X*AVG_THREATS_PER_DIR_PER_LINE) )
-		 *		= O(marked_threats.length + N**2 + 13N) + O(B.marked_threats.length * (8 + 16X * avg_threats_per_dir_per_line) )
-		 *		= O(marked_threats.length + N**2) + O(B.marked_threats.length * (16X * avg_threats_per_dir_per_line) )
+		 * Complexity: O(marked_threats.length + N**2 + 13N) + O(B.marked_threats.length * (4+4+4X+4 AVG_THREATS_PER_DIR_PER_LINE) + added_threats.length O(4 findAlignmentsInDir) )
+		 *		= O(marked_threats.length + N**2 + 13N) + O(B.marked_threats.length * (8 + 4X + 4 avg_threats_per_dir_per_line) + added_threats.length O(4 findAlignmentsInDir) )
+		 *		= O(marked_threats.length + N**2 + 4 B.marked_threats.length * (X + avg_threats_per_dir_per_line) + added_threats.length O(4 findAlignmentsInDir) )
+		 *		worst case for findAlignmentsInDirection:
+		 *			 O(marked_threats.length + N**2) + 4 B.marked_threats.length * (X + avg_threats_per_dir_per_line) + added_threats.length 288 X**2 )
 		 */
 		public BoardBitDb getCombined(BoardBitDb B, byte attacker, int max_tier) {
 

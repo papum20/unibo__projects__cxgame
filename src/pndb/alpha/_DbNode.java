@@ -88,7 +88,8 @@ public abstract class _DbNode<S extends _DbNode<S,BB,B>, BB extends IBoardBit, B
 		/**
 		 * Check if a combination with node is valid, i.e. if they're not in conflict and both have a marked cell the other doesn't.
 		 * Complexity:
-		 * 		worst (both not conflict): O(this.mc_n + node.mc_n)
+		 * 		with mc - worst (both not conflict): O(this.mc_n + node.mc_n)
+		 * 		no mc - worst: O(N)
 		 */
 		public BoardsRelation validCombinationWith(S node, byte attacker) {
 
