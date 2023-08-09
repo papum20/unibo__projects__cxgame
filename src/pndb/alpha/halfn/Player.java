@@ -1,6 +1,5 @@
 package pndb.alpha.halfn;
 
-import pndb.alpha.DbSearch;
 import pndb.alpha.PnNode;
 
 
@@ -14,7 +13,6 @@ public class Player extends pndb.alpha.Player {
 	@Override
 	public void initPlayer(int M, int N, int X, boolean first, int timeout_in_secs) {
 
-		dbSearch = new DbSearch();
 		super.initPlayer(M, N, X, first, timeout_in_secs);
 	}
 

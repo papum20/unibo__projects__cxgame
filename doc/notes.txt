@@ -10,7 +10,10 @@
 	EDIT: too much vertical
 7.
 	[SOLVED?] Transposition table: mysterious error, didnt find element (added in addChild, but didnt find in addChildren right after)
-
+8.
+	IMPORTANT: db is (completely) wrong for connectx, as you're not guaranteed that each move can help you (e.g. it allows an alignment for your opponent
+	which was not possible before): as a result, there can't be any forced moves (on which db is based)**
+	**to be precise, only moves which align X-1 are forcing, while (ENHANCEMENT) you could use X-2 and less to guide pn-search.
 
 ENHANCEMENTS/HEURISTICS to try:
 1.
@@ -27,7 +30,8 @@ ENHANCEMENTS/HEURISTICS to try:
 	should only find alignments involving them??
 6.
 	useless smaller alignment when theres bigger
-7. addAllCombinedAlignments probl tipi
+7.
+	addAllCombinedAlignments probl tipi
 
 
 
