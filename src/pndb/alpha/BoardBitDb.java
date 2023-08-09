@@ -33,7 +33,7 @@ public class BoardBitDb extends _BoardBitDb<BoardBitDb, BoardBit> {
 	}
 
 	/**
-	 * Complexity: O(3M+7N + MN)
+	 * Complexity: O(3M+7N + MN) = O(10N + N**2)
 	 * @param B
 	 */
 	BoardBitDb(BoardBit B, _Operators operators) {
@@ -43,8 +43,8 @@ public class BoardBitDb extends _BoardBitDb<BoardBitDb, BoardBit> {
 	
 	/**
 	 * Complexity:
-	 * 		with mc: O(3M + 10N + B.marked_threats.length + MN) = O(B.marked_threats.length + N**2 + 13N)
-	 * 		no mc: O(3M + 10N + B.marked_threats.length) = O(B.marked_threats.length + 13N)
+	 * 		with mc: O(3M + 7N + B.marked_threats.length + MN) = O(B.marked_threats.length + N**2 + 10N)
+	 * 		no mc: O(3M + 7N + B.marked_threats.length) = O(B.marked_threats.length + 10N)
 	 * @param B
 	 * @param copy_threats
 	 */

@@ -76,7 +76,10 @@ public abstract class _BoardBitDb<S extends _BoardBitDb<S, BB>, BB extends _Boar
 	 * dleft:		dimension=M+N-1,	indexed: by start of diagonal on the top row, i.e. from 0 to N+M-1
 	 */
 	protected AlignmentsList[] alignments_by_dir;
-	
+
+	protected static int[] alignments_by_dir_sizes;
+
+
 
 	protected final byte[] Player_byte 	= {CellState.P1, CellState.P2};
 	protected int currentPlayer;		// currentPlayer plays next move (= 0 or 1)
@@ -93,7 +96,7 @@ public abstract class _BoardBitDb<S extends _BoardBitDb<S, BB>, BB extends _Boar
 								threat_end		= new MovePair();
 	
 	// Debug
-	int count = 0;
+	protected int count = 0;
 	protected static boolean DEBUG_ON		= false;
 	protected static boolean DEBUG_PRINT	= false;
 	protected static FileWriter file;
@@ -109,7 +112,8 @@ public abstract class _BoardBitDb<S extends _BoardBitDb<S, BB>, BB extends _Boar
 	 */
 	protected _BoardBitDb(int M, int N, int X, _Operators operators) {
 		super(M, N, X);
-
+		alignments_by_dir_sizes = new int[]{M, M + N - 1, N, M + N - 1};
+		
 		_BoardBitDb.OPERATORS = operators;
 		
 		MAX = new MovePair(M, N);
@@ -127,7 +131,8 @@ public abstract class _BoardBitDb<S extends _BoardBitDb<S, BB>, BB extends _Boar
 	 */
 	protected _BoardBitDb(BB B, _Operators operators) {
 		super(B.M, B.N, B.X);
-
+		alignments_by_dir_sizes = new int[]{M, M + N - 1, N, M + N - 1};
+		
 		_BoardBitDb.OPERATORS = operators;
 		
 		MAX = new MovePair(M, N);
@@ -148,6 +153,7 @@ public abstract class _BoardBitDb<S extends _BoardBitDb<S, BB>, BB extends _Boar
 	 */
 	protected _BoardBitDb(S B, boolean copy_threats, _Operators operators) {
 		super(B.M, B.N, B.X);
+		alignments_by_dir_sizes = new int[]{M, M + N - 1, N, M + N - 1};
 
 		_BoardBitDb.OPERATORS = operators;
 		
@@ -767,7 +773,7 @@ public abstract class _BoardBitDb<S extends _BoardBitDb<S, BB>, BB extends _Boar
 			 * @param dir_index
 			 * @return
 			 */
-			private MovePair nextStartOfRow_inDir(MovePair start, int dir_index) {
+			protected MovePair nextStartOfRow_inDir(MovePair start, int dir_index) {
 				if(start == null) {
 					if(dir_index == DIR_IDX_DIAGRIGHT) return new MovePair(M - 1, 0);	//dright
 					else return new MovePair(0, 0);
@@ -809,7 +815,7 @@ public abstract class _BoardBitDb<S extends _BoardBitDb<S, BB>, BB extends _Boar
 			 * @param attacker
 			 * @return true if the AppliedThreat is compatible with this board, and useful, i.e. adds at least one attacker's threat.
 			 */
-			private boolean isUsefulThreat(ThreatApplied athreat, byte attacker) {
+			protected boolean isUsefulThreat(ThreatApplied athreat, byte attacker) {
 
 				byte state, state_athreat;
 				boolean useful = false;
@@ -950,22 +956,24 @@ public abstract class _BoardBitDb<S extends _BoardBitDb<S, BB>, BB extends _Boar
 				new AlignmentsList(M + N - 1),	// diagleft
 			};
 		}
+
 		//#region COPY
 
-			/**
-			 * Complexity: O(M + N + M+N-1 + M+N-1 + 4) = O(3(M+N))
-			 * @param DB
-			 */
-			protected void copyAlignmentStructures(S DB) {
-				alignments_by_dir		= new AlignmentsList[]{
-					new AlignmentsList(DB.alignments_by_dir[0]),
-					new AlignmentsList(DB.alignments_by_dir[1]),
-					new AlignmentsList(DB.alignments_by_dir[2]),
-					new AlignmentsList(DB.alignments_by_dir[3])
-				};
-			}
+		/**
+		 * Complexity: O(M + N + M+N-1 + M+N-1 + 4) = O(3(M+N))
+		 * @param DB
+		 */
+		protected void copyAlignmentStructures(S DB) {
+			alignments_by_dir		= new AlignmentsList[]{
+				new AlignmentsList(DB.alignments_by_dir[0]),
+				new AlignmentsList(DB.alignments_by_dir[1]),
+				new AlignmentsList(DB.alignments_by_dir[2]),
+				new AlignmentsList(DB.alignments_by_dir[3])
+			};
+		}
 
 		//#endregion COPY
+		
 	//#endregion INIT
 
 
