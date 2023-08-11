@@ -7,6 +7,7 @@ import pndb.alpha.DbNode;
 import pndb.alpha.DbSearchResult;
 import pndb.alpha.Operators;
 import pndb.alpha._DbSearch;
+import pndb.alpha._Operators;
 import pndb.alpha.threats.ThreatApplied;
 import pndb.alpha.threats.ThreatCells;
 import pndb.alpha.threats.ThreatCells.USE;
@@ -27,8 +28,8 @@ public class DbSearch extends _DbSearch<DbSearchResult, BoardBit, BoardBitDb, Db
 
 
 
-	public DbSearch() {
-		super(new DbNode<BoardBit, BoardBitDb>(), new Operators());
+	public DbSearch(_Operators operators) {
+		super(new DbNode<BoardBit, BoardBitDb>(), operators);
 	}
 
 

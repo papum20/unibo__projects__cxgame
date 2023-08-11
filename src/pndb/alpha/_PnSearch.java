@@ -36,6 +36,7 @@ public abstract class _PnSearch<RES, DB extends IDbSearch<RES>> implements CXPla
 	// board
 	public BoardBit board;				// public for debug
 	protected TranspositionTable TT;
+	protected final _Operators OPERATORS;
 	public byte current_player;			// public for debug
 	protected short current_level;		// current tree level (height)
 	protected DB dbSearch;
@@ -57,6 +58,10 @@ public abstract class _PnSearch<RES, DB extends IDbSearch<RES>> implements CXPla
 
 	
 	
+
+	protected _PnSearch(_Operators operators) {
+		OPERATORS = operators;
+	}
 	
 	/**
 	 * Complexity: O(5N + 4MN + 2**16 + (5MN + 3M+4N + 2**16) ) = O(9MN + 3M+9N + 2**17)

@@ -5,10 +5,15 @@ import pndb.constants.CellState;
 
 public class Player extends _PnSearch<DbSearchResult, DbSearch> {
 	
+
+	public Player() {
+		super(new Operators());
+	}
+	
 	@Override
 	public void initPlayer(int M, int N, int X, boolean first, int timeout_in_secs) {
 		
-		dbSearch = new DbSearch();		
+		dbSearch = new DbSearch(OPERATORS);		
 		super.initPlayer(M, N, X, first, timeout_in_secs);
 	}
 
@@ -32,7 +37,7 @@ public class Player extends _PnSearch<DbSearchResult, DbSearch> {
 
 			log += "evaluateDb\n";
 
-			DbSearchResult res_db = dbSearch.selectColumn(board, node, timer_start + timer_duration - System.currentTimeMillis(), player);
+			DbSearchResult res_db = dbSearch.selectColumn(board, node, timer_start + timer_duration - System.currentTimeMillis(), player, OPERATORS.MAX_TIER);
 	
 			if(res_db == null)
 				return false;
@@ -97,7 +102,7 @@ public class Player extends _PnSearch<DbSearchResult, DbSearch> {
 			/* note: related_cols should already contain only available, not full, columns.
 			 */
 
-			DbSearchResult res_db = dbSearch.selectColumn(board, node, timer_start + timer_duration - System.currentTimeMillis(), Auxiliary.opponent(player));
+			DbSearchResult res_db = dbSearch.selectColumn(board, node, timer_start + timer_duration - System.currentTimeMillis(), Auxiliary.opponent(player), OPERATORS.MAX_TIER);
 
 			/* Heuristic: sorting moves (previously selected from iterated related squares) by number/scores of own threats in them
 			 * (i.e., for columns, the sum of the scores in the whole column).

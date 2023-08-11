@@ -2,6 +2,8 @@ package pndb.nocel;
 
 import pndb.alpha.BoardBit;
 import pndb.alpha.DbSearchResult;
+import pndb.alpha.Operators;
+import pndb.alpha._Operators;
 import pndb.constants.CellState;
 
 public class testerDb {
@@ -15,7 +17,8 @@ public class testerDb {
 		boolean first = true;
 		
 
-		DbSearch db = new DbSearch();
+		_Operators OPERATORS = new Operators();
+		DbSearch db = new DbSearch(OPERATORS);
 		db.init(M, N, X, first);
 
 		BoardBit board = new BoardBit(M, N, X);
@@ -62,7 +65,7 @@ public class testerDb {
 		board.markCheck(8, CellState.P2);
 
 		
-		DbSearchResult res = db.selectColumn(board, null, 10000, CellState.P2);
+		DbSearchResult res = db.selectColumn(board, null, 10000, CellState.P2, OPERATORS.MAX_TIER);
 
 		System.out.println((res == null)? null : res.winning_col);
 	}

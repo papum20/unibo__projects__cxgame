@@ -3,8 +3,8 @@ package pndb.betha;
 import java.util.LinkedList;
 
 import pndb.alpha.BoardBit;
-import pndb.alpha.Operators;
 import pndb.alpha._DbSearch;
+import pndb.alpha._Operators;
 import pndb.alpha.threats.ThreatApplied;
 import pndb.alpha.threats.ThreatCells;
 import pndb.alpha.threats.ThreatCells.USE;
@@ -29,8 +29,8 @@ public class DbSearch extends _DbSearch<DbSearchResult, BoardBit, BoardBitDb, Db
 
 
 
-	public DbSearch() {
-		super(new DbNode<BoardBit, BoardBitDb>(), new Operators());
+	public DbSearch(_Operators operators) {
+		super(new DbNode<BoardBit, BoardBitDb>(), operators);
 	}
 	
 	public void init(int M, int N, int X, boolean first) {
@@ -86,8 +86,8 @@ public class DbSearch extends _DbSearch<DbSearchResult, BoardBit, BoardBitDb, Db
 			// debug
 			log += "addDepChild\n";
 
-			BoardBitDb new_board	= node.board.getDependant(threat, atk, USE.BTH, node.getMaxTier(), true);
-			DbNode<BoardBit, BoardBitDb> newChild 		= new DbNode<BoardBit, BoardBitDb>(new_board, false, node.getMaxTier());
+			BoardBitDb new_board = node.board.getDependant(threat, atk, USE.BTH, node.getMaxTier(), true);
+			DbNode<BoardBit, BoardBitDb> newChild = new DbNode<BoardBit, BoardBitDb>(new_board, false, node.getMaxTier());
 
 			node.addChild(newChild);
 			lastDependency.add(newChild);

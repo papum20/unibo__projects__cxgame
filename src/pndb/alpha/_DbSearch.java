@@ -110,7 +110,7 @@ public abstract class _DbSearch<RES, BB extends _BoardBit<BB>, B extends IBoardB
 	 * 		and related_squares_by_col contains, for each column j, the number of squares related to the winning sequence, in column j;
 	 * 2.	otherwise, it's null.
 	 */
-	public RES selectColumn(BB B, PnNode root_pn, long time_remaining, byte player) {
+	public RES selectColumn(BB B, PnNode root_pn, long time_remaining, byte player, byte max_tier) {
 		
 		// debug
 		log = "__\ndbSearch\n";
@@ -127,7 +127,7 @@ public abstract class _DbSearch<RES, BB extends _BoardBit<BB>, B extends IBoardB
 			board = createBoardDb(B);
 			board.setPlayer(player);
 			
-			board.findAllAlignments(player, OPERATORS.TIER_MAX, true, "selCol_");
+			board.findAllAlignments(player, OPERATORS.MAX_TIER, true, "selCol_");
 			
 			// debug
 			if(DEBUG_ON && board.hasAlignments(player)) {
@@ -143,7 +143,7 @@ public abstract class _DbSearch<RES, BB extends _BoardBit<BB>, B extends IBoardB
 			found_win_sequences = 0;
 			
 			// recursive call for each possible move
-			visit(root, player, true, OPERATORS.TIER_MAX);
+			visit(root, player, true, max_tier);
 			root = null;
 
 			// debug
@@ -639,7 +639,7 @@ public abstract class _DbSearch<RES, BB extends _BoardBit<BB>, B extends IBoardB
 	
 		protected NODE createRoot(B B) {
 
-			NODE root = NODE_INSTANCE.copy(board, true, OPERATORS.TIER_MAX, true);
+			NODE root = NODE_INSTANCE.copy(board, true, OPERATORS.MAX_TIER, true);
 			//NodeBoard root = NodeBoard.copy(board, true, Operators.TIER_MAX, true);
 			return root;
 		}

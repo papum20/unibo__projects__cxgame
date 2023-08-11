@@ -877,7 +877,7 @@ public abstract class _BoardBitDb<S extends _BoardBitDb<S, BB>, BB extends _Boar
 			public int[] getThreatCounts(byte player) {
 
 				setPlayer(player);
-				findAllAlignments(player, OPERATORS.TIER_MAX, false, "selCol_");
+				findAllAlignments(player, OPERATORS.MAX_TIER, false, "selCol_");
 		
 				int[] threats_by_col = new int[N];
 

@@ -32,7 +32,7 @@ public abstract class _Operators {
 	public final short MARK_DIFF_MIN;
 	
 	public final int TIER_N;	//number of tiers for alignments (K-1 to K-3, not excluding K even if it is won)
-	public final byte TIER_MAX;
+	public final byte MAX_TIER;
 
 
 
@@ -60,7 +60,7 @@ public abstract class _Operators {
 		this.MAX_OUT_PER_TIER	= MAX_OUT_PER_TIER;
 
 		this.TIER_N				= TIER_N;
-		this.TIER_MAX			= TIER_MAX;
+		this.MAX_TIER			= TIER_MAX;
 	}
 	
 	/**

@@ -47,7 +47,7 @@ public class Player extends pndb.nocel.nonmc.tryit.Player {
 			/* note: related_cols should already contain only available, not full, columns.
 			 */
 
-			DbSearchResult res_db = dbSearch.selectColumn(board, node, timer_start + timer_duration - System.currentTimeMillis(), Auxiliary.opponent(player));
+			DbSearchResult res_db = dbSearch.selectColumn(board, node, timer_start + timer_duration - System.currentTimeMillis(), Auxiliary.opponent(player), (byte)(OPERATORS.MAX_TIER - 1));
 
 			/* Heuristic: sorting moves (previously selected from iterated related squares) by number/scores of own threats in them
 			 * (i.e., for columns, the sum of the scores in the whole column).

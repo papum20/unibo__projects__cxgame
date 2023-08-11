@@ -13,8 +13,8 @@ public class DbSearch extends _DbSearch<DbSearchResult, BoardBit, BoardBitDb, Db
 
 
 	
-	public DbSearch() {
-		super(new DbNode<BoardBit, BoardBitDb>(), new Operators());
+	public DbSearch(_Operators operators) {
+		super(new DbNode<BoardBit, BoardBitDb>(), operators);
 	}
 
 
