@@ -127,6 +127,21 @@ public abstract class _Operators {
 				public boolean isCompatible(int X, int lined, int marks, int holes) {
 					return lined == X + this.line && marks == X + this.mark && holes == this.in;
 				}
+
+				/**
+				 * @param X
+				 * @param lined
+				 * @param marks
+				 * @param before_exact
+				 * @param after
+				 * @return true if the alignment is compatible with exact `before` (but after can be bigger, and is calculated basing on before).
+				 */
+				public boolean isApplicableExactly(int X, int lined, int marks, int before_exact, int after) {
+					return lined == X + this.line && marks == X + this.mark
+						&& before_exact >= mnout
+						&& out - before_exact >= mnout		// calculated after
+						&& after >= out - before_exact;		// after can satisfy calculated after
+				}
 				
 				@Override public String toString() {
 					return line + "," + mark + "," + in + "," + out + "," + mnout;

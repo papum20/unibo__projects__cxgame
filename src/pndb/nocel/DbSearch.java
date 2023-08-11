@@ -23,7 +23,7 @@ import pndb.alpha.threats.ThreatCells.USE;
  * 		in the combination stage (for implementation, because of the return type, boolean, of the functions).
  */
 public class DbSearch extends _DbSearch<DbSearchResult, BoardBit, BoardBitDb, DbNode<BoardBit, BoardBitDb>> {
-	
+
 
 
 

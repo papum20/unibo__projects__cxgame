@@ -39,7 +39,7 @@ public class Auxiliary {
 		}
 
 		public static int getPlayerBit(byte player) {
-			return player - 1;
+			return player % 2;
 		}
 
 		//public static boolean equalMNKCells(CXCell a, CXCell b) {

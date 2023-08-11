@@ -165,8 +165,8 @@ public abstract class _DbSearch<RES, BB extends _BoardBit<BB>, B extends IBoardB
 		} catch (IOException io) {
 			return null;
 		} catch (ArrayIndexOutOfBoundsException e) {
-			root.board.print();
-			root.board.printAlignments();
+			//root.board.print();
+			//root.board.printAlignments();
 			System.out.println(log + "\nout of bounds in db\n");
 			if(DEBUG_ON) try {file.close();} catch(IOException io) {}
 			throw e;

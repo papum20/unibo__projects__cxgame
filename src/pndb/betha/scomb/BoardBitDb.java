@@ -9,6 +9,7 @@ import pndb.alpha.BoardBit;
 import pndb.alpha._BoardBitDb;
 import pndb.alpha._Operators;
 import pndb.alpha._Operators.AlignmentPattern;
+import pndb.alpha._Operators.ThreatsByRank;
 import pndb.alpha.threats.AlignmentsList;
 import pndb.alpha.threats.BiList_ThreatPos;
 import pndb.alpha.threats.ThreatApplied;
@@ -16,7 +17,6 @@ import pndb.alpha.threats.ThreatCells;
 import pndb.alpha.threats.ThreatCells.USE;
 import pndb.alpha.threats.ThreatPosition;
 import pndb.constants.Auxiliary;
-import pndb.constants.CellState;
 import pndb.constants.Constants.BoardsRelation;
 import pndb.constants.MovePair;
 import pndb.structures.BiList.BiNode;
@@ -170,40 +170,83 @@ public class BoardBitDb extends _BoardBitDb<BoardBitDb, BoardBit> {
 				//	System.out.println("\nremoveAlignments START:");
 				// foreach direction
 				for(int d = 0; d < DIR_ABS_N; d++) {
-					BiList_ThreatPos alignments_in_line = alignments_by_dir[d].get(getIndex_for_alignmentsByDir(DIRECTIONS[d], center));
+					if(alignments_by_dir[d] != null) {
+						BiList_ThreatPos alignments_in_line = alignments_by_dir[d].get(getIndex_for_alignmentsByDir(DIRECTIONS[d], center));
 
-					if(alignments_in_line != null) {
-						BiNode<ThreatPosition>	p = alignments_in_line.getFirst(player),
-												p_next;
-						
-						while(p != null) {
-							p_next = p.next;
+						if(alignments_in_line != null) {
+							BiNode<ThreatPosition>	p = alignments_in_line.getFirst(player),
+													p_next;
+							
+							while(p != null) {
+								p_next = p.next;
 
-							// debug
-							if(DEBUG_PRINT) System.out.println("remove " + p.item);
+								// debug
+								if(DEBUG_PRINT) System.out.println("remove " + p.item);
 
-							if(center.inBetween_included(p.item.start, p.item.end))
-								removeAlignmentNode(alignments_in_line, p, player);
+								if(center.inBetween_included(p.item.start, p.item.end))
+									removeAlignmentNode(alignments_in_line, p, player);
 
-							p = p_next;
+								p = p_next;
+							}
 						}
 					}
 				}
 
 			}
 
-			private void _addValidAlignments() {
+			/**
+			 * note: no max_tier, must check before calling.
+			 * @param dir_index
+			 * @param player
+			 * @param lined
+			 * @param marks
+			 * @param before
+			 * @param after
+			*/
+			private void _addValidAlignments(int dir_index, byte player, int lined, int marks, int before, int after) throws IOException {
 
+				int tier = X - marks;
+
+				// check alignments, foreach alignment of mark marks
+				for(byte threat_code : OPERATORS.alignmentCodes(tier))
+				{
+					AlignmentPattern alignment = OPERATORS.alignmentPatterns(tier).get((int)threat_code);
+
+					// debug
+					if(DEBUG_ON) file.write("\t\t\t\t\tstart checking alignment = " + alignment + "\n");
+					if(DEBUG_PRINT) System.out.println("\t\t\t\t\tstart checking alignment = " + alignment + "\n");
+
+					//if (inner alignment conditions)
+					if(alignment.isApplicableExactly(X, lined, marks, before, after)) {
+
+						if(tier == 0) {
+							game_state = Auxiliary.cellState2winState(player);
+							return;
+						}
+
+						//add to structures
+						threat_start.resetToVector(c1, DIRECTIONS[dir_index], -before);
+						threat_end.resetToVector(c2, DIRECTIONS[dir_index], alignment.out - before);
+						ThreatPosition threat_pos = new ThreatPosition(threat_start, threat_end, threat_code);
+						addAlignment(threat_pos, dir_index, player);
+
+						// debug
+						found++;
+						if(DEBUG_ON) file.write("found threat: " + threat_start + "_( " + c1 + "->" + c2 + ") _" + threat_end + " : " + threat_pos + "before, after=" + before + " " + after + "\n");
+						if(DEBUG_PRINT) System.out.println("found threat: " + threat_start + "_( " + c1 + "->" + c2 + ") _" + threat_end + " : " + threat_pos +  "before, after=" + before + " " + after + "\n");
+					}
+				}
 			}
 			
 			/**
 			 * invariants:
-			 * - c1 and c2 indicate the first and last mark of a possible alignment (otehrwise, the priority is to bring both on a player's cell);
-			 * - lined = c2-c1 : length of the alignment (excluding outer free cells);
-			 * - marks : number of marks in range c1-c2;
-			 * - in = lined - marks : number of free cells in range c1-c2;
-			 * - before, after: trailing and lookahead number of free cells, constantly kept updated not to go beyond max value;
-			 * - c3 = c2 + after : lookahead;
+			 * -	c1 and c2 indicate the first and last mark of a possible alignment (otehrwise, the priority is to bring both on a player's cell);
+			 * -	lined = c2-c1 : length of the alignment (excluding outer free cells);
+			 * -	marks : number of marks in range c1-c2;
+			 * -	in = lined - marks : number of free cells in range c1-c2;
+			 * -	before, after: trailing and lookahead number of free cells, constantly kept updated not to go beyond max value
+			 * 		(before is initialized correctly as a parameter, while after is checked in a recursion condition);
+			 * -	c3 = c2 + after : lookahead;
 			 * 
 			 * note: the second extreme is always excluded from counting the alignment (c1, c2, after..).
 			 * @param second
@@ -216,21 +259,30 @@ public class BoardBitDb extends _BoardBitDb<BoardBitDb, BoardBit> {
 			 * @param after
 			 * @param only_valid
 			 * @param max_tier
+			 * @param checking_alignments (implementative) if true: need to check for alignments, and not increase c1 while before > 0
 			 */
-			private void _findAlignmentsInDirection(MovePair second, MovePair dir, byte player,
+			private void _findAlignmentsInDirection(MovePair second, MovePair dir, int dir_index, byte player,
 				int lined, int marks, int before, int after,
-				boolean only_valid, int max_tier
-			) {
-				if(before > OPERATORS.MAX_OUT_ONE_SIDE) {
-						_findAlignmentsInDirection(second, dir, player, lined, marks, before - 1, after, only_valid, max_tier);
-				} else if(c1.getDistanceInDir(second, dir) > before) {
+				boolean only_valid, int max_tier, boolean checking_alignments
+			) throws IOException {
+				if(checking_alignments && before > 0) {
+					_addValidAlignments(dir_index, player, lined, marks, before, after);
+					// also check for alignments with next before
+					_findAlignmentsInDirection(second, dir, dir_index, player, lined, marks, before - 1, after, only_valid, max_tier, true);
+				} else if(c1.getDistanceInDir(second, dir) > before || !c1.inBounds(MIN, MAX)) {
 					return;
 				} else if(lined > X) {
-					c1.sum(dir);
-					_findAlignmentsInDirection(second, dir, player, lined - 1,
-					marks - 1, 0,	// c1 is player's cell, otherwise that would be the priority.
-						0,				// lined only grows if c2 finds a player's cell, so after is already 0
-						only_valid, max_tier);
+					if(before > 0 && X - marks <= max_tier) {	// also check for right tier
+						_findAlignmentsInDirection(second, dir, dir_index, player, lined, marks, before, after, only_valid, max_tier, true);
+					} else {
+						if(X - marks <= max_tier)
+							_addValidAlignments(dir_index, player, lined, marks, before, after);
+						c1.sum(dir);
+						_findAlignmentsInDirection(second, dir, dir_index, player, lined - 1,
+							marks - 1, 0,	// c1 is player's cell, otherwise that would be the priority.
+							0,				// lined only grows if c2 finds a player's cell, so after is already 0
+							only_valid, max_tier, false);
+					}
 				} else if( (!only_valid || free[c1.j] == c1.i		// make sure the free cell is the first free in the column
 					|| dir.equals(DIRECTIONS[DIR_IDX_VERTICAL]))
 					&& cellFree(c1.i, c1.j)
@@ -242,137 +294,80 @@ public class BoardBitDb extends _BoardBitDb<BoardBitDb, BoardBit> {
 					c1.sum(dir);
 					if(lined > 0)
 					// it means c2 is on a player's cell, and c1 was already advancing, and now is passing on an 'in' free cell
-						_findAlignmentsInDirection(second, dir, player, lined - 1, marks, before + 1,
-						0,				// if was already advancing, it was because c2 advanced too much, so c2 is on a player's cell
-							only_valid, max_tier);
+						_findAlignmentsInDirection(second, dir, dir_index, player, lined - 1, marks,
+							Math.min(before + 1, OPERATORS.MAX_OUT_ONE_SIDE), after, only_valid, max_tier, false);
 					else
 						// still searching for the start of any alignment
-						_findAlignmentsInDirection(second, dir, player, 0, 0, before + 1, 0, only_valid, max_tier);
+						_findAlignmentsInDirection(second, dir, dir_index, player, 0, 0, Math.min(before + 1, OPERATORS.MAX_OUT_ONE_SIDE), 0, only_valid, max_tier, false);
 				} else if( (only_valid && free[c1.j] < c1.i)	// if free is greater but it's a player's cell, no problem
-					|| _cellState(c1.i, c1.j) != player
+					|| _cellState(c1.i, c1.j) != Auxiliary.getPlayerBit(player)
 				) {
 					// can only happen whlie was searching for the start of any alignment
 					c1.sum(dir);
-					_findAlignmentsInDirection(second, dir, player, 0, 0, 0, 0, only_valid, max_tier);
+					_findAlignmentsInDirection(second, dir, dir_index, player, 0, 0, 0, 0, only_valid, max_tier, false);
 				} else {
 					if(lined + after == 0)
 						// c3 could be before c1
 						c3.reset(c1);
-						
+
 					/* c1 is on a player's cell, now let's analyze .
 					 * not to add useless threats (i.e. smaller ones when there are bigger ones available), we extend c2 as much as we can,
 					 * and then we add them just before reducing 'lined' - and we (try to) do that each very time we need to do that (all cases).
 					 */
 					if(after + lined > X + OPERATORS.MAX_LINED) {
 						// too much free space while looking for the next c2, need to increase c1.
-						_addValidAlignments();
-						c1.sum(dir);
-						_findAlignmentsInDirection(second, dir, player, lined - 1, marks - 1, 0, after, only_valid, max_tier);
-					} else if(cellFree(c3.i, c3.j)) {
-						c3.sum(dir);
-						_findAlignmentsInDirection(second, dir, player, lined, marks, before, after + 1, only_valid, max_tier);
-					} else if(_cellState(c3.i, c3.j) == player) {
+						if(before > 0 && X - marks <= max_tier) {
+							_findAlignmentsInDirection(second, dir, dir_index, player, lined, marks, before, after, only_valid, max_tier, true);
+						} else {
+							if(X - marks <= max_tier)
+								_addValidAlignments(dir_index, player, lined, marks, before, after);
+							c1.sum(dir);
+							_findAlignmentsInDirection(second, dir, dir_index, player, lined - 1, marks - 1, 0, after, only_valid, max_tier, false);
+						}
+					} else if(!c3.inBounds(MIN, MAX)) {
+						System.out.println(X - marks + " " + max_tier);
+						if(X - marks > max_tier) {
+							return;
+						} else if(before > 0) {
+							_findAlignmentsInDirection(second, dir, dir_index, player, lined, marks, before, after, only_valid, max_tier, true);
+						} else {
+							if(X - marks <= max_tier)
+								_addValidAlignments(dir_index, player, lined, marks, before, after);
+							c1.sum(dir);
+							_findAlignmentsInDirection(second, dir, dir_index, player, lined - 1, marks - 1, 0, after, only_valid, max_tier, false);
+						}
+					}
+					else if( (!only_valid || free[c3.j] == c3.i		// make sure the free cell is the first free in the column
+						|| dir.equals(DIRECTIONS[DIR_IDX_VERTICAL]))
+						&& cellFree(c3.i, c3.j)
+					) {
+						if(dir.equals(DIRECTIONS[DIR_IDX_VERTICAL])) {
+							if(X - marks <= max_tier)
+								// vertical: last check and break (note: before is 0)
+								_addValidAlignments(dir_index, player, lined, marks, before, after + M - c3.i);
+						} else {
+							c3.sum(dir);
+							_findAlignmentsInDirection(second, dir, dir_index, player, lined, marks, before, after + 1, only_valid, max_tier, false);
+						}
+					} else if( (only_valid && free[c3.j] < c3.i)	// if free is greater but it's a player's cell, no problem
+						|| _cellState(c3.i, c3.j) != Auxiliary.getPlayerBit(player)
+					) {
+						if(before > 0 && X - marks <= max_tier) {
+							_findAlignmentsInDirection(second, dir, dir_index, player, lined, marks, before, after, only_valid, max_tier, true);
+						} else {
+							if(X - marks <= max_tier)
+								_addValidAlignments(dir_index, player, lined, marks, before, after);
+							c1.reset(c3.sum(dir));
+							_findAlignmentsInDirection(second, dir, dir_index, player, 0, 0, 0, 0, only_valid, max_tier, false);
+						}
+					} else {
 						c2.reset(c3);
 						c3.sum(dir);
-						_findAlignmentsInDirection(second, dir, player, lined + after + 1, marks + 1, before, 0, only_valid, max_tier);
-					} else {
-						_addValidAlignments();
-						c1.reset(c3.sum(dir));
-						_findAlignmentsInDirection(second, dir, player, 0, 0, 0, 0, only_valid, max_tier);
+						_findAlignmentsInDirection(second, dir, dir_index, player, lined + after + 1, marks + 1, before, 0, only_valid, max_tier, false);
 					}
 				}
-						
-						
-					for( _findOccurrenceUntil(c1, c1.reset(first), dir_neg, MAX, X + OPERATORS.MAX_FREE_EXTRA - 1, player, opponent, false, false, only_valid, dir_index)	// find furthest c1 back, from center
-						; !c1.equals(end_c1) && !(c2_passed_endc1 && c1_reset_to_c2)
-						&& cellState(c1) == player
-						; _findOccurrenceUntil(c1, c1.sum(dir), dir, end_c1, MAX_SIDE, player, CellState.NULL, false, true, only_valid, dir_index)							// find first player cell, before end_c1
-					) {
-						lined = 0;					// always c2-c1+1.
-						marks = 0;					// we are assured c1 (thus c2) contains player, or the loop would end.
-						in = before = after = 0;	// in = lined - marks = 0
-						found1 = found2 = false;
-						c2_passed_endc1 = c1_reset_to_c2 = false;
-					
-						for( c2.reset(c1)
-							; !c2.equals(end_c2)
-							; c2.sum(dir)
-						) {
 
-							// check boards
-							if(to_check) {
-								if		(!check1.cellFree(c2.i, c2.j) && check2.cellFree(c2.i, c2.j))	found1 = true;
-								else if	(!check2.cellFree(c2.i, c2.j) && check1.cellFree(c2.i, c2.j))	found2 = true;
-							}
-
-							// update alignment values
-							if(c2.equals(end_c1)) c2_passed_endc1 = true;
-							lined++;
-							if (cellFree(c2.i, c2.j)) {
-								if(!only_valid || dir_index == DIR_IDX_VERTICAL || free[c2.j] == c2.i) {
-									in++;
-									continue;										// c2 must be player's
-								} else {
-									c1.reset(c2);									// skip useless c1's
-									c1_reset_to_c2 = true;
-									break;
-								}
-							}
-							else if	(cellState(c2) == player) marks++;	
-							else {													// opponent: c1++
-								c1.reset(c2);
-								c1_reset_to_c2 = true;
-								break;
-							}
-
-							// debug
-							if(DEBUG_ON) file.write("\t\t\t\tvalues: " + c1 + "->" + c2 + " : " + lined + ", " + marks + ", " + in + "\n");
-							if(DEBUG_PRINT) System.out.println("\t\t\t\tvalues: " + c1 + "->" + c2 + " : " + lined + ", " + marks + ", " + in + "\n");
-
-							if(marks > X)
-								break;
-							
-							tier = X - marks;
-							if(marks < MIN_MARKS || (to_check && !(found1 && found2)) || tier > max_tier)
-								continue;
-
-							// check alignments, foreach alignment of mark marks
-							for(byte threat_code : OPERATORS.alignmentCodes(tier))
-							{
-								AlignmentPattern alignment = OPERATORS.alignmentPatterns(tier).get((int)threat_code);
-
-								// debug
-								if(DEBUG_ON) file.write("\t\t\t\t\tstart checking alignment = " + alignment + "\n");
-								if(DEBUG_PRINT) System.out.println("\t\t\t\t\tstart checking alignment = " + alignment + "\n");
-
-								//if (inner alignment conditions)
-								if(alignment.isCompatible(X, lined, marks, in)) {
-
-									if(tier == 0) {
-										game_state = cell2GameState(first.i, first.j);
-										return;
-									}
-
-									//add to structures
-									for( before = _findOccurrenceUntil(threat_start.reset(c1), c1.getDiff(dir), dir_neg, MAX, alignment.out - alignment.mnout, CellState.FREE, CellState.NULL, true, false, only_valid, dir_index),
-										after = _findOccurrenceUntil(threat_end.reset(c2), c2.getSum(dir), dir, MAX, alignment.out - before, CellState.FREE, CellState.NULL, true, false, only_valid, dir_index)
-										; before >= alignment.mnout && after >= alignment.mnout && before + after >= alignment.out																// alignment conditions
-										&& threat_end.inBounds(MIN, MAX) && (after == 0 || (cellFree(threat_end.i, threat_end.j) && (!only_valid || dir_index == DIR_IDX_VERTICAL || free[threat_end.j] == threat_end.i) ) )	// in bounds and player's cells
-										; after++, before--, threat_start.sum(dir), threat_end.sum(dir)
-									) {
-										ThreatPosition threat_pos = new ThreatPosition(threat_start, threat_end, threat_code);
-										addAlignment(threat_pos, dir_index, player);
-
-										// debug
-										found++;
-										if(DEBUG_ON) file.write("found threat: " + threat_start + "_( " + c1 + "->" + c2 + ") _" + threat_end + " : " + threat_pos + "before, after=" + before + " " + after + "\n");
-										if(DEBUG_PRINT) System.out.println("found threat: " + threat_start + "_( " + c1 + "->" + c2 + ") _" + threat_end + " : " + threat_pos +  "before, after=" + before + " " + after + "\n");
-									}
-								}
-							}
-
-						}
-
+			}
 
 			/**
 			 * Find all alignments involving at least one cell between the aligned first, second.
@@ -409,139 +404,39 @@ public class BoardBitDb extends _BoardBitDb<BoardBitDb, BoardBit> {
 			@Override
 			protected void findAlignmentsInDirection(MovePair first, MovePair second, byte player, int dir_index, int max_tier, _BoardBitDb<BoardBitDb, ?> check1, _BoardBitDb<BoardBitDb, ?> check2, boolean only_valid, String caller) {
 
-				String filename = "debug/db2/" + player + "_" + caller + count + "_" + (int)(Math.random() * 99999) + "_.txt";
-				count++;
-				
 				try {
 
-					byte opponent						= Auxiliary.opponent(player);
-					MovePair dir						= DIRECTIONS[dir_index];
-					MovePair dir_neg					= DIRECTIONS[(dir_index + 4) % 8];
-
-					// swap first, second if not first->second in same direction as dir
-					if(!dir.equals( first.getDirection(second)) ) {
-						MovePair tmp = first;
-						first	= second;
-						second	= tmp;
-					}
-					/*	
-					MovePair c*:
-						center = starting cell, end_c* = after last to check for c* (excluded), c1,c2 = iterators (first and last in line to check)
-						c1 goes from center-MAX_LEN to center, c2 from c1 to center+MAX_LEN
-					*/
-
-					end_c1.reset(second).clamp_diag(MIN, MAX, dir, OPERATORS.MAX_FREE_EXTRA);
-					end_c2.reset(second).clamp_diag(MIN, MAX, dir, X + OPERATORS.MAX_FREE_EXTRA);
-					
-					int	lined,			// alignment length, i.e. max distance. It's always c2-c1+1
-						marks,			// marks in alignment
-						in,				// inside alignment
-						before,			// 
-						after;			// 
-					int tier;
-					
-					boolean	c2_passed_endc1 = false, c1_reset_to_c2 = false,
-						found1, found2,			// checks if found in check1, check2
-						to_check = (check1 != null && check2 != null);
-						
 					// debug
-					int found = 0;
+					String filename = "debug/db2/" + player + "_" + caller + count + "_" + (int)(Math.random() * 99999) + "_.txt";
 					if(DEBUG_ON) {
 						file = new FileWriter(filename);
 						file.write(printString(0) + "\naddAlignments START, for player " + player + ", moves " + first + " " + second + " dir: " + DIRECTIONS[dir_index] + ", end_c1/c2:" + end_c1 + " " + end_c2 + ", onlyvalid:" + only_valid + ":\n");
 					}
 					if(DEBUG_PRINT) System.out.println(printString(0) + "\naddAlignments START, for player " + player + ", moves " + first + " " + second + " dir: " + DIRECTIONS[dir_index] + ", end_c1/c2:" + end_c1 + " " + end_c2 + ", onlyvalid:" + only_valid + ":\n");
-						
-					for( _findOccurrenceUntil(c1, c1.reset(first), dir_neg, MAX, X + OPERATORS.MAX_FREE_EXTRA - 1, player, opponent, false, false, only_valid, dir_index)	// find furthest c1 back, from center
-						; !c1.equals(end_c1) && !(c2_passed_endc1 && c1_reset_to_c2)
-						&& cellState(c1) == player
-						; _findOccurrenceUntil(c1, c1.sum(dir), dir, end_c1, MAX_SIDE, player, CellState.NULL, false, true, only_valid, dir_index)							// find first player cell, before end_c1
-					) {
-						lined = 0;					// always c2-c1+1.
-						marks = 0;					// we are assured c1 (thus c2) contains player, or the loop would end.
-						in = before = after = 0;	// in = lined - marks = 0
-						found1 = found2 = false;
-						c2_passed_endc1 = c1_reset_to_c2 = false;
-					
-						for( c2.reset(c1)
-							; !c2.equals(end_c2)
-							; c2.sum(dir)
-						) {
+					count++;
+					found = 0;
 
-							// check boards
-							if(to_check) {
-								if		(!check1.cellFree(c2.i, c2.j) && check2.cellFree(c2.i, c2.j))	found1 = true;
-								else if	(!check2.cellFree(c2.i, c2.j) && check1.cellFree(c2.i, c2.j))	found2 = true;
-							}
-
-							// update alignment values
-							if(c2.equals(end_c1)) c2_passed_endc1 = true;
-							lined++;
-							if (cellFree(c2.i, c2.j)) {
-								if(!only_valid || dir_index == DIR_IDX_VERTICAL || free[c2.j] == c2.i) {
-									in++;
-									continue;										// c2 must be player's
-								} else {
-									c1.reset(c2);									// skip useless c1's
-									c1_reset_to_c2 = true;
-									break;
-								}
-							}
-							else if	(cellState(c2) == player) marks++;	
-							else {													// opponent: c1++
-								c1.reset(c2);
-								c1_reset_to_c2 = true;
-								break;
-							}
-
-							// debug
-							if(DEBUG_ON) file.write("\t\t\t\tvalues: " + c1 + "->" + c2 + " : " + lined + ", " + marks + ", " + in + "\n");
-							if(DEBUG_PRINT) System.out.println("\t\t\t\tvalues: " + c1 + "->" + c2 + " : " + lined + ", " + marks + ", " + in + "\n");
-
-							if(marks > X)
-								break;
-							
-							tier = X - marks;
-							if(marks < MIN_MARKS || (to_check && !(found1 && found2)) || tier > max_tier)
-								continue;
-
-							// check alignments, foreach alignment of mark marks
-							for(byte threat_code : OPERATORS.alignmentCodes(tier))
-							{
-								AlignmentPattern alignment = OPERATORS.alignmentPatterns(tier).get((int)threat_code);
-
-								// debug
-								if(DEBUG_ON) file.write("\t\t\t\t\tstart checking alignment = " + alignment + "\n");
-								if(DEBUG_PRINT) System.out.println("\t\t\t\t\tstart checking alignment = " + alignment + "\n");
-
-								//if (inner alignment conditions)
-								if(alignment.isCompatible(X, lined, marks, in)) {
-
-									if(tier == 0) {
-										game_state = cell2GameState(first.i, first.j);
-										return;
-									}
-
-									//add to structures
-									for( before = _findOccurrenceUntil(threat_start.reset(c1), c1.getDiff(dir), dir_neg, MAX, alignment.out - alignment.mnout, CellState.FREE, CellState.NULL, true, false, only_valid, dir_index),
-										after = _findOccurrenceUntil(threat_end.reset(c2), c2.getSum(dir), dir, MAX, alignment.out - before, CellState.FREE, CellState.NULL, true, false, only_valid, dir_index)
-										; before >= alignment.mnout && after >= alignment.mnout && before + after >= alignment.out																// alignment conditions
-										&& threat_end.inBounds(MIN, MAX) && (after == 0 || (cellFree(threat_end.i, threat_end.j) && (!only_valid || dir_index == DIR_IDX_VERTICAL || free[threat_end.j] == threat_end.i) ) )	// in bounds and player's cells
-										; after++, before--, threat_start.sum(dir), threat_end.sum(dir)
-									) {
-										ThreatPosition threat_pos = new ThreatPosition(threat_start, threat_end, threat_code);
-										addAlignment(threat_pos, dir_index, player);
-
-										// debug
-										found++;
-										if(DEBUG_ON) file.write("found threat: " + threat_start + "_( " + c1 + "->" + c2 + ") _" + threat_end + " : " + threat_pos + "before, after=" + before + " " + after + "\n");
-										if(DEBUG_PRINT) System.out.println("found threat: " + threat_start + "_( " + c1 + "->" + c2 + ") _" + threat_end + " : " + threat_pos +  "before, after=" + before + " " + after + "\n");
-									}
-								}
-							}
-
-						}
+					// swap first, second if not first->second in same direction as dir
+					if(!DIRECTIONS[dir_index].equals( first.getDirection(second)) ) {
+						MovePair tmp = first;
+						first	= second;
+						second	= tmp;
 					}
+
+					System.out.println(c1 + " "+first + second);
+					// find furthest c1 back, from center
+					_findOccurrenceUntil(c1, c1.reset(first), DIRECTIONS[dir_index + DIR_ABS_N],
+						MAX, X + OPERATORS.MAX_OUT_ONE_SIDE - 1, player, Auxiliary.opponent(player), false, false, only_valid, dir_index);
+					c2.reset(c1);
+					c3.reset(c1);
+
+					System.out.println(c1 + "dir " + dir_index + " "  + DIRECTIONS[dir_index]);
+					
+					_findAlignmentsInDirection(second,				// flip if direction inverted
+						DIRECTIONS[dir_index], dir_index, player,
+						0, 0, 0, 0,
+						only_valid, max_tier, false
+					);
 
 					// debug
 					if(DEBUG_ON) {
@@ -554,12 +449,80 @@ public class BoardBitDb extends _BoardBitDb<BoardBitDb, BoardBit> {
 					}
 				} catch (IOException e) {}
 				catch (Exception e) {
-					try{file.write("\n\nERROR\n\n");file.close();} catch(IOException io) {}
+					if(DEBUG_ON) try{file.write("\n\nERROR\n\n");file.close();} catch(IOException io) {}
 					throw e;
 				}
 				
 			}
 
+			@Override
+			/**
+			 * Complexity: worst: O(3(M+N) * AVG_THREATS_PER_DIR_PER_LINE * AVG(O(Operators.applied)) ) = O(3X(M+N))
+			 */
+			public ThreatsByRank getApplicableOperators(byte attacker, int max_tier) {
+
+				byte defender		= Auxiliary.opponent(attacker);
+				ThreatsByRank res	= OPERATORS.new ThreatsByRank();
+
+				for(AlignmentsList alignments_by_row : alignments_by_dir) {
+					if( alignments_by_row != null) {
+						for(BiList_ThreatPos alignments_in_line : alignments_by_row) {
+							if(alignments_in_line != null) {
+								
+								BiNode<ThreatPosition> alignment = alignments_in_line.getFirst(attacker);
+								if(alignment != null && OPERATORS.tier(alignment.item.type) <= max_tier) {
+									do {
+										ThreatCells cell_threat_operator = OPERATORS.applied(this, alignment.item, attacker, defender);
+										
+										if(cell_threat_operator != null) res.add(cell_threat_operator);
+										alignment = alignment.next;
+
+									} while(alignment != null);
+								}
+							}
+						}
+					}
+				}
+
+				return res;
+			}
+
+			/**
+			 * Complexity: O(3(M+N) * AVG_THREATS_PER_DIR_PER_LINE ) = O(3(M+N))
+			 */
+			@Override
+			public int[] getThreatCounts(byte player) {
+
+				setPlayer(player);
+				findAllAlignments(player, OPERATORS.TIER_MAX, false, "selCol_");
+		
+				int[] threats_by_col = new int[N];
+
+				for(int d = 0; d < DIR_ABS_N; d++) {
+					if(alignments_by_dir[d] != null) {
+						for(BiList_ThreatPos alignments_in_line : alignments_by_dir[d]) {
+							if(alignments_in_line != null) {
+								
+								BiNode<ThreatPosition> p = alignments_in_line.getFirst(player);
+								while(p != null) {
+									// if in same col
+									if(p.item.start.j == p.item.end.j)
+										threats_by_col[p.item.start.j] += (p.item.start.getDistanceAbs(p.item.end) + 1) * OPERATORS.indexInTier(p.item.type);
+									
+									else {
+										for(int j = p.item.start.j; j <= p.item.end.j; j++)
+											threats_by_col[j] += OPERATORS.indexInTier(p.item.type);
+									}
+			
+									p = p.next;
+								}
+							}
+						}
+					}
+				}
+		
+				return threats_by_col;
+			}
 
 		//#endregion ALIGNMENTS
 
@@ -634,15 +597,56 @@ public class BoardBitDb extends _BoardBitDb<BoardBitDb, BoardBit> {
 		@Override
 		protected void copyAlignmentStructures(BoardBitDb DB) {
 			alignments_by_dir = new AlignmentsList[]{
-				new AlignmentsList(DB.alignments_by_dir[0]),
-				new AlignmentsList(DB.alignments_by_dir[1]),
-				new AlignmentsList(DB.alignments_by_dir[2]),
-				new AlignmentsList(DB.alignments_by_dir[3])
+				(DB.alignments_by_dir[0] != null) ? new AlignmentsList(DB.alignments_by_dir[0]) : null,
+				(DB.alignments_by_dir[1] != null) ? new AlignmentsList(DB.alignments_by_dir[1]) : null,
+				(DB.alignments_by_dir[2] != null) ? new AlignmentsList(DB.alignments_by_dir[2]) : null,
+				(DB.alignments_by_dir[3] != null) ? new AlignmentsList(DB.alignments_by_dir[3]) : null
 			};
 		}
 
 		//#endregion COPY
 		
 	//#endregion INIT
+
+
+		//#region DEBUG
+
+		@Override
+		public String printAlignmentsString(int indentation) {
+
+			String	indent = "",
+					res = "";
+			for(int i = 0; i < indentation; i++) indent += '\t';
+
+			res += indent + "ALIGNMENTS:\n";
+			res += indent + "by rows:\n";
+
+			for(int d = 0; d < DIR_ABS_N; d++) {
+				MovePair dir = DIRECTIONS[d % DIR_ABS_N];
+				res += indent + "direction: " + dir + "\n";
+
+				for(int player = 0; player < 2; player++) {
+					res += indent + "player " + Player_byte[player] + ":\n\n";
+					if(alignments_by_dir[d] != null) {
+						for(int i = 0; i < alignments_by_dir[d].size(); i++) {
+
+							if(alignments_by_dir[d].get(i) != null) {
+								res += indent + "index " + i + "\n\n";
+								for(BiNode<ThreatPosition> p = alignments_by_dir[d].getFirst(Player_byte[player], i);
+									p != null; p = p.next
+								) {
+									res += indent + p.item + "\n\n";
+								}
+								
+							}
+						}
+					}
+					
+				}
+			}
+			return res;
+		}
+	
+	//#endregion DEBUG
 	
 }

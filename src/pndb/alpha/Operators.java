@@ -75,7 +75,7 @@ public class Operators extends _Operators {
 			new short[]{0, 2, 4, 5},
 
 			ALIGNMENT_CODES.length,
-			(byte)ALIGNMENT_CODES.length
+			(byte)(ALIGNMENT_CODES.length - 1)	// count from 0
 		);
 	}
 

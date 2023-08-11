@@ -45,9 +45,9 @@ public abstract class _BoardBitDb<S extends _BoardBitDb<S, BB>, BB extends _Boar
 		protected static final int DIR_ABS_N = 4;
 		/* indexes for alignments_by_dir */
 		protected static int	DIR_IDX_HORIZONTAL	= 0,
-								DIR_IDX_DIAGLEFT	= 1,
+								DIR_IDX_DIAGRIGHT 	= 1,
 								DIR_IDX_VERTICAL	= 2,
-								DIR_IDX_DIAGRIGHT 	= 3;
+								DIR_IDX_DIAGLEFT	= 3;
 
 		protected static final MovePair MIN = new MovePair(0, 0);
 		protected final MovePair MAX;
@@ -97,7 +97,8 @@ public abstract class _BoardBitDb<S extends _BoardBitDb<S, BB>, BB extends _Boar
 	
 	// Debug
 	protected int count = 0;
-	protected static boolean DEBUG_ON		= false;
+	protected int found = 0;
+	protected static boolean DEBUG_ON		= true;
 	protected static boolean DEBUG_PRINT	= false;
 	protected static FileWriter file;
   

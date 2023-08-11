@@ -3,6 +3,7 @@ package pndb.betha;
 import pndb.alpha.BoardBit;
 import pndb.alpha._BoardBitDb;
 import pndb.alpha._Operators;
+import pndb.alpha._Operators.ThreatsByRank;
 import pndb.alpha.threats.AlignmentsList;
 import pndb.alpha.threats.BiList_ThreatPos;
 import pndb.alpha.threats.ThreatApplied;
@@ -153,28 +154,99 @@ public class BoardBitDb extends _BoardBitDb<BoardBitDb, BoardBit> {
 				//	System.out.println("\nremoveAlignments START:");
 				// foreach direction
 				for(int d = 0; d < DIR_ABS_N; d++) {
-					BiList_ThreatPos alignments_in_line = alignments_by_dir[d].get(getIndex_for_alignmentsByDir(DIRECTIONS[d], center));
+					if(alignments_by_dir[d] != null) {
+						BiList_ThreatPos alignments_in_line = alignments_by_dir[d].get(getIndex_for_alignmentsByDir(DIRECTIONS[d], center));
 
-					if(alignments_in_line != null) {
-						BiNode<ThreatPosition>	p = alignments_in_line.getFirst(player),
-												p_next;
-						
-						while(p != null) {
-							p_next = p.next;
+						if(alignments_in_line != null) {
+							BiNode<ThreatPosition>	p = alignments_in_line.getFirst(player),
+													p_next;
+							
+							while(p != null) {
+								p_next = p.next;
 
-							// debug
-							if(DEBUG_PRINT) System.out.println("remove " + p.item);
+								// debug
+								if(DEBUG_PRINT) System.out.println("remove " + p.item);
 
-							if(center.inBetween_included(p.item.start, p.item.end))
-								removeAlignmentNode(alignments_in_line, p, player);
+								if(center.inBetween_included(p.item.start, p.item.end))
+									removeAlignmentNode(alignments_in_line, p, player);
 
-							p = p_next;
+								p = p_next;
+							}
 						}
 					}
 				}
 
 			}
 
+			@Override
+			/**
+			 * Complexity: worst: O(3(M+N) * AVG_THREATS_PER_DIR_PER_LINE * AVG(O(Operators.applied)) ) = O(3X(M+N))
+			 */
+			public ThreatsByRank getApplicableOperators(byte attacker, int max_tier) {
+
+				byte defender		= Auxiliary.opponent(attacker);
+				ThreatsByRank res	= OPERATORS.new ThreatsByRank();
+
+				for(AlignmentsList alignments_by_row : alignments_by_dir) {
+					if( alignments_by_row != null) {
+						for(BiList_ThreatPos alignments_in_line : alignments_by_row) {
+							if(alignments_in_line != null) {
+								
+								BiNode<ThreatPosition> alignment = alignments_in_line.getFirst(attacker);
+								if(alignment != null && OPERATORS.tier(alignment.item.type) <= max_tier) {
+									do {
+										ThreatCells cell_threat_operator = OPERATORS.applied(this, alignment.item, attacker, defender);
+										
+										if(cell_threat_operator != null) res.add(cell_threat_operator);
+										alignment = alignment.next;
+
+									} while(alignment != null);
+								}
+							}
+						}
+					}
+				}
+
+				return res;
+			}
+
+			/**
+			 * Complexity: O(3(M+N) * AVG_THREATS_PER_DIR_PER_LINE ) = O(3(M+N))
+			 */
+			@Override
+			public int[] getThreatCounts(byte player) {
+
+				setPlayer(player);
+				findAllAlignments(player, OPERATORS.TIER_MAX, false, "selCol_");
+		
+				int[] threats_by_col = new int[N];
+
+				for(int d = 0; d < DIR_ABS_N; d++) {
+					if(alignments_by_dir[d] != null) {
+						for(BiList_ThreatPos alignments_in_line : alignments_by_dir[d]) {
+							if(alignments_in_line != null) {
+								
+								BiNode<ThreatPosition> p = alignments_in_line.getFirst(player);
+								while(p != null) {
+									// if in same col
+									if(p.item.start.j == p.item.end.j)
+										threats_by_col[p.item.start.j] += (p.item.start.getDistanceAbs(p.item.end) + 1) * OPERATORS.indexInTier(p.item.type);
+									
+									else {
+										for(int j = p.item.start.j; j <= p.item.end.j; j++)
+											threats_by_col[j] += OPERATORS.indexInTier(p.item.type);
+									}
+			
+									p = p.next;
+								}
+							}
+						}
+					}
+				}
+		
+				return threats_by_col;
+			}
+			
 		//#endregion ALIGNMENTS
 
 		
@@ -249,15 +321,56 @@ public class BoardBitDb extends _BoardBitDb<BoardBitDb, BoardBit> {
 		@Override
 		protected void copyAlignmentStructures(BoardBitDb DB) {
 			alignments_by_dir = new AlignmentsList[]{
-				new AlignmentsList(DB.alignments_by_dir[0]),
-				new AlignmentsList(DB.alignments_by_dir[1]),
-				new AlignmentsList(DB.alignments_by_dir[2]),
-				new AlignmentsList(DB.alignments_by_dir[3])
+				(DB.alignments_by_dir[0] != null) ? new AlignmentsList(DB.alignments_by_dir[0]) : null,
+				(DB.alignments_by_dir[1] != null) ? new AlignmentsList(DB.alignments_by_dir[1]) : null,
+				(DB.alignments_by_dir[2] != null) ? new AlignmentsList(DB.alignments_by_dir[2]) : null,
+				(DB.alignments_by_dir[3] != null) ? new AlignmentsList(DB.alignments_by_dir[3]) : null
 			};
 		}
 
 		//#endregion COPY
 		
 	//#endregion INIT
+
+
+	//#region DEBUG
+
+		@Override
+		public String printAlignmentsString(int indentation) {
+
+			String	indent = "",
+					res = "";
+			for(int i = 0; i < indentation; i++) indent += '\t';
+
+			res += indent + "ALIGNMENTS:\n";
+			res += indent + "by rows:\n";
+
+			for(int d = 0; d < DIR_ABS_N; d++) {
+				MovePair dir = DIRECTIONS[d % DIR_ABS_N];
+				res += indent + "direction: " + dir + "\n";
+
+				for(int player = 0; player < 2; player++) {
+					res += indent + "player " + Player_byte[player] + ":\n\n";
+					if(alignments_by_dir[d] != null) {
+						for(int i = 0; i < alignments_by_dir[d].size(); i++) {
+
+							if(alignments_by_dir[d].get(i) != null) {
+								res += indent + "index " + i + "\n\n";
+								for(BiNode<ThreatPosition> p = alignments_by_dir[d].getFirst(Player_byte[player], i);
+									p != null; p = p.next
+								) {
+									res += indent + p.item + "\n\n";
+								}
+								
+							}
+						}
+					}
+					
+				}
+			}
+			return res;
+		}
+	
+	//#endregion DEBUG
 	
 }
