@@ -17,15 +17,17 @@ mkdir ${OUTDIR}
 ./lcompile
 
 
-./ltest 9 9 5		LXCONO.LXMARGIN.LXMARGIN pndb.alpha.halfn.nondb.Player				-r ${TESTS} > ${OUTDIR}/xcono_nondb_995.txt
-cat scripts/testcases_moschina.sh >> ${OUTDIR}/xcono_nondb_995.txt
-./ltest 18 20 7		LXCONO.LXMARGIN.LXMARGIN pndb.alpha.halfn.nondb.Player				-r ${TESTS} | tail -4 > ${OUTDIR}/xcono_nondb_18207.txt
-cat scripts/testcases_moschina.sh >> ${OUTDIR}/xcono_nondb_18207.txt
 
-./ltest 9 9 5		LXCONO.LXMARGIN.LXMARGIN pndb.alpha.halfn.orddb.Player				-r ${TESTS} > ${OUTDIR}/xcono_orddb_995.txt
-cat scripts/testcases_moschina.sh >> ${OUTDIR}/xcono_orddb_995.txt
-./ltest 18 20 7		LXCONO.LXMARGIN.LXMARGIN pndb.alpha.halfn.orddb.Player				-r ${TESTS} | tail -4 > ${OUTDIR}/xcono_orddb_18207.txt
-cat scripts/testcases_moschina.sh >> ${OUTDIR}/xcono_orddb_18207.txt
+./ltest 9 9 5		pndb.alpha.Player pndb.betha.scomb.Player				-r ${TESTS} > ${OUTDIR}/alpha_scomb_995.txt
+cat scripts/testcases_moschina.sh >> ${OUTDIR}/alpha_scomb_995.txt
+./ltest 18 20 7		pndb.alpha.Player pndb.betha.scomb.Player				-r ${TESTS} > ${OUTDIR}/alpha_scomb_18207.txt
+cat scripts/testcases_moschina.sh >> ${OUTDIR}/alpha_scomb_18207.txt
+
+./ltest 9 9 5		LXCONO.LXMARGIN.LXMARGIN pndb.betha.scomb.Player		-r ${TESTS} > ${OUTDIR}/xcono_scomb_995.txt
+cat scripts/testcases_moschina.sh >> ${OUTDIR}/xcono_scomb_995.txt
+./ltest 18 20 7		LXCONO.LXMARGIN.LXMARGIN pndb.betha.scomb.Player		-r ${TESTS} > ${OUTDIR}/xcono_scomb_18207.txt
+cat scripts/testcases_moschina.sh >> ${OUTDIR}/xcono_scomb_18207.txt
+
 
 
 #./ltest 9 9 5	pndb.alpha.Player 				pndb.nocel.nonmc.tryit.ranch.Player	-r ${TESTS} > ${OUTDIR}/alpha_ranch_995.txt
