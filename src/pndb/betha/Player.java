@@ -19,6 +19,7 @@ import pndb.tt.TranspositionElementEntry;
  * 3. use half number proof init
  * 4. use random children, tryit, no mc, nocel
  * 5. only ceate alignments_by_dir when created first element
+ * 6. simplified, remade findAlignmentsInDirectiton.
  */
 public class Player extends _PnSearch<DbSearchResult, DbSearch> {
 

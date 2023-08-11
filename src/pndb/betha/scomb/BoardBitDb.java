@@ -14,7 +14,6 @@ import pndb.alpha.threats.AlignmentsList;
 import pndb.alpha.threats.BiList_ThreatPos;
 import pndb.alpha.threats.ThreatApplied;
 import pndb.alpha.threats.ThreatCells;
-import pndb.alpha.threats.ThreatCells.USE;
 import pndb.alpha.threats.ThreatPosition;
 import pndb.constants.Auxiliary;
 import pndb.constants.Constants.BoardsRelation;
@@ -70,52 +69,7 @@ public class BoardBitDb extends _BoardBitDb<BoardBitDb, BoardBit> {
 	
 	//#region DB_SEARCH
 
-		/**
-		 * Complexity: (all assuming check_threats=true, otherwise don't consider that)
-		 * 	-	case atk: O(16X * 4 + CheckAlignments ) = O(64X CheckAlignments)
-		 * 	-	case def: O(64X * 4) = O(256X)
-		 * 			( + CheckAlignments), performed in DbSearch.defensiveVisit
-		 * 	-	case bth: O(16 * 4 + 4X + CheckAlignments ) = O(64 + 4X + CheckAlignments)
-		 * 	note: using getCopy(false), no threat to remove.
-		 * @param threat as defined in Operators
-		 * @param atk attacker's move index in threat
-		 * @param use as def in Operators
-		 * @param threats wether to update alignments and threats for this board
-		 * @return :	a new board resulting after developing this with such threat (dependency stage);
-		 * 				the new board only has alignment involving the newly marked cells
-		 */
-		public BoardBitDb getDependant(ThreatCells threat, int atk, USE use, int max_tier, boolean check_threats) {
-			
-			BoardBitDb res = null;
-			
-			switch(use) {
-				//used for...
-				case ATK:
-				/*
-					res = getCopy(false);
-					MovePair cell = threat.related[threat.nextAtk(atk)];
-					res.mark(cell.i, cell.j, Player_byte[currentPlayer]);
-					if(check_threats) res.checkAlignments(cell, max_tier, -1, "dep");
-				*/
-					break;
-					//used for init defensive visit (marks defensive cells as own)
-				case DEF:
-					res = getCopy(true);
-					//if there exist any defensive moves
-					if(threat.related.length > 1)
-					res.markMore(threat.getDefensive(atk), Player_byte[currentPlayer]);
-					// add this threat and check_alignments are done in getDefensiveRoot
-					break;
-					//used for dependency stage
-				case BTH:
-					res = getCopy(false);
-					res.markThreat(threat.related, atk);
-					res.addThreat(threat, atk, Player_byte[currentPlayer]);
-					if(check_threats) res.checkAlignments(threat.related[atk], Math.min(max_tier, 2), -1, "dep");
-			}
-			return res;
-		}
-		
+
 		/**
 		 * Only checks for alignments not included in the union of A's and B's alignments, i.e. those which involve at  least one cell only present in A and one only in B.
 		 * Complexity: O(marked_threats.length + N**2 + 13N) + O(B.marked_threats.length * (4+4+4X+4 AVG_THREATS_PER_DIR_PER_LINE) + added_threats.length O(4 findAlignmentsInDir) )
@@ -150,7 +104,7 @@ public class BoardBitDb extends _BoardBitDb<BoardBitDb, BoardBit> {
 
 			// calculate alignments
 			for(MovePair m = added_threat_attacks.pop(); !added_threat_attacks.isEmpty(); m = added_threat_attacks.pop())
-				findAlignments(m, attacker,  Math.min(max_tier, 2), this, B, true, 1, "combined_");
+				findAlignments(m, attacker,  max_tier, this, B, true, 1, "combined_");
 
 			return res;
 		}
