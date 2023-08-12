@@ -17,15 +17,24 @@ mkdir ${OUTDIR}
 ./lcompile
 
 
-./ltest 9 9 5		pndb.alpha.Player pndb.betha.Player				-r ${TESTS} > ${OUTDIR}/alpha_betha_995.txt
-cat scripts/testcases_giovanna.sh >> ${OUTDIR}/alpha_betha_995.txt
-./ltest 9 9 5		pndb.alpha.Player pndb.betha.scomb.Player		-r ${TESTS} > ${OUTDIR}/alpha_scomb_995.txt
-cat scripts/testcases_giovanna.sh >> ${OUTDIR}/alpha_scomb_995.txt
+./ltest 9 9 5		pndb.betha.scomb.Player pndb.gamma.Player				-r ${TESTS} > ${OUTDIR}/scomb_gamma_995.txt
+cat scripts/testcases_giovanna.sh >> ${OUTDIR}/scomb_gamma_995.txt
+./ltest 18 20 7		pndb.betha.scomb.Player pndb.gamma.Player				-r ${TESTS} > ${OUTDIR}/scomb_gamma_18207.txt
+cat scripts/testcases_giovanna.sh >> ${OUTDIR}/scomb_gamma_18207.txt
 
-./ltest 18 20 7		pndb.alpha.Player pndb.betha.Player				-r ${TESTS} > ${OUTDIR}/alpha_betha_18207.txt
-cat scripts/testcases_giovanna.sh >> ${OUTDIR}/alpha_scomb_18207.txt
-./ltest 18 20 7		pndb.alpha.Player pndb.betha.scomb.Player		-r ${TESTS} > ${OUTDIR}/alpha_scomb_18207.txt
-cat scripts/testcases_giovanna.sh >> ${OUTDIR}/alpha_scomb_18207.txt
+
+
+#./ltest 9 9 5		pndb.alpha.Player pndb.betha.Player				-r ${TESTS} > ${OUTDIR}/alpha_betha_995.txt
+#cat scripts/testcases_giovanna.sh >> ${OUTDIR}/alpha_betha_995.txt
+#./ltest 9 9 5		pndb.alpha.Player pndb.betha.scomb.Player		-r ${TESTS} > ${OUTDIR}/alpha_scomb_995.txt
+#cat scripts/testcases_giovanna.sh >> ${OUTDIR}/alpha_scomb_995.txt
+#
+#./ltest 18 20 7		pndb.alpha.Player pndb.betha.Player				-r ${TESTS} > ${OUTDIR}/alpha_betha_18207.txt
+#cat scripts/testcases_giovanna.sh >> ${OUTDIR}/alpha_scomb_18207.txt
+#./ltest 18 20 7		pndb.alpha.Player pndb.betha.scomb.Player		-r ${TESTS} > ${OUTDIR}/alpha_scomb_18207.txt
+#cat scripts/testcases_giovanna.sh >> ${OUTDIR}/alpha_scomb_18207.txt
+
+
 
 #./ltest 9 9 5		LXCONO.LXMARGIN.LXMARGIN pndb.nocel.nonmc.tryit.ranch.Player		-r ${TESTS} > ${OUTDIR}/xcono_ranch_995.txt
 #cat ./scripts/testcases_giovanna.sh >> ${OUTDIR}/xcono_ranch_995.txt

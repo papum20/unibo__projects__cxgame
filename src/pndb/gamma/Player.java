@@ -16,7 +16,6 @@ import pndb.tt.TranspositionElementEntry;
 /**
  * 1. (from betha)
  * 2. int for hasAlignments
- * 3. mix pn-db: reflect dbsearch in pn (e.g. completely remove nodes from pn, which have no threat or tier<max_tier (to use as defensiveVisit) )
  */
 public class Player extends _PnSearch<DbSearchResult, DbSearch> {
 
