@@ -1,9 +1,8 @@
-package pndb.betha.scomb;
+package pndb.gamma;
 
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.LinkedList;
 
 import pndb.alpha.BoardBit;
 import pndb.alpha._BoardBitDb;
@@ -25,8 +24,9 @@ import pndb.structures.BiList.BiNode;
 
 public class BoardBitDb extends _BoardBitDb<BoardBitDb, BoardBit> {
 	
-
 	private static MovePair c3 = new MovePair();
+	
+	private short alignments_n;
 	
 
 
@@ -38,16 +38,18 @@ public class BoardBitDb extends _BoardBitDb<BoardBitDb, BoardBit> {
 	 */
 	public BoardBitDb(int M, int N, int X, _Operators operators) {
 		super(M, N, X, operators);
+		alignments_n = 0;
 	}
-
+	
 	/**
 	 * Complexity: O(3N + N) = O(4N)
 	 * @param B
 	 */
 	public BoardBitDb(BoardBit B, _Operators operators) {
 		super(B, operators);
+		alignments_n = 0;
 	}
-
+	
 	/**
 	 * Complexity:
 	 * 		if copy_threats: O(3N + 3(M+N) + B.markedThreats.length) = O(9N + B.markedThreats.length)
@@ -57,13 +59,11 @@ public class BoardBitDb extends _BoardBitDb<BoardBitDb, BoardBit> {
 	 */
 	protected BoardBitDb(BoardBitDb B, boolean copy_threats, _Operators operators) {
 		super(B, copy_threats, operators);
+		alignments_n = B.alignments_n;
 	}
 
 	/**
-	 * Complexity: O(used_constructor)
-	 * 	 	if copy_threats:  O(9N + markedThreats.length)
-	 * 		else:			  O(3N + markedThreats.length)
-
+	 * Complexity: O(relative constructor) = O()
 	 */
 	public BoardBitDb getCopy(boolean copy_threats) {
 		return new BoardBitDb(this, copy_threats, OPERATORS);
@@ -71,21 +71,16 @@ public class BoardBitDb extends _BoardBitDb<BoardBitDb, BoardBit> {
 
 	
 	//#region DB_SEARCH
-
-
+		
 		/**
 		 * Only checks for alignments not included in the union of A's and B's alignments, i.e. those which involve at  least one cell only present in A and one only in B.
-		 * Complexity: O(marked_threats.length + 9N) + O(B.marked_threats.length * (4+4 (4X+4 AVG_THREATS_PER_DIR_PER_LINE)) + added_threats.length (findAlignments) )
-		 *		= O(marked_threats.length + 9N + 4 B.marked_threats.length * (X + avg_threats_per_dir_per_line) + added_threats.length (findAlignments) )
-		 *		= O(9N + 4X B.marked_threats.length + 4 B.marked_threats.length avg_threats_per_dir_per_line + 288X**2 added_threats.length )
-		 *
-		 * 	betha: 
-		 *		= O(9N + 4X B.marked_threats.length + 4 B.marked_threats.length avg_threats_per_dir_per_line + 8X added_threats.length )
+		 * Complexity: O(marked_threats.length + N**2 + 13N) + O(B.marked_threats.length * (4+4+16X*AVG_THREATS_PER_DIR_PER_LINE) )
+		 *		= O(marked_threats.length + N**2 + 13N) + O(B.marked_threats.length * (8 + 16X * avg_threats_per_dir_per_line) )
+		 *		= O(marked_threats.length + N**2) + O(B.marked_threats.length * (16X * avg_threats_per_dir_per_line) )
 		 */
 		public BoardBitDb getCombined(BoardBitDb B, byte attacker, int max_tier) {
 
 			BoardBitDb res = getCopy(true);
-			LinkedList<MovePair> added_threat_attacks = new LinkedList<MovePair>();
 
 			for(ThreatApplied athreat : B.markedThreats) {
 				if(isUsefulThreat(athreat, attacker)) {
@@ -94,10 +89,7 @@ public class BoardBitDb extends _BoardBitDb<BoardBitDb, BoardBit> {
 						MovePair c = athreat.threat.related[i];
 
 						if(cellFree(c.i, c.j)) {
-							if(i == athreat.related_index) {
-								res.mark(c, athreat.attacker);
-								added_threat_attacks.add(c);
-							}
+							if(i == athreat.related_index) res.mark(c, athreat.attacker);
 							else res.mark(c, Auxiliary.opponent(athreat.attacker));
 						}
 					}
@@ -106,9 +98,8 @@ public class BoardBitDb extends _BoardBitDb<BoardBitDb, BoardBit> {
 				}
 			}
 
-			// calculate alignments
-			for(MovePair m = added_threat_attacks.pop(); !added_threat_attacks.isEmpty(); m = added_threat_attacks.pop())
-				findAlignments(m, attacker,  max_tier, this, B, true, 1, "combined_");
+			//re-calculate alignments
+			res.addAllCombinedAlignments(B, attacker, Math.min(max_tier, 2));
 
 			return res;
 		}
@@ -123,6 +114,9 @@ public class BoardBitDb extends _BoardBitDb<BoardBitDb, BoardBit> {
 			 */
 			protected void removeAlignments(final MovePair center, byte player) {
 
+				if(alignments_n == 0)
+					return;
+				
 				// debug
 				//if(DEBUG_ON)
 				//	System.out.println("\nremoveAlignments START:");
@@ -339,11 +333,16 @@ public class BoardBitDb extends _BoardBitDb<BoardBitDb, BoardBit> {
 			 * HOWEVER, this will be a future enhancement: for now, the function simply deletes and recreates all.  
 			 * 
 			 * Complexity: variable, worst cases (with worst approximation):
-			 * 	-	whole line: O(2N)
-			 *  -	single cell: O(4X)
-			 * 			as c1, c3 pass (at most) on each of the 2X (whole line: 2N) cells involving the cell.
-			 *  -	sequence: O( 2X+(second-first) )
-			 * 				= O(3X) if second-first==X
+			 * 	-	whole line: O(max{M,N}**2 * 6 * 3) = O(18 max{M,N}**2), 
+			 * 			where 6 is the max number of alignments to check in a tier,
+			 * 			and 3 is the maximum number of free cells on one side of an alignment (i.e. number of iteration for before, after).
+			 *  -	single cell: O((2X)**2 * 6 * 3)
+			 * 				= O(72 X**2),
+			 * 			as c1,c2 get at most X cells distant from center, on each side.
+			 *  -	sequence: O( (2X+(second-first))**2 * 6*3 )
+			 * 				= O(18(2X+second-first)**2 )
+			 * 				= O(18(3X)**2 ) if second-first==X
+			 * 				= O(162X**2 )
 			 * @param first
 			 * @param second
 			 * @param player
@@ -408,6 +407,19 @@ public class BoardBitDb extends _BoardBitDb<BoardBitDb, BoardBit> {
 				
 			}
 
+			/**
+			 * Complexity: 
+			 * 	-	worst (return false): O(3(M+N)) = O(6N)
+			 * @param player
+			 * @return true if there are valid alignments (calculated before, with proper max_tier)
+			 */
+			@Override
+			public boolean hasAlignments(byte player) {
+				return alignments_n > 0;
+			}
+
+
+			
 			@Override
 			/**
 			 * Complexity: worst: O(3(M+N) * AVG_THREATS_PER_DIR_PER_LINE * AVG(O(Operators.applied)) ) = O(3X(M+N))
@@ -417,20 +429,22 @@ public class BoardBitDb extends _BoardBitDb<BoardBitDb, BoardBit> {
 				byte defender		= Auxiliary.opponent(attacker);
 				ThreatsByRank res	= OPERATORS.new ThreatsByRank();
 
-				for(AlignmentsList alignments_by_row : alignments_by_dir) {
-					if( alignments_by_row != null) {
-						for(BiList_ThreatPos alignments_in_line : alignments_by_row) {
-							if(alignments_in_line != null) {
-								
-								BiNode<ThreatPosition> alignment = alignments_in_line.getFirst(attacker);
-								if(alignment != null && OPERATORS.tier(alignment.item.type) <= max_tier) {
-									do {
-										ThreatCells cell_threat_operator = OPERATORS.applied(this, alignment.item, attacker, defender);
-										
-										if(cell_threat_operator != null) res.add(cell_threat_operator);
-										alignment = alignment.next;
+				if(alignments_n > 0) {
+					for(AlignmentsList alignments_by_row : alignments_by_dir) {
+						if( alignments_by_row != null) {
+							for(BiList_ThreatPos alignments_in_line : alignments_by_row) {
+								if(alignments_in_line != null) {
+									
+									BiNode<ThreatPosition> alignment = alignments_in_line.getFirst(attacker);
+									if(alignment != null && OPERATORS.tier(alignment.item.type) <= max_tier) {
+										do {
+											ThreatCells cell_threat_operator = OPERATORS.applied(this, alignment.item, attacker, defender);
+											
+											if(cell_threat_operator != null) res.add(cell_threat_operator);
+											alignment = alignment.next;
 
-									} while(alignment != null);
+										} while(alignment != null);
+									}
 								}
 							}
 						}
@@ -441,8 +455,7 @@ public class BoardBitDb extends _BoardBitDb<BoardBitDb, BoardBit> {
 			}
 
 			/**
-			 * Complexity: O( O(findAllAlignments) + 3(M+N) * AVG_THREATS_PER_DIR_PER_LINE )
-			 * 		= O( findAllAlignments + 6N)
+			 * Complexity: O(3(M+N) * AVG_THREATS_PER_DIR_PER_LINE ) = O(3(M+N))
 			 */
 			@Override
 			public int[] getThreatCounts(byte player) {
@@ -452,23 +465,25 @@ public class BoardBitDb extends _BoardBitDb<BoardBitDb, BoardBit> {
 		
 				int[] threats_by_col = new int[N];
 
-				for(int d = 0; d < DIR_ABS_N; d++) {
-					if(alignments_by_dir[d] != null) {
-						for(BiList_ThreatPos alignments_in_line : alignments_by_dir[d]) {
-							if(alignments_in_line != null) {
-								
-								BiNode<ThreatPosition> p = alignments_in_line.getFirst(player);
-								while(p != null) {
-									// if in same col
-									if(p.item.start.j == p.item.end.j)
-										threats_by_col[p.item.start.j] += (p.item.start.getDistanceAbs(p.item.end) + 1) * OPERATORS.indexInTier(p.item.type);
+				if(alignments_n > 0) {
+					for(int d = 0; d < DIR_ABS_N; d++) {
+						if(alignments_by_dir[d] != null) {
+							for(BiList_ThreatPos alignments_in_line : alignments_by_dir[d]) {
+								if(alignments_in_line != null) {
 									
-									else {
-										for(int j = p.item.start.j; j <= p.item.end.j; j++)
-											threats_by_col[j] += OPERATORS.indexInTier(p.item.type);
+									BiNode<ThreatPosition> p = alignments_in_line.getFirst(player);
+									while(p != null) {
+										// if in same col
+										if(p.item.start.j == p.item.end.j)
+											threats_by_col[p.item.start.j] += (p.item.start.getDistanceAbs(p.item.end) + 1) * OPERATORS.indexInTier(p.item.type);
+										
+										else {
+											for(int j = p.item.start.j; j <= p.item.end.j; j++)
+												threats_by_col[j] += OPERATORS.indexInTier(p.item.type);
+										}
+				
+										p = p.next;
 									}
-			
-									p = p.next;
 								}
 							}
 						}
@@ -477,7 +492,7 @@ public class BoardBitDb extends _BoardBitDb<BoardBitDb, BoardBit> {
 		
 				return threats_by_col;
 			}
-
+			
 		//#endregion ALIGNMENTS
 
 		
@@ -485,6 +500,7 @@ public class BoardBitDb extends _BoardBitDb<BoardBitDb, BoardBit> {
 		/**
 		 * Check if a combination with node is valid, i.e. if they're not in conflict and both have a marked cell the other doesn't.
 		 * Assumes both boards have the same `MY_PLAYER` (i.e. the same bit-byte association for players).
+		 * Complexity: O(N COLSIZE(M)) = O(N)
 		 * @param B
 		 * @param attacker
 		 * @return
@@ -528,7 +544,16 @@ public class BoardBitDb extends _BoardBitDb<BoardBitDb, BoardBit> {
 			if(alignments_by_dir[dir_index] == null)
 				alignments_by_dir[dir_index] = new AlignmentsList(alignments_by_dir_sizes[dir_index]);
 			alignments_by_dir[dir_index].add(player, getIndex_for_alignmentsByDir(DIRECTIONS[dir_index], threat_start), alignment);
+			alignments_n++;
 		}	
+		/**
+		 * Helper, for adding an alignment to the structures.
+		 */
+		@Override
+		protected void removeAlignmentNode(BiList_ThreatPos alignments_in_line, BiNode<ThreatPosition> node, byte player) {
+			alignments_in_line.remove(player, node);
+			alignments_n--;
+		}
 	
 	//#endregion SET
 	
@@ -563,7 +588,7 @@ public class BoardBitDb extends _BoardBitDb<BoardBitDb, BoardBit> {
 	//#endregion INIT
 
 
-		//#region DEBUG
+	//#region DEBUG
 
 		@Override
 		public String printAlignmentsString(int indentation) {

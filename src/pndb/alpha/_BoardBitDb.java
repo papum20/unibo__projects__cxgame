@@ -264,7 +264,9 @@ public abstract class _BoardBitDb<S extends _BoardBitDb<S, BB>, BB extends _Boar
 		/**
 		 * Complexity: 
 		 *  -	best case: O(4X)
-		 * 	-	worst and avg: O(4 findAlignmentsInDirection )
+		 * 	-	worst and avg: O(1132 X**2)
+		 * 
+		 * 	-	betha: O(8X)
 		 * @param cell
 		 * @param max_tier
 		 * @param dir_excluded
@@ -282,9 +284,11 @@ public abstract class _BoardBitDb<S extends _BoardBitDb<S, BB>, BB extends _Boar
 		/**
 		 * Complexity: 
 		 *  -	best case (single cell): O(checkAlignments) 	-- the other one
-		 * 	-	worst case (more cells): O( 4*(checkAlignments + OfindAlignmentsInDirection) )
-		 * 			= O( 8*findAlignmentsInDirection )
-		 * 			as usually used for threats
+		 * 	-	worst case (more cells): O( 4*(checkAlignments + findAlignmentsInDirection) )
+		 * 			= O( 4836 X**2 )
+		 * 			as usually used for threats, which have consecutive cells
+		 * 
+		 *  -	betha: O(40X)
 		 */
 		public void checkAlignments(MovePair[] cells, int max_tier, String caller) {
 			if(cells.length == 1) {
@@ -369,6 +373,9 @@ public abstract class _BoardBitDb<S extends _BoardBitDb<S, BB>, BB extends _Boar
 		 *			= O(marked_threats.length +				+ 4 B.marked_threats.length * (X + avg_threats_per_dir_per_line)			+ 6N O(findAlignmentsInDirection) )
 		 *			worst case for findAlignmentsInDirection:
 		 *				 O(marked_threats.length 			+ 4 B.marked_threats.length * (X + avg_threats_per_dir_per_line) + 432 NX**2 )
+		 *
+		 *		betha: 
+		 *		= O(marked_threats.length + 9N + 4X B.marked_threats.length + 4 B.marked_threats.length avg_threats_per_dir_per_line + 32X added_threats.length )
 		 */
 		public S getCombined(S B, byte attacker, int max_tier) {
 
@@ -528,6 +535,7 @@ public abstract class _BoardBitDb<S extends _BoardBitDb<S, BB>, BB extends _Boar
 			 * 
 			 * Complexity: variable, worst cases (with worst approximation):
 			 * 	-	whole line: O(max{M,N}**2 * 6 * 3) = O(18 max{M,N}**2), 
+			 * 				= O(18 N**2)
 			 * 			where 6 is the max number of alignments to check in a tier,
 			 * 			and 3 is the maximum number of free cells on one side of an alignment (i.e. number of iteration for before, after).
 			 *  -	single cell: O((2X)**2 * 6 * 3)
@@ -537,6 +545,11 @@ public abstract class _BoardBitDb<S extends _BoardBitDb<S, BB>, BB extends _Boar
 			 * 				= O(18(2X+second-first)**2 )
 			 * 				= O(18(3X)**2 ) if second-first==X
 			 * 				= O(162X**2 )
+			 * 
+			 * for betha:
+			 * 		line: O(2N)
+			 * 		sequence: O(3X) if second-first==X
+			 * 		cell: O(2X)
 			 * @param first
 			 * @param second
 			 * @param player
@@ -707,20 +720,35 @@ public abstract class _BoardBitDb<S extends _BoardBitDb<S, BB>, BB extends _Boar
 			/**
 			 * Find alignments for a cell in all directions.
 			 * Complexity: O(4 O(findAlignmentsInDirection))
-			 * -	whole line:		O(72 max{M,N})
-			 * -	single cell		O(288 X**2)
-			 * -	sequence:		O((72(2X+second-first)**2 )
+			 * -	whole line:		O(72 max{M,N}**2) = O(72N**2)
+			 * -	single cell:	O(288 X**2)
+			 * -	sequence:		O((72(2X+second-first)**2 ) = O(72(3X)**2) if second-first==X
+			 * 
+			 * betha:
+			 * 		line: O(8N)
+			 * 		cell: O(8X)
+			 * 		sequence: O(12X) if second-first==X
 			 */
 			protected void findAlignments(final MovePair cell, final byte player, int max_tier, _BoardBitDb<S, ?> check1, _BoardBitDb<S, ?> check2, boolean only_valid, int dir_excluded, String caller) {
 				for(int d = 0; d < DIR_ABS_N; d++) {
 					if(d != dir_excluded)
-						findAlignmentsInDirection(cell, cell, player, d, max_tier, check1, check2, only_valid, caller + "find_");
+					findAlignmentsInDirection(cell, cell, player, d, max_tier, check1, check2, only_valid, caller + "find_");
 				}
 			}
-
+			
 			/**
 			 * Find all alignments for a player.
 			 * Complexity: O( (M+N+(M+N-1)*2) * O(findAlignmentsInDirection) ) = O( 3(M+N) * O(findAlignmentsInDirection) )
+			 * 		= O(6N * O(findAlignmentsInDirection))
+			 * 	-	line: O(6N * 72N**2) = O(432 N**3)
+			 * 	-	cell: O(6N * 72X**2) = O(432 NX**2)
+			 * 	-	sequence O(6N * 162X**2) = O(972 NX**2)
+			 * 
+			 * 
+			 * betha:
+			 * 		line: O(8N)
+			 * 		cell: O(8X)
+			 * 		sequence: O(12X) if second-first==X
 			 * @param player
 			 * @param max_tier
 			 */
@@ -741,7 +769,7 @@ public abstract class _BoardBitDb<S extends _BoardBitDb<S, BB>, BB extends _Boar
 			
 			/**
 			 * Same as findAllAlignments, just had problems with types.
-			 * Complexity: O(findAllAlignments) = O(3(M+N) * O(findAlignmentsInDirection) )
+			 * Complexity: O(findAllAlignments) = O( findAllAlignmentsInDirection) )
 			 * @param B
 			 * @param player
 			 * @param max_tier
@@ -803,7 +831,7 @@ public abstract class _BoardBitDb<S extends _BoardBitDb<S, BB>, BB extends _Boar
 
 			/**
 			 * Complexity: 
-			 * 	-	worst (return false): O(3(M+N))
+			 * 	-	worst (return false): O(3(M+N)) = O(6N)
 			 * @param player
 			 * @return true if there are valid alignments (calculated before, with proper max_tier)
 			 */
