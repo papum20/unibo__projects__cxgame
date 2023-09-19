@@ -73,8 +73,8 @@ public class PnSearch implements CXPlayer {
 	protected long timer_duration;		//time (millisecs) at which to stop timer
 	protected Runtime runtime;
 
-	private short	level_root;		// tree depth starting from empty board
-	private int		deepest_level;	// absolute (from empty board)
+	private short	level_root;			// tree depth starting from empty board
+	private int		deepest_level;		// absolute (from empty board)
 	private PnNode	deepest_node;
 
 	// debug
@@ -164,7 +164,7 @@ public class PnSearch implements CXPlayer {
 			return move;
 
 		} catch (Exception e) {
-			System.out.println("log pn: " + log);
+			System.out.println("log pn: " + log + " error: " + e);
 			throw e;
 		}
 

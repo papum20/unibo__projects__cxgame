@@ -538,12 +538,12 @@ public class BoardBitDb extends BoardBit {
 			 * @param dir_index
 			 * @return the distance found
 			 */
-			protected int _findOccurrenceUntil(MovePair res, final MovePair start, MovePair incr, MovePair stop_cell, int max_distance, byte target, byte stop_value, boolean only_target, boolean find_first, boolean only_valid, int dir_index) {
+			protected int _findOccurrenceUntil(MovePair res, final MovePair start, MovePair incr, int max_distance, byte target, byte stop_value, boolean only_target, boolean find_first, boolean only_valid, int dir_index) {
 				
 				int distance;
 
 				for( c_it.reset(start), distance = 0
-					; distance < max_distance && c_it.inBounds(MIN, MAX) && !c_it.equals(stop_cell)
+					; distance < max_distance && c_it.inBounds(MIN, MAX)
 					&& ((!only_target && cellState(c_it) != stop_value) || (only_target && cellState(c_it) == target))
 					&& ( (dir_index == DIR_IDX_VERTICAL) || (free[c_it.j] == c_it.i) || (!only_valid && (free[c_it.j] < c_it.i)) || (target != CellState.FREE && cellState(c_it) == target) )
 					; c_it.sum(incr), distance++
@@ -788,7 +788,7 @@ public class BoardBitDb extends BoardBit {
 					
 					// find furthest c1 back, from center
 					_findOccurrenceUntil(c1, c1.reset(first), DIRECTIONS[dir_index + DIR_ABS_N],
-						MAX, X + Operators.MAX_OUT_ONE_SIDE - 1, player, Auxiliary.opponent(player), false, false, only_valid, dir_index);
+						X + Operators.MAX_OUT_ONE_SIDE - 1, player, Auxiliary.opponent(player), false, false, only_valid, dir_index);
 					c2.reset(c1);
 					c3.reset(c1);
 
