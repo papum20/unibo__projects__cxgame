@@ -108,7 +108,7 @@ public class BoardBitDb extends _BoardBitDb<BoardBitDb, BoardBit> {
 
 			// calculate alignments
 			for(MovePair m = added_threat_attacks.pop(); !added_threat_attacks.isEmpty(); m = added_threat_attacks.pop())
-				findAlignments(m, attacker,  max_tier, this, B, true, 1, "combined_");
+				findAlignments(m, attacker,  max_tier, this, B, true, -1, "combined_");
 
 			return res;
 		}

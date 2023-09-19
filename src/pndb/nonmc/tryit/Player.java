@@ -79,11 +79,11 @@ public class Player extends _PnSearch<DbSearchResult, DbSearch> {
 				if(entry == null || entry.state[Auxiliary.getPlayerBit(player)] == GameState.NULL)
 					return evaluateDb(node, player);
 
-			short entry_depth = TT.getFinalDepth(board.hash);
-			if(entry_depth > deepest_level) {
-				deepest_level	= entry_depth; 
-				deepest_node	= node;
-			}
+				short entry_depth = TT.getFinalDepth(board.hash);
+				if(entry_depth > deepest_level) {
+					deepest_level	= entry_depth; 
+					deepest_node	= node;
+				}
 				node.prove( entry.state[Auxiliary.getPlayerBit(player)] == MY_WIN, false);
 				return true;
 			}

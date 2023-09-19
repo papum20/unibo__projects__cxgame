@@ -16,8 +16,6 @@
 	**to be precise, only moves which align X-1 are forcing, while (ENHANCEMENT) you could use X-2 and less to guide pn-search.
 
 ENHANCEMENTS/HEURISTICS to try:
-1.
-	hasAlignments: save number
 2.
 	use such number in combination, to choose parent
 3.

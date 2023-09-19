@@ -5,7 +5,6 @@ import java.util.LinkedList;
 import pndb.alpha.BoardBit;
 import pndb.alpha.DbNode;
 import pndb.alpha.DbSearchResult;
-import pndb.alpha.Operators;
 import pndb.alpha._DbSearch;
 import pndb.alpha._Operators;
 import pndb.alpha.threats.ThreatApplied;

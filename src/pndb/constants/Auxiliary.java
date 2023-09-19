@@ -98,7 +98,7 @@ public class Auxiliary {
 		}
 
 		/**
-		 * 
+		 * Complexity: O(3 length)
 		 * @param <T> any array element type
 		 * @param v array to shuffle
 		 * @param start included
