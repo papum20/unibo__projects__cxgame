@@ -9,7 +9,6 @@ import connectx.CXCell;
 import pndb.delta.Operators.AlignmentPattern;
 import pndb.delta.Operators.ThreatsByRank;
 import pndb.delta.threats.AlignmentsList;
-import pndb.delta.threats.BiList_Node_ThreatPos;
 import pndb.delta.threats.BiList_ThreatPos;
 import pndb.delta.threats.ThreatApplied;
 import pndb.delta.threats.ThreatCells;
@@ -75,7 +74,6 @@ public class BoardBitDb extends BoardBit {
 	 * dleft:		dimension=M+N-1,	indexed: by start of diagonal on the top row, i.e. from 0 to N+M-1
 	 */
 	protected AlignmentsList[] alignments_by_dir;
-	protected BiList_Node_ThreatPos[][] alignments_by_cell;
 	
 	protected static int[] alignments_by_dir_sizes;
 
@@ -99,7 +97,7 @@ public class BoardBitDb extends BoardBit {
 	// Debug
 	protected int count = 0;
 	protected int found = 0;
-	protected static boolean DEBUG_ON		= true;
+	protected static boolean DEBUG_ON		= false;
 	protected static boolean DEBUG_PRINT	= false;
 	protected static FileWriter file;
   
@@ -239,9 +237,11 @@ public class BoardBitDb extends BoardBit {
 		/**
 		 * Complexity: O(4X + alignments_involving(cell))
 		 */
+		/*
 		public void mark(int j, byte player) {
 			mark(free[j], j, player);
 		}
+		*/
 		
 		//public void markCell(MovePair cell) {markCell(cell.i(), cell.j(), Player[currentPlayer]);}
 		/**
@@ -492,6 +492,9 @@ public class BoardBitDb extends BoardBit {
 				//	System.out.println("\nremoveAlignments START:");
 				// foreach direction
 				for(int d = 0; d < DIR_ABS_N; d++) {
+					if(alignments_by_dir[d] == null)
+						continue;
+
 					BiList_ThreatPos alignments_in_line = alignments_by_dir[d].get(getIndex_for_alignmentsByDir(DIRECTIONS[d], center));
 
 					if(alignments_in_line != null) {
@@ -685,7 +688,10 @@ public class BoardBitDb extends BoardBit {
 							_findAlignmentsInDirection(second, dir, dir_index, player, lined - 1, marks - 1, 0, after, only_valid, max_tier, false);
 						}
 					} else if(!c3.inBounds(MIN, MAX)) {
-						System.out.println(X - marks + " " + max_tier);
+						
+						// debug
+						//System.out.println(X - marks + " " + max_tier);
+						
 						if(X - marks > max_tier) {
 							return;
 						} else if(before > 0) {
@@ -777,14 +783,17 @@ public class BoardBitDb extends BoardBit {
 						second	= tmp;
 					}
 
-					System.out.println(c1 + " "+first + second);
+					// debug
+					//System.out.println(c1 + " "+first + second);
+					
 					// find furthest c1 back, from center
 					_findOccurrenceUntil(c1, c1.reset(first), DIRECTIONS[dir_index + DIR_ABS_N],
 						MAX, X + Operators.MAX_OUT_ONE_SIDE - 1, player, Auxiliary.opponent(player), false, false, only_valid, dir_index);
 					c2.reset(c1);
 					c3.reset(c1);
 
-					System.out.println(c1 + "dir " + dir_index + " "  + DIRECTIONS[dir_index]);
+					// debug
+					//System.out.println(c1 + "dir " + dir_index + " "  + DIRECTIONS[dir_index]);
 					
 					_findAlignmentsInDirection(second,				// flip if direction inverted
 						DIRECTIONS[dir_index], dir_index, player,
@@ -818,7 +827,7 @@ public class BoardBitDb extends BoardBit {
 			protected void findAlignments(final MovePair cell, final byte player, int max_tier, BoardBitDb check1, BoardBitDb check2, boolean only_valid, int dir_excluded, String caller) {
 				for(int d = 0; d < DIR_ABS_N; d++) {
 					if(d != dir_excluded)
-					findAlignmentsInDirection(cell, cell, player, d, max_tier, check1, check2, only_valid, caller + "find_");
+						findAlignmentsInDirection(cell, cell, player, d, max_tier, check1, check2, only_valid, caller + "find_");
 				}
 			}
 			
@@ -930,19 +939,22 @@ public class BoardBitDb extends BoardBit {
 
 				if(alignments_n > 0) {
 					for(AlignmentsList alignments_by_row : alignments_by_dir) {
-						for(BiList_ThreatPos alignments_in_line : alignments_by_row) {
-							if(alignments_in_line != null) {
-								
-								BiNode<ThreatPosition> alignment = alignments_in_line.getFirst(attacker);
-								if(alignment != null && Operators.tier(alignment.item.type) <= max_tier) {
-									do {
-										ThreatCells cell_threat_operator = Operators.applied(this, alignment.item, attacker, defender);
-										
-										if(cell_threat_operator != null) res.add(cell_threat_operator);
-										alignment = alignment.next;
+						if(alignments_by_row == null)
+							continue;
 
-									} while(alignment != null);
-								}
+						for(BiList_ThreatPos alignments_in_line : alignments_by_row) {
+							if(alignments_in_line == null)
+								continue;
+								
+							BiNode<ThreatPosition> alignment = alignments_in_line.getFirst(attacker);
+							if(alignment != null && Operators.tier(alignment.item.type) <= max_tier) {
+								do {
+									ThreatCells cell_threat_operator = Operators.applied(this, alignment.item, attacker, defender);
+									
+									if(cell_threat_operator != null) res.add(cell_threat_operator);
+									alignment = alignment.next;
+
+								} while(alignment != null);
 							}
 						}
 					}
@@ -960,27 +972,30 @@ public class BoardBitDb extends BoardBit {
 
 				setPlayer(player);
 				findAllAlignments(player, Operators.MAX_TIER, false, "selCol_");
-		
+				
 				int[] threats_by_col = new int[N];
 
 				if(alignments_n > 0) {
 					for(int d = 0; d < DIR_ABS_N; d++) {
+						if(alignments_by_dir[d] == null)
+							continue;
+
 						for(BiList_ThreatPos alignments_in_line : alignments_by_dir[d]) {
-							if(alignments_in_line != null) {
+							if(alignments_in_line == null)
+								continue;
+							
+							BiNode<ThreatPosition> p = alignments_in_line.getFirst(player);
+							while(p != null) {
+								// if in same col
+								if(p.item.start.j == p.item.end.j)
+									threats_by_col[p.item.start.j] += (p.item.start.getDistanceAbs(p.item.end) + 1) * Operators.indexInTier(p.item.type);
 								
-								BiNode<ThreatPosition> p = alignments_in_line.getFirst(player);
-								while(p != null) {
-									// if in same col
-									if(p.item.start.j == p.item.end.j)
-										threats_by_col[p.item.start.j] += (p.item.start.getDistanceAbs(p.item.end) + 1) * Operators.indexInTier(p.item.type);
-									
-									else {
-										for(int j = p.item.start.j; j <= p.item.end.j; j++)
-											threats_by_col[j] += Operators.indexInTier(p.item.type);
-									}
-			
-									p = p.next;
+								else {
+									for(int j = p.item.start.j; j <= p.item.end.j; j++)
+										threats_by_col[j] += Operators.indexInTier(p.item.type);
 								}
+		
+								p = p.next;
 							}
 						}
 					}
@@ -1069,11 +1084,11 @@ public class BoardBitDb extends BoardBit {
 		 * @param DB
 		 */
 		protected void copyAlignmentStructures(BoardBitDb DB) {
-			alignments_by_dir		= new AlignmentsList[]{
-				new AlignmentsList(DB.alignments_by_dir[0]),
-				new AlignmentsList(DB.alignments_by_dir[1]),
-				new AlignmentsList(DB.alignments_by_dir[2]),
-				new AlignmentsList(DB.alignments_by_dir[3])
+			alignments_by_dir = new AlignmentsList[]{
+				(DB.alignments_by_dir[0] != null) ? new AlignmentsList(DB.alignments_by_dir[0]) : null,
+				(DB.alignments_by_dir[1] != null) ? new AlignmentsList(DB.alignments_by_dir[1]) : null,
+				(DB.alignments_by_dir[2] != null) ? new AlignmentsList(DB.alignments_by_dir[2]) : null,
+				(DB.alignments_by_dir[3] != null) ? new AlignmentsList(DB.alignments_by_dir[3]) : null
 			};
 		}
 
@@ -1103,6 +1118,9 @@ public class BoardBitDb extends BoardBit {
 
 				for(int player = 0; player < 2; player++) {
 					res += indent + "player " + Player_byte[player] + ":\n\n";
+					if(alignments_by_dir[d] == null)
+						continue;
+						
 					for(int i = 0; i < alignments_by_dir[d].size(); i++) {
 
 						if(alignments_by_dir[d].get(i) != null) {

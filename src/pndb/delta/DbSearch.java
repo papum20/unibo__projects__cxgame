@@ -59,10 +59,10 @@ public class DbSearch {
 	protected final boolean DEBUG_ON			= false;
 	private final boolean DEBUG_TIME			= false;
 	protected final boolean DEBUG_PRINT			= false;
-	private final boolean DEBUG_ONLY_FOUND_SEQ	= false;
+	private final boolean DEBUG_ONLY_FOUND_SEQ	= true;
 	protected int counter			= 0;
 	protected FileWriter file		= null;
-	private int DEBUG_CODE_MAX	= 999999999;
+	private int DEBUG_CODE_MAX		= 999999999;
 	protected String log;
 	private long ms;
 	private int visit_loops_n;
@@ -132,7 +132,6 @@ public class DbSearch {
 				file.close();
 			}
 			
-			
 			// db init
 			root = createRoot(board);
 			win_node 	= null;
@@ -151,7 +150,6 @@ public class DbSearch {
 				log += "win node \n";
 				log += win_node.board.printString(0);
 			}
-			
 
 			if(foundWin())
 				return getReturnValue(player);
@@ -161,8 +159,8 @@ public class DbSearch {
 		} catch (IOException io) {
 			return null;
 		} catch (ArrayIndexOutOfBoundsException e) {
-			//root.board.print();
-			//root.board.printAlignments();
+			root.board.print();
+			root.board.printAlignments();
 			System.out.println(log + "\nout of bounds in db\n");
 			if(DEBUG_ON) try {file.close();} catch(IOException io) {}
 			throw e;
@@ -276,7 +274,7 @@ public class DbSearch {
 					
 				// debug
 				if(DEBUG_TIME) printTime();
-				log = "added dependency";
+				log += "added dependency\n";
 				if(!lastDependency.isEmpty()) found_something = true;
 				if(DEBUG_ON) file.write(indent + "--------\tCOMBINATION\t--------\n");
 				
@@ -295,7 +293,7 @@ public class DbSearch {
 					if(DEBUG_TIME) printTime();
 					if(!lastCombination.isEmpty()) found_something = true;
 					if(DEBUG_ON) file.write(indent + "--------\tEND OF COMBINATION\t--------\n");
-
+					
 				}
 				
 				// DEBUG
@@ -309,6 +307,7 @@ public class DbSearch {
 			}
 
 			// DEBUG
+			log += "end of loop\n";
 			if(DEBUG_ON) {
 				if(!attacking) {
 					file.write("\t\t\t\t--------\tEND OF DEFENSE\t--------\n");
@@ -321,7 +320,7 @@ public class DbSearch {
 					}
 				}
 			}
-
+			
 			return found_goal_state;
 
 		}
@@ -335,11 +334,11 @@ public class DbSearch {
 
 			//DEBUG
 			if(DEBUG_ON) file.write("\t\t\t\tWIN:\n" + possible_win.board.printString(1) + "\t\t\t\t-----\n");
-
+			
 			//add each combination of attacker's made threats to each dependency node
 			DbNode new_root			= createDefensiveRoot(root, possible_win.board.getMarkedThreats(), attacker);
 			int first_threat_tier	= new_root.getMaxTier();
-			
+
 			//visit for defender
 			markGoalSquares(possible_win.board.getMarkedThreats(), true);
 			//won for defender (=draw or win for defender)
@@ -619,9 +618,7 @@ public class DbSearch {
 
 		
 		protected DbNode createRoot(BoardBitDb B) {
-
-			DbNode root = DbNode.copy(board, true, Operators.MAX_TIER, true);
-			return root;
+			return DbNode.copy(B, true, Operators.MAX_TIER, true);
 		}
 	
 		/**

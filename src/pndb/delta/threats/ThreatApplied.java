@@ -12,4 +12,9 @@ public class ThreatApplied {
 		this.related_index = related_index;
 		this.attacker = attacker;
 	}
+
+	@Override
+	public String toString() {
+		return threat.related[related_index] + " " + attacker;
+	}
 }

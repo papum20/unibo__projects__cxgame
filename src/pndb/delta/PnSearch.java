@@ -87,7 +87,7 @@ public class PnSearch implements CXPlayer {
 	
 	
 
-	protected PnSearch() {}
+	public PnSearch() {}
 	
 	/**
 	 * Complexity: O(5N + 4MN + 2**16 + (5MN + 3M+4N + 2**16) ) = O(9MN + 3M+9N + 2**17)
@@ -103,7 +103,7 @@ public class PnSearch implements CXPlayer {
 
 		if(first)	current_player = CellState.P1;
 		else		current_player = CellState.P2;
-
+		
 		timer_duration = (timeout_in_secs - 1) * 1000;
 		level_root = first ? Constants.SHORT_0 : Constants.SHORT_1;
 		runtime = Runtime.getRuntime();
@@ -164,7 +164,7 @@ public class PnSearch implements CXPlayer {
 			return move;
 
 		} catch (Exception e) {
-			System.out.println(log);
+			System.out.println("log pn: " + log);
 			throw e;
 		}
 
@@ -242,7 +242,7 @@ public class PnSearch implements CXPlayer {
 				ms = System.currentTimeMillis();
 				//System.out.println("currentNode move: " + currentNode.col + ", mostProving move: " + ((currentNode.most_proving == null)? "null" : currentNode.most_proving.col) );
 
-				PnNode mostProvingNode = selectMostProving(currentNode, current_player);
+				PnNode mostProvingNode = selectMostProving(currentNode);
 
 				// debug
 				if(DEBUG_TIME) printTime();
@@ -252,7 +252,7 @@ public class PnSearch implements CXPlayer {
 				}
 				
 				developNode(mostProvingNode, current_player);
-				
+
 				// debug
 				if(DEBUG_TIME) printTime();
 				//System.out.println("after develop\nroot numbers: " + root.n[0] + ", " + root.n[1] + "\nroot children");
@@ -434,14 +434,14 @@ public class PnSearch implements CXPlayer {
 		 * @param node
 		 * @return
 		 */
-		private PnNode selectMostProving(PnNode node, byte player) {
+		private PnNode selectMostProving(PnNode node) {
 			
 			log += "selectMostProving\n";
 
 			if(!node.isExpanded()) return node;
 			else {
 				mark(node.most_proving.col);
-				return selectMostProving(node.most_proving, (byte)Constants.opponent(player));
+				return selectMostProving(node.most_proving);
 			}
 			// node.most_proving should always be != null
 
@@ -468,7 +468,7 @@ public class PnSearch implements CXPlayer {
 		
 		/**
 		 * Complexity: O(DbSearch + getThreatCounts + children_generation + sorting + shuffle )
-		 *	<p>	= O(DbSearch + 12N**2 + N + N**2 + N )
+		 *	<p>	= O(DbSearch + 12N**2 + N 4X + N**2 + N )
 		 *	<p>	= O(DbSearch + 13N**2)
 		 *	<p>		note: setProofAndDisproofNumbers can't go in expanded case from here, so it's O(1)
 		 * @param node
@@ -531,7 +531,7 @@ public class PnSearch implements CXPlayer {
 					// set proof numbers
 					/* Heuristic: nodes without any threat should be considered less (or not at all).
 					 */
-					markOnly(j);
+					mark(j);
 					setProofAndDisproofNumbers(node.children[current_child - 1], isMyTurn(), (threats[j] == 0) ? 0 : (short)(board.N + 1) );
 					unmark(j);
 
@@ -650,18 +650,6 @@ public class PnSearch implements CXPlayer {
 			current_player = (byte)Constants.opponent(current_player);
 			current_level++;
 			return res;
-		}
-		/**
-		 * mark in O(1) (no additional operations on alignments).
-		 * <p>
-		 * Complexity: O(4X)
-		 * @param col : col to mark/unmark
-		 * @return new game_state
-		 */
-		protected void markOnly(int col) {
-			board.mark(col, current_player);
-			current_player = (byte)Constants.opponent(current_player);
-			current_level++;
 		}
 		/**
 		 * Complexity: O(1)
