@@ -46,6 +46,8 @@ import pndb.tt.TranspositionTable;
  * testa questo intnato se funziona e se ho mergeato bene
  * (pensa a quella cosa dell'altro operatore, difese, db etc.)
  * implementa quella cosa (se non richede troppo tempo)
+ * .per priorita pareggio: metti depth+1 (oltre max) / o usa n<0 per pari
+ * .no prune, ricorda per prox it
  * 
  */
 public class PnSearch implements CXPlayer {
@@ -305,11 +307,7 @@ public class PnSearch implements CXPlayer {
 				return true;
 			}
 			else {
-				if(game_state == GameState.WINP1)				// my win
-					node.prove(true, true);		// root cant be ended, or the game would be
-				else										// your win or draw
-					node.prove(false, true);
-
+				node.prove(game_state == GameState.WINP1, true);		// root cant be ended, or the game would be ended
 				return true;
 			}
 		}
@@ -333,13 +331,12 @@ public class PnSearch implements CXPlayer {
 			TT.setStateOrInsert(player, Auxiliary.cellState2winState(player), Auxiliary.getPlayerBit(player));
 				
 			/* note: probably, prune is useless now, as evaluate is only called when node hasn't been expanded yet.
-				*/
+			*/
 			
 			/* if a win is found without expanding, need to save the winning move somewhere (in a child)
 			* (especially for the root, or you wouldn't know the correct move)
 			*/
-			if(node != root)
-				node.prove(player == CellState.P1, false);
+			node.prove(player == CellState.P1, false);
 			
 			// root is only evaluated once, before expanding
 			node.expand(1);
@@ -381,7 +378,7 @@ public class PnSearch implements CXPlayer {
 		 * @param my_turn
 		 * @param offset offset for initProofAndDisproofNumbers, in case of `node` open and not expanded.
 		 */
-		protected void setProofAndDisproofNumbers(PnNode node, boolean my_turn, short offset) {
+		protected void setProofAndDisproofNumbers(PnNode node, byte player, short offset) {
 
 			log += "setProof\n";
 
@@ -401,7 +398,7 @@ public class PnSearch implements CXPlayer {
 			{
 				PnNode most_proving;
 
-				if(my_turn) {
+				if(current_player == CellState.P1) {
 					most_proving = node.minChild(PROOF);
 					node.setProofAndDisproof(most_proving.n[PROOF], node.sumChildren(DISPROOF));
 				} else {
@@ -532,7 +529,7 @@ public class PnSearch implements CXPlayer {
 					/* Heuristic: nodes without any threat should be considered less (or not at all).
 					 */
 					mark(j);
-					setProofAndDisproofNumbers(node.children[current_child - 1], isMyTurn(), (threats[j] == 0) ? 0 : (short)(board.N + 1) );
+					setProofAndDisproofNumbers(node.children[current_child - 1], current_player, (threats[j] == 0) ? 0 : (short)(board.N + 1) );
 					unmark(j);
 
 					// move back the new child in the right place
@@ -578,12 +575,12 @@ public class PnSearch implements CXPlayer {
 			
 			log += "updateAncestors\n";
 
-			PnNode last_changed = node;
+			PnNode last_changed;
 			boolean changed = true;
 			// do at least one iteration, not to skip root's setProofAndDisproof (first turn)
 			do {
 				int old_proof = node.n[PROOF], old_disproof = node.n[DISPROOF];
-				setProofAndDisproofNumbers(node, isMyTurn(), Constants.SHORT_0);		// offset useless, node always expanded here
+				setProofAndDisproofNumbers(node, current_player, Constants.SHORT_0);		// offset useless, node always expanded here
 
 				changed = (old_proof != node.n[PROOF] || old_disproof != node.n[DISPROOF]) || node.isProved();
 				
@@ -591,7 +588,7 @@ public class PnSearch implements CXPlayer {
 				node = node.parent;
 				if(changed && last_changed != root) unmark(last_changed.col);
 			}
-			while(changed && last_changed != root && last_changed != null);
+			while(changed && last_changed != root && node != null);
 
 			return last_changed;
 		}
@@ -659,14 +656,6 @@ public class PnSearch implements CXPlayer {
 			board.unmark(col);
 			current_player = (byte)Constants.opponent(current_player);
 			current_level--;
-		}
-
-		/**
-		 * Complexity: O(1)
-		 * @return
-		 */
-		protected boolean isMyTurn() {
-			return current_player == CellState.P1;
 		}
 		
 		/**

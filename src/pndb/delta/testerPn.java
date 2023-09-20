@@ -25,13 +25,13 @@ public class testerPn {
 		String[] bb = {
 			"oooxxxxo.",
 			"xoxxxoox.",
-			"ooooxxxox",
-			"oxxooxooo",
-			"xooxxxoxx",
-			"oxooxxxoo",
+			"ooooxxxo.",
+			"oxxooxoo.",
+			"xooxxxox.",
+			"oxooxxxo.",
 			"oxxoxoxox",
 			"oxxxxooxo",
-			"oxxxoxooo"		
+			"oxxxoxooo"	
 		};
 
 		for(int i = 0; i< M; i++) {
