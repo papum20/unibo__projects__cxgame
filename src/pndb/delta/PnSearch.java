@@ -41,13 +41,13 @@ import pndb.tt.TranspositionTable;
  * 			trun (when it's became a X-1)... (thinking in progress)... so, conclusion: can I just add a new operator,
  * 			for this case?? i.e. add a piece, and the empty cell above is part of a threat (also not in vertical 
  * 			direction).
+ * <p>	11.	(delta) draw=max depth + 1, so is preferred in case of loss
  * 
  * TODO;
  * (pensa a quella cosa dell'altro operatore, difese, db etc.)
  * implementa quella cosa (se non richede troppo tempo)
- * .per priorita pareggio: metti depth+1 (oltre max) / o usa n<0 per pari
  * .no prune, ricorda per prox it
- * .new fidAls, con empty cells, pure per vertical
+ * .new findAls, con empty cells, pure per vertical
  * 
  */
 public class PnSearch implements CXPlayer {
@@ -382,23 +382,12 @@ public class PnSearch implements CXPlayer {
 
 			log += "setProof\n";
 
-			// if proof or disproof reached 0, because all children were proved
-			if(node.isProved())
-			{
-				if(node.n[PROOF] == 0) {
-					node.prove(true, node != root);
-					TT.setStateOrInsert(board.hash, GameState.WINP1, 0);
-				} else {
-					node.prove(node.n[PROOF] == 0 ? true : false, node != root);
-					TT.setStateOrInsert(board.hash, GameState.WINP2, 1);
-				}
-			}
 			// if node has children, set numbers according to children numbers
-			else if(node.isExpanded())
+			if(node.isExpanded())
 			{
 				PnNode most_proving;
 
-				if(current_player == CellState.P1) {
+				if(player == CellState.P1) {
 					most_proving = node.minChild(PROOF);
 					node.setProofAndDisproof(most_proving.n[PROOF], node.sumChildren(DISPROOF));
 				} else {
@@ -407,6 +396,18 @@ public class PnSearch implements CXPlayer {
 				}
 
 				node.most_proving = most_proving;
+				
+				// if proof or disproof reached 0, because all children were proved
+				if(node.isProved())
+				{
+					if(node.n[PROOF] == 0) {
+						node.prove(true, node != root);
+						TT.setStateOrInsert(board.hash, GameState.WINP1, Auxiliary.getPlayerBit(player));
+					} else {
+						node.prove(false, node != root);
+						TT.setStateOrInsert(board.hash, GameState.WINP2, Auxiliary.getPlayerBit(player));
+					}
+				}
 			}
 			// game states
 			else if(board.game_state == GameState.OPEN)
@@ -414,12 +415,16 @@ public class PnSearch implements CXPlayer {
 			else 
 				node.prove(board.game_state == GameState.WINP1, node != root);
 
+
 			/* In case, update deepest node.
 			 * No need to check node's value: if it's winning, the deepest_node won't be used;
 			 * otherwise, it's not winning and it will be used.
 			 * Also, this won't overwrite calculations in evaluateDb, as that adds moves.
 			 */
-			if(node.isProved() && (level_root + current_level > deepest_level)) {
+			if(board.game_state == GameState.DRAW) {
+				deepest_level	= level_root + current_level + 1;		// max depth + 1
+				deepest_node	= node;
+			} else if(node.isProved() && (level_root + current_level > deepest_level)) {
 				deepest_level	= level_root + current_level;
 				deepest_node	= node;
 			}

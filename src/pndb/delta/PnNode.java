@@ -8,11 +8,11 @@ package pndb.delta;
 public class PnNode {
 
 	//#region CONSTANTS
-	public static final short N_ZERO = 0;
-	public static final short N_INFINITE = 32767;
+	public static final short N_ZERO		= 0;
+	public static final short N_INFINITE	= 32767;
 
-	public static final byte PROOF = 0;		// proof index
-	public static final byte DISPROOF = 1;	// disproof index
+	public static final byte PROOF		= 0;	// proof index
+	public static final byte DISPROOF	= 1;	// disproof index
 	//#endregion CONSTANTS
 
 	public static enum Value {
@@ -22,7 +22,7 @@ public class PnNode {
 	}
 	
 
-	public final byte col;					// move (column)
+	public final byte col;				// move (column)
 	public final short[] n;				// n_proof, n_disproof
 	
 	public final PnNode parent;
