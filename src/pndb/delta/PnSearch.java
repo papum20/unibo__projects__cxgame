@@ -43,11 +43,11 @@ import pndb.tt.TranspositionTable;
  * 			direction).
  * 
  * TODO;
- * testa questo intnato se funziona e se ho mergeato bene
  * (pensa a quella cosa dell'altro operatore, difese, db etc.)
  * implementa quella cosa (se non richede troppo tempo)
  * .per priorita pareggio: metti depth+1 (oltre max) / o usa n<0 per pari
  * .no prune, ricorda per prox it
+ * .new fidAls, con empty cells, pure per vertical
  * 
  */
 public class PnSearch implements CXPlayer {

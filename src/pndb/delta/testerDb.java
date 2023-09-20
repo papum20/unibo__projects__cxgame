@@ -20,15 +20,15 @@ public class testerDb {
 
 
 		String[] bb = {
-			"..x......",
-			"..o......",
-			"..o...o..",
-			"o.o...xo.",
-			"oxo..ooox",
-			"xxx.xxxxo",
-			"ooxoxoxxx",
-			"ooxoxxxxo",
-			"ooxoooxxx"
+			".........",
+			"xx...xx..",
+			"xooxooo.o",
+			"ooxooxxxo",
+			"xoxoxooxo",
+			"oxxoxoxxx",
+			"oooxxoxox",
+			"ooooxxxox",
+			"oooxoxxxx"
 			
 		};
 
@@ -42,7 +42,7 @@ public class testerDb {
 		
 
 		
-		DbSearchResult res = db.selectColumn(board, null, 10000, CellState.P2, Operators.MAX_TIER);
+		DbSearchResult res = db.selectColumn(board, null, 10000, CellState.P1, Operators.MAX_TIER);
 
 		System.out.println((res == null)? null : res.winning_col);
 	}

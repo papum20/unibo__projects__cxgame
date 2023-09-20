@@ -97,8 +97,8 @@ public class BoardBitDb extends BoardBit {
 	// Debug
 	protected int count = 0;
 	protected int found = 0;
-	protected static boolean DEBUG_ON		= false;
-	protected static boolean DEBUG_PRINT	= false;
+	protected static boolean DEBUG_ON		= true;
+	protected static boolean DEBUG_PRINT	= true;
 	protected static FileWriter file;
   
 
@@ -632,7 +632,7 @@ public class BoardBitDb extends BoardBit {
 					_addValidAlignments(dir_index, player, lined, marks, before, after);
 					// also check for alignments with next before
 					_findAlignmentsInDirection(second, dir, dir_index, player, lined, marks, before - 1, after, only_valid, max_tier, true);
-				} else if(c1.getDistanceInDir(second, dir) > before || !c1.inBounds(MIN, MAX)) {
+				} else if(lined > before || !c1.inBounds(MIN, MAX)) {
 					return;
 				} else if(lined > X) {
 					if(before > 0 && X - marks <= max_tier) {	// also check for right tier
