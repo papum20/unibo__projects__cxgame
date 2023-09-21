@@ -19,6 +19,7 @@ import pndb.tt.TranspositionTable;
  * <p>	-	TT: always used with MY_PLAYER = 0, YOUR = 1 (for state).
  * <p>	-	TT is used for positions evaluated and verified by db, so it contains certain values.
  * <p>	-	(tryit)	TT uses global depths.
+ * <P>	-	tt.doppia entry: scopo: in base a chi tocca si usa indice
  * 
  * <p>Enhancements:
  * <p>	1.	(tryit) Saves all levels for endgames (in TT) and, for each visit, saves the deepest one,
@@ -46,9 +47,11 @@ import pndb.tt.TranspositionTable;
  * TODO;
  * (pensa a quella cosa dell'altro operatore, difese, db etc.)
  * implementa quella cosa (se non richede troppo tempo)
- * .no prune, ricorda per prox it
+ * .no prune, ricorda per prox it (prima test memoria con virtualsalcazzi)
  * .new findAls, con empty cells, pure per vertical
- * .rimuovi tt.doppia entry? (alla fine se non serve)
+ * .rimuovi tt.doppia entry? (se alla fine se non serve)...
+ * ...gestire nodi a cui si arriva in vari modi (perché magari ci si arriva la seconda volta prima di averlo risolto la prima) (dag)
+ * (magari va bene, vuol dire che è più probabile e ha senso dargli più possibilità di esplorarlo; o magari no e bisogni farlo una sola volta)
  * 
  * last test not well (findALsInDIr)
  * 

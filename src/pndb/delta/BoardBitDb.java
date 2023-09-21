@@ -612,7 +612,7 @@ public class BoardBitDb extends BoardBit {
 			 * -	c3 = c2 + after : lookahead;
 			 * 
 			 * note: the second extreme is always excluded from counting the alignment (c1, c2, after..).
-			 * @param second
+			 * @param second limit (included)
 			 * @param dir
 			 * @param player
 			 * @param lined
@@ -628,16 +628,24 @@ public class BoardBitDb extends BoardBit {
 				int lined, int marks, int before, int after,
 				boolean only_valid, int max_tier, boolean checking_alignments
 			) throws IOException {
+				// test alignments and extend the line
 				if(checking_alignments && before > 0) {
 					_addValidAlignments(dir_index, player, lined, marks, before, after);
 					// also check for alignments with next before
 					_findAlignmentsInDirection(second, dir, dir_index, player, lined, marks, before - 1, after, only_valid, max_tier, true);
-				} else if(lined > before || !c1.inBounds(MIN, MAX)) {
+				}
+				// if second-c1 < X, end recursion
+				else if(c1.getDistanceInDir(second, dir) > before || !c1.inBounds(MIN, MAX)) {
 					return;
-				} else if(lined > X) {
-					if(before > 0 && X - marks <= max_tier) {	// also check for right tier
+				}
+				// test alignments and reduce the line
+				else if(lined > X) {
+					// test multiple alignments and reduce the line
+					if(before > 0 && X - marks <= max_tier) {
 						_findAlignmentsInDirection(second, dir, dir_index, player, lined, marks, before, after, only_valid, max_tier, true);
-					} else {
+					}
+					// test alignemnts only with before=0 and reduce the line
+					else {
 						if(X - marks <= max_tier)
 							_addValidAlignments(dir_index, player, lined, marks, before, after);
 						c1.sum(dir);
@@ -646,11 +654,13 @@ public class BoardBitDb extends BoardBit {
 							0,				// lined only grows if c2 finds a player's cell, so after is already 0
 							only_valid, max_tier, false);
 					}
-				} else if( (!only_valid || free[c1.j] == c1.i		// make sure the free cell is the first free in the column
-					|| dir.equals(DIRECTIONS[DIR_IDX_VERTICAL]))
+				}
+				// if c1=free, make sure the free cell is the first free in the column
+				else if( (!only_valid || free[c1.j] == c1.i
+					|| dir_index == DIR_IDX_VERTICAL)
 					&& cellFree(c1.i, c1.j)
 				) {
-					if(dir.equals(DIRECTIONS[DIR_IDX_VERTICAL])) {
+					if(dir_index == DIR_IDX_VERTICAL) {
 						// vertical: break
 						return;
 					}
@@ -662,7 +672,9 @@ public class BoardBitDb extends BoardBit {
 					else
 						// still searching for the start of any alignment
 						_findAlignmentsInDirection(second, dir, dir_index, player, 0, 0, Math.min(before + 1, Operators.MAX_OUT_ONE_SIDE), 0, only_valid, max_tier, false);
-				} else if( (only_valid && free[c1.j] < c1.i)	// if free is greater but it's a player's cell, no problem
+				}
+				// if c1!=free, if free is greater but it's a player's cell, no problem: extend line
+				else if( (only_valid && free[c1.j] < c1.i)
 					|| _cellState(c1.i, c1.j) != Auxiliary.getPlayerBit(player)
 				) {
 					// can only happen whlie was searching for the start of any alignment
@@ -703,11 +715,12 @@ public class BoardBitDb extends BoardBit {
 							_findAlignmentsInDirection(second, dir, dir_index, player, lined - 1, marks - 1, 0, after, only_valid, max_tier, false);
 						}
 					}
-					else if( (!only_valid || free[c3.j] == c3.i		// make sure the free cell is the first free in the column
-						|| dir.equals(DIRECTIONS[DIR_IDX_VERTICAL]))
+					// if c3=free, make sure the free cell is the first free in the column
+					else if( (!only_valid || free[c3.j] == c3.i
+						|| dir_index == DIR_IDX_VERTICAL)
 						&& cellFree(c3.i, c3.j)
 					) {
-						if(dir.equals(DIRECTIONS[DIR_IDX_VERTICAL])) {
+						if(dir_index == DIR_IDX_VERTICAL) {
 							if(X - marks <= max_tier)
 								// vertical: last check and break (note: before is 0)
 								_addValidAlignments(dir_index, player, lined, marks, before, after + M - c3.i);
@@ -715,7 +728,9 @@ public class BoardBitDb extends BoardBit {
 							c3.sum(dir);
 							_findAlignmentsInDirection(second, dir, dir_index, player, lined, marks, before, after + 1, only_valid, max_tier, false);
 						}
-					} else if( (only_valid && free[c3.j] < c3.i)	// if free is greater but it's a player's cell, no problem
+					}
+					// if c3!=free, if free is greater but it's a player's cell, no problem
+					else if( (only_valid && free[c3.j] < c3.i)
 						|| _cellState(c3.i, c3.j) != Auxiliary.getPlayerBit(player)
 					) {
 						if(before > 0 && X - marks <= max_tier) {
