@@ -33,18 +33,20 @@ public class Operators {
 	public static final byte LINE_21a	= 35;	//xxx__				any k-2 in k
 	public static final byte LINE_21b	= 36;	//xx_x_				any k-2 in k
 	public static final byte LINE_21c	= 37;	//xx__x				any k-2 in k
+	//public static final byte LINE_s1	= 38;	//-					1 stacked
 	public static final byte LINE_3B	= 48;	//_x_x__			broken	k-3
 	public static final byte LINE_3B2	= 49;	//_x__x_			broken	k-3 2-holes
 	public static final byte LINE_3		= 50;	//__xx__			2 replies k-3
 	public static final byte LINE_32	= 51;	//_xx___			any k-3 in k-1 with 2 empty boders
 	public static final byte LINE_3T	= 52;	//__xx___			3 replies k-3
 	public static final byte LINE_3Bb	= 53;	//__x_x___			3 replies	k-2
+	//public static final byte LINE_s2	= 54;	//-					2 stacked
 	/*
 	public static final byte THREAT_0	= 0;	//xxx_x		xxxXx		k					PREREQUISITE: LINE_1|any(TIER 1)
 	public static final byte THREAT_1F	= 16;	//_x_xx_	_xXxx_		straight k-1		PREREQUISITE: LINE_2|LINE_2B|any(TIER 2)
 	public static final byte THREAT_1	= 17;	//_x_xx		XxOxx		k-1					PREREQUISITE: LINE_23|any(TIER 2)
 	public static final byte THREAT_2B	= 32;	//_x__x_	_OxXOxO_	broken		k-2		PREREQUISITE: LINE_3B|LINE_3B2|LINE_32|any(TIER 3)
-	public static final byte THREAT_2	= 33;	//__x_x__	_OxXxO_		2 replies	k-2			PREREQUISITE: ...
+	public static final byte THREAT_2	= 33;	//__x_x__	_OxXxO_		2 replies	k-2		PREREQUISITE: ...
 	public static final byte THREAT_2T	= 34;	//__x_x___	_OxXxOO_	3 replies	k-2		PREREQUISITE: ...
 	*/
 	
@@ -258,7 +260,10 @@ public class Operators {
 
 	public static ThreatCells applied(final BoardBitDb board, ThreatPosition op, byte attacker, byte defender) {
 		try {
-			return APPLIERS[tier(op.type)].get((int)(op.type)).getThreatCells(board, op, attacker, defender);
+			ThreatCells res = APPLIERS[tier(op.type)].get((int)(op.type)).getThreatCells(board, op, attacker, defender);
+			if(op.stacked > 0)
+				return makeStacked(res, op.last_stacked, op.stacked);
+			else return res;
 		} catch(Exception e) {
 			board.print();
 			board.printAlignments();
@@ -267,6 +272,44 @@ public class Operators {
 		}
 	}
 
+	/**
+	 * Turn a ThreatCells in a stacked threat.
+	 * <p>	Assuming stacked >= 1, then max_tier <= 2, then all cells.USE are either ATK or BTH.
+	 * <p>	note: if stacked==2, we're only looking for tier 1 (so missing only 1), and defender could also wait
+	 * 		(make another move) and put a piece there later; however that would only be effective if there was 
+	 * 		a threat of his, and in such case this check would be performed in defensiveVisit.
+	 * 
+	 * <p>	... only possible cases:
+	 * <p>	1.	stacked = 2, missing 1: defender can't respond to first stacked, or attacker would immediately win
+	 * <p>	2.	stacked = 1, missing 1: only 1 defense (just on it); note that it could be a straight four and then a win,
+	 * 			but this module will check it anyway so we can avoid wasting time thinking about it
+	 * <p>	3.	stacked = 1, missing 2: without the stacked, you would have 1 attacking and 1 defending move; here,
+	 * 			maybe the correct choice is to put both those moves as defensive
+	 * 
+	 * @param stacked >= 1 (= 1 or 2)
+	 */
+	public static ThreatCells makeStacked(ThreatCells threat, MovePair last_stacked, int stacked) {
+		ThreatCells res;
+
+		if(stacked == 1) {
+			if(tier(threat.type) == 2) {
+				res = new ThreatCells(3, threat.type);
+				res.set(new MovePair(last_stacked), 0, USE.ATK);
+				res.set(new MovePair(threat.related[0]), 1, USE.DEF);
+				res.set(new MovePair(threat.related[1]), 2, USE.DEF);
+			} else {	// tier == 1
+				res = new ThreatCells(2, threat.type);
+				res.set(new MovePair(last_stacked), 0, USE.ATK);
+				res.set(new MovePair(last_stacked.i + 1, last_stacked.j), 1, USE.DEF);
+			}
+		} else {
+			res = new ThreatCells(1, threat.type);
+			res.set(new MovePair(last_stacked.i - 1, last_stacked.j), 0, USE.ATK);
+		}
+
+		return res;
+	}
+	
 
 	//#region CLASSES
 

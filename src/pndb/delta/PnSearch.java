@@ -43,6 +43,10 @@ import pndb.tt.TranspositionTable;
  * 			for this case?? i.e. add a piece, and the empty cell above is part of a threat (also not in vertical 
  * 			direction).
  * <p>	11.	(delta) draw=max depth + 1, so is preferred in case of loss
+ * <p>	12. db not correct, but almost: 1. only tier3 are not correct (involve more responses);
+ * 			2. you could reach that position also putting attacker's moves, so wrong cases are rare.
+ * <p>	13. (delta) new threat (stacked)... see note Operators.makeStacked()
+ * 			...dubious
  * 
  * TODO;
  * (pensa a quella cosa dell'altro operatore, difese, db etc.)
@@ -52,8 +56,13 @@ import pndb.tt.TranspositionTable;
  * .rimuovi tt.doppia entry? (se alla fine se non serve)...
  * ...gestire nodi a cui si arriva in vari modi (perché magari ci si arriva la seconda volta prima di averlo risolto la prima) (dag)
  * (magari va bene, vuol dire che è più probabile e ha senso dargli più possibilità di esplorarlo; o magari no e bisogni farlo una sola volta)
+ * .db corretto: db ricorsivo su tier3 (con più risposte)
+ * ..oppure: provale tutte, con accortezze: 1. usa tutte minacce di 1atk 1def (saranno molte combinazioni in più);
+ * 2. a questo punto in combine, stai attento che da ognuno si aggiunga l'intera minaccia (1atk e 1def, non solo atk) (se no 
+ * rischi di aggiungere più atk che def e la situazione non sarebbe raggiungibile)
+ * .stacked 13 dubious (are these new operators well made?)
  * 
- * last test not well (findALsInDIr)
+ * check there are not problems with def.length=0 with new operator
  * 
  */
 public class PnSearch implements CXPlayer {
@@ -86,7 +95,7 @@ public class PnSearch implements CXPlayer {
 	private PnNode	deepest_node;
 
 	// debug
-	private final boolean DEBUG_ON		= false;
+	private final boolean DEBUG_ON		= true;
 	private final boolean DEBUG_TIME	= false;
 	protected String log;
 	private long ms;
