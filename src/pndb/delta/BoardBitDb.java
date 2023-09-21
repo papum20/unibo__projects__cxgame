@@ -97,8 +97,8 @@ public class BoardBitDb extends BoardBit {
 	// Debug
 	protected int count = 0;
 	protected int found = 0;
-	protected static boolean DEBUG_ON		= true;
-	protected static boolean DEBUG_PRINT	= true;
+	protected static boolean DEBUG_ON		= false;
+	protected static boolean DEBUG_PRINT	= false;
 	protected static FileWriter file;
   
 

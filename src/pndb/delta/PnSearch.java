@@ -48,6 +48,9 @@ import pndb.tt.TranspositionTable;
  * implementa quella cosa (se non richede troppo tempo)
  * .no prune, ricorda per prox it
  * .new findAls, con empty cells, pure per vertical
+ * .rimuovi tt.doppia entry? (alla fine se non serve)
+ * 
+ * last test not well (findALsInDIr)
  * 
  */
 public class PnSearch implements CXPlayer {

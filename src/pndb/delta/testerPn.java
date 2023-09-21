@@ -23,15 +23,15 @@ public class testerPn {
 		
 
 		String[] bb = {
-			"oooxxxxo.",
-			"xoxxxoox.",
-			"ooooxxxo.",
-			"oxxooxoo.",
-			"xooxxxox.",
-			"oxooxxxo.",
-			"oxxoxoxox",
-			"oxxxxooxo",
-			"oxxxoxooo"	
+			".........",
+			".........",
+			".........",
+			".......o.",
+			"..o....o.",
+			"..x....o.",
+			".xx....o.",
+			".xx....x.",
+			"oxx.o..ox"
 		};
 
 		for(int i = 0; i< M; i++) {
@@ -45,7 +45,7 @@ public class testerPn {
 		
 		CXBoard last_board = new CXBoard(M, N, X);
 		//last_board.markColumn(1);
-		last_board.markColumn(8);
+		last_board.markColumn(0);
 
 		// set the player to do next move(set in last_board)
 		pn.current_player = CellState.P2;
