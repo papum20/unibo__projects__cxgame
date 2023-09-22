@@ -50,7 +50,6 @@ import pndb.tt.TranspositionTable;
  * 
  * TODO;
  * (pensa a quella cosa dell'altro operatore, difese, db etc.)
- * implementa quella cosa (se non richede troppo tempo)
  * .no prune, ricorda per prox it (prima test memoria con virtualsalcazzi)
  * .new findAls, con empty cells, pure per vertical
  * .rimuovi tt.doppia entry? (se alla fine se non serve)...
@@ -61,6 +60,7 @@ import pndb.tt.TranspositionTable;
  * 2. a questo punto in combine, stai attento che da ognuno si aggiunga l'intera minaccia (1atk e 1def, non solo atk) (se no 
  * rischi di aggiungere più atk che def e la situazione non sarebbe raggiungibile)
  * .stacked 13 dubious (are these new operators well made?)
+ * .save best move in TT? for now, root cant use it
  * 
  * check there are not problems with def.length=0 with new operator
  * 
@@ -166,12 +166,18 @@ public class PnSearch implements CXPlayer {
 			current_level = 1;
 			visit();
 
+			// debug
+			log += "ended visit\n";
+			
 			// return
 			PnNode best = bestNode();
 			if(best == null) best = root.most_proving;
 			int move = best.col;
-
+			
 			mark(move);
+
+			// debug
+			log += "before deebug&returnt\n";
 
 			// debug
 			root.debug(root);
@@ -262,6 +268,7 @@ public class PnSearch implements CXPlayer {
 				PnNode mostProvingNode = selectMostProving(currentNode);
 
 				// debug
+				log += "most_proving col: " + mostProvingNode.col + ", isroot: " + (mostProvingNode == root) + "\n";
 				if(DEBUG_TIME) printTime();
 				if(DEBUG_ON) {
 					System.out.println("most proving: " + mostProvingNode.col);
@@ -278,6 +285,7 @@ public class PnSearch implements CXPlayer {
 				currentNode = updateAncestorsWhileChanged(mostProvingNode);
 				
 				// debug
+				log += root.debugString(root) + "\n";
 				if(DEBUG_TIME) printTime();
 				if(DEBUG_ON) {
 					root.debug(root);
@@ -287,6 +295,10 @@ public class PnSearch implements CXPlayer {
 				visit_loops_n++;
 				
 			}
+
+			// debug
+			log += "end of loop\n";
+			root.debug(root);
 
 			resetBoard(currentNode, root);
 		}
@@ -308,7 +320,7 @@ public class PnSearch implements CXPlayer {
 			if(game_state == GameState.OPEN) {
 				TranspositionElementEntry entry = TT.getState(board.hash);
 
-				if(entry == null || entry.state[Auxiliary.getPlayerBit(player)] == GameState.NULL)
+				if(node == root || entry == null || entry.state[Auxiliary.getPlayerBit(player)] == GameState.NULL)
 					return evaluateDb(node, player);
 
 				// update max depth
@@ -400,6 +412,9 @@ public class PnSearch implements CXPlayer {
 			// if node has children, set numbers according to children numbers
 			if(node.isExpanded())
 			{
+				// debug
+				log += "setProof: node expanded;node==root:" + (node==root) + "; move: " + node.col + "\n";
+				
 				PnNode most_proving;
 
 				if(player == CellState.P1) {
@@ -415,6 +430,9 @@ public class PnSearch implements CXPlayer {
 				// if proof or disproof reached 0, because all children were proved
 				if(node.isProved())
 				{
+					// debug
+					log += "setProof: node proved;node==root:" + (node==root) + "; move: " + node.col + "\n";
+					
 					if(node.n[PROOF] == 0) {
 						node.prove(true, node != root);
 						TT.setStateOrInsert(board.hash, GameState.WINP1, Auxiliary.getPlayerBit(player));
@@ -522,14 +540,12 @@ public class PnSearch implements CXPlayer {
 
 			/* Heuristic: nodes without any implicit threat should be considered less (or not at all),
 			 * especially after a few moves (as, probably, after a few moves it's "guaranteed" there are always some).
-			 * For now, not considered.
+			 * For now, used implicit threats number to give priorities.
 			 */
-			if(res_db != null)
-				related_cols = res_db.related_squares_by_col;
-			else {
-				related_cols = new int[board.N];
-				for(j = 0; j < board.N; j++)
-					if(board.freeCol(j)) related_cols[j] = 1;
+			related_cols = new int[board.N];
+			for(j = 0; j < board.N; j++) {
+				if(res_db != null && res_db.related_squares_by_col[j] > 0) related_cols[j] = res_db.related_squares_by_col[j];
+				else if(board.freeCol(j)) related_cols[j] = 1;
 			}
 			
 			// count the columns, i.e. the number of new children
@@ -599,6 +615,9 @@ public class PnSearch implements CXPlayer {
 			boolean changed = true;
 			// do at least one iteration, not to skip root's setProofAndDisproof (first turn)
 			do {
+				// debug
+				log += "updateAncestors-loop: node with col " + node.col + ", numbers " + node.n[PROOF] + " " + node.n[DISPROOF] + ", isroot " + (node==root) + "\n";
+
 				int old_proof = node.n[PROOF], old_disproof = node.n[DISPROOF];
 				setProofAndDisproofNumbers(node, current_player, Constants.SHORT_0);		// offset useless, node always expanded here
 

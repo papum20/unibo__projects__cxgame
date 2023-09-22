@@ -165,11 +165,15 @@ public class PnNode {
 	//#region DEBUG
 	
 	public void debug(PnNode root) {
+		System.out.println(debugString(root));
+	}
+
+	public String debugString(PnNode root) {
 		String s = "node with col " + col + ", node==root? " + (this==root) + "; numbers: " + n[0] + ", " + n[1] + "\n";
 		s += "children\n";
 		for(PnNode child : children)
 			s += child.col + ":" + child.n[PROOF] + "," + child.n[DISPROOF] + "\n";
-		System.out.println(s);
+		return s;
 	}
 
 	//#endregion DEBUG
