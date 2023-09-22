@@ -29,7 +29,7 @@ public class ThreatPosition {
 		this.start		= new MovePair(start);
 		this.end		= new MovePair(end);
 		this.type		= type;
-		this.last_stacked = last_stacked;
+		this.last_stacked = new MovePair(last_stacked);
 		this.stacked	= stacked;
 	}
 
@@ -51,6 +51,6 @@ public class ThreatPosition {
 	}
 
 	@Override public String toString() {
-		return start + "->" + end + " : " + type;
+		return start + "->" + end + " : " + type + ";stack:" + stacked + " " + last_stacked;
 	}
 }

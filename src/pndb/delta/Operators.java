@@ -259,15 +259,18 @@ public class Operators {
 	}
 
 	public static ThreatCells applied(final BoardBitDb board, ThreatPosition op, byte attacker, byte defender) {
+		String s = "nomake";
 		try {
 			ThreatCells res = APPLIERS[tier(op.type)].get((int)(op.type)).getThreatCells(board, op, attacker, defender);
-			if(op.stacked > 0)
+			if(op.stacked > 0){
+				s="makestacked";
 				return makeStacked(res, op.last_stacked, op.stacked);
+			}
 			else return res;
 		} catch(Exception e) {
 			board.print();
 			board.printAlignments();
-			System.out.println(op + " ... " + attacker);
+			System.out.println(s + "\n\n"+op + " ... " + attacker);
 			throw e;
 		}
 	}

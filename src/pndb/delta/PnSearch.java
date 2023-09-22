@@ -95,7 +95,7 @@ public class PnSearch implements CXPlayer {
 	private PnNode	deepest_node;
 
 	// debug
-	private final boolean DEBUG_ON		= true;
+	private final boolean DEBUG_ON		= false;
 	private final boolean DEBUG_TIME	= false;
 	protected String log;
 	private long ms;

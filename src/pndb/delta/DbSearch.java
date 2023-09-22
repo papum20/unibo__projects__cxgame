@@ -159,14 +159,20 @@ public class DbSearch {
 		} catch (IOException io) {
 			return null;
 		} catch (ArrayIndexOutOfBoundsException e) {
-			root.board.print();
-			root.board.printAlignments();
+			if(root == null) System.out.println("root is null");
+			else {
+				root.board.print();
+				root.board.printAlignments();
+			}
 			System.out.println(log + "\nout of bounds in db\n");
 			if(DEBUG_ON) try {file.close();} catch(IOException io) {}
 			throw e;
 		} catch (Exception e) {
-			root.board.print();
-			root.board.printAlignments();
+			if(root == null) System.out.println("root is null");
+			else {
+				root.board.print();
+				root.board.printAlignments();
+			}
 			System.out.println(log + "\nany error in db\n");
 			if(DEBUG_ON) try {file.close();} catch(IOException io) {}
 			throw e;

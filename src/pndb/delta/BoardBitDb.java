@@ -567,7 +567,7 @@ public class BoardBitDb extends BoardBit {
 			 * @param after
 			 * @param stacked see `findAlignmentsInDirection`
 			*/
-			private void _addValidAlignments(int dir_index, byte player, int lined, int marks, int before, int after, MovePair last_stacked, int stacked) throws IOException {
+			private void _addValidAlignments(int dir_index, byte player, int lined, int marks, int before, int after, final MovePair last_stacked, int stacked) throws IOException {
 
 				int tier = X - marks;
 
@@ -591,7 +591,8 @@ public class BoardBitDb extends BoardBit {
 						//add to structures
 						threat_start.resetToVector(c1, DIRECTIONS[dir_index], -before);
 						threat_end.resetToVector(c2, DIRECTIONS[dir_index], alignment.out - before);
-						ThreatPosition threat_pos = new ThreatPosition(threat_start, threat_end, threat_code, last_stacked, (byte)stacked);
+						ThreatPosition threat_pos = (last_stacked == null) ? new ThreatPosition(threat_start, threat_end, threat_code)
+							: new ThreatPosition(threat_start, threat_end, threat_code, last_stacked, (byte)stacked);
 						addAlignment(threat_pos, dir_index, player);
 
 						// debug
@@ -628,7 +629,7 @@ public class BoardBitDb extends BoardBit {
 			 */
 			private void _findAlignmentsInDirection(final MovePair second, MovePair dir, int dir_index, byte player,
 				int lined, int marks, int before, int after,
-				boolean only_valid, int max_tier, MovePair last_stacked, int stacked, boolean checking_alignments
+				boolean only_valid, int max_tier, final MovePair last_stacked, int stacked, boolean checking_alignments
 			) throws IOException {
 				// test alignments and extend the line
 				if(checking_alignments && before > 0) {
@@ -794,9 +795,6 @@ public class BoardBitDb extends BoardBit {
 					count++;
 					found = 0;
 
-					if(max_tier < 0)
-						return;
-					
 					// swap first, second if not first->second in same direction as dir
 					if(!DIRECTIONS[dir_index].equals( first.getDirection(second)) ) {
 						MovePair tmp = first;
@@ -815,7 +813,7 @@ public class BoardBitDb extends BoardBit {
 
 					// debug
 					//System.out.println(c1 + "dir " + dir_index + " "  + DIRECTIONS[dir_index]);
-					
+
 					_findAlignmentsInDirection(second,				// flip if direction inverted
 						DIRECTIONS[dir_index], dir_index, player,
 						0, 0, 0, 0,
@@ -823,11 +821,12 @@ public class BoardBitDb extends BoardBit {
 					);
 
 					// additional threat, for vertical dir
-					if(dir_index == DIR_IDX_VERTICAL && second.i >= free[second.j] && free[second.j] < M && game_state == GameState.OPEN) {
-						c1.reset(free[second.j], second.j).sum(DIRECTIONS[dir_index]);
-						markCheck(c1.j, player);
-						findAlignments(second, player, max_tier - 1, check1, check2, only_valid, new MovePair(c1), stacked + 1, DIR_IDX_VERTICAL, caller);
-						unmark(c1.j);
+					if(dir_index == DIR_IDX_VERTICAL && second.i >= free[second.j] && free[second.j] < M && game_state == GameState.OPEN && max_tier >= 2) {
+						MovePair new_stacked = new MovePair(free[second.j], second.j);
+						markCheck(new_stacked.j, player);
+						// exclude vertical, or would add non-existing alignments
+						findAlignments(new_stacked.getSum(1, 0), player, max_tier - 1, check1, check2, only_valid, new_stacked, stacked + 1, DIR_IDX_VERTICAL, caller);
+						unmark(new_stacked.j);
 					}
 
 					// debug
@@ -855,7 +854,7 @@ public class BoardBitDb extends BoardBit {
 			 * 
 			 * @param stacked see `findAlignmentsInDireciton` (to init to 0)
 			 */
-			protected void findAlignments(final MovePair cell, final byte player, int max_tier, BoardBitDb check1, BoardBitDb check2, boolean only_valid, MovePair last_stacked, int stacked, int dir_excluded, String caller) {
+			protected void findAlignments(final MovePair cell, final byte player, int max_tier, BoardBitDb check1, BoardBitDb check2, boolean only_valid, final MovePair last_stacked, int stacked, int dir_excluded, String caller) {
 				for(int d = 0; d < DIR_ABS_N; d++) {
 					if(d != dir_excluded)
 						findAlignmentsInDirection(cell, cell, player, d, max_tier, check1, check2, only_valid, last_stacked, stacked, caller + "find_");
