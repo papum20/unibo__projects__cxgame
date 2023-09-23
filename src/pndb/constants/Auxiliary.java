@@ -96,6 +96,11 @@ public class Auxiliary {
 			V[a] = V[b];
 			V[b] = tmp;
 		}
+		public static void swapByte(byte[] V, int a, int b) {
+			byte tmp = V[a];
+			V[a] = V[b];
+			V[b] = tmp;
+		}
 
 		/**
 		 * Complexity: O(3 length)
@@ -110,6 +115,14 @@ public class Auxiliary {
 			for(int i = start; i < end; i++) shuffler.add(v[i]);
 			Collections.shuffle(shuffler);
 			for(int i = start; i < end; i++) v[i] = shuffler.pop();
+
+		}
+		public static void shuffleArrayRangeByte(byte[] v, int start, int end) {
+
+			LinkedList<Integer> shuffler = new LinkedList<Integer>();
+			for(int i = start; i < end; i++) shuffler.add((int)v[i]);
+			Collections.shuffle(shuffler);
+			for(int i = start; i < end; i++) v[i] = (byte)(int)shuffler.pop();
 
 		}
 

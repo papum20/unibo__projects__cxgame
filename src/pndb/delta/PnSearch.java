@@ -7,9 +7,8 @@ import pndb.constants.Auxiliary;
 import pndb.constants.CellState;
 import pndb.constants.Constants;
 import pndb.constants.GameState;
-import pndb.old.Board;
-import pndb.tt.TranspositionElementEntry;
 import pndb.tt.TranspositionTable;
+import pndb.tt.TranspositionTableNode;
 
 
 
@@ -47,6 +46,7 @@ import pndb.tt.TranspositionTable;
  * 			2. you could reach that position also putting attacker's moves, so wrong cases are rare.
  * <p>	13. (delta) new threat (stacked)... see note Operators.makeStacked()
  * 			...dubious
+ * <p>	14. problem with transpositions in dags (thesis), ambiguity
  * 
  * TODO;
  * (pensa a quella cosa dell'altro operatore, difese, db etc.)
@@ -62,6 +62,10 @@ import pndb.tt.TranspositionTable;
  * .stacked 13 dubious (are these new operators well made?)
  * .save best move in TT? for now, root cant use it
  * .node moìultiple parents? dag? then save ptr to node in TT, and more parents in node, to update?
+ * .if TT remains so, simplify for db (and reduce dimensions)
+ * .note: tt.depth isn't used now
+ * 
+ * TT.remove at start of each selectColumn, to remove entries from previous rounds
  * 
  * check there are not problems with def.length=0 with new operator
  * 
@@ -72,13 +76,15 @@ public class PnSearch implements CXPlayer {
 	protected static final byte PROOF		= PnNode.PROOF;
 	protected static final byte DISPROOF	= PnNode.DISPROOF;
 
-	protected byte MY_WIN = CellState.P1;
+	protected byte MY_PLAYER	= CellState.P1;
+	protected byte MY_WIN		= GameState.WINP1;
+	protected byte YOUR_WIN		= GameState.WINP2;
 
 	//#endregion CONSTANTS
 
 	// board
 	public BoardBit board;				// public for debug
-	protected TranspositionTable TT;
+	protected TranspositionTableNode TT;
 	public byte current_player;			// public for debug
 	protected short current_level;		// current tree level (height)
 	protected DbSearch dbSearch;
@@ -113,11 +119,11 @@ public class PnSearch implements CXPlayer {
 	@Override
 	public void initPlayer(int M, int N, int X, boolean first, int timeout_in_secs) {
 
-		board = new BoardBit(M, N, X);
-		dbSearch = new DbSearch();		
-		TT = new TranspositionTable(M, N);
+		board		= new BoardBit(M, N, X);
+		dbSearch	= new DbSearch();		
+		TT			= new TranspositionTableNode(M, N);
 
-		BoardBit.TT = TT;
+		BoardBit.TT = new TranspositionTable(M, N);
 
 		if(first)	current_player = CellState.P1;
 		else		current_player = CellState.P2;
@@ -161,8 +167,7 @@ public class PnSearch implements CXPlayer {
 			board.print();
 
 			// visit
-			if(last_move == null) root = new PnNode(Board.COL_NULL, null);
-			else root = new PnNode(last_move.j, null);
+			root = new PnNode();
 
 			current_level = 1;
 			visit();
@@ -173,7 +178,7 @@ public class PnSearch implements CXPlayer {
 			// return
 			PnNode best = bestNode();
 			if(best == null) best = root.most_proving;
-			int move = best.col;
+			int move = root.lastMoveForChild(best);
 			
 			mark(move);
 
@@ -258,7 +263,7 @@ public class PnSearch implements CXPlayer {
 			/* improvement: keep track of current node (next to develop), instead of 
 			* looking for it at each iteration, restarting from root.
 			*/
-			PnNode currentNode = root;
+			PnNode current_node = root, most_proving_node;
 			while(!root.isProved() && !isTimeEnded()) {
 
 				// debug
@@ -266,24 +271,27 @@ public class PnSearch implements CXPlayer {
 				ms = System.currentTimeMillis();
 				//System.out.println("currentNode move: " + currentNode.col + ", mostProving move: " + ((currentNode.most_proving == null)? "null" : currentNode.most_proving.col) );
 
-				PnNode mostProvingNode = selectMostProving(currentNode);
+				most_proving_node = selectMostProving(current_node);
 
 				// debug
-				log += "most_proving col: " + mostProvingNode.col + ", isroot: " + (mostProvingNode == root) + "\n";
+				log += "most_proving col: " + ((most_proving_node == root) ? -1 : most_proving_node.lastMoveFromFirstParent()) + ", isroot: " + (most_proving_node == root) + "\n";
 				if(DEBUG_TIME) printTime();
 				if(DEBUG_ON) {
-					System.out.println("most proving: " + mostProvingNode.col);
+					System.out.println("most proving: " + ((most_proving_node == root) ? -1 : most_proving_node.lastMoveFromFirstParent()));
 					board.print();
 				}
 				
-				developNode(mostProvingNode, current_player);
+				developNode(most_proving_node, current_player);
 
 				// debug
 				if(DEBUG_TIME) printTime();
 				//System.out.println("after develop\nroot numbers: " + root.n[0] + ", " + root.n[1] + "\nroot children");
 				//for(PnNode child : root.children) System.out.println(child.col + ":" + child.n[PROOF] + "," + child.n[DISPROOF]);
 				
-				currentNode = updateAncestorsWhileChanged(mostProvingNode);
+				current_node = updateAncestorsWhileChanged(most_proving_node, current_player);
+				/* this can only happen in the first visit, with root */
+				if(current_node == null) current_node = root;
+				resetBoard(most_proving_node, current_node);
 				
 				// debug
 				log += root.debugString(root) + "\n";
@@ -301,7 +309,7 @@ public class PnSearch implements CXPlayer {
 			log += "end of loop\n";
 			root.debug(root);
 
-			resetBoard(currentNode, root);
+			resetBoard(current_node, root);
 		}
 
 		/**
@@ -319,20 +327,13 @@ public class PnSearch implements CXPlayer {
 			log += "evaluate\n";
 		
 			if(game_state == GameState.OPEN) {
-				TranspositionElementEntry entry = TT.getState(board.hash);
+				PnNode entry = TT.getNode(board.hash);
 
-				if(node == root || entry == null || entry.state[Auxiliary.getPlayerBit(player)] == GameState.NULL)
+				if(node == root || entry == null)
+					// if an entry exist, it was already analyzed with db
 					return evaluateDb(node, player);
 
-				// update max depth
-				short entry_depth = TT.getFinalDepth(board.hash);
-				if(entry_depth > deepest_level) {
-					deepest_level	= entry_depth; 
-					deepest_node	= node;
-				}
-
-				node.prove( entry.state[Auxiliary.getPlayerBit(player)] == MY_WIN, false);
-				return true;
+				return entry.isProved();
 			}
 			else {
 				node.prove(game_state == GameState.WINP1, true);		// root cant be ended, or the game would be ended
@@ -351,24 +352,23 @@ public class PnSearch implements CXPlayer {
 
 			log += "evaluateDb\n";
 
+			TT.insert(board.hash, node);
 			DbSearchResult res_db = dbSearch.selectColumn(board, node, timer_start + timer_duration - System.currentTimeMillis(), player, Operators.MAX_TIER);
 	
 			if(res_db == null)
 				return false;
 
-			TT.setStateOrInsert(player, Auxiliary.cellState2winState(player), Auxiliary.getPlayerBit(player));
-				
 			/* note: probably, prune is useless now, as evaluate is only called when node hasn't been expanded yet.
 			*/
 			
 			/* if a win is found without expanding, need to save the winning move somewhere (in a child)
 			* (especially for the root, or you wouldn't know the correct move)
 			*/
-			node.prove(player == CellState.P1, false);
+			node.prove(player == MY_PLAYER, false);
 			
 			// root is only evaluated once, before expanding
 			node.expand(1);
-			node.children[0] = new PnNode(res_db.winning_col, node);							// can overwrite a child
+			node.createChild(0, res_db.winning_col);			// can overwrite a child
 			node.children[0].prove(player == CellState.P1, false);
 
 			/* Heuristic: update parent's children with iterated related squares.
@@ -414,7 +414,7 @@ public class PnSearch implements CXPlayer {
 			if(node.isExpanded())
 			{
 				// debug
-				log += "setProof: node expanded;node==root:" + (node==root) + "; move: " + node.col + "\n";
+				log += "setProof: node expanded;node==root:" + (node==root) + "; move: " + ((node == root) ? -1 : node.lastMoveFromFirstParent()) + "\n";
 				
 				PnNode most_proving;
 
@@ -432,14 +432,12 @@ public class PnSearch implements CXPlayer {
 				if(node.isProved())
 				{
 					// debug
-					log += "setProof: node proved;node==root:" + (node==root) + "; move: " + node.col + "\n";
+					log += "setProof: node proved;node==root:" + (node==root) + "; move: " + ((node == root) ? -1 : node.lastMoveFromFirstParent()) + "\n";
 					
 					if(node.n[PROOF] == 0) {
 						node.prove(true, node != root);
-						TT.setStateOrInsert(board.hash, GameState.WINP1, Auxiliary.getPlayerBit(player));
 					} else {
 						node.prove(false, node != root);
-						TT.setStateOrInsert(board.hash, GameState.WINP2, Auxiliary.getPlayerBit(player));
 					}
 				}
 			}
@@ -448,20 +446,6 @@ public class PnSearch implements CXPlayer {
 				initProofAndDisproofNumbers(node, offset);
 			else 
 				node.prove(board.game_state == GameState.WINP1, node != root);
-
-
-			/* In case, update deepest node.
-			 * No need to check node's value: if it's winning, the deepest_node won't be used;
-			 * otherwise, it's not winning and it will be used.
-			 * Also, this won't overwrite calculations in evaluateDb, as that adds moves.
-			 */
-			if(board.game_state == GameState.DRAW) {
-				deepest_level	= level_root + current_level + 1;		// max depth + 1
-				deepest_node	= node;
-			} else if(node.isProved() && (level_root + current_level > deepest_level)) {
-				deepest_level	= level_root + current_level;
-				deepest_node	= node;
-			}
 
 		}
 
@@ -476,7 +460,12 @@ public class PnSearch implements CXPlayer {
 
 			if(!node.isExpanded()) return node;
 			else {
-				mark(node.most_proving.col);
+				mark(node.lastMoveForChild(node.most_proving));
+				/* move `node` as first parent for most_proving (implementation detail useful when going back up in the tree,
+				using `updateAncestors`) */
+				node.most_proving.parents.remove(node);
+				node.most_proving.parents.addFirst(node);
+
 				return selectMostProving(node.most_proving);
 			}
 			// node.most_proving should always be != null
@@ -538,6 +527,7 @@ public class PnSearch implements CXPlayer {
 			int[]	related_cols,
 					threats			= dbSearch.getThreatCounts(board, player);
 			int current_child, j, k;
+			PnNode	entry;
 
 			/* Heuristic: nodes without any implicit threat should be considered less (or not at all),
 			 * especially after a few moves (as, probably, after a few moves it's "guaranteed" there are always some).
@@ -556,22 +546,18 @@ public class PnSearch implements CXPlayer {
 			node.expand(related_cols_n);
 			current_child = 0;
 
-			// fill children with such columns, and sort by threat_scores at the same time
+			/* Fill children with such columns, and sort by threat_scores at the same time.
+			 * First fill and shuffle moves, then assign parent.children related to those shuffled moves.
+			 */
 			for(j = 0; j < board.N && current_child < related_cols_n; j++) {
-				if(related_cols[j] > 0) {
-					// then insert
-					node.children[current_child++] = new PnNode(j, node);
-
-					// set proof numbers
-					/* Heuristic: nodes without any threat should be considered less (or not at all).
-					 */
-					mark(j);
-					setProofAndDisproofNumbers(node.children[current_child - 1], current_player, (threats[j] == 0) ? 0 : (short)(board.N + 1) );
-					unmark(j);
-
+				if(related_cols[j] > 0)
+				{
+					// only assign the move, for now
+					node.cols[current_child++] = (byte)j;
+					
 					// move back the new child in the right place
-					for(k = current_child - 1; (k > 0) && (threats[node.children[k - 1].col] > threats[j]); k--)
-						Auxiliary.swap(node.children, k, k - 1);
+					for(k = current_child - 1; (k > 0) && (threats[node.cols[k - 1]] > threats[j]); k--)
+					Auxiliary.swapByte(node.cols, k, k - 1);
 				}
 			}
 
@@ -579,11 +565,50 @@ public class PnSearch implements CXPlayer {
 			int start, end;
 			for(start = 0; start < related_cols_n; start++) {
 				for(end = start + 1;
-					end < related_cols_n && threats[node.children[end].col] == threats[node.children[start].col];
+					end < related_cols_n && threats[node.cols[end]] == threats[node.cols[start]];
 					end++
 				) ;
-				Auxiliary.shuffleArrayRange(node.children, start, end);
+				Auxiliary.shuffleArrayRangeByte(node.cols, start, end);
 				start = end;
+			}
+				
+			/* now create the children
+			*/
+			for(current_child = 0; current_child < related_cols_n; current_child++)
+			{
+				j = node.cols[current_child];
+
+				mark(j);
+
+				entry = TT.getNode(board.hash);
+				if(entry == null) {
+					node.createChild(current_child, j);
+					// set proof numbers
+					/* Heuristic: nodes without any threat should be considered less (or not at all).
+					*/
+					setProofAndDisproofNumbers(node.children[current_child], current_player, (threats[j] == 0) ? 0 : (short)(board.N + 1) );
+
+					/* In case, update deepest node.
+						* No need to check node's value: if it's winning, the deepest_node won't be used;
+						* otherwise, it's not winning and it will be used.
+						* Also, this won't overwrite calculations in evaluateDb, as that adds moves.
+						*/
+					if(node.children[current_child].isProved()) {
+						if(board.game_state == GameState.DRAW) {
+							deepest_level	= level_root + current_level + 1;		// max depth + 1
+							deepest_node	= node.children[current_child];
+						} else if(level_root + current_level > deepest_level) {
+							deepest_level	= level_root + current_level;
+							deepest_node	= node.children[current_child];
+						}
+					}
+
+					TT.insert(board.hash, node.children[current_child]);
+				} else {
+					node.addChild(current_child, entry, j);
+				}
+
+				unmark(j);
 			}
 
 		}
@@ -591,12 +616,13 @@ public class PnSearch implements CXPlayer {
 		/**
 		 * Complexity: O(h)
 		 * @param current
-		 * @param root
+		 * @param base where to reset to
 		 */
-		private void resetBoard(PnNode current, PnNode root) {
-			while(current != root) {
-				unmark(current.col);
-				current = current.parent;
+		private void resetBoard(PnNode current, PnNode base) {
+			while(current != base) {
+				unmark(current.lastMoveFromFirstParent());
+				// any path goes back to root
+				current = current.parents.getFirst();
 			}
 		}
 
@@ -608,27 +634,30 @@ public class PnSearch implements CXPlayer {
 		 * @param node
 		 * @return
 		 */
-		public PnNode updateAncestorsWhileChanged(PnNode node) {
+		public PnNode updateAncestorsWhileChanged(PnNode node, byte player) {
 			
-			log += "updateAncestors\n";
+			log += "updateAncestors-loop: node with col " + ((node == root) ? -1 : node.lastMoveFromFirstParent()) + ", numbers " + node.n[PROOF] + " " + node.n[DISPROOF] + ", isroot " + (node==root) + "\n";
+			
+			PnNode last_changed = null;
 
-			PnNode last_changed;
-			boolean changed = true;
-			// do at least one iteration, not to skip root's setProofAndDisproof (first turn)
-			do {
-				// debug
-				log += "updateAncestors-loop: node with col " + node.col + ", numbers " + node.n[PROOF] + " " + node.n[DISPROOF] + ", isroot " + (node==root) + "\n";
+			int old_proof = node.n[PROOF], old_disproof = node.n[DISPROOF];
+			setProofAndDisproofNumbers(node, player, Constants.SHORT_0);		// offset useless, node always expanded here
 
-				int old_proof = node.n[PROOF], old_disproof = node.n[DISPROOF];
-				setProofAndDisproofNumbers(node, current_player, Constants.SHORT_0);		// offset useless, node always expanded here
-
-				changed = (old_proof != node.n[PROOF] || old_disproof != node.n[DISPROOF]) || node.isProved();
-				
+			// if changed
+			if(old_proof != node.n[PROOF] || old_disproof != node.n[DISPROOF] || node.isProved()) {
 				last_changed = node;
-				node = node.parent;
-				if(changed && last_changed != root) unmark(last_changed.col);
+
+				if(node != root) {
+					for(PnNode parent : node.parents) {
+						/* the last parent used to go down the tree was put as first parent, so only choose another one as last_changed
+						 * if the first didn't change (which means last_changed is still this node);
+						 * however other parents and their ancestors still need to be updated.
+						 */
+						if(last_changed == node) last_changed = updateAncestorsWhileChanged(parent, Auxiliary.opponent(player));
+						else updateAncestorsWhileChanged(parent, Auxiliary.opponent(player));
+					}
+				}
 			}
-			while(changed && last_changed != root && node != null);
 
 			return last_changed;
 		}
@@ -716,7 +745,8 @@ public class PnSearch implements CXPlayer {
 				PnNode p = deepest_node;
 				while(p != root) {
 					best = p;
-					p = p.parent;
+					// any path goes back to root
+					p = p.parents.getFirst();
 				}
 			}
 

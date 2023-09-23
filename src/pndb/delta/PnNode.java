@@ -1,6 +1,6 @@
 package pndb.delta;
 
-
+import java.util.LinkedList;
 
 /**
  * Node for PnSearch, with simple fields.
@@ -22,10 +22,10 @@ public class PnNode {
 	}
 	
 
-	public final byte col;				// move (column)
-	public final short[] n;				// n_proof, n_disproof
+	public byte[] cols;			// move (column), for each child
+	public final short[] n;		// n_proof, n_disproof
 	
-	public final PnNode parent;
+	public final LinkedList<PnNode> parents;
 	public PnNode[] children;
 	/*
 	 * note: using pointers to child/sibling (maybe child=most proving) would reduce memory
@@ -35,13 +35,23 @@ public class PnNode {
 
 	/**
 	 * Complexity: O(1)
-	 * @param col : column
-	 * @param n : proof and disproof
+	 * @param cols column
 	 */
-	public PnNode(int col, PnNode parent) {
-		this.col			= (byte)col;
+	public PnNode() {
 		this.n				= new short[2];
-		this.parent			= parent;
+		this.parents		= new LinkedList<PnNode>();
+		this.children		= null;
+		this.most_proving	= null;
+	}
+	/**
+	 * Complexity: O(1)
+	 * @param cols column
+	 * @param parent != null
+	 */
+	public PnNode(PnNode parent) {
+		this.n				= new short[2];
+		this.parents		= new LinkedList<PnNode>();
+		this.parents.add(parent);
 		this.children		= null;
 		this.most_proving	= null;
 	}
@@ -60,6 +70,28 @@ public class PnNode {
 			if(n[PROOF] == N_ZERO && n[DISPROOF] == N_INFINITE)			return Value.TRUE;
 			else if(n[PROOF] == N_INFINITE && n[DISPROOF] == N_ZERO)	return Value.FALSE;
 			else return Value.UNKNOWN;
+		}
+		/**
+		 * Complexity: O(1)
+		 * @param ind
+		 * @return
+		 */
+		public void addChild(int idx, PnNode child, int col) {
+			children[idx]	= child;
+			cols[idx]		= (byte)col;
+			child.parents.addLast(this);
+		}
+		/**
+		 * Like addChild, also create the child.
+		 * <p> Complexity: O(1)
+		 * @param ind
+		 * @return
+		 */
+		public PnNode createChild(int idx, int col) {
+			children[idx]	= new PnNode(this);
+			cols[idx]		= (byte)col;
+			children[idx].parents.addFirst(this);
+			return children[idx];
 		}
 		/**
 		 * find and return the child with min proof/disproof number.
@@ -101,6 +133,33 @@ public class PnNode {
 			return null;
 		}
 
+		/**
+		 * Get the last col marked from th first parent to this node.
+		 * <p>	Complexity: O(N)
+		 * @return
+		 */
+		public byte lastMoveFromFirstParent() {
+			int i = 0;
+			PnNode parent = parents.getFirst();
+			for(PnNode child : parent.children) {
+				if(child == this) return parent.cols[i];
+				else i++;
+			}
+			return -1;
+		}
+		/**
+		 * Get the col to mark to get from this node to the specified child.
+		 * <p>	Complexity: O(N)
+		 * @param child
+		 * @return
+		 */
+		public byte lastMoveForChild(PnNode child) {
+			for(int i = 0; i < children.length; i++) {
+				if(children[i] == child) return cols[i];
+			}
+			return -1;
+		}
+
 	//#endregion GET
 
 
@@ -131,7 +190,8 @@ public class PnNode {
 		 * @param children_n : number of children
 		 */
 		public void expand(int children_n) {
-			children = new PnNode[children_n];
+			children	= new PnNode[children_n];
+			cols		= new byte[children_n];
 		}
 		/**
 		 * prove node, i.e. assign value.
@@ -160,6 +220,18 @@ public class PnNode {
 		public boolean isProved() {
 			return n[PROOF] == N_INFINITE || n[DISPROOF] == N_INFINITE;
 		}
+		/**
+		 * Complexity: O(1)
+		 */
+		public boolean isWon() {
+			return n[PROOF] == 0;
+		}
+		/**
+		 * Complexity: O(1)
+		 */
+		public boolean isLost() {
+			return n[DISPROOF] == 0;
+		}
 	//#endregion BOOL
 	
 	//#region DEBUG
@@ -169,10 +241,10 @@ public class PnNode {
 	}
 
 	public String debugString(PnNode root) {
-		String s = "node with col " + col + ", node==root? " + (this==root) + "; numbers: " + n[0] + ", " + n[1] + "\n";
+		String s = "node with col " + ((this == root) ? -1 : lastMoveFromFirstParent()) + ", node==root? " + (this==root) + "; numbers: " + n[0] + ", " + n[1] + "\n";
 		s += "children\n";
 		for(PnNode child : children)
-			s += child.col + ":" + child.n[PROOF] + "," + child.n[DISPROOF] + "\n";
+			s += lastMoveForChild(child) + ":" + child.n[PROOF] + "," + child.n[DISPROOF] + "\n";
 		return s;
 	}
 
