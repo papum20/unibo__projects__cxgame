@@ -31,6 +31,8 @@ public class PnNode {
 	 * note: using pointers to child/sibling (maybe child=most proving) would reduce memory
 	 */
 	public PnNode most_proving;
+
+	public short depth;
 	
 
 	/**
@@ -48,12 +50,13 @@ public class PnNode {
 	 * @param cols column
 	 * @param parent != null
 	 */
-	public PnNode(PnNode parent) {
+	public PnNode(PnNode parent, short depth) {
 		this.n				= new short[2];
 		this.parents		= new LinkedList<PnNode>();
 		this.parents.add(parent);
 		this.children		= null;
 		this.most_proving	= null;
+		this.depth			= depth;
 	}
 
 
@@ -79,7 +82,8 @@ public class PnNode {
 		public void addChild(int idx, PnNode child, int col) {
 			children[idx]	= child;
 			cols[idx]		= (byte)col;
-			child.parents.addLast(this);
+			// add first, to keep the same order when traversing the tree
+			child.parents.addFirst(this);
 		}
 		/**
 		 * Like addChild, also create the child.
@@ -88,9 +92,8 @@ public class PnNode {
 		 * @return
 		 */
 		public PnNode createChild(int idx, int col) {
-			children[idx]	= new PnNode(this);
+			children[idx]	= new PnNode(this, (short)(depth + 1));
 			cols[idx]		= (byte)col;
-			children[idx].parents.addFirst(this);
 			return children[idx];
 		}
 		/**

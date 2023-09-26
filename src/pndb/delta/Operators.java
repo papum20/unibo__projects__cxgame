@@ -258,12 +258,26 @@ public class Operators {
 		return ALIGNMENT_SCORES[tier(threat)][indexInTier(threat)];
 	}
 
+	/**
+	 * 
+	 * @param board
+	 * @param op
+	 * @param attacker
+	 * @param defender
+	 * @return null for some useless operators (only used to check for alignments)
+	 */
 	public static ThreatCells applied(final BoardBitDb board, ThreatPosition op, byte attacker, byte defender) {
+
+		// debug
 		String s = "nomake";
+		
 		try {
 			ThreatCells res = APPLIERS[tier(op.type)].get((int)(op.type)).getThreatCells(board, op, attacker, defender);
-			if(op.stacked > 0){
+			if(res != null && op.stacked > 0){
+
+				// debug
 				s="makestacked";
+
 				return makeStacked(res, op.last_stacked, op.stacked);
 			}
 			else return res;
@@ -295,7 +309,7 @@ public class Operators {
 		ThreatCells res;
 
 		if(stacked == 1) {
-			if(tier(threat.type) == 2) {
+			if(tier(threat.type) == 2 && threat.related.length == 2) {
 				res = new ThreatCells(3, threat.type);
 				res.set(new MovePair(last_stacked), 0, USE.ATK);
 				res.set(new MovePair(threat.related[0]), 1, USE.DEF);

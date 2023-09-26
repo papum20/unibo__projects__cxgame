@@ -817,7 +817,7 @@ public class BoardBitDb extends BoardBit {
 					_findAlignmentsInDirection(second,				// flip if direction inverted
 						DIRECTIONS[dir_index], dir_index, player,
 						0, 0, 0, 0,
-						only_valid, max_tier, null, stacked, false
+						only_valid, max_tier, last_stacked, stacked, false
 					);
 
 					// additional threat, for vertical dir

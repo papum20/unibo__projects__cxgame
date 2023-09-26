@@ -86,7 +86,7 @@ public class TranspositionTableNode {
 	 */
 	public void insert(long key, PnNode node, short depth) {
 		Element e = new Element(key);
-		e.setNode(node, depth);
+		e.set(node, depth);
 		int index = Element.index(key);
 		if(table[index] == null)
 			table[index] = e;
@@ -162,8 +162,7 @@ public class TranspositionTableNode {
 	/**
 	 * Complexity: O(n), with n length of the list
 	 * @param key
-	 * @param state
-	 * @param idx: 0=attacker, 1=defender, 2=both
+	 * @param node
 	 */
 	public void setNode(long key, PnNode node) {
 		int index = Element.index(key);
@@ -176,8 +175,7 @@ public class TranspositionTableNode {
 	/**
 	 * Complexity: O(n), with n length of the list
 	 * @param key
-	 * @param state
-	 * @param idx
+	 * @param node
 	 * @param depth
 	 */
 	public void setNode(long key, PnNode node, short depth) {
@@ -185,7 +183,20 @@ public class TranspositionTableNode {
 		if(table[index] != null) {
 			Element compare = new Element(key);
 			Element e = table[index].getNext(compare);
-			e.setNode(node, depth);
+			e.set(node, depth);
+		}
+	}
+	/**
+	 * Complexity: O(n), with n length of the list
+	 * @param key
+	 * @param depth
+	 */
+	public void setDepth(long key, short depth) {
+		int index = Element.index(key);
+		if(table[index] != null) {
+			Element compare = new Element(key);
+			Element e = table[index].getNext(compare);
+			e.setDepth(depth);
 		}
 	}
 
@@ -258,11 +269,15 @@ public class TranspositionTableNode {
 
 		/**
 		 * Complexity: O(1)
-		 * @param state_a
-		 * @param state_d
 		 */
 		protected void setNode(PnNode node) {
 			this.node = node;
+		}
+		/**
+		 * Complexity: O(1)
+		 */
+		protected void setDepth(short depth) {
+			this.depth = depth;
 		}
 
 		/**
@@ -271,7 +286,7 @@ public class TranspositionTableNode {
 		 * @param state_d
 		 * @param depth
 		 */
-		protected void setNode(PnNode node, short depth) {
+		protected void set(PnNode node, short depth) {
 			this.node	= node;
 			this.depth	= depth;
 		}
