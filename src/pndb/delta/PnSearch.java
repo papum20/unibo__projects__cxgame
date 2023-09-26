@@ -311,8 +311,7 @@ public class PnSearch implements CXPlayer {
 				resetBoard(most_proving_node, current_node);
 				
 				// debug
-				log += "resetBoard end\n";
-				log += root.debugString(root) + "\n";
+				log += "resetBoard end\n" + root.debugString(root) + "\n";
 				if(DEBUG_TIME) printTime();
 				if(DEBUG_ON) {
 					root.debug(root);
