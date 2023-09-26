@@ -18,15 +18,23 @@ mkdir ${OUTDIR}
 
 
 
-./ltest 9 9 5		pndb.alpha.Player pndb.gamma.Player				-r ${TESTS} > ${OUTDIR}/alpha_gamma_995.txt
-cat scripts/testcases_dalibor.sh >> ${OUTDIR}/alpha_gamma_995.txt
-./ltest 18 20 7		pndb.alpha.Player pndb.gamma.Player				-r ${TESTS} > ${OUTDIR}/alpha_gamma_18207.txt
-cat scripts/testcases_dalibor.sh >> ${OUTDIR}/alpha_gamma_18207.txt
+./ltest 9 9 5		pndb.delta.PnSearch pndb.delt2.PnSearch		-r ${TESTS} > ${OUTDIR}/delta_delt2_995.txt
+cat scripts/testcases_dalibor.sh >> ${OUTDIR}/delta_delt2_995.txt
+./ltest 18 20 7		pndb.delta.PnSearch pndb.delt2.PnSearch		-r ${TESTS} > ${OUTDIR}/delta_delt2_18207.txt
+cat scripts/testcases_dalibor.sh >> ${OUTDIR}/delta_delt2_18207.txt
 
-./ltest 9 9 5		LXCONO.LXMARGIN.LXMARGIN pndb.gamma.Player				-r ${TESTS} > ${OUTDIR}/xcono_gamma_995.txt
-cat scripts/testcases_dalibor.sh >> ${OUTDIR}/xcono_gamma_995.txt
-./ltest 18 20 7		LXCONO.LXMARGIN.LXMARGIN pndb.gamma.Player				-r ${TESTS} > ${OUTDIR}/xcono_gamma_18207.txt
-cat scripts/testcases_dalibor.sh >> ${OUTDIR}/xcono_gamma_18207.txt
+
+
+
+#./ltest 9 9 5		pndb.alpha.Player pndb.gamma.Player				-r ${TESTS} > ${OUTDIR}/alpha_gamma_995.txt
+#cat scripts/testcases_dalibor.sh >> ${OUTDIR}/alpha_gamma_995.txt
+#./ltest 18 20 7		pndb.alpha.Player pndb.gamma.Player				-r ${TESTS} > ${OUTDIR}/alpha_gamma_18207.txt
+#cat scripts/testcases_dalibor.sh >> ${OUTDIR}/alpha_gamma_18207.txt
+#
+#./ltest 9 9 5		LXCONO.LXMARGIN.LXMARGIN pndb.gamma.Player				-r ${TESTS} > ${OUTDIR}/xcono_gamma_995.txt
+#cat scripts/testcases_dalibor.sh >> ${OUTDIR}/xcono_gamma_995.txt
+#./ltest 18 20 7		LXCONO.LXMARGIN.LXMARGIN pndb.gamma.Player				-r ${TESTS} > ${OUTDIR}/xcono_gamma_18207.txt
+#cat scripts/testcases_dalibor.sh >> ${OUTDIR}/xcono_gamma_18207.txt
 
 
 

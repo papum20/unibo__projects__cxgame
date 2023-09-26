@@ -1,4 +1,4 @@
-package pndb.delta;
+package pndb.deltold;
 
 import connectx.CXBoard;
 import connectx.CXCell;
@@ -7,8 +7,8 @@ import pndb.constants.Auxiliary;
 import pndb.constants.CellState;
 import pndb.constants.Constants;
 import pndb.constants.GameState;
-import pndb.tt.TranspositionTable;
-import pndb.tt.TranspositionTableNode;
+import pndb.deltold.tt.TranspositionTable;
+import pndb.deltold.tt.TranspositionTableNode;
 
 
 
@@ -213,7 +213,7 @@ public class PnSearch implements CXPlayer {
 
 	@Override
 	public String playerName() {
-		return "PnDb delta";
+		return "PnDb deltold";
 	}
 
 
@@ -318,7 +318,6 @@ public class PnSearch implements CXPlayer {
 					board.print();
 					//if(loops_n > 20) break;
 				}
-				System.out.println("TIME at end of loop: " + (System.currentTimeMillis() - timer_start) );
 				visit_loops_n++;
 				
 			}

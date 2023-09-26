@@ -17,15 +17,22 @@ mkdir ${OUTDIR}
 ./lcompile
 
 
-./ltest 9 9 5		pndb.alpha.Player pndb.betha.Player				-r ${TESTS} > ${OUTDIR}/alpha_betha_995.txt
-cat scripts/testcases_fiorello.sh >> ${OUTDIR}/alpha_betha_995.txt
-./ltest 9 9 5		pndb.alpha.Player pndb.betha.scomb.Player		-r ${TESTS} > ${OUTDIR}/alpha_scomb_995.txt
-cat scripts/testcases_fiorello.sh >> ${OUTDIR}/alpha_scomb_995.txt
+./ltest 9 9 5		pndb.delt2.PnSearch pndb.deltold.PnSearch		-r ${TESTS} > ${OUTDIR}/delt2_delto_995.txt
+cat scripts/testcases_fiorello.sh >> ${OUTDIR}/delt2_delto_995.txt
+./ltest 18 20 7		pndb.delt2.PnSearch pndb.deltold.PnSearch		-r ${TESTS} > ${OUTDIR}/delt2_delto_18207.txt
+cat scripts/testcases_fiorello.sh >> ${OUTDIR}/delt2_delto_18207.txt
 
-./ltest 18 20 7		pndb.alpha.Player pndb.betha.Player				-r ${TESTS} > ${OUTDIR}/alpha_betha_18207.txt
-cat scripts/testcases_fiorello.sh >> ${OUTDIR}/alpha_scomb_18207.txt
-./ltest 18 20 7		pndb.alpha.Player pndb.betha.scomb.Player		-r ${TESTS} > ${OUTDIR}/alpha_scomb_18207.txt
-cat scripts/testcases_fiorello.sh >> ${OUTDIR}/alpha_scomb_18207.txt
+
+
+#./ltest 9 9 5		pndb.alpha.Player pndb.betha.Player				-r ${TESTS} > ${OUTDIR}/alpha_betha_995.txt
+#cat scripts/testcases_fiorello.sh >> ${OUTDIR}/alpha_betha_995.txt
+#./ltest 9 9 5		pndb.alpha.Player pndb.betha.scomb.Player		-r ${TESTS} > ${OUTDIR}/alpha_scomb_995.txt
+#cat scripts/testcases_fiorello.sh >> ${OUTDIR}/alpha_scomb_995.txt
+#
+#./ltest 18 20 7		pndb.alpha.Player pndb.betha.Player				-r ${TESTS} > ${OUTDIR}/alpha_betha_18207.txt
+#cat scripts/testcases_fiorello.sh >> ${OUTDIR}/alpha_scomb_18207.txt
+#./ltest 18 20 7		pndb.alpha.Player pndb.betha.scomb.Player		-r ${TESTS} > ${OUTDIR}/alpha_scomb_18207.txt
+#cat scripts/testcases_fiorello.sh >> ${OUTDIR}/alpha_scomb_18207.txt
 
 
 

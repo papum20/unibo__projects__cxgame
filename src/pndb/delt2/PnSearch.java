@@ -208,7 +208,7 @@ public class PnSearch implements CXPlayer {
 
 	@Override
 	public String playerName() {
-		return "PnDb delta";
+		return "PnDb delt2";
 	}
 
 
