@@ -1,4 +1,4 @@
-package pndb.delta;
+package pndb.delt2;
 
 import java.util.LinkedList;
 
@@ -33,7 +33,6 @@ public class PnNode {
 	public PnNode most_proving;
 
 	public short depth;
-	public short tag;			// for tagging tree nodes
 	
 
 	/**
@@ -45,8 +44,6 @@ public class PnNode {
 		this.parents		= new LinkedList<PnNode>();
 		this.children		= null;
 		this.most_proving	= null;
-		this.depth			= 0;
-		this.tag			= 0;
 	}
 	/**
 	 * Complexity: O(1)
@@ -60,7 +57,6 @@ public class PnNode {
 		this.children		= null;
 		this.most_proving	= null;
 		this.depth			= depth;
-		this.tag			= 0;
 	}
 
 

@@ -1,7 +1,7 @@
-package pndb.tt;
+package pndb.delt2.tt;
 
 import java.util.Random;
-import pndb.delta.PnNode;
+import pndb.delt2.PnNode;
 
 
 
@@ -77,6 +77,22 @@ public class TranspositionTableNode {
 		else
 			table[index].addNext(e);
 	}
+	/**
+	 * Complexity: O(n), with n length of the list
+	 * @param key
+	 * @param state
+	 * @param idx
+	 * @param depth
+	 */
+	public void insert(long key, PnNode node, short depth) {
+		Element e = new Element(key);
+		e.set(node, depth);
+		int index = Element.index(key);
+		if(table[index] == null)
+			table[index] = e;
+		else
+			table[index].addNext(e);
+	}
 
 	/**
 	 * Remove element entry.
@@ -127,6 +143,21 @@ public class TranspositionTableNode {
 			else return e.getNode();
 		}
 	}
+	/**
+	 * Complexity: O(n), with n length of the list
+	 * @param key
+	 * @return
+	 */
+	public short getFinalDepth(long key) {
+		int index = Element.index(key);
+		if(table[index] == null) return -1;
+		else {
+			Element compare = new Element(key);
+			Element e = table[index].getNext(compare);
+			if(e == null) return -1;
+			else return e.getFinalDepth();
+		}
+	}
 
 	/**
 	 * Complexity: O(n), with n length of the list
@@ -141,6 +172,33 @@ public class TranspositionTableNode {
 			e.setNode(node);
 		}
 	}
+	/**
+	 * Complexity: O(n), with n length of the list
+	 * @param key
+	 * @param node
+	 * @param depth
+	 */
+	public void setNode(long key, PnNode node, short depth) {
+		int index = Element.index(key);
+		if(table[index] != null) {
+			Element compare = new Element(key);
+			Element e = table[index].getNext(compare);
+			e.set(node, depth);
+		}
+	}
+	/**
+	 * Complexity: O(n), with n length of the list
+	 * @param key
+	 * @param depth
+	 */
+	public void setDepth(long key, short depth) {
+		int index = Element.index(key);
+		if(table[index] != null) {
+			Element compare = new Element(key);
+			Element e = table[index].getNext(compare);
+			e.setDepth(depth);
+		}
+	}
 
 	/**
 	 * Try to set state, or insert if doesn't exist.
@@ -152,6 +210,19 @@ public class TranspositionTableNode {
 			setNode(key, node);
 		else
 			insert(key, node);
+	}
+	/**
+	 * Complexity: O(2n), with n length of the list
+	 * @param key
+	 * @param state
+	 * @param idx
+	 * @param depth
+	 */
+	public void setNodeOrInsert(long key, PnNode node, short depth) {
+		if(exists(key))
+			setNode(key, node, depth);
+		else
+			insert(key, node, depth);
 	}
 
 	/**
@@ -171,11 +242,12 @@ public class TranspositionTableNode {
 		private short key1;
 		private int key2;
 		private PnNode node;
+		private short depth;	// tree depth of endgame
 		protected Element next;
 
-		private static final int TABLE_SIZE = 22;
+		private static final int TABLE_SIZE = 16;
 		private static final int MASK2_BITS = TABLE_SIZE + Integer.SIZE;
-		private static final int MASK_IDX	= 4194303;		//2**22-1 = 22 ones
+		private static final int MASK1 = 65535;		//2**16-1 = 16 ones
 
 		/**
 		 * Complexity: O(1)
@@ -201,6 +273,23 @@ public class TranspositionTableNode {
 		protected void setNode(PnNode node) {
 			this.node = node;
 		}
+		/**
+		 * Complexity: O(1)
+		 */
+		protected void setDepth(short depth) {
+			this.depth = depth;
+		}
+
+		/**
+		 * Complexity: O(1)
+		 * @param state_a
+		 * @param state_d
+		 * @param depth
+		 */
+		protected void set(PnNode node, short depth) {
+			this.node	= node;
+			this.depth	= depth;
+		}
 
 		/**
 		 * Complexity: O(1)
@@ -208,6 +297,13 @@ public class TranspositionTableNode {
 		 */
 		protected PnNode getNode() {
 			return node;
+		}
+		/**
+		 * Complexity: O(1)
+		 * @return
+		 */
+		protected short getFinalDepth() {
+			return depth;
 		}
 
 		/**
@@ -236,7 +332,7 @@ public class TranspositionTableNode {
 		 * @return
 		 */
 		protected static int index(long key) {
-			return (int)(key & MASK_IDX);
+			return (int)(key & MASK1);
 		}
 
 		/**

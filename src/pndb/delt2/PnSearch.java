@@ -1,4 +1,4 @@
-package pndb.delta;
+package pndb.delt2;
 
 import connectx.CXBoard;
 import connectx.CXCell;
@@ -7,8 +7,8 @@ import pndb.constants.Auxiliary;
 import pndb.constants.CellState;
 import pndb.constants.Constants;
 import pndb.constants.GameState;
-import pndb.tt.TranspositionTable;
-import pndb.tt.TranspositionTableNode;
+import pndb.delt2.tt.TranspositionTable;
+import pndb.delt2.tt.TranspositionTableNode;
 
 
 
@@ -49,9 +49,10 @@ import pndb.tt.TranspositionTableNode;
  * <p>	14. problem with transpositions in dags (thesis), ambiguity
  * <p>	15.	(delta) pnNode: more parents (dag)
  * <p>	16. (delta) no prune, keep nodes for next visits (using tt for each node)
- * <p>	17.	M*N < 2**15, because of short type for numbers
  * 
  * TODO;
+ * .new findAls, con empty cells, pure per vertical
+ * .rimuovi tt.doppia entry? (se alla fine se non serve)...
  * .db corretto: db ricorsivo su tier3 (con più risposte)
  * ..oppure: provale tutte, con accortezze: 1. usa tutte minacce di 1atk 1def (saranno molte combinazioni in più);
  * 2. a questo punto in combine, stai attento che da ognuno si aggiunga l'intera minaccia (1atk e 1def, non solo atk) (se no 
@@ -59,6 +60,7 @@ import pndb.tt.TranspositionTableNode;
  * .stacked 13 dubious (are these new operators well made?)
  * .save best move in TT? for now, root cant use it
  * .if TT remains so, simplify for db (and reduce dimensions)
+ * .note: tt.depth isn't used now
  * .tt could be bigger, or remove unused pnNodes (note: doesn't take so much memory)
  * TT.remove at start of each selectColumn, to remove entries from previous rounds
  * 
@@ -156,10 +158,8 @@ public class PnSearch implements CXPlayer {
 			else {
 				mark(B.getLastMove().j);
 				// see if new root was already visited, otherwise create it
-				PnNode new_root = TT.getNode(board.hash);
-				if(new_root == null) new_root = new PnNode();
-				// remove unreachable nodes, recalculate deepest node
-				root = new_root;
+				root = TT.getNode(board.hash);
+				if(root == null) root = new PnNode();
 			}
 
 			// debug
@@ -178,10 +178,6 @@ public class PnSearch implements CXPlayer {
 			// return
 			int move;
 			PnNode best = bestNode();
-
-			if(best == null) best = root.most_proving;
-			move = root.lastMoveForChild(best);
-			/*
 			if(best == null && deepestNode(root) != root) {
 				// if all moves are lost, get the first move to the deepest node.
 				move = move_to_deepest;
@@ -189,7 +185,6 @@ public class PnSearch implements CXPlayer {
 				 if(best == null) best = root.most_proving;
 				move = root.lastMoveForChild(best);
 			}
-			*/
 				
 			mark(move);
 			depth_root++;
@@ -370,8 +365,7 @@ public class PnSearch implements CXPlayer {
 
 			log += "evaluateDb\n";
 
-			TT.insert(board.hash, node);
-			node.depth = (short)(depth_root + depth_current);
+			TT.insert(board.hash, node, (short)(depth_root + depth_current));
 			DbSearchResult res_db = dbSearch.selectColumn(board, node, timer_start + timer_duration - System.currentTimeMillis(), player, Operators.MAX_TIER);
 	
 			if(res_db == null)
@@ -405,7 +399,7 @@ public class PnSearch implements CXPlayer {
 			//filterChildren(node.parent, res_db.related_squares_by_col);
 
 			// Update depth with the depth of the threat found
-			node.depth = (short)(depth_root + depth_current + (res_db.threats_n * 2 + 1));
+			TT.setNode(board.hash, node, (short)(depth_root + depth_current + (res_db.threats_n * 2 + 1)) );
 
 			return true;
 		}
@@ -460,9 +454,9 @@ public class PnSearch implements CXPlayer {
 			}
 			// game states
 			else if(board.game_state == GameState.OPEN)
-				initProofAndDisproofNumbers(node, offset);
+			initProofAndDisproofNumbers(node, offset);
 			else 
-				node.prove(board.game_state == GameState.WINP1, false);
+			node.prove(board.game_state == GameState.WINP1, false);
 			
 			// debug
 			log += "setProof node expanded end\n";
@@ -529,15 +523,12 @@ public class PnSearch implements CXPlayer {
 			 * if the current player was to make a "null move".
 			 * In fact, the opponent could apply such winning sequence, if the current player was to 
 			 * make a move outside it, thus not changing his plans.
-			 * 
-			 * Actually, no moves are removed, but these results are only used to sort them.
-			 * 
 			 * Applied to CXGame: columns where the opponent has an immediate attacking move - which leads to a win for him -,
 			 * i.e. where the attacker's move corresponds to the first free cell in the column, are for sure
 			 * the most interesting (in fact, you would lose not facing them); however, other columns involved in the sequence are
 			 * not ignored, since they could block the win too, and also to simplify the calculations by approximation.
-			 * 
-			 * note: related_cols should already contain only available, not full, columns.
+			 */
+			/* note: related_cols should already contain only available, not full, columns.
 			 */
 
 			DbSearchResult res_db = dbSearch.selectColumn(board, node, timer_start + timer_duration - System.currentTimeMillis(), Auxiliary.opponent(player), Operators.MAX_TIER);
@@ -546,32 +537,38 @@ public class PnSearch implements CXPlayer {
 			 * (i.e., for columns, the sum of the scores in the whole column).
 			 */
 
-			int		available_cols_n	= 0;
-			int[]	col_scores,
+			int		related_cols_n	= 0;
+			int[]	related_cols,
 					threats			= dbSearch.getThreatCounts(board, player);
 			int current_child, j, k;
 			PnNode	entry;
 
-			// get for each column the score from db, and check if they are free
-			available_cols_n = board.N;
-			col_scores = new int[board.N];
-			
+			/* Heuristic: nodes without any implicit threat should be considered less (or not at all),
+			 * especially after a few moves (as, probably, after a few moves it's "guaranteed" there are always some).
+			 * For now, used implicit threats number to give priorities.
+			 */
+			related_cols = new int[board.N];
 			for(j = 0; j < board.N; j++) {
-				if(res_db != null && res_db.related_squares_by_col[j] > 0) col_scores[j] = res_db.related_squares_by_col[j];
-				else if(board.freeCol(j)) col_scores[j] = 1;
-				else available_cols_n--;
+				if(res_db != null && res_db.related_squares_by_col[j] > 0) related_cols[j] = res_db.related_squares_by_col[j];
+				else if(board.freeCol(j)) related_cols[j] = 1;
 			}
 			
-			node.expand(available_cols_n);
+			// count the columns, i.e. the number of new children
+			for(int moves_n : related_cols)
+				if(moves_n > 0) related_cols_n++;
+
+			node.expand(related_cols_n);
 			current_child = 0;
 
 			/* Fill children with such columns, and sort by threat_scores at the same time.
-			 * This is made in two steps: first fill and shuffle moves, then assign parent.children related to those shuffled moves.
+			 * First fill and shuffle moves, then assign parent.children related to those shuffled moves.
 			 */
-			for(j = 0; j < board.N && current_child < available_cols_n; j++) {
-				if(col_scores[j] > 0)
+			for(j = 0; j < board.N && current_child < related_cols_n; j++) {
+				if(related_cols[j] > 0)
 				{
+					// only assign the move, for now
 					node.cols[current_child++] = (byte)j;
+					
 					// move back the new child in the right place
 					for(k = current_child - 1; (k > 0) && (threats[node.cols[k - 1]] > threats[j]); k--)
 					Auxiliary.swapByte(node.cols, k, k - 1);
@@ -580,27 +577,30 @@ public class PnSearch implements CXPlayer {
 
 			// shuffle children with same priority
 			int start, end;
-			for(start = 0; start < available_cols_n; start++) {
+			for(start = 0; start < related_cols_n; start++) {
 				for(end = start + 1;
-					end < available_cols_n && threats[node.cols[end]] == threats[node.cols[start]];
+					end < related_cols_n && threats[node.cols[end]] == threats[node.cols[start]];
 					end++
 				) ;
 				Auxiliary.shuffleArrayRangeByte(node.cols, start, end);
 				start = end;
 			}
 				
-			// now create the children
-			for(current_child = 0; current_child < available_cols_n; current_child++)
+			/* now create the children
+			*/
+			for(current_child = 0; current_child < related_cols_n; current_child++)
 			{
 				j = node.cols[current_child];
+
 				mark(j);
 
 				entry = TT.getNode(board.hash);
 				if(entry == null) {
 					node.createChild(current_child, j);
-					/* Heuristic initialization: nodes without any threat should be considered less (or not at all).
+					// set proof numbers
+					/* Heuristic: nodes without any threat should be considered less (or not at all).
 					*/
-					setProofAndDisproofNumbers(node.children[current_child], current_player, (threats[j] == 0) ? (short)(board.N * 2 + 1) : (short)(board.N + 1) );
+					setProofAndDisproofNumbers(node.children[current_child], current_player, (threats[j] == 0) ? 0 : (short)(board.N + 1) );
 
 					/* In case, update deepest node.
 					* No need to check node's value: if it's winning, the deepest_node won't be used;
@@ -678,6 +678,31 @@ public class PnSearch implements CXPlayer {
 			}
 		}
 
+		/**
+		 * Remove node's children with associated move in column, if column is == 0 in filter.
+		 * @param node
+		 * @param filter
+		 */
+		/*
+		private void filterChildren(PnNode node, int[] filter) {
+
+			if(node == null)
+				return;
+
+			int to_delete = 0, i = 0;
+
+			// count children to delete
+			for(PnNode child : node.children)
+				if(filter[child.col] == 0) to_delete++;
+				
+			// create new array
+			PnNode[] new_children = new PnNode[node.children.length - to_delete];
+			for(PnNode child : node.children)
+				if(filter[child.col] != 0) new_children[i++] = child;
+			
+			node.children = new_children;
+		}
+		*/
 
 	//#endregion PN-SEARCH
 
