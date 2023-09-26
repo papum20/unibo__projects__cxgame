@@ -318,10 +318,10 @@ public class PnSearch implements CXPlayer {
 					board.print();
 					//if(loops_n > 20) break;
 				}
-				System.out.println("TIME at end of loop: " + (System.currentTimeMillis() - timer_start) );
 				visit_loops_n++;
 				
 			}
+			System.out.println("TIME at end of loop: " + (System.currentTimeMillis() - timer_start) );
 			
 			// debug
 			log += "end of loop\n";
