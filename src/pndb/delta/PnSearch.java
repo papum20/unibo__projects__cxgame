@@ -50,6 +50,7 @@ import pndb.tt.TranspositionTableNode;
  * <p>	15.	(delta) pnNode: more parents (dag)
  * <p>	16. (delta) no prune, keep nodes for next visits (using tt for each node)
  * <p>	17.	M*N < 2**15, because of short type for numbers
+ * <p>	18.	dbSearch: note about wins by mistake, with threats of tier > 1 (intersecting with tier 1 ones)
  * 
  * TODO;
  * .db corretto: db ricorsivo su tier3 (con più risposte)
@@ -61,6 +62,7 @@ import pndb.tt.TranspositionTableNode;
  * .if TT remains so, simplify for db (and reduce dimensions)
  * .tt could be bigger, or remove unused pnNodes (note: doesn't take so much memory)
  * TT.remove at start of each selectColumn, to remove entries from previous rounds
+ * .merge 2 threat classes, remove appliers
  * 
  * check there are not problems with def.length=0 with new operator
  * 

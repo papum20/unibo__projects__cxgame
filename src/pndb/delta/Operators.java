@@ -65,16 +65,15 @@ public class Operators {
 	public static final short MARK_DIFF_MIN					= 3;
 	
 	// STATIC INSTANCES OF APPLIERS
-	private static final ApplierNull				applierNull				= new ApplierNull();
-	private static final Applier1first				applier1first			= new Applier1first();
+	private static final ApplierNull			applierNull					= new ApplierNull();
+	private static final Applier1first			applier1first				= new Applier1first();
 	private static final Applier1in				applier1in					= new Applier1in();
 	private static final Applier1second			applier1second				= new Applier1second();
-	private static final Applier1_1first_or_in		applier1_1first_or_in	= new Applier1_1first_or_in();
 	private static final Applier1_1in_or_in		applier1_1in_or_in			= new Applier1_1in_or_in();
 	private static final Applier1_3second_or_in	applier1_3second_or_in		= new Applier1_3second_or_in();
 	private static final Applier1_3in_or_in		applier1_3in_or_in			= new Applier1_3in_or_in();
-	private static final Applier1_2third			applier1_2third			= new Applier1_2third();
-	private static final Applier1_2in				applier1_2in			= new Applier1_2in();
+	private static final Applier1_2third		applier1_2third				= new Applier1_2third();
+	private static final Applier1_2in			applier1_2in				= new Applier1_2in();
 
 
 
@@ -189,8 +188,8 @@ public class Operators {
 				applier1in,				//_xx_x_->_xxXx_
 				applier1second,			//_xxx__->_xxxX_
 				applierNull,			//__xxx__->do nothing (implicit in [1])
-				applier1_1first_or_in,	//xxx__->xxxXO/xxxOX
-				applier1_1first_or_in,	//xx_x_->xxXxO/xxOxX
+				applier1_1in_or_in,		//xxx__->xxxXO/xxxOX
+				applier1_1in_or_in,		//xx_x_->xxXxO/xxOxX
 				applier1_1in_or_in		//xx__x->xxxOx/xxOXx
 			}
 		),
@@ -358,7 +357,7 @@ public class Operators {
 				}
 
 				public boolean isCompatible(int X, int lined, int marks, int holes) {
-					return lined == X + this.line && marks == X + this.mark && holes == this.in;
+					return lined >= X + this.line && marks == X + this.mark && holes == this.in;
 				}
 
 				/**
@@ -389,8 +388,12 @@ public class Operators {
 				}
 			}
 			public static interface Applier {
-				//given a board and and an alignment relative to it,
-				//returns a threatArray, that contains the cells to mark to apply an operator
+				/* given a board and and an alignment relative to it,
+				returns a threatArray, that contains the cells to mark to apply an operator.
+				Note 1: at least for tier <= 2, orders moves as the given threatPosition,
+				so there are no problems with checking vertical alignments (which are never tier 3, because
+				they would need empty cells at the bottom)
+				*/
 				public ThreatCells getThreatCells(final BoardBitDb board, ThreatPosition pos, byte attacker, byte defender);
 			}
 
@@ -417,7 +420,8 @@ public class Operators {
 
 		//#endregion MAIN
 
-				//#region APPLIERS
+		//#region APPLIERS
+
 			private static class ApplierNull implements Applier {
 				/**
 				 * Complexity: O(1)
@@ -460,48 +464,24 @@ public class Operators {
 					ThreatCells res	= new ThreatCells(1, pos.type);
 					MovePair dir	= pos.start.getDirection(pos.end);
 					MovePair cell	= pos.start.getSum(dir);
-					if(!board.cellFree(cell.i, cell.j)) cell = pos.end.getDiff(dir);
+					if(!board.cellFree(cell.i, cell.j)) cell.reset(pos.end).subtract(dir);
 					res.set(cell, 0, USE.ATK);
 					return res;
 				}
 			}
 			//like 1kc, but starts from the free border
-			private static class Applier1_1first_or_in implements Applier {
-				/**
-				 * Complexity: worst: O(X)
-				 */
-				public ThreatCells getThreatCells(final BoardBitDb board, ThreatPosition pos, byte attacker, byte defender) {
-					ThreatCells res = new ThreatCells(2, pos.type);
-					MovePair dir;
-					MovePair it;
-					if (board.cellFree(pos.start.i, pos.end.j)) {
-						it = new MovePair(pos.start);
-						dir = pos.start.getDirection(pos.end);
-					} else {
-						it = new MovePair(pos.end);
-						dir = pos.end.getDirection(pos.start);
-					}
-					int len = 0;
-					//doesn't check termination condition ( && !it.equals(op.end)): assumes the operator is appliable
-					while(len < 2) {
-						if(board.cellFree(it.i, it.j)) res.set(new MovePair(it), len++, USE.BTH);
-						//if(it.equals(op.end)) len = 2;	//exit while
-						it.sum(dir);
-					}
-					return res;
-				}
-			}
 			private static class Applier1_1in_or_in implements Applier {
 				/**
 				 * Complexity: worst: O(X)
 				 */
 				public ThreatCells getThreatCells(final BoardBitDb board, ThreatPosition pos, byte attacker, byte defender) {
 					ThreatCells res = new ThreatCells(2, pos.type);
-					MovePair	dir = pos.start.getDirection(pos.end),
-								it = new MovePair(pos.start);
-					int len = 0;
-					while(len < 2) {
-						if(board.cellFree(it.i, it.j)) res.set(new MovePair(it), len++, USE.BTH);
+					MovePair	it	= new MovePair(pos.start),
+								dir	= pos.start.getDirection(pos.end);
+					int idx = 0;
+					//doesn't check termination condition ( && !it.equals(op.end)): assumes the operator is applicable
+					while(idx < 2) {
+						if(board.cellFree(it.i, it.j)) res.set(new MovePair(it), idx++, USE.BTH);
 						it.sum(dir);
 					}
 					return res;

@@ -56,7 +56,7 @@ public class DbSearch {
 	protected boolean[][] GOAL_SQUARES;		// used for defensive search.
 	
 	// DEBUG
-	protected final boolean DEBUG_ON			= false;
+	protected final boolean DEBUG_ON			= true;
 	private final boolean DEBUG_TIME			= false;
 	protected final boolean DEBUG_PRINT			= false;
 	private final boolean DEBUG_ONLY_FOUND_SEQ	= true;
@@ -488,9 +488,12 @@ public class DbSearch {
 			byte state = node.board.gameState();
 			if(state == GameState.OPEN)
 			{
+				// debug
+				log += "start getApplicable Operators\n";
+				
 				boolean found_sequence = false;
 				//LinkedList<CXCell[]> applicableOperators = getApplicableOperators(node, MAX_CHILDREN, my_attacker);
-				ThreatsByRank applicableOperators = getApplicableOperators(node.board, attacker, max_tier);
+				ThreatsByRank applicableOperators = node.board.getApplicableOperators(attacker, max_tier);
 
 				for(LinkedList<ThreatCells> tier : applicableOperators) {
 					if(tier != null)
@@ -670,12 +673,15 @@ public class DbSearch {
 				// debug
 				if(DEBUG_ON) file.write("prev after mark atk" + "\n" + prev.board.printString(0) + prev.board.printAlignmentsString(0) + "\n");
 				
-				// related > 1 means there is at least 1 defensive move (bc there's always an attacker one)
-				if(it.hasNext() || athreat.threat.related.length > 1) {
+				/* in all cases, except for the last threat, which is winning.
+				Note that even a threat of tier > 1 could win by mistake: in such case, the problem is that it also has defensive moves;
+				however these won't be added thanks to this condition, but will be ignored.
+				*/
+				if(it.hasNext()) {
 					
 					// the last node doesn't have any defensive squares, as it's a win.
 					if(athreat_prev != null && athreat_prev.threat.related.length > 1)
-					prev.board.checkAlignments(athreat_prev.threat.getDefensive(athreat_prev.related_index), prev.getMaxTier(), "createDefRoot");
+						prev.board.checkAlignments(athreat_prev.threat.getDefensive(athreat_prev.related_index), prev.getMaxTier(), "createDefRoot");
 					
 					athreat_prev = athreat;
 					
@@ -811,21 +817,6 @@ public class DbSearch {
 	//#endregion CREATE
 
 	//#region GET_SET
-
-		
-		/**
-		 * Complexity: O(3X(M+N)) = O(6XN)
-		 * @param board
-		 * @param attacker
-		 * @param max_tier
-		 * @return
-		 */
-		private ThreatsByRank getApplicableOperators(BoardBitDb board, byte attacker, int max_tier) {
-
-			log += "start getApplicable Operators\n";
-
-			return board.getApplicableOperators(attacker, max_tier);
-		}
 
 		/**
 		 * Complexity: O(lastCombination.length)
