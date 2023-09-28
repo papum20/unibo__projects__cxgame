@@ -8,8 +8,8 @@ import java.util.LinkedList;
 public class PnNode {
 
 	//#region CONSTANTS
-	public static final short N_ZERO		= 0;
-	public static final short N_INFINITE	= 32767;
+	public static final int N_ZERO		= 0;
+	public static final int N_INFINITE	= 2147483647;
 
 	public static final byte PROOF		= 0;	// proof index
 	public static final byte DISPROOF	= 1;	// disproof index
@@ -23,7 +23,7 @@ public class PnNode {
 	
 
 	public byte[] cols;			// move (column), for each child
-	public final short[] n;		// n_proof, n_disproof
+	public final int[] n;		// n_proof, n_disproof
 	
 	public final LinkedList<PnNode> parents;
 	public PnNode[] children;
@@ -41,7 +41,7 @@ public class PnNode {
 	 * @param cols column
 	 */
 	public PnNode() {
-		this.n				= new short[2];
+		this.n				= new int[2];
 		this.parents		= new LinkedList<PnNode>();
 		this.children		= null;
 		this.most_proving	= null;
@@ -54,7 +54,7 @@ public class PnNode {
 	 * @param parent != null
 	 */
 	public PnNode(PnNode parent, short depth) {
-		this.n				= new short[2];
+		this.n				= new int[2];
 		this.parents		= new LinkedList<PnNode>();
 		this.parents.add(parent);
 		this.children		= null;
@@ -63,6 +63,19 @@ public class PnNode {
 		this.tag			= 0;
 	}
 
+	/**
+	 * Copy this tag to all descendants.
+	 * Complexity: O(tree.size)
+	 * 			= O(N**(M*N-d) )
+	 */
+	public void tagTree() {
+		if(children != null) {
+			for(PnNode child : children) {
+				child.tag = this.tag;
+				child.tagTree();
+			}
+		}
+	}
 
 	
 	
@@ -120,11 +133,11 @@ public class PnNode {
 		 * @param ind : index of n[] = PROOF | DISPROOF
 		 * @return the sum
 		 */
-		public short sumChildren(byte ind) {
-			short sum = 0;
+		public int sumChildren(byte ind) {
+			long sum = 0;
 			for (PnNode child : children)
-				sum = (short)Math.min(sum + child.n[ind], N_INFINITE);
-			return sum;
+				sum = Math.min(sum + (long)child.n[ind], N_INFINITE);
+			return (int)sum;
 		}
 
 		/**
@@ -176,7 +189,7 @@ public class PnNode {
 		 * @param p
 		 * @param d
 		 */
-		public void setProofAndDisproof(short p, short d) {
+		public void setProofAndDisproof(int p, int d) {
 			n[PROOF]	= p;
 			n[DISPROOF]	= d;
 		}

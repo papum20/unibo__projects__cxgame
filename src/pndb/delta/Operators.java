@@ -272,6 +272,12 @@ public class Operators {
 		
 		try {
 			ThreatCells res = APPLIERS[tier(op.type)].get((int)(op.type)).getThreatCells(board, op, attacker, defender);
+			// for vertical direction, only allow the first move as attacker's
+			if(res != null && op.start.getDirection(op.end).equals(BoardBitDb.DIRECTIONS[BoardBitDb.DIR_IDX_VERTICAL])) {
+				res.uses[0] = USE.ATK;
+				for(int i = 1; i < res.uses.length; i++)
+					res.uses[i] = USE.DEF;
+			}
 			if(res != null && op.stacked > 0){
 
 				// debug

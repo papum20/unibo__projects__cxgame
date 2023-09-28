@@ -20,15 +20,15 @@ public class testerDb {
 
 
 		String[] bb = {
-			".........",
-			".........",
-			"........o",
-			"........x",
-			"..o.o...o",
-			"x.x.x..xx",
-			"o.xoo.xxo",
-			"o.xoxxxox",
-			"o.xooxxoo"
+			".o.x.....",
+			".x.o.....",
+			".x.o.....",
+			".x.o.....",
+			".x.oxx..x",
+			"xo.xooo.o",
+			"oxoxxxoxo",
+			"ooxxoxoxo",
+			"oxoxxxoxo"
 		};
 
 		for(int i = 0; i< M; i++) {

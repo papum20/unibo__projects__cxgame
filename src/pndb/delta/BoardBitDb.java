@@ -267,6 +267,7 @@ public class BoardBitDb extends BoardBit {
 					check(related[i].i, related[i].j, Player_byte[currentPlayer]);			// only check for attacker
 				} else
 					markAny(related[i].i, related[i].j, Player_byte[1 - currentPlayer]);	// markAny, for vertical
+					check(related[i].i, related[i].j, Player_byte[1 - currentPlayer]);			// only check for attacker
 			}
 		}
 

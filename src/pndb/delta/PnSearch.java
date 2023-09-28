@@ -74,6 +74,7 @@ public class PnSearch implements CXPlayer {
 	protected static final byte DISPROOF	= PnNode.DISPROOF;
 
 	protected byte MY_PLAYER	= CellState.P1;
+	protected byte YOUR_PLAYER	= CellState.P2;
 	protected byte MY_WIN		= GameState.WINP1;
 	protected byte YOUR_WIN		= GameState.WINP2;
 
@@ -87,16 +88,21 @@ public class PnSearch implements CXPlayer {
 	
 	// nodes
 	protected PnNode root;
-
+	
 	// time / memory
 	protected long timer_start;			//turn start (milliseconds)
 	protected long timer_duration;		//time (millisecs) at which to stop timer
 	protected Runtime runtime;
 	
+	// depth
 	private short	depth_root;			// tree depth starting from empty board (absolute)
 	protected short depth_current;		// current tree level (height), relative (=absolute-depth_root)
-
-	private int		move_to_deepest;	// auxiliary to getDeepestNode
+	
+	// implementation
+	private int			move_to_deepest;	// auxiliary to getDeepestNode
+	protected PnNode	lastIt_root;
+	protected short[]	lastIt_freeCols;
+	protected long		lastIt_hash;
 
 	// debug
 	private final boolean DEBUG_ON		= false;
@@ -104,6 +110,7 @@ public class PnSearch implements CXPlayer {
 	protected String log;
 	private long ms;
 	private int visit_loops_n;
+	private int depth_last;
 
 	
 	
@@ -124,6 +131,8 @@ public class PnSearch implements CXPlayer {
 
 		if(first)	current_player = CellState.P1;
 		else		current_player = CellState.P2;
+
+		lastIt_freeCols = new short[N];
 		
 		timer_duration = (timeout_in_secs - 1) * 1000;
 		depth_root = first ? Constants.SHORT_0 : Constants.SHORT_1;
@@ -170,8 +179,18 @@ public class PnSearch implements CXPlayer {
 			else System.out.println("Opponent: " + B.getLastMove());
 			board.print();
 			
-			// visit
 			depth_current = 0;
+			// remove unreachable nodes from previous rounds
+			root.tag = depth_root;		// unique tag for each round
+			if(lastIt_root != null) {
+				root.tagTree();
+				removeUnmarkedTree(lastIt_root, board.hash, current_player);
+			}
+		
+			// debug
+			System.out.println("time before start visit: " + (System.currentTimeMillis() - timer_start) );
+			
+			// visit
 			visit();
 
 			// debug
@@ -192,17 +211,30 @@ public class PnSearch implements CXPlayer {
 				move = root.lastMoveForChild(best);
 			}
 			*/
-				
+			
+			// update implementativeiteration variables, before marking moves
+			lastIt_root = root;
+			lastIt_hash = board.hash;
+			if(MC.length > 0) {
+				lastIt_hash = TT.getHash(lastIt_hash, MC[MC.length - 1].i, MC[MC.length - 1].j, Auxiliary.getPlayerBit(YOUR_PLAYER));
+				lastIt_freeCols[MC[MC.length - 1].j]++;
+				if(MC.length > 1) {
+					lastIt_hash = TT.getHash(lastIt_hash, MC[MC.length - 2].i, MC[MC.length - 2].j, Auxiliary.getPlayerBit(YOUR_PLAYER));
+					lastIt_freeCols[MC[MC.length - 2].j]++;
+				}
+			}
+			
 			mark(move);
 			depth_root++;
 
 			// debug
 			log += "before debug&return\n";
-
+			
 			// debug
 			root.debug(root);
 			System.out.println("My move: " + move);
 			board.print();
+			log += "after debug\n";
 
 			return move;
 
@@ -272,7 +304,7 @@ public class PnSearch implements CXPlayer {
 			visit_loops_n = 0;
 			ms = System.currentTimeMillis();
 
-			root.setProofAndDisproof(Constants.SHORT_1, Constants.SHORT_1);
+			root.setProofAndDisproof(1, 1);
 
 			/* improvement: keep track of current node (next to develop), instead of 
 			* looking for it at each iteration, restarting from root.
@@ -305,6 +337,7 @@ public class PnSearch implements CXPlayer {
 				current_node = updateAncestorsWhileChanged(most_proving_node, current_player);
 				// debug
 				log += "update ancestors end; now resetBoard, current_node==null?" + (current_node == null) + "\n";
+				depth_last = depth_current;
 
 				/* at this point of the loop, the most_proving_node was not-expanded, and now just got expanded,
 				so its numbers always change in `updateAcestors`, except when, by chance, initialization numbers were the
@@ -324,6 +357,7 @@ public class PnSearch implements CXPlayer {
 				
 			}
 			System.out.println("TIME at end of loop: " + (System.currentTimeMillis() - timer_start) );
+			System.out.println("depth last, n_loops: " + depth_last + " " + visit_loops_n );
 			
 			// debug
 			log += "end of loop\n";
@@ -424,7 +458,7 @@ public class PnSearch implements CXPlayer {
 		 * @param my_turn
 		 * @param offset offset for initProofAndDisproofNumbers, in case of `node` open and not expanded.
 		 */
-		protected void setProofAndDisproofNumbers(PnNode node, byte player, short offset) {
+		protected void setProofAndDisproofNumbers(PnNode node, byte player, int offset) {
 
 			log += "setProof\n";
 
@@ -443,7 +477,6 @@ public class PnSearch implements CXPlayer {
 					most_proving = node.minChild(DISPROOF);
 					node.setProofAndDisproof(node.sumChildren(PROOF), most_proving.n[DISPROOF]);
 				}
-				
 				
 				node.most_proving = most_proving;
 				
@@ -602,7 +635,7 @@ public class PnSearch implements CXPlayer {
 					node.createChild(current_child, j);
 					/* Heuristic initialization: nodes without any threat should be considered less (or not at all).
 					*/
-					setProofAndDisproofNumbers(node.children[current_child], current_player, (threats[j] == 0) ? (short)(board.N * 2 + 1) : (short)(board.N + 1) );
+					setProofAndDisproofNumbers(node.children[current_child], current_player, (threats[j] == 0) ? (board.N * 2 + 1) : (board.N + 1) );
 
 					/* In case, update deepest node.
 					* No need to check node's value: if it's winning, the deepest_node won't be used;
@@ -635,7 +668,7 @@ public class PnSearch implements CXPlayer {
 			log += "updateAncestors-loop: node with col " + ((node == root) ? -1 : node.lastMoveFromFirstParent()) + ", numbers " + node.n[PROOF] + " " + node.n[DISPROOF] + ", isroot " + (node==root) + ";;level=" + depth_current + "\n";
 			
 			int old_proof = node.n[PROOF], old_disproof = node.n[DISPROOF];
-			setProofAndDisproofNumbers(node, player, Constants.SHORT_0);		// offset useless, node always expanded here
+			setProofAndDisproofNumbers(node, player, 0);		// offset useless, node always expanded here
 
 			// if changed
 			if(old_proof != node.n[PROOF] || old_disproof != node.n[DISPROOF] || node.isProved()) {
@@ -692,8 +725,8 @@ public class PnSearch implements CXPlayer {
 		 * Complexity: O(1)
 		 * @param node
 		 */
-		protected void initProofAndDisproofNumbers(PnNode node, short offset) {
-			short number = (short)(offset + depth_current / 2 + 1);		// never less than 1
+		protected void initProofAndDisproofNumbers(PnNode node, int offset) {
+			int number = offset + depth_current / 2 + 1;		// never less than 1
 			node.setProofAndDisproof(number, number);
 		}
 
@@ -755,6 +788,33 @@ public class PnSearch implements CXPlayer {
 					}
 				}
 				return deepest;
+			}
+		}
+
+		/**
+		 * Unlink from parents/children all nodes with different tag from `depth_root`,
+		 * and remove from TT; unless proved (or evaluated in db).
+		 * @param node
+		 * @param hash
+		 */
+		private void removeUnmarkedTree(PnNode node, long hash, byte player) {
+			if(node.tag == root.tag || (node.isProved() && node.parents.size() > 0))
+				return;
+			else {
+				if(!node.isProved())
+					TT.remove(hash);
+				/* each node should unlink each child, because of dag structure;
+				however it's not necessary to unlink parents: if a node was to have a marked parent,
+				then such node would be marked too. */
+				if(node.children != null) {
+					for(int i = 0; i < node.children.length; i++) {
+						node.children[i].parents.remove(node);
+						lastIt_freeCols[node.cols[i]]++;
+						removeUnmarkedTree(node.children[i], TT.getHash(hash, lastIt_freeCols[node.cols[i]] - 1, node.cols[i], Auxiliary.getPlayerBit(player)), Auxiliary.opponent(player));
+						lastIt_freeCols[node.cols[i]]--;
+					}
+					node.children = null;
+				}
 			}
 		}
 		
