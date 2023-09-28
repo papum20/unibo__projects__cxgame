@@ -136,6 +136,10 @@ public class Auxiliary {
 			long freeMemory = runtime.maxMemory() - (runtime.totalMemory() - runtime.freeMemory());
 			System.out.println("memory: max=" + runtime.maxMemory() + " " + ", allocated=" + runtime.totalMemory() + ", free=" + runtime.freeMemory() + ", realFree=" + freeMemory);
 		}
+		public static long freeMemory(Runtime runtime) {
+			long freeMemory = runtime.maxMemory() - (runtime.totalMemory() - runtime.freeMemory());
+			return freeMemory;
+		}
 	
 	//#endregion DEBUG
 	

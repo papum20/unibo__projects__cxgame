@@ -51,6 +51,8 @@ import pndb.tt.TranspositionTableNode;
  * <p>	16. (delta) no prune, keep nodes for next visits (using tt for each node)
  * <p>	17.	M*N < 2**15, because of short type for numbers
  * <p>	18.	dbSearch: note about wins by mistake, with threats of tier > 1 (intersecting with tier 1 ones)
+ * <p>	19. why deleting previous nodes: i guess if you managed to prove a node from a previous position, which was
+ * 			more generical, you'll probably be able to re-do it now, with less nodes.
  * 
  * TODO;
  * .db corretto: db ricorsivo su tier3 (con più risposte)
@@ -63,6 +65,12 @@ import pndb.tt.TranspositionTableNode;
  * .tt could be bigger, or remove unused pnNodes (note: doesn't take so much memory)
  * TT.remove at start of each selectColumn, to remove entries from previous rounds
  * .merge 2 threat classes, remove appliers
+ * .when developNode takes too much time
+ * .when ancestors takes too much time
+ * .when root was already proved, but there's no child node
+ * .(alla fine) aumenta tempo (tanto basta), ma metti comunque i check per interromperlo nel caso durante l'esecuzione (parti più costose: develop, ancestors, db)
+ * .count mem, n of nodes
+ * .del from tt, if level old. use list?
  * 
  * check there are not problems with def.length=0 with new operator
  * 
@@ -110,7 +118,21 @@ public class PnSearch implements CXPlayer {
 	protected String log;
 	private long ms;
 	private int visit_loops_n;
-	private int depth_last;
+	private long depth_last;
+	private long time_last1;
+	private long time_last2;
+	private long time_last3;
+	private long time_last4;
+	private long time_last5;
+	private testerMemoryStruct mem_last1 = new testerMemoryStruct(0,0,0,0);
+	private testerMemoryStruct mem_last2 = new testerMemoryStruct(0,0,0,0);
+	private testerMemoryStruct mem_last3 = new testerMemoryStruct(0,0,0,0);
+	private testerMemoryStruct mem_last4 = new testerMemoryStruct(0,0,0,0);
+	private testerMemoryStruct mem_last5 = new testerMemoryStruct(0,0,0,0);
+	private long time_last_a1;
+	private long time_last_a2;
+	private long time_last_a3;
+	private PnNode node_last_db;
 
 	
 	
@@ -186,9 +208,18 @@ public class PnSearch implements CXPlayer {
 				root.tagTree();
 				removeUnmarkedTree(lastIt_root, board.hash, current_player);
 			}
-		
+
 			// debug
+			testerMemoryStruct mem = new testerMemoryStruct(runtime.maxMemory(), runtime.totalMemory(), runtime.freeMemory(), Auxiliary.freeMemory(runtime));
+			System.out.println("time before after clean, before gc: " + (System.currentTimeMillis() - timer_start) );
+			System.out.println("mem before gc: " + mem);
+			
+			runtime.gc();
+			
+			// debug
+			mem.set(runtime.maxMemory(), runtime.totalMemory(), runtime.freeMemory(), Auxiliary.freeMemory(runtime));
 			System.out.println("time before start visit: " + (System.currentTimeMillis() - timer_start) );
+			System.out.println("mem after gc: " + mem);
 			
 			// visit
 			visit();
@@ -315,8 +346,10 @@ public class PnSearch implements CXPlayer {
 				// debug
 				log = "visit no. " + visit_loops_n + " for player " + current_player + "\n";
 				ms = System.currentTimeMillis();
+				time_last1 = System.currentTimeMillis() - timer_start;
+				mem_last1.set(runtime.maxMemory(), runtime.totalMemory(), runtime.freeMemory(), Auxiliary.freeMemory(runtime));
 				//System.out.println("currentNode move: " + currentNode.col + ", mostProving move: " + ((currentNode.most_proving == null)? "null" : currentNode.most_proving.col) );
-
+				
 				most_proving_node = selectMostProving(current_node);
 
 				// debug
@@ -326,19 +359,29 @@ public class PnSearch implements CXPlayer {
 					System.out.println("most proving: " + ((most_proving_node == root) ? -1 : most_proving_node.lastMoveFromFirstParent()));
 					board.print();
 				}
+				time_last2 = System.currentTimeMillis() - timer_start;
+				mem_last2.set(runtime.maxMemory(), runtime.totalMemory(), runtime.freeMemory(), Auxiliary.freeMemory(runtime));
 				
 				developNode(most_proving_node, current_player);
-
+				
 				// debug
 				if(DEBUG_TIME) printTime();
 				//System.out.println("after develop\nroot numbers: " + root.n[0] + ", " + root.n[1] + "\nroot children");
 				//for(PnNode child : root.children) System.out.println(child.col + ":" + child.n[PROOF] + "," + child.n[DISPROOF]);
+				time_last3 = System.currentTimeMillis() - timer_start;
+				mem_last3.set(runtime.maxMemory(), runtime.totalMemory(), runtime.freeMemory(), Auxiliary.freeMemory(runtime));
 				
 				current_node = updateAncestorsWhileChanged(most_proving_node, current_player);
 				// debug
 				log += "update ancestors end; now resetBoard, current_node==null?" + (current_node == null) + "\n";
 				depth_last = depth_current;
-
+				time_last4 = System.currentTimeMillis() - timer_start;
+				mem_last4.set(runtime.maxMemory(), runtime.totalMemory(), runtime.freeMemory(), Auxiliary.freeMemory(runtime));
+				if(isTimeEnded()) {
+					System.out.println("last most_proving:");
+					board.print();
+				}
+				
 				/* at this point of the loop, the most_proving_node was not-expanded, and now just got expanded,
 				so its numbers always change in `updateAcestors`, except when, by chance, initialization numbers were the
 				same as the newly calculated ones. */
@@ -346,6 +389,8 @@ public class PnSearch implements CXPlayer {
 				resetBoard(most_proving_node, current_node);
 				
 				// debug
+				time_last5 = System.currentTimeMillis() - timer_start;
+				mem_last5.set(runtime.maxMemory(), runtime.totalMemory(), runtime.freeMemory(), Auxiliary.freeMemory(runtime));
 				log += "resetBoard end\n" + root.debugString(root) + "\n";
 				if(DEBUG_TIME) printTime();
 				if(DEBUG_ON) {
@@ -358,6 +403,9 @@ public class PnSearch implements CXPlayer {
 			}
 			System.out.println("TIME at end of loop: " + (System.currentTimeMillis() - timer_start) );
 			System.out.println("depth last, n_loops: " + depth_last + " " + visit_loops_n );
+			System.out.println("times: before selectMostProving: " + time_last1 + "\nbefore develop: " + time_last2 + "\nbefore ancestors: " + time_last3 + "\nbefore reset" + time_last4 + "\nafter reset: " + time_last5);
+			System.out.println("mems: before selectMostProving: " + mem_last1.toString() + "\nbefore develop: " + mem_last2.toString() + "\nbefore ancestors: " + mem_last3.toString() + "\nbefore reset" + mem_last4.toString() + "\nafter reset: " + mem_last5.toString());
+			System.out.println("times: in develop: before eval" + time_last_a1 + "\nbefore genchildren: " + time_last_a2 + "\nafter genchildren: " + time_last_a3);
 			
 			// debug
 			log += "end of loop\n";
@@ -536,12 +584,19 @@ public class PnSearch implements CXPlayer {
 
 			// debug
 			log += "developNode\n";
-
+			time_last_a1 = System.currentTimeMillis() - timer_start;
+			
 			if(evaluate(node, board.game_state, player))
-				return;
+			return;
 
+			// debug
+			time_last_a2 = System.currentTimeMillis() - timer_start;
+			
 			// if the game is still open
 			generateAllChildren(node, player);
+
+			// debug
+			time_last_a3 = System.currentTimeMillis() - timer_start;
 
 		}
 
@@ -666,6 +721,11 @@ public class PnSearch implements CXPlayer {
 		public PnNode updateAncestorsWhileChanged(PnNode node, byte player) {
 			
 			log += "updateAncestors-loop: node with col " + ((node == root) ? -1 : node.lastMoveFromFirstParent()) + ", numbers " + node.n[PROOF] + " " + node.n[DISPROOF] + ", isroot " + (node==root) + ";;level=" + depth_current + "\n";
+
+			/* if we are on a node which was analyzed (and proved) in a previous round:
+			in that case the numbers wouldn't change, but it caused problems of time */
+			if(node.isProved() && board.game_state != GameState.OPEN)
+				return null;
 			
 			int old_proof = node.n[PROOF], old_disproof = node.n[DISPROOF];
 			setProofAndDisproofNumbers(node, player, 0);		// offset useless, node always expanded here
