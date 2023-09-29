@@ -57,6 +57,10 @@ public class TTElementBool extends Element<TTElementBool> {
 		public static Key calculateKey(long key) {
 			return new Key(key, key >> MASK2_BITS, key >> TABLE_SIZE, (int)(key & MASK_IDX));
 		}			
+		public static Key setKey(Key k, long key) {
+			k.set(key, key >> MASK2_BITS, key >> TABLE_SIZE, (int)(key & MASK_IDX));
+			return k;
+		}			
 		public int calculateIndex(long key) {
 			return (int)(key & MASK_IDX);
 		}

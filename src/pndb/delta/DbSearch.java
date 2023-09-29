@@ -49,6 +49,7 @@ public class DbSearch {
 	protected int M, N;
 	public BoardBitDb board;
 	protected TranspositionTable<TTElementBool> TT;
+	private TranspositionTable.Element.Key TTkey;
 
 	// VARIABLES FOR A DB-SEARCH EXECUTION
 	protected int found_win_sequences;
@@ -85,10 +86,11 @@ public class DbSearch {
 		MY_PLAYER	= CellState.P1;
 		BoardBitDb.MY_PLAYER = MY_PLAYER;
 		
-		board = new BoardBitDb(M, N, X);
-		TT = new TranspositionTable<TTElementBool>(M, N, TTElementBool.getTable());
+		board	= new BoardBitDb(M, N, X);
+		TT		= new TranspositionTable<TTElementBool>(M, N, TTElementBool.getTable());
 		
 		BoardBitDb.TT = TT;
+		TTkey = new TranspositionTable.Element.Key();
 
 		GOAL_SQUARES = new boolean[M][N];
 		// initialized to false
@@ -753,7 +755,7 @@ public class DbSearch {
 			int max_threat					= Math.min(A.getMaxTier(), B.getMaxTier());
 			BoardBitDb new_board			= A.board.getCombined(B.board, attacker, max_threat);
 			DbNode new_child				= null;
-			TTElementBool entry = TT.get(TTElementBool.calculateKey(new_board.hash));
+			TTElementBool entry = TT.get(TTElementBool.setKey(TTkey, new_board.hash));
 
 			// debug
 			if(DEBUG_ON) new_board.printFile(file, new_board.getMC_n());
@@ -807,10 +809,10 @@ public class DbSearch {
 
 			while(it.hasNext()) {
 				long hash = it.next().board.hash;
-				TTElementBool entry = TT.get(TTElementBool.calculateKey(hash));
+				TTElementBool entry = TT.get(TTElementBool.setKey(TTkey, hash));
 				
 				if(entry != null && entry.val == 1)
-					TT.remove(TTElementBool.calculateKey(hash));
+					TT.remove(TTElementBool.setKey(TTkey, hash));
 			}
 		}
 	

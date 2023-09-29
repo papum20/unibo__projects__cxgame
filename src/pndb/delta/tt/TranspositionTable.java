@@ -89,12 +89,21 @@ public class TranspositionTable<E extends TranspositionTable.Element<E>> {
 		protected S next;
 		
 		public static class Key {
-			long	key,
-					key1,
-					key2;
+			protected long	key,
+							key1,
+							key2;
 			int index;
 
+			public Key() {
+			
+			}
 			public Key(long key, long key1, long key2, int index) {
+				this.key	= key;
+				this.key1	= key1;
+				this.key2	= key2;
+				this.index	= index;
+			}
+			public void set(long key, long key1, long key2, int index) {
 				this.key	= key;
 				this.key1	= key1;
 				this.key2	= key2;
@@ -128,6 +137,7 @@ public class TranspositionTable<E extends TranspositionTable.Element<E>> {
 
 		// public static abstract S[] getTable();
 		// public static Key calculateKey(long key);
+		// public static Key setKey(Key k, long key);
 		public abstract int calculateIndex(long key);
 		protected abstract boolean compareKey(Key k);
 

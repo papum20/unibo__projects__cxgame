@@ -53,6 +53,7 @@ import pndb.delta.tt.TTElementNode;;
  * <p>	18.	dbSearch: note about wins by mistake, with threats of tier > 1 (intersecting with tier 1 ones)
  * <p>	19. why deleting previous nodes: i guess if you managed to prove a node from a previous position, which was
  * 			more generical, you'll probably be able to re-do it now, with less nodes.
+ * <p>	20.	TT.remove at start of each selectColumn, to remove entries from previous rounds
  * 
  * TODO;
  * .db corretto: db ricorsivo su tier3 (con più risposte)
@@ -61,12 +62,7 @@ import pndb.delta.tt.TTElementNode;;
  * rischi di aggiungere più atk che def e la situazione non sarebbe raggiungibile)
  * .stacked 13 dubious (are these new operators well made?)
  * .save best move in TT? for now, root cant use it
- * .if TT remains so, simplify for db (and reduce dimensions)
- * .tt could be bigger, or remove unused pnNodes (note: doesn't take so much memory)
- * TT.remove at start of each selectColumn, to remove entries from previous rounds
  * .merge 2 threat classes, remove appliers
- * .when developNode takes too much time
- * .when ancestors takes too much time
  * .when root was already proved, but there's no child node
  * .(alla fine) aumenta tempo (tanto basta), ma metti comunque i check per interromperlo nel caso durante l'esecuzione (parti più costose: develop, ancestors, db)
  * .count mem, n of nodes
@@ -107,6 +103,7 @@ public class PnSearch implements CXPlayer {
 	protected short depth_current;		// current tree level (height), relative (=absolute-depth_root)
 	
 	// implementation
+	private TranspositionTable.Element.Key TTkey;
 	private int			move_to_deepest;	// auxiliary to getDeepestNode
 	protected PnNode	lastIt_root;
 	protected short[]	lastIt_freeCols;
@@ -150,6 +147,7 @@ public class PnSearch implements CXPlayer {
 		TT			= new TranspositionTable<TTElementNode>(M, N, new TTElementNode().getTable());
 
 		BoardBit.TT = TT;
+		TTkey = new TranspositionTable.Element.Key();
 
 		if(first)	current_player = CellState.P1;
 		else		current_player = CellState.P2;
@@ -189,7 +187,7 @@ public class PnSearch implements CXPlayer {
 			else {
 				mark(B.getLastMove().j);
 				// see if new root was already visited, otherwise create it
-				TTElementNode entry = TT.get(TTElementNode.calculateKey(board.hash));
+				TTElementNode entry = TT.get(TTElementNode.setKey(TTkey, board.hash));
 				PnNode new_root;
 				if(entry == null) new_root = new PnNode();
 				else new_root = entry.node;
@@ -213,7 +211,7 @@ public class PnSearch implements CXPlayer {
 
 			// debug
 			testerMemoryStruct mem = new testerMemoryStruct(runtime.maxMemory(), runtime.totalMemory(), runtime.freeMemory(), Auxiliary.freeMemory(runtime));
-			System.out.println("time before after clean, before gc: " + (System.currentTimeMillis() - timer_start) );
+			System.out.println("time after clean, before gc: " + (System.currentTimeMillis() - timer_start) );
 			System.out.println("mem before gc: " + mem);
 			
 			runtime.gc();
@@ -232,10 +230,6 @@ public class PnSearch implements CXPlayer {
 			// return
 			int move;
 			PnNode best = bestNode();
-
-			if(best == null) best = root.most_proving;
-			move = root.lastMoveForChild(best);
-			/*
 			if(best == null && deepestNode(root) != root) {
 				// if all moves are lost, get the first move to the deepest node.
 				move = move_to_deepest;
@@ -243,7 +237,6 @@ public class PnSearch implements CXPlayer {
 				 if(best == null) best = root.most_proving;
 				move = root.lastMoveForChild(best);
 			}
-			*/
 			
 			// update implementativeiteration variables, before marking moves
 			lastIt_root = root;
@@ -431,7 +424,7 @@ public class PnSearch implements CXPlayer {
 			log += "evaluate\n";
 		
 			if(game_state == GameState.OPEN) {
-				TTElementNode entry = TT.get(TTElementNode.calculateKey(board.hash));
+				TTElementNode entry = TT.get(TTElementNode.setKey(TTkey, board.hash));
 
 				if(entry == null || entry.node == root)
 					// if an entry exist, it was already analyzed with db
@@ -687,7 +680,7 @@ public class PnSearch implements CXPlayer {
 				j = node.cols[current_child];
 				mark(j);
 
-				entry = TT.get(TTElementNode.calculateKey(board.hash));
+				entry = TT.get(TTElementNode.setKey(TTkey, board.hash));
 				if(entry == null) {
 					node.createChild(current_child, j);
 					/* Heuristic initialization: nodes without any threat should be considered less (or not at all).
@@ -860,11 +853,10 @@ public class PnSearch implements CXPlayer {
 		 * @param hash
 		 */
 		private void removeUnmarkedTree(PnNode node, long hash, byte player) {
-			if(node.tag == root.tag || (node.isProved() && node.parents.size() > 0))
+			if(node.tag == root.tag)
 				return;
 			else {
-				if(!node.isProved())
-					TT.remove(TTElementNode.calculateKey(hash));
+				TT.remove(TTElementNode.setKey(TTkey, hash));
 				/* each node should unlink each child, because of dag structure;
 				however it's not necessary to unlink parents: if a node was to have a marked parent,
 				then such node would be marked too. */
