@@ -1066,10 +1066,6 @@ public class BoardBitDb extends BoardBit {
 		 * Complexity: O(1)
 		 */
 		public LinkedList<ThreatApplied> getMarkedThreats() {return markedThreats;}
-		/**
-		 * Complexity: O(1)
-		 */
-		public long getHash() {return hash;}
 	
 	//#endregion GET
 	

@@ -7,8 +7,8 @@ import pndb.constants.Auxiliary;
 import pndb.constants.CellState;
 import pndb.constants.Constants;
 import pndb.constants.GameState;
-import pndb.tt.TranspositionTable;
-import pndb.tt.TranspositionTableNode;
+import pndb.delta.tt.TranspositionTable;
+import pndb.delta.tt.TTElementNode;;
 
 
 
@@ -90,7 +90,7 @@ public class PnSearch implements CXPlayer {
 
 	// board
 	public BoardBit board;				// public for debug
-	protected TranspositionTableNode TT;
+	protected TranspositionTable<TTElementNode> TT;
 	public byte current_player;			// public for debug
 	protected DbSearch dbSearch;
 	
@@ -147,9 +147,9 @@ public class PnSearch implements CXPlayer {
 
 		board		= new BoardBit(M, N, X);
 		dbSearch	= new DbSearch();		
-		TT			= new TranspositionTableNode(M, N);
+		TT			= new TranspositionTable<TTElementNode>(M, N, new TTElementNode().getTable());
 
-		BoardBit.TT = new TranspositionTable(M, N);
+		BoardBit.TT = TT;
 
 		if(first)	current_player = CellState.P1;
 		else		current_player = CellState.P2;
@@ -189,8 +189,10 @@ public class PnSearch implements CXPlayer {
 			else {
 				mark(B.getLastMove().j);
 				// see if new root was already visited, otherwise create it
-				PnNode new_root = TT.getNode(board.hash);
-				if(new_root == null) new_root = new PnNode();
+				TTElementNode entry = TT.get(TTElementNode.calculateKey(board.hash));
+				PnNode new_root;
+				if(entry == null) new_root = new PnNode();
+				else new_root = entry.node;
 				// remove unreachable nodes, recalculate deepest node
 				root = new_root;
 			}
@@ -429,13 +431,13 @@ public class PnSearch implements CXPlayer {
 			log += "evaluate\n";
 		
 			if(game_state == GameState.OPEN) {
-				PnNode entry = TT.getNode(board.hash);
+				TTElementNode entry = TT.get(TTElementNode.calculateKey(board.hash));
 
-				if(node == root || entry == null)
+				if(entry == null || entry.node == root)
 					// if an entry exist, it was already analyzed with db
 					return evaluateDb(node, player);
 
-				return entry.isProved();
+				return entry.node.isProved();
 			}
 			else {
 				node.prove(game_state == GameState.WINP1, false);		// root cant be ended, or the game would be ended
@@ -454,7 +456,7 @@ public class PnSearch implements CXPlayer {
 
 			log += "evaluateDb\n";
 
-			TT.insert(board.hash, node);
+			TT.insert(board.hash, new TTElementNode(board.hash, node));
 			node.depth = (short)(depth_root + depth_current);
 			DbSearchResult res_db = dbSearch.selectColumn(board, node, timer_start + timer_duration - System.currentTimeMillis(), player, Operators.MAX_TIER);
 	
@@ -640,7 +642,7 @@ public class PnSearch implements CXPlayer {
 			int[]	col_scores,
 					threats			= dbSearch.getThreatCounts(board, player);
 			int current_child, j, k;
-			PnNode	entry;
+			TTElementNode	entry;
 
 			// get for each column the score from db, and check if they are free
 			available_cols_n = board.N;
@@ -685,7 +687,7 @@ public class PnSearch implements CXPlayer {
 				j = node.cols[current_child];
 				mark(j);
 
-				entry = TT.getNode(board.hash);
+				entry = TT.get(TTElementNode.calculateKey(board.hash));
 				if(entry == null) {
 					node.createChild(current_child, j);
 					/* Heuristic initialization: nodes without any threat should be considered less (or not at all).
@@ -700,9 +702,9 @@ public class PnSearch implements CXPlayer {
 					if(board.game_state == GameState.DRAW)
 						node.children[current_child].depth = (short)(depth_root + depth_current + 1);
 
-					TT.insert(board.hash, node.children[current_child]);
+					TT.insert(board.hash, new TTElementNode(board.hash, node.children[current_child]));
 				} else {
-					node.addChild(current_child, entry, j);
+					node.addChild(current_child, entry.node, j);
 				}
 
 				unmark(j);
@@ -862,7 +864,7 @@ public class PnSearch implements CXPlayer {
 				return;
 			else {
 				if(!node.isProved())
-					TT.remove(hash);
+					TT.remove(TTElementNode.calculateKey(hash));
 				/* each node should unlink each child, because of dag structure;
 				however it's not necessary to unlink parents: if a node was to have a marked parent,
 				then such node would be marked too. */

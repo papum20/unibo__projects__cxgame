@@ -11,7 +11,7 @@ import pndb.constants.Auxiliary;
 import pndb.constants.CellState;
 import pndb.constants.GameState;
 import pndb.constants.MovePair;
-import pndb.tt.TranspositionTable;
+import pndb.delta.tt.TranspositionTable;
 
 
 

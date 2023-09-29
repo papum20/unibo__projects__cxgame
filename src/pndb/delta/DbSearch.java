@@ -15,8 +15,8 @@ import pndb.constants.CellState;
 import pndb.constants.GameState;
 import pndb.constants.MovePair;
 import pndb.constants.Constants.BoardsRelation;
-import pndb.tt.TranspositionElementEntry;
-import pndb.tt.TranspositionTable;
+import pndb.delta.tt.TranspositionTable;
+import pndb.delta.tt.TTElementBool;
 
 
 
@@ -48,7 +48,7 @@ public class DbSearch {
 
 	protected int M, N;
 	public BoardBitDb board;
-	protected TranspositionTable TT;
+	protected TranspositionTable<TTElementBool> TT;
 
 	// VARIABLES FOR A DB-SEARCH EXECUTION
 	protected int found_win_sequences;
@@ -86,7 +86,7 @@ public class DbSearch {
 		BoardBitDb.MY_PLAYER = MY_PLAYER;
 		
 		board = new BoardBitDb(M, N, X);
-		TT = new TranspositionTable(M, N);
+		TT = new TranspositionTable<TTElementBool>(M, N, TTElementBool.getTable());
 		
 		BoardBitDb.TT = TT;
 
@@ -292,8 +292,7 @@ public class DbSearch {
 					// debug
 					if(DEBUG_TIME) printTime();
 
-					if(addCombinationStage(root, attacker, attacking, lastDependency, lastCombination))				//uses lasdtDependency, fills lastCombination
-						found_goal_state = true;
+					addCombinationStage(root, attacker, attacking, lastDependency, lastCombination);				//uses lasdtDependency, fills lastCombination
 					
 					// debug
 					if(DEBUG_TIME) printTime();
@@ -427,30 +426,25 @@ public class DbSearch {
 		 * @param lastCombination
 		 * @return only return true if the dbSearch should end, because a checked and won node was found in the TT.
 		 */
-		private boolean addCombinationStage(DbNode root, byte attacker, boolean attacking, LinkedList<DbNode> lastDependency, LinkedList<DbNode> lastCombination) throws IOException {
+		private void addCombinationStage(DbNode root, byte attacker, boolean attacking, LinkedList<DbNode> lastDependency, LinkedList<DbNode> lastCombination) throws IOException {
 			
 			// debug
 			log += "combStage\n";
 
 			ListIterator<DbNode> it = lastDependency.listIterator();
-			boolean found_win = false;
-
 			while (
 				!isTimeEnded() && it.hasNext()
 				&& (!attacking || found_win_sequences < MAX_THREAT_SEQUENCES)
-				&& !found_win
 			) {
 				DbNode node = it.next();
 				
 				// debug
 				if(DEBUG_ON) file.write(indent + "parent: \n" + node.board.printString(node.board.getMC_n()) + indent + "children: \n");
 				
-				found_win = findAllCombinationNodes(node, root, attacker, attacking, lastCombination, root);
+				findAllCombinationNodes(node, root, attacker, attacking, lastCombination, root);
 			}
 
 			removeCombinationTTEntries(lastCombination, attacker);
-
-			return found_win;
 		}
 
 		/**
@@ -584,25 +578,23 @@ public class DbSearch {
 		 * @param attacking
 		 * @param lastCombination
 		 * @param root
-		 * @return only return true if the dbSearch should end, because a checked and won node was found in the TT.
 		 */
-		private boolean findAllCombinationNodes(DbNode partner, DbNode node, byte attacker, boolean attacking, LinkedList<DbNode> lastCombination, DbNode root) throws IOException {
+		private void findAllCombinationNodes(DbNode partner, DbNode node, byte attacker, boolean attacking, LinkedList<DbNode> lastCombination, DbNode root) throws IOException {
 			
 			// debug
 			log += "combNodes\n";
 			
-			if(node == null || (attacking && found_win_sequences >= MAX_THREAT_SEQUENCES) || isTimeEnded())
-				return false;
-
-			/* Partner's and node's state is always open (or it would have been checked earlier, when created in dependency stage).
+			if(
+				// interrupt db
+				node == null || (attacking && found_win_sequences >= MAX_THREAT_SEQUENCES) || isTimeEnded()
+				/* Partner's and node's state is always open (or it would have been checked earlier, when created in dependency stage).
 				* However a combined child could be not in open state: then it would be checked in the next dependency stage for defenses.
 				*/
-			if(node.board.gameState() != GameState.OPEN) 
-				return false;
-
-			//doesn't check if isDependencyNode() : also combinations of combination nodes could result in alignments
-			if(partner.validCombinationWith(node, attacker) != BoardsRelation.USEFUL) 
-				return false;
+				|| node.board.gameState() != GameState.OPEN
+				|| partner.validCombinationWith(node, attacker) != BoardsRelation.USEFUL
+				//doesn't check if isDependencyNode() : also combinations of combination nodes could result in alignments
+			)
+				return;
 
 			// DEBUG
 			if(DEBUG_ON) {
@@ -611,13 +603,9 @@ public class DbSearch {
 			}
 
 			//create combination with A's board (copied)
-			if(	addCombinationChild(partner, node, lastCombination, root, attacker, attacking)
-				|| findAllCombinationNodes(partner, node.getFirstChild(), attacker, attacking, lastCombination, root)
-				|| findAllCombinationNodes(partner, node.getSibling(), attacker, attacking, lastCombination, root)
-			)
-				return true;
-
-			return false;
+			addCombinationChild(partner, node, lastCombination, root, attacker, attacking);
+			findAllCombinationNodes(partner, node.getFirstChild(), attacker, attacking, lastCombination, root);
+			findAllCombinationNodes(partner, node.getSibling(), attacker, attacking, lastCombination, root);
 		}
 	
 	//#endregion ALGORITHM
@@ -756,33 +744,23 @@ public class DbSearch {
 		 * 
 		 * = O(marked_threats.length + N**2) + O(B.marked_threats.length * (16X * avg_threats_per_dir_per_line) )
 		 * 
-		 * @return (see findAllCombinations())
 		 */
-		private boolean addCombinationChild(DbNode A, DbNode B, LinkedList<DbNode> lastCombination, DbNode root, byte attacker, boolean attacking) {
+		private void addCombinationChild(DbNode A, DbNode B, LinkedList<DbNode> lastCombination, DbNode root, byte attacker, boolean attacking) {
 
 			// debug
 			log += "addCombChild\n";
 			
-			int attacker_i					= Auxiliary.getPlayerBit(attacker);
 			int max_threat					= Math.min(A.getMaxTier(), B.getMaxTier());
-			BoardBitDb new_board						= A.board.getCombined(B.board, attacker, max_threat);
-			DbNode new_child					= null;
-			TranspositionElementEntry entry = TT.getState(new_board.getHash());
+			BoardBitDb new_board			= A.board.getCombined(B.board, attacker, max_threat);
+			DbNode new_child				= null;
+			TTElementBool entry = TT.get(TTElementBool.calculateKey(new_board.hash));
 
 			// debug
 			if(DEBUG_ON) new_board.printFile(file, new_board.getMC_n());
 
 			// if already analyzed and saved in TT
-			if(entry != null && entry.state[attacker_i] != GameState.NULL){
-				if(entry.state[attacker_i] == Auxiliary.cellState2winState(attacker) )
-					// already proved
-					return true;
-				else
-					/* already combined,
-					 * or proved draw/lost, so useless to re-analyze this board.
-					 */
-					return false;
-				}
+			if(entry != null)
+				return;
 				
 			//only create node if has threats (to continue visit)
 			if(new_board.hasAlignments(attacker)) {
@@ -793,10 +771,8 @@ public class DbSearch {
 				lastCombination.add(new_child);
 
 				// if not present in TT for attacker
-				TT.setStateOrInsert(new_board.getHash(), GameState.OPEN, attacker_i);
+				TT.insert(new_board.hash, new TTElementBool(new_board.hash, 1));
 			}
-
-			return false;
 		}
 
 
@@ -828,14 +804,13 @@ public class DbSearch {
 			/* remmove TT "open" entries from lastCombination
 			*/
 			ListIterator<DbNode> it = lastCombination.listIterator();
-			int attacker_i = Auxiliary.getPlayerBit(attacker);
 
 			while(it.hasNext()) {
-				long hash = it.next().board.getHash();
-				TranspositionElementEntry entry = TT.getState(hash);
+				long hash = it.next().board.hash;
+				TTElementBool entry = TT.get(TTElementBool.calculateKey(hash));
 				
-				if(entry != null && entry.state[attacker_i] == GameState.OPEN)
-					TT.removeState(hash, attacker_i);
+				if(entry != null && entry.val == 1)
+					TT.remove(TTElementBool.calculateKey(hash));
 			}
 		}
 	
