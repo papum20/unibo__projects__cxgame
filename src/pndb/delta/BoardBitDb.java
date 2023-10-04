@@ -14,11 +14,11 @@ import pndb.delta.threats.ThreatApplied;
 import pndb.delta.threats.ThreatCells;
 import pndb.delta.threats.ThreatPosition;
 import pndb.delta.threats.ThreatCells.USE;
-import pndb.constants.Auxiliary;
-import pndb.constants.CellState;
-import pndb.constants.GameState;
-import pndb.constants.MovePair;
-import pndb.constants.Constants.BoardsRelation;
+import pndb.delta.constants.Auxiliary;
+import pndb.delta.constants.CellState;
+import pndb.delta.constants.GameState;
+import pndb.delta.constants.MovePair;
+import pndb.delta.constants.Constants.BoardsRelation;
 import pndb.structures.BiList.BiNode;
 
 
@@ -28,26 +28,14 @@ public class BoardBitDb extends BoardBit {
 	
 
 	//#region CONSTANTS
-		
-		/* order: clockwise, from right, with 0 above.
-		 */
-		public static final MovePair DIRECTIONS[] = {
-			new MovePair(0, 1),
-			new MovePair(1, 1),
-			new MovePair(1, 0),
-			new MovePair(1, -1),
-			new MovePair(0, -1),
-			new MovePair(-1, -1),
-			new MovePair(-1, 0),
-			new MovePair(-1, 1)
-		};
+		private static final MovePair DIRECTIONS[] = MovePair.DIRECTIONS;
 		/* number of absolute directions */
-		protected static final int DIR_ABS_N = 4;
+		private static final int DIR_ABS_N = MovePair.DIR_ABS_N;
 		/* indexes for alignments_by_dir */
-		protected static int	DIR_IDX_HORIZONTAL	= 0,
-								DIR_IDX_DIAGRIGHT 	= 1,
-								DIR_IDX_VERTICAL	= 2,
-								DIR_IDX_DIAGLEFT	= 3;
+		private static int	DIR_IDX_HORIZONTAL	= MovePair.DIR_IDX_HORIZONTAL,
+							DIR_IDX_DIAGRIGHT 	= MovePair.DIR_IDX_DIAGRIGHT,
+							DIR_IDX_VERTICAL	= MovePair.DIR_IDX_VERTICAL,
+							DIR_IDX_DIAGLEFT	= MovePair.DIR_IDX_DIAGLEFT;		
 
 		protected static final MovePair MIN = new MovePair(0, 0);
 		protected final MovePair MAX;
@@ -826,7 +814,7 @@ public class BoardBitDb extends BoardBit {
 						MovePair new_stacked = new MovePair(free[second.j], second.j);
 						markCheck(new_stacked.j, player);
 						// exclude vertical, or would add non-existing alignments
-						findAlignments(new_stacked.getSum(1, 0), player, max_tier - 1, check1, check2, only_valid, new_stacked, stacked + 1, DIR_IDX_VERTICAL, caller);
+						findAlignments(new_stacked.getSum(DIRECTIONS[DIR_IDX_VERTICAL]), player, max_tier - 1, check1, check2, only_valid, new_stacked, stacked + 1, DIR_IDX_VERTICAL, caller);
 						unmark(new_stacked.j);
 					}
 

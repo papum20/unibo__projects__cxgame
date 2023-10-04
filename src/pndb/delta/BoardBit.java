@@ -7,10 +7,10 @@ import java.lang.Math;
 
 import connectx.CXCellState;
 import connectx.CXGameState;
-import pndb.constants.Auxiliary;
-import pndb.constants.CellState;
-import pndb.constants.GameState;
-import pndb.constants.MovePair;
+import pndb.delta.constants.Auxiliary;
+import pndb.delta.constants.CellState;
+import pndb.delta.constants.GameState;
+import pndb.delta.constants.MovePair;
 import pndb.delta.tt.TranspositionTable;
 
 
@@ -247,30 +247,10 @@ public class BoardBit {
 		}
 		/**
 		 * Complexity: O(1)
-		 */
-		public CXCellState cellStateCX(int i, int j) {
-			switch(_cellState(i, j)) {
-				case 1:
-					return CXCellState.P1;
-				default:
-					switch(_cellMaskState(i, j)) {
-						case 1:
-							return CXCellState.P2;
-						default:
-							return CXCellState.FREE;
-					}
-			}
-		}
-		/**
-		 * Complexity: O(1)
 		 * @param c
 		 * @return the cell's state, as CellState
 		 */
 		public byte cellState(MovePair c) {return cellState(c.i, c.j);}
-		/**
-		 * Complexity: O(1)
-		 */
-		public CXCellState cellStateCX(MovePair c) {return cellStateCX(c.i, c.j);}
 
 		/**
 		 * Complexity: O(1)
@@ -289,12 +269,6 @@ public class BoardBit {
 		 */
 		public byte cell2GameState(byte cell_state) {
 			return (cell_state == CellState.P1)? GameState.WINP1 : GameState.WINP2;
-		}
-		/**
-		 * Complexity: O(1)
-		 */
-		public CXGameState cell2GameStateCX(int i, int j) {
-			return (_cellState(i, j) == 1)? CXGameState.WINP1 : CXGameState.WINP2;
 		}
 
 		/**
@@ -319,22 +293,7 @@ public class BoardBit {
 		 * Complexity: O(1)
 		 */
 		public byte gameState() {return game_state;}
-		/**
-		 * Complexity: O(1)
-		 */
-		public CXGameState gameStateCX() {
-			switch(game_state) {
-				case GameState.DRAW:	return CXGameState.DRAW;
-				case GameState.WINP1:	return CXGameState.WINP1;
-				case GameState.WINP2:	return CXGameState.WINP2;
-				default:				return CXGameState.OPEN;
-			}
-		}
-		/**
-		 * Complexity: O(1)
-		 */
-		public void setGameState(CXGameState state) {game_state = Auxiliary.CX2gameState(state); }
-		
+
 	//#endregion GET_SET
 
 	//#region MACROS

@@ -1,6 +1,6 @@
 package pndb.delta.threats;
 
-import pndb.constants.CellState;
+import pndb.delta.constants.CellState;
 import pndb.structures.BiList;
 import pndb.structures.BiList.BiNode;
 

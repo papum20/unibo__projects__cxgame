@@ -14,7 +14,7 @@ import java.util.LinkedList;
 import pndb.delta.threats.ThreatCells;
 import pndb.delta.threats.ThreatCells.USE;
 import pndb.delta.threats.ThreatPosition;
-import pndb.constants.MovePair;
+import pndb.delta.constants.MovePair;
 
 
 
@@ -271,9 +271,9 @@ public class Operators {
 		String s = "nomake";
 		
 		try {
-			ThreatCells res = APPLIERS[tier(op.type)].get((int)(op.type)).getThreatCells(board, op, attacker, defender);
+			ThreatCells res = APPLIERS[tier(op.type)].get((int)(op.type)).getThreatCells(board, op);
 			// for vertical direction, only allow the first move as attacker's
-			if(res != null && op.start.getDirection(op.end).equals(BoardBitDb.DIRECTIONS[BoardBitDb.DIR_IDX_VERTICAL])) {
+			if(res != null && op.start.getDirection(op.end).equals(MovePair.DIRECTIONS[MovePair.DIR_IDX_VERTICAL])) {
 				res.uses[0] = USE.ATK;
 				for(int i = 1; i < res.uses.length; i++)
 					res.uses[i] = USE.DEF;
@@ -400,7 +400,7 @@ public class Operators {
 				so there are no problems with checking vertical alignments (which are never tier 3, because
 				they would need empty cells at the bottom)
 				*/
-				public ThreatCells getThreatCells(final BoardBitDb board, ThreatPosition pos, byte attacker, byte defender);
+				public ThreatCells getThreatCells(final BoardBitDb board, ThreatPosition pos);
 			}
 
 			public static class AppliersMap extends HashMap<Integer, Applier> {
@@ -432,7 +432,7 @@ public class Operators {
 				/**
 				 * Complexity: O(1)
 				 */
-				public ThreatCells getThreatCells(final BoardBitDb board, ThreatPosition pos, byte attacker, byte defender) {
+				public ThreatCells getThreatCells(final BoardBitDb board, ThreatPosition pos) {
 					return null;
 				}
 			}
@@ -440,7 +440,7 @@ public class Operators {
 				/**
 				 * Complexity: O(1)
 				 */
-				public ThreatCells getThreatCells(final BoardBitDb board, ThreatPosition pos, byte attacker, byte defender) {
+				public ThreatCells getThreatCells(final BoardBitDb board, ThreatPosition pos) {
 					ThreatCells res = new ThreatCells(1, pos.type);
 					if(board.cellFree(pos.start.i, pos.start.j))	res.set(pos.start, 0, USE.ATK);
 					else											res.set(pos.end, 0, USE.ATK);
@@ -451,7 +451,7 @@ public class Operators {
 				/**
 				 * Complexity: worst: O(X)
 				 */
-				public ThreatCells getThreatCells(final BoardBitDb board, ThreatPosition pos, byte attacker, byte defender) {
+				public ThreatCells getThreatCells(final BoardBitDb board, ThreatPosition pos) {
 					ThreatCells res = new ThreatCells(1, pos.type);
 					MovePair dir	= pos.start.getDirection(pos.end);
 					MovePair it		= pos.start.getSum(dir);
@@ -466,7 +466,7 @@ public class Operators {
 				/**
 				 * Complexity: O(1)
 				 */
-				public ThreatCells getThreatCells(final BoardBitDb board, ThreatPosition pos, byte attacker, byte defender) {
+				public ThreatCells getThreatCells(final BoardBitDb board, ThreatPosition pos) {
 					ThreatCells res	= new ThreatCells(1, pos.type);
 					MovePair dir	= pos.start.getDirection(pos.end);
 					MovePair cell	= pos.start.getSum(dir);
@@ -480,7 +480,7 @@ public class Operators {
 				/**
 				 * Complexity: worst: O(X)
 				 */
-				public ThreatCells getThreatCells(final BoardBitDb board, ThreatPosition pos, byte attacker, byte defender) {
+				public ThreatCells getThreatCells(final BoardBitDb board, ThreatPosition pos) {
 					ThreatCells res = new ThreatCells(2, pos.type);
 					MovePair	it	= new MovePair(pos.start),
 								dir	= pos.start.getDirection(pos.end);
@@ -497,13 +497,13 @@ public class Operators {
 				/**
 				 * Complexity: worst: O(X)
 				 */
-				public ThreatCells getThreatCells(final BoardBitDb board, ThreatPosition pos, byte attacker, byte defender) {
+				public ThreatCells getThreatCells(final BoardBitDb board, ThreatPosition pos) {
 					ThreatCells res = new ThreatCells(4, pos.type);
 					MovePair dir = pos.start.getDirection(pos.end);
 					MovePair it = pos.start.getSum(dir);
 					if (!board.cellFree(it.i, it.j)) {
 						it.reset(pos.end.i - dir.i, pos.end.j - dir.j);
-						dir.negate();
+						dir = pos.end.getDirection(pos.start);
 					}
 					// DOESN'T PUT res IN ORDER WHEN START AND END ARE INVERTED
 					res.set(pos.start, 0, USE.DEF); 
@@ -523,7 +523,7 @@ public class Operators {
 				/**
 				 * Complexity: worst: O(X)
 				 */
-				public ThreatCells getThreatCells(final BoardBitDb board, ThreatPosition pos, byte attacker, byte defender) {
+				public ThreatCells getThreatCells(final BoardBitDb board, ThreatPosition pos) {
 					ThreatCells res = new ThreatCells(4, pos.type);
 					MovePair	dir = pos.start.getDirection(pos.end),
 								it = new MovePair(pos.start);
@@ -542,7 +542,7 @@ public class Operators {
 				/**
 				 * Complexity: O(1)
 				 */
-				public ThreatCells getThreatCells(final BoardBitDb board, ThreatPosition pos, byte attacker, byte defender) {
+				public ThreatCells getThreatCells(final BoardBitDb board, ThreatPosition pos) {
 					ThreatCells res = new ThreatCells(3, pos.type);
 					MovePair dir = pos.start.getDirection(pos.end);
 					res.set(pos.start.getSum(dir), 0, USE.DEF);
@@ -559,7 +559,7 @@ public class Operators {
 				/**
 				 * Complexity: worst: O(X)
 				 */
-				public ThreatCells getThreatCells(final BoardBitDb board, ThreatPosition pos, byte attacker, byte defender) {
+				public ThreatCells getThreatCells(final BoardBitDb board, ThreatPosition pos) {
 					ThreatCells res = new ThreatCells(3, pos.type);
 					MovePair dir = pos.start.getDirection(pos.end);
 					MovePair it = pos.start.getSum(dir);

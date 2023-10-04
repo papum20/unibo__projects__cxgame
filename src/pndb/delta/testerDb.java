@@ -1,6 +1,6 @@
 package pndb.delta;
 
-import pndb.constants.CellState;
+import pndb.delta.constants.CellState;
 
 public class testerDb {
 	
@@ -20,15 +20,15 @@ public class testerDb {
 
 
 		String[] bb = {
-			".o.x.....",
-			".x.o.....",
-			".x.o.....",
-			".x.o.....",
-			".x.oxx..x",
-			"xo.xooo.o",
-			"oxoxxxoxo",
-			"ooxxoxoxo",
-			"oxoxxxoxo"
+			"o........",
+			"o........",
+			"x........",
+			"o........",
+			"x........",
+			"o........",
+			"o........",
+			"o...o....",
+			"x.xxx...x"
 		};
 
 		for(int i = 0; i< M; i++) {

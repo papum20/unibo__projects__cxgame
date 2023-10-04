@@ -1,7 +1,7 @@
 package pndb.delta;
 
 import connectx.CXBoard;
-import pndb.constants.CellState;
+import pndb.delta.constants.CellState;
 
 
 

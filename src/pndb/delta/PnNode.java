@@ -2,6 +2,8 @@ package pndb.delta;
 
 import java.util.LinkedList;
 
+import pndb.delta.constants.Constants;
+
 /**
  * Node for PnSearch, with simple fields.
  */
@@ -9,7 +11,7 @@ public class PnNode {
 
 	//#region CONSTANTS
 	public static final int N_ZERO		= 0;
-	public static final int N_INFINITE	= 2147483647;
+	public static final int N_INFINITE	= Constants.INFINITE;
 
 	public static final byte PROOF		= 0;	// proof index
 	public static final byte DISPROOF	= 1;	// disproof index
@@ -32,6 +34,7 @@ public class PnNode {
 	 */
 	public PnNode most_proving;
 
+	public long hash;
 	public short depth;
 	public short tag;			// for tagging tree nodes
 	
@@ -53,12 +56,13 @@ public class PnNode {
 	 * @param cols column
 	 * @param parent != null
 	 */
-	public PnNode(PnNode parent, short depth) {
+	public PnNode(PnNode parent, short depth, long hash) {
 		this.n				= new int[2];
 		this.parents		= new LinkedList<PnNode>();
 		this.parents.add(parent);
 		this.children		= null;
 		this.most_proving	= null;
+		this.hash			= hash;
 		this.depth			= depth;
 		this.tag			= 0;
 	}
@@ -86,11 +90,11 @@ public class PnNode {
 		 * Complexity: O(1)
 		 * @return
 		 */
-		public Value value() {
-			if(n[PROOF] == N_ZERO && n[DISPROOF] == N_INFINITE)			return Value.TRUE;
-			else if(n[PROOF] == N_INFINITE && n[DISPROOF] == N_ZERO)	return Value.FALSE;
-			else return Value.UNKNOWN;
-		}
+		//public Value value() {
+		//	if(n[PROOF] == N_ZERO && n[DISPROOF] == N_INFINITE)			return Value.TRUE;
+		//	else if(n[PROOF] == N_INFINITE && n[DISPROOF] == N_ZERO)	return Value.FALSE;
+		//	else return Value.UNKNOWN;
+		//}
 		/**
 		 * Complexity: O(1)
 		 * @param ind
@@ -108,11 +112,28 @@ public class PnNode {
 		 * @param ind
 		 * @return
 		 */
-		public PnNode createChild(int idx, int col) {
-			children[idx]	= new PnNode(this, (short)(depth + 1));
+		public PnNode createChild(int idx, int col, long hash) {
+			children[idx]	= new PnNode(this, (short)(depth + 1), hash);
 			cols[idx]		= (byte)col;
 			return children[idx];
 		}
+		/**
+		 * Complexity: O(N)
+		 */
+		public void removeChild(PnNode child) {
+			PnNode[] new_children	= new PnNode[children.length - 1];
+			byte[] new_cols			= new byte[children.length - 1];
+			int i;
+			for(i = 0; i < children.length && children[i] != child; i++) {
+				new_children[i]	= children[i];
+				new_cols[i]		= cols[i];
+			}
+			for(i++; i < children.length; i++) {
+				new_children[i - 1] = children[i];
+				new_cols[i - 1]		= cols[i];
+			}
+		}
+		
 		/**
 		 * find and return the child with min proof/disproof number.
 		 * Complexity: O(children_n)
@@ -219,10 +240,9 @@ public class PnNode {
 		 * @param value value to assing (True/False for binary trees)
 		 * @param prune if true, prune children (i.e. set to null)
 		 */
-		public void prove(boolean value, boolean prune) {
+		public void prove(boolean value) {
 			if(value) setProofAndDisproof(N_ZERO, N_INFINITE);
 			else setProofAndDisproof(N_INFINITE, N_ZERO);
-			if(prune) children = null;
 		}
 
 	//#endregion SET
@@ -238,7 +258,7 @@ public class PnNode {
 		 * Complexity: O(1)
 		 */
 		public boolean isProved() {
-			return n[PROOF] == N_INFINITE || n[DISPROOF] == N_INFINITE;
+			return n[PROOF] == 0 || n[DISPROOF] == 0;
 		}
 		/**
 		 * Complexity: O(1)
@@ -263,8 +283,10 @@ public class PnNode {
 	public String debugString(PnNode root) {
 		String s = "node with col " + ((this == root) ? -1 : lastMoveFromFirstParent()) + ", node==root? " + (this==root) + "; numbers: " + n[0] + ", " + n[1] + "\n";
 		s += "children\n";
-		for(PnNode child : children)
-			s += lastMoveForChild(child) + ":" + child.n[PROOF] + "," + child.n[DISPROOF] + "\n";
+		if(children != null) {
+			for(PnNode child : children)
+				s += lastMoveForChild(child) + ":" + child.n[PROOF] + "," + child.n[DISPROOF] + "\n";
+		}
 		return s;
 	}
 

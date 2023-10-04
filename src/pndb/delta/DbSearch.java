@@ -10,11 +10,11 @@ import pndb.delta.Operators.ThreatsByRank;
 import pndb.delta.threats.ThreatApplied;
 import pndb.delta.threats.ThreatCells;
 import pndb.delta.threats.ThreatCells.USE;
-import pndb.constants.Auxiliary;
-import pndb.constants.CellState;
-import pndb.constants.GameState;
-import pndb.constants.MovePair;
-import pndb.constants.Constants.BoardsRelation;
+import pndb.delta.constants.Auxiliary;
+import pndb.delta.constants.CellState;
+import pndb.delta.constants.GameState;
+import pndb.delta.constants.MovePair;
+import pndb.delta.constants.Constants.BoardsRelation;
 import pndb.delta.tt.TranspositionTable;
 import pndb.delta.tt.TTElementBool;
 
@@ -846,12 +846,10 @@ public class DbSearch {
 		 */
 		protected DbSearchResult getReturnValue(byte player) {
 
-			int		winning_col;
-			int[]	related_squares_by_col;
-			
 			// the winning move is the player's move in the first threat in the sequence
 			ThreatApplied winning_threat = win_node.board.markedThreats.getFirst();
-			winning_col = winning_threat.threat.related[winning_threat.related_index].j;
+			int winning_col = winning_threat.threat.related[winning_threat.related_index].j;
+			int[]	related_squares_by_col;
 			
 			/* fill the related_squares_by_column with the number of newly made moves for each column
 			*/

@@ -1,6 +1,6 @@
 package pndb.delta.threats;
 
-import pndb.constants.MovePair;
+import pndb.delta.constants.MovePair;
 
 
 
@@ -53,5 +53,12 @@ public class ThreatCells {
 		for(int i = 0; i < atk; i++) defensive[i] = related[i];
 		for(int i = atk + 1; i < related.length; i++) defensive[i - 1] = related[i];
 		return defensive;
+	}
+
+	@Override
+	public String toString() {
+		String res = "type: " + type + ", related: ";
+		for(MovePair m : related) res += m + ", ";
+		return res;
 	}
 }

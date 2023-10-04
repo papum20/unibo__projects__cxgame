@@ -1,6 +1,6 @@
 package pndb.delta;
 
-import pndb.constants.Constants.BoardsRelation;
+import pndb.delta.constants.Constants.BoardsRelation;
 
 /**
  * Node for DbSearch, including its own board.
