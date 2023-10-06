@@ -192,12 +192,16 @@ public class PnSearch implements CXPlayer {
 
 				// see if new root was already visited, otherwise create it
 				TTElementNode entry = TTdag.get(TTElementNode.setKey(TTdag_key, board.hash));
-				if(entry == null) root = new PnNode(depth_root, board.hash);
+				if(entry == null) {
+					// useless to insert in dag now, this root won't exist in next rounds
+					root = new PnNode(depth_root, board.hash);
+					root.setProofAndDisproof(1, 1);
+				}
 				else root = entry.node;
 			}
 
 			// remove unreachable nodes from previous rounds
-			root.tag = depth_root;		// unique tag for each round
+			root.tag = root.depth;		// unique tag for each round
 			if(lastIt_root != null) {
 				root.tagTree();
 				removeUnmarkedTree(lastIt_root, board.hash, current_player);
@@ -207,6 +211,7 @@ public class PnSearch implements CXPlayer {
 			System.out.println("---\n" + playerName());
 			System.out.println("Opponent: " + ((B.getLastMove() == null) ? null : B.getLastMove().j) );
 			board.print();
+			System.out.println("root existed in dag: " + (TTdag.get(TTElementNode.setKey(TTdag_key, board.hash)) != null) );
 			testerMemoryStruct mem = new testerMemoryStruct(runtime.maxMemory(), runtime.totalMemory(), runtime.freeMemory(), Auxiliary.freeMemory(runtime));
 			System.out.println("time after clean, before gc: " + (System.currentTimeMillis() - timer_start) );
 			System.out.println("mem before gc: " + mem);
@@ -229,7 +234,7 @@ public class PnSearch implements CXPlayer {
 			log += "ended visit\n";
 			log += "root_eval=null:" + (root_eval==null) + ",root_children=null:"+(root.children==null) + "\n";
 			if(root_eval != null) {
-				log += "depths " + depth_root + " " + root_eval.depth_cur + "\n";
+				log += "depths " + root.depth + " " + root_eval.depth_cur + "\n";
 				log += root_eval.col() + " "+root_eval.won()+" " +root_eval.depth_reachable + "\n";
 			}
 			
@@ -330,7 +335,6 @@ public class PnSearch implements CXPlayer {
 			ms = System.currentTimeMillis();
 
 			LinkedList<PnNode> nodes_proved = new LinkedList<>();		// nodes proved, to remove
-			root.setProofAndDisproof(1, 1);
 
 			/* enhancement: keep track of current node (next to develop), instead of 
 			* looking for it at each iteration, restarting from root.
@@ -434,7 +438,7 @@ public class PnSearch implements CXPlayer {
 
 			log += "evaluateDb\n";
 
-			node.depth = (short)(depth_root + depth_current);
+			node.depth = (short)(root.depth + depth_current);
 			DbSearchResult eval = dbSearch.selectColumn(board, node, timer_start + timer_duration - System.currentTimeMillis(), player, Operators.MAX_TIER);
 			
 			if(eval == null)
@@ -634,9 +638,9 @@ public class PnSearch implements CXPlayer {
 			TTElementProved entry_proved;
 			for(j = 0; j < board.N; j++) {
 				//if(res_db != null && res_db.related_squares_by_col[j] > 0) col_scores[j] = res_db.related_squares_by_col[j];
-				if( board.freeCol(j) ) {
-					entry_proved = TTproved.get(TTElementProved.setKey(TTproved_key, TTproved.getHash(node.hash, board.free[j], j, Auxiliary.getPlayerBit(player)), node.depth + 1));
-					if(entry_proved != null && (best_col == -1 || (entry_proved.won() == (player == MY_PLAYER) && entry_proved.depth_reachable < min_depth)) ) {
+				entry_proved = TTproved.get(TTElementProved.setKey(TTproved_key, TTproved.getHash(node.hash, board.free[j], j, Auxiliary.getPlayerBit(player)), node.depth + 1));
+				if( board.freeCol(j) && entry_proved != null) {
+					if(best_col == -1 || (entry_proved.won() == (player == MY_PLAYER) && entry_proved.depth_reachable < min_depth)) {
 						best_col	= j;
 						min_depth	= entry_proved.depth_reachable;
 					} else 
@@ -977,6 +981,20 @@ public class PnSearch implements CXPlayer {
 		 */
 		private byte getPlayerFromDepth(int depth) {
 			return ((depth % 2 == 0) == first) ? MY_PLAYER : YOUR_PLAYER;
+		}
+		/**
+		 * Get entry from TTproved.
+		 * @param hash node's hash
+		 * @param col set to col for node's child if want entry for child, else -1
+		 * @param depth node's depth
+		 * @param player current player at node (in case, who's making move col)
+		 * @return entry
+		 */
+		private TTElementProved getEntryProved(long hash, int col, int depth, byte player) {
+			if(col == -1)
+				return TTproved.get(TTElementProved.setKey(TTproved_key, hash, depth));
+			else
+				return TTproved.get(TTElementProved.setKey(TTproved_key, TTproved.getHash(hash, board.free[col], col, Auxiliary.getPlayerBit(player)), depth + 1));
 		}
 		
 		/**
