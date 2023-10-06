@@ -2,10 +2,11 @@ package pndb.delta.tt;
 
 import pndb.delta.PnNode;
 import pndb.delta.tt.TranspositionTable.Element;
+import pndb.delta.tt.TranspositionTable.Element.Key;
 
 
 
-public class TTElementNode extends Element<TTElementNode> {
+public class TTElementNode extends Element<TTElementNode, Key> {
 		//KEY = key1 + key2 + index = (16+32+16) bit = 64bit
 
 		private		short key1;

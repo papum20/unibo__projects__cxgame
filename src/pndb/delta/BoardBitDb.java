@@ -63,8 +63,6 @@ public class BoardBitDb extends BoardBit {
 	 */
 	protected AlignmentsList[] alignments_by_dir;
 	
-	protected static int[] alignments_by_dir_sizes;
-
 	protected final byte[] Player_byte 	= {CellState.P1, CellState.P2};
 	protected int currentPlayer;		// currentPlayer plays next move (= 0 or 1)
 
@@ -101,7 +99,6 @@ public class BoardBitDb extends BoardBit {
 	 */
 	protected BoardBitDb(int M, int N, int X) {
 		super(M, N, X);
-		alignments_by_dir_sizes = new int[]{M, M + N - 1, N, M + N - 1};
 		alignments_n = 0;
 		
 		MAX = new MovePair(M, N);
@@ -119,7 +116,6 @@ public class BoardBitDb extends BoardBit {
 	 */
 	protected BoardBitDb(BoardBit B) {
 		super(B.M, B.N, B.X);
-		alignments_by_dir_sizes = new int[]{M, M + N - 1, N, M + N - 1};
 		alignments_n = 0;
 		
 		MAX = new MovePair(M, N);
@@ -141,7 +137,6 @@ public class BoardBitDb extends BoardBit {
 	 */
 	protected BoardBitDb(BoardBitDb B, boolean copy_threats) {
 		super(B.M, B.N, B.X);
-		alignments_by_dir_sizes = new int[]{M, M + N - 1, N, M + N - 1};
 		alignments_n = B.alignments_n;
 		
 		MAX = new MovePair(M, N);
@@ -873,6 +868,11 @@ public class BoardBitDb extends BoardBit {
 				}
 			}
 
+			private int alignmentsByDirSize(int idx) {
+				if(idx == 0) return M;
+				else if(idx == 1 || idx == 3) return M + N - 1;
+				else return N;
+			}
 			/**
 			 * Index for alignments_by_direction.
 			 * <p>
@@ -1066,7 +1066,7 @@ public class BoardBitDb extends BoardBit {
 		 */
 		protected void addAlignment(ThreatPosition alignment, int dir_index, byte player) {
 			if(alignments_by_dir[dir_index] == null)
-				alignments_by_dir[dir_index] = new AlignmentsList(alignments_by_dir_sizes[dir_index]);
+				alignments_by_dir[dir_index] = new AlignmentsList(alignmentsByDirSize(dir_index));
 			alignments_by_dir[dir_index].add(player, getIndex_for_alignmentsByDir(DIRECTIONS[dir_index], threat_start), alignment);
 			alignments_n++;
 		}

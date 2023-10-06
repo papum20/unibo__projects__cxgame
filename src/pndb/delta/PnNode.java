@@ -56,6 +56,20 @@ public class PnNode {
 	 * @param cols column
 	 * @param parent != null
 	 */
+	public PnNode(short depth, long hash) {
+		this.n				= new int[2];
+		this.parents		= new LinkedList<PnNode>();
+		this.children		= null;
+		this.most_proving	= null;
+		this.hash			= hash;
+		this.depth			= depth;
+		this.tag			= 0;
+	}
+	/**
+	 * Complexity: O(1)
+	 * @param cols column
+	 * @param parent != null
+	 */
 	public PnNode(PnNode parent, short depth, long hash) {
 		this.n				= new int[2];
 		this.parents		= new LinkedList<PnNode>();

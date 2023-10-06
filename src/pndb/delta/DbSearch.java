@@ -16,6 +16,7 @@ import pndb.delta.constants.GameState;
 import pndb.delta.constants.MovePair;
 import pndb.delta.constants.Constants.BoardsRelation;
 import pndb.delta.tt.TranspositionTable;
+import pndb.delta.tt.TranspositionTable.Element.Key;
 import pndb.delta.tt.TTElementBool;
 
 
@@ -48,7 +49,7 @@ public class DbSearch {
 
 	protected int M, N;
 	public BoardBitDb board;
-	protected TranspositionTable<TTElementBool> TT;
+	protected TranspositionTable<TTElementBool, Key> TT;
 	private TranspositionTable.Element.Key TTkey;
 
 	// VARIABLES FOR A DB-SEARCH EXECUTION
@@ -87,7 +88,7 @@ public class DbSearch {
 		BoardBitDb.MY_PLAYER = MY_PLAYER;
 		
 		board	= new BoardBitDb(M, N, X);
-		TT		= new TranspositionTable<TTElementBool>(M, N, TTElementBool.getTable());
+		TT		= new TranspositionTable<TTElementBool, Key>(M, N, TTElementBool.getTable());
 		
 		BoardBitDb.TT = TT;
 		TTkey = new TranspositionTable.Element.Key();

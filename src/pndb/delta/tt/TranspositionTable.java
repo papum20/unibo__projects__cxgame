@@ -1,10 +1,11 @@
 package pndb.delta.tt;
 
 import java.util.Random;
+import pndb.delta.tt.TranspositionTable.Element.Key;
 
 
 
-public class TranspositionTable<E extends TranspositionTable.Element<E>> {
+public class TranspositionTable<E extends TranspositionTable.Element<E,K>, K extends Key> {
 
 	private long[][][] moves;	//random hashes defined for each move
 	private E[] table;			//actual array where entries are stored
@@ -62,7 +63,7 @@ public class TranspositionTable<E extends TranspositionTable.Element<E>> {
  	 * Complexity: O(n), with n length of the list
 	 * @param key
 	 */
-	  public void remove(Element.Key k) {
+	  public void remove(K k) {
 		E e = table[k.index];
 		if(e != null && e.listRemove(k) == e)
 			table[k.index] = e.next;
@@ -73,7 +74,7 @@ public class TranspositionTable<E extends TranspositionTable.Element<E>> {
 	 * @param key
 	 * @return the element if found, else null
 	 */
-	public E get(Element.Key k) {
+	public E get(K k) {
 		if(table[k.index] == null)
 			return null;
 		else
@@ -81,13 +82,15 @@ public class TranspositionTable<E extends TranspositionTable.Element<E>> {
 	}
 
 
+
 	/**
 	 * @param S self
 	 */
-	public static abstract class Element<S extends Element<S>> {
+	public static abstract class Element<S extends Element<S, K>, K extends Key> {
 
 		protected S next;
-		
+
+
 		public static class Key {
 			protected long	key,
 							key1,
@@ -111,6 +114,7 @@ public class TranspositionTable<E extends TranspositionTable.Element<E>> {
 			}
 		}
 
+
 		public Element() {
 
 		}
@@ -120,14 +124,14 @@ public class TranspositionTable<E extends TranspositionTable.Element<E>> {
 		 * @param e
 		 */
 		protected abstract void listAppend(S e);
-		protected abstract S listGet(Key k);
-		protected Element<S> listRemove(Key k) {
+		protected abstract S listGet(K k);
+		protected Element<S,K> listRemove(K k) {
 			if(compareKey(k))
 				return this;
 			else if(next == null)
 				return null;
 			else {
-				Element<S> to_remove = next.listRemove(k);
+				Element<S,K> to_remove = next.listRemove(k);
 				if(to_remove == next)
 					// remove
 					next = to_remove.next;
@@ -139,7 +143,7 @@ public class TranspositionTable<E extends TranspositionTable.Element<E>> {
 		// public static Key calculateKey(long key);
 		// public static Key setKey(Key k, long key);
 		public abstract int calculateIndex(long key);
-		protected abstract boolean compareKey(Key k);
+		protected abstract boolean compareKey(K k);
 
 	}
 	
