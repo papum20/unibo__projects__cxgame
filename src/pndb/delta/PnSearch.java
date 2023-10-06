@@ -73,7 +73,6 @@ import pndb.delta.tt.TTElementProved.KeyDepth;
  * .count mem, n of nodes
  * .to reduce mem: 1. implement pnnode.children/parents with lists parent/siblings;
  * 2. merge TTElementNode + PnNode in 1 class
- * .also check in TTproved when searching best move/genChildren
  * 
  * check there are not problems with def.length=0 with new operator
  * 
@@ -842,22 +841,26 @@ public class PnSearch implements CXPlayer {
 				if(best_col == -1) best_depth = Constants.INFINITE;
 				
 				for(int j = 0; j < board.N; j++) {
-					entry_child = TTproved.get(TTElementProved.setKey(TTproved_key, TTproved.getHash(hash, board.free[j], j, Auxiliary.getPlayerBit(player)), entry.depth_cur + 1));
-					if(entry_child != null && (best_col == -1 || entry_child.depth_reachable < best_depth) ) {
-						best_col = entry_child.col();
-						best_depth = entry_child.depth_reachable;
+					if(board.freeCol(j)) {
+						entry_child = TTproved.get(TTElementProved.setKey(TTproved_key, TTproved.getHash(hash, board.free[j], j, Auxiliary.getPlayerBit(player)), entry.depth_cur + 1));
+						if(entry_child != null && (best_col == -1 || entry_child.depth_reachable < best_depth) ) {
+							best_col = j;
+							best_depth = entry_child.depth_reachable;
+						}
 					}
 				}
 			}
 			// search deepest loss			
 			else {
 				if(best_col == -1) best_depth = -1;
-	
+				
 				for(int j = 0; j < board.N; j++) {
-					entry_child = TTproved.get(TTElementProved.setKey(TTproved_key, TTproved.getHash(hash, board.free[j], j, Auxiliary.getPlayerBit(player)), entry.depth_cur + 1));
-					if(entry_child != null && (best_col == -1 || entry_child.depth_reachable > best_depth) ) {
-						best_col = entry_child.col();
-						best_depth = entry_child.depth_reachable;
+					if(board.freeCol(j)) {
+						entry_child = TTproved.get(TTElementProved.setKey(TTproved_key, TTproved.getHash(hash, board.free[j], j, Auxiliary.getPlayerBit(player)), entry.depth_cur + 1));
+						if(entry_child != null && (best_col == -1 || entry_child.depth_reachable > best_depth) ) {
+							best_col = j;
+							best_depth = entry_child.depth_reachable;
+						}
 					}
 				}
 			}
