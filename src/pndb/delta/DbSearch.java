@@ -62,8 +62,8 @@ public class DbSearch {
 	private final boolean DEBUG_TIME			= false;
 	protected final boolean DEBUG_PRINT			= false;
 	private final boolean DEBUG_ONLY_FOUND_SEQ	= true;
-	protected int counter			= 0;
-	protected FileWriter file		= null;
+	protected int counter;
+	protected FileWriter file;
 	private int DEBUG_CODE_MAX		= 999999999;
 	protected String log;
 	private long ms;
@@ -95,6 +95,10 @@ public class DbSearch {
 
 		GOAL_SQUARES = new boolean[M][N];
 		// initialized to false
+
+		// debug
+		counter = 0;
+		file = null;
 	}
 
 	
@@ -550,15 +554,17 @@ public class DbSearch {
 				// debug
 				if(DEBUG_ON) file.write("STATE (dependency): " + state + "\n");
 
-				if(state == GameState.DRAW) return !attacking;
-				else if(state == Auxiliary.cellState2winState(attacker)) {
+				// consider p2's wins first (e.g. in case a threat creates a win for both)
+				if(state != Auxiliary.cellState2winState(attacker)) {
+					return false;
+				}
+				else {
 					if(attacking) {
 						found_win_sequences++;
 						visitGlobalDefense(node, root, attacker);
 					}
 					return true;
 				}
-				else return false;	//in case of loss or draw
 			}
 
 		}

@@ -20,8 +20,8 @@ mkdir ${OUTDIR}
 
 ./ltest 9 9 5		pndb.delta.PnSearch pndb.delt2.PnSearch		-r ${TESTS} > ${OUTDIR}/delta_delt2_995.txt
 cat scripts/testcases_dalibor.sh >> ${OUTDIR}/delta_delt2_995.txt
-./ltest 18 20 7		pndb.delta.PnSearch pndb.delt2.PnSearch		-r ${TESTS} > ${OUTDIR}/delta_delt2_18207.txt
-cat scripts/testcases_dalibor.sh >> ${OUTDIR}/delta_delt2_18207.txt
+#./ltest 18 20 7		pndb.delta.PnSearch pndb.delt2.PnSearch		-r ${TESTS} > ${OUTDIR}/delta_delt2_18207.txt
+#cat scripts/testcases_dalibor.sh >> ${OUTDIR}/delta_delt2_18207.txt
 
 
 

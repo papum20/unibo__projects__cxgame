@@ -14,6 +14,8 @@ import pndb.delta.threats.ThreatApplied;
 import pndb.delta.threats.ThreatCells;
 import pndb.delta.threats.ThreatPosition;
 import pndb.delta.threats.ThreatCells.USE;
+import pndb.delta.tt.TTElementBool;
+import pndb.delta.tt.TranspositionTable;
 import pndb.delta.constants.Auxiliary;
 import pndb.delta.constants.CellState;
 import pndb.delta.constants.GameState;
@@ -68,6 +70,9 @@ public class BoardBitDb extends BoardBit {
 
 	private short alignments_n;
 
+	public static TranspositionTable<TTElementBool, TranspositionTable.Element.Key> TT;
+	public long hash;
+	
 	/* implementation
 	*/
 	// for findAlignmentsInDirection()
@@ -105,6 +110,7 @@ public class BoardBitDb extends BoardBit {
 		MAX_SIDE = Math.max(M, N);
 		MIN_MARKS = X - Operators.MARK_DIFF_MIN;
 		currentPlayer = 0;
+		hash = 0;
 		
 		initAlignmentStructures();
 		markedThreats = new LinkedList<ThreatApplied>();
@@ -122,6 +128,7 @@ public class BoardBitDb extends BoardBit {
 		MAX_SIDE = Math.max(M, N);
 		MIN_MARKS = X - Operators.MARK_DIFF_MIN;
 		currentPlayer = 0;
+		hash = 0;
 		
 		initAlignmentStructures();
 		markedThreats = new LinkedList<ThreatApplied>();
@@ -144,6 +151,7 @@ public class BoardBitDb extends BoardBit {
 		MIN_MARKS = X - Operators.MARK_DIFF_MIN;
 		currentPlayer = B.currentPlayer;
 		hash = B.hash;
+		hash = 0;
 		
 		if(copy_threats) copyAlignmentStructures(B);
 		else initAlignmentStructures();
@@ -205,6 +213,11 @@ public class BoardBitDb extends BoardBit {
 
 			removeAlignments(new MovePair(i, j), Auxiliary.opponent(player));
 		}
+		@Override
+		public void mark(int col, byte player) {
+			hash = TT.getHash(hash, free[col], col, Auxiliary.getPlayerBit(player));
+			super.mark(col, player);
+		}
 		/**
 		 * Mark cell; also remove opponent's alignments, but doesn't find new ones.
 		 * <p>
@@ -250,8 +263,13 @@ public class BoardBitDb extends BoardBit {
 					check(related[i].i, related[i].j, Player_byte[currentPlayer]);			// only check for attacker
 				} else
 					markAny(related[i].i, related[i].j, Player_byte[1 - currentPlayer]);	// markAny, for vertical
-					check(related[i].i, related[i].j, Player_byte[1 - currentPlayer]);			// only check for attacker
+					check(related[i].i, related[i].j, Player_byte[1 - currentPlayer]);		// only check for attacker
 			}
+		}
+		@Override
+		public void unmark(int col) {
+			hash = TT.getHash(hash, free[col] - 1, col, _cellState(free[col] - 1, col));
+			super.unmark(col);
 		}
 
 		/**

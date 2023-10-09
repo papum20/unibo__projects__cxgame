@@ -17,13 +17,10 @@ mkdir ${OUTDIR}
 ./lcompile
 
 
-./ltest 9 9 5		pndb.delta.PnSearch connectx.L0.L0				-r ${TESTS} > ${OUTDIR}/delta_l0l00_995.txt
-cat scripts/testcases_debian.sh >> ${OUTDIR}/delta_l0l00_995.txt
 ./ltest 9 9 5		pndb.delta.PnSearch connectx.L1.L1				-r ${TESTS} > ${OUTDIR}/delta_l1l11_995.txt
 cat scripts/testcases_debian.sh >> ${OUTDIR}/delta_l1l11_995.txt
-./ltest 18 20 7		pndb.alpha.halfn.orddb.Player pndb.alpha.halfn.nondb.Player				-r ${TESTS} > ${OUTDIR}/orddb_nondb_18207.txt
-cat scripts/testcases_debian.sh >> ${OUTDIR}/orddb_nondb_18207.txt
-
+./ltest 9 9 5		pndb.delta.PnSearch connectx.L0.L0				-r ${TESTS} > ${OUTDIR}/delta_l0l00_995.txt
+cat scripts/testcases_debian.sh >> ${OUTDIR}/delta_l0l00_995.txt
 
 
 ##./ltest 9 9 5	pndb.alpha.Player pndb.nocel.nonmc.tryit.Player			-r ${TESTS} > ${OUTDIR}/alpha_tryit_995.txt

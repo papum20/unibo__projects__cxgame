@@ -34,7 +34,7 @@ public class PnNode {
 	 */
 	public PnNode most_proving;
 
-	public long hash;
+	public long hash_dag;
 	public short depth;
 	public short tag;			// for tagging tree nodes
 	
@@ -61,7 +61,7 @@ public class PnNode {
 		this.parents		= new LinkedList<PnNode>();
 		this.children		= null;
 		this.most_proving	= null;
-		this.hash			= hash;
+		this.hash_dag			= hash;
 		this.depth			= depth;
 		this.tag			= 0;
 	}
@@ -76,7 +76,7 @@ public class PnNode {
 		this.parents.add(parent);
 		this.children		= null;
 		this.most_proving	= null;
-		this.hash			= hash;
+		this.hash_dag			= hash;
 		this.depth			= depth;
 		this.tag			= 0;
 	}
@@ -142,10 +142,12 @@ public class PnNode {
 				new_children[i]	= children[i];
 				new_cols[i]		= cols[i];
 			}
-			for(i++; i < children.length; i++) {
+			for(++i; i < children.length; i++) {
 				new_children[i - 1] = children[i];
 				new_cols[i - 1]		= cols[i];
 			}
+			children	= new_children;
+			cols		= new_cols;
 		}
 		
 		/**

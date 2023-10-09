@@ -5,13 +5,9 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.Math;
 
-import connectx.CXCellState;
-import connectx.CXGameState;
-import pndb.delta.constants.Auxiliary;
 import pndb.delta.constants.CellState;
 import pndb.delta.constants.GameState;
 import pndb.delta.constants.MovePair;
-import pndb.delta.tt.TranspositionTable;
 
 
 
@@ -40,10 +36,6 @@ public class BoardBit {
 
 	public byte game_state;	// note: could be put in DbNode.data?
 
-	public static TranspositionTable TT;
-	public long hash;
-
-
 
 	/**
 	 *  Complexity: O(3N) if M <= 64 else O(5N)
@@ -59,7 +51,6 @@ public class BoardBit {
 		createStructures();
 
 		game_state = GameState.OPEN;
-		hash = 0;
 	}
 
 	/**
@@ -78,8 +69,6 @@ public class BoardBit {
 			free[j] = B.free[j];
 		}
 		free_n = B.free_n;
-
-		hash = B.hash;
 	}
 
 	/**
@@ -89,14 +78,13 @@ public class BoardBit {
 	 * @return GameState
 	 */
 	public void mark(int col, byte player) {
-		hash = TT.getHash(hash, free[col], col, Auxiliary.getPlayerBit(player));
-
 		board[col][free[col] / BITSTRING_LEN]		|= (player & 1) << (free[col] % BITSTRING_LEN);	// =1 for CellState.ME
 		board_mask[col][free[col] / BITSTRING_LEN]	|= 1 << (free[col] % BITSTRING_LEN);
 		free[col]++;
 		free_n--;
 	}
 	/**
+	 * Check game state, only if it's OPEN.
 	 * Complexity: O(4X)
 	 * @param i
 	 * @param j
@@ -104,14 +92,16 @@ public class BoardBit {
 	 * @return
 	 */
 	protected byte check(int i, int j, byte player) {
+		if(game_state != GameState.OPEN) return game_state;
 		if(isWinningMove(i, j)) game_state = cell2GameState(player);
 		else if(free_n == 0) game_state = GameState.DRAW;
 		else game_state = GameState.OPEN;
 		
 		return game_state;
-
+		
 	}
 	/**
+	 * Mark and check game state, only if it's OPEN.
 	 * Complexity: O(4X)
 	 * @param col
 	 * @param player
@@ -127,8 +117,6 @@ public class BoardBit {
 	 */
 	public void unmark(int col) {
 		free[col]--;
-
-		hash = TT.getHash(hash, free[col], col, _cellState(free[col], col));
 		
 		board[col][free[col] / BITSTRING_LEN]		&= ~(1 << (free[col] % BITSTRING_LEN));
 		board_mask[col][free[col] / BITSTRING_LEN]	^= 1 << (free[col] % BITSTRING_LEN);

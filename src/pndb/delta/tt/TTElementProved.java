@@ -41,6 +41,8 @@ public class TTElementProved extends Element<TTElementProved, KeyDepth> {
 								MASK_WON	= -0x80,
 								MASK_COL	= 0x7f;
 
+	public static final byte COL_NULL = MASK_COL;
+
 	/**
 	 * Complexity: O(1)
 	 */
@@ -56,7 +58,7 @@ public class TTElementProved extends Element<TTElementProved, KeyDepth> {
 		key1 = (short)(key >> MASK2_BITS);
 		this.depth_cur			= (short)depth_cur;
 		this.depth_reachable	= (short)depth_reachable;
-		this.val = (byte)((won ? MASK_WON : 0) | col);
+		this.val = (byte)((won ? MASK_WON : 0) | (col & MASK_COL));
 	}
 
 	/**
@@ -80,7 +82,7 @@ public class TTElementProved extends Element<TTElementProved, KeyDepth> {
 	}
 
 	public void setCol(int col) {
-		this.val = (byte)((val & MASK_WON) | col);
+		this.val = (byte)((val & MASK_WON) | (col & MASK_COL));
 	}
 
 	public static TTElementProved[] getTable() {

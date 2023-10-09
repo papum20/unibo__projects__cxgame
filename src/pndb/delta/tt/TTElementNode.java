@@ -3,15 +3,33 @@ package pndb.delta.tt;
 import pndb.delta.PnNode;
 import pndb.delta.tt.TranspositionTable.Element;
 import pndb.delta.tt.TranspositionTable.Element.Key;
+import pndb.delta.tt.TTElementNode.KeyDepth;
 
 
 
-public class TTElementNode extends Element<TTElementNode, Key> {
+public class TTElementNode extends Element<TTElementNode, KeyDepth> {
 		//KEY = key1 + key2 + index = (16+32+16) bit = 64bit
+
+		public static class KeyDepth extends Key {
+			protected short depth;
+	
+			public KeyDepth() {
+				super();
+			}
+			public KeyDepth(long key, long key1, long key2, int index, int depth) {
+				super(key, key1, key2, index);
+				this.depth = (short)depth;
+			}
+			public void set(long key, long key1, long key2, int index, int depth) {
+				super.set(key, key1, key2, index);
+				this.depth = (short)depth;
+			}
+		}
 
 		private		short key1;
 		private		int key2;
 		public		PnNode node;
+		public	short	depth;			// node depth, used "as key", to reduce ambiguity
 
 		private static final int TABLE_SIZE = 22;
 		private static final int MASK2_BITS = TABLE_SIZE + Integer.SIZE;
@@ -28,10 +46,11 @@ public class TTElementNode extends Element<TTElementNode, Key> {
 			key1 = (short)(key >> MASK2_BITS);
 			node = null;
 		}
-		public TTElementNode(long key, PnNode node) {
+		public TTElementNode(long key, int depth, PnNode node) {
 			key2 = (int)(key >> TABLE_SIZE);
 			key1 = (short)(key >> MASK2_BITS);
 			this.node = node;
+			this.depth = (short)depth;
 		}
 
 		/**
@@ -48,7 +67,7 @@ public class TTElementNode extends Element<TTElementNode, Key> {
 		 * @param cmp
 		 * @return
 		 */
-		protected TTElementNode listGet(Key k) {
+		protected TTElementNode listGet(KeyDepth k) {
 			if (compareKey(k)) return this;
 			else if(next == null) return null;
 			else return next.listGet(k);
@@ -57,18 +76,18 @@ public class TTElementNode extends Element<TTElementNode, Key> {
 		public static TTElementNode[] getTable() {
 			return new TTElementNode[(int)(Math.pow(2, TABLE_SIZE))];
 		}
-		public static Key calculateKey(long key) {
-			return new Key(key, key >> MASK2_BITS, key >> TABLE_SIZE, (int)(key & MASK_IDX));
+		public static KeyDepth calculateKey(long key, int depth) {
+			return new KeyDepth(key, key >> MASK2_BITS, key >> TABLE_SIZE, (int)(key & MASK_IDX), depth);
 		}		
-		public static Key setKey(Key k, long key) {
-			k.set(key, key >> MASK2_BITS, key >> TABLE_SIZE, (int)(key & MASK_IDX));
+		public static KeyDepth setKey(KeyDepth k, long key, int depth) {
+			k.set(key, key >> MASK2_BITS, key >> TABLE_SIZE, (int)(key & MASK_IDX), depth);
 			return k;
 		}		
 		public int calculateIndex(long key) {
 			return (int)(key & MASK_IDX);
 		}
-		protected boolean compareKey(Key k) {
-			return ((short)k.key1 == this.key1) && ((int)k.key2 == this.key2);
+		protected boolean compareKey(KeyDepth k) {
+			return ((short)k.key1 == this.key1) && ((int)k.key2 == this.key2) && depth == k.depth;
 		}
 
 	}
