@@ -7,16 +7,16 @@ public class testerDb {
 
 	public static void main(String[] args) {
 
-		int	M = 9,
-			N = 9,
-			X = 5;
+		BoardBit.M = 9;
+		BoardBit.N = 9;
+		BoardBit.X = 5;
 		boolean first = true;
 		
 
 		DbSearch db = new DbSearch();
-		db.init(M, N, X, first);
+		db.init(BoardBit.M, BoardBit.N, BoardBit.X, first);
 
-		BoardBit board = new BoardBit(M, N, X);
+		BoardBit board = new BoardBit();
 
 
 		String[] bb = {
@@ -31,11 +31,11 @@ public class testerDb {
 			"oxxoxxooo"
 		};
 
-		for(int i = 0; i< M; i++) {
-			for(int j = 0; j < N; j++) {
-				if(bb[M-i-1].substring(j, j+1).equals("."))
+		for(int i = 0; i< BoardBit.M; i++) {
+			for(int j = 0; j < BoardBit.N; j++) {
+				if(bb[BoardBit.M-i-1].substring(j, j+1).equals("."))
 					continue;
-				else board.markCheck(j, (bb[M-i-1].substring(j, j+1).equals("x")) ? CellState.P1 : CellState.P2);
+				else board.markCheck(j, (bb[BoardBit.M-i-1].substring(j, j+1).equals("x")) ? CellState.P1 : CellState.P2);
 			}
 		}
 		

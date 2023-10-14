@@ -7,8 +7,8 @@ import pndb.delta.tt.TranspositionTable.Element.Key;
 
 public class TranspositionTable<E extends TranspositionTable.Element<E,K>, K extends Key> {
 
-	private long[][][] moves;	//random hashes defined for each move
-	private E[] table;			//actual array where entries are stored
+	public final long[][][] moves;	//random hashes defined for each move
+	private E[] table;				//actual array where entries are stored
 
 	private static final int PLAYERS_N = 2;
 

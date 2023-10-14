@@ -103,7 +103,7 @@ public class BoardBitDb extends BoardBit {
 	 * @param X
 	 */
 	protected BoardBitDb(int M, int N, int X) {
-		super(M, N, X);
+		super();
 		alignments_n = 0;
 		
 		MAX = new MovePair(M, N);
@@ -121,7 +121,7 @@ public class BoardBitDb extends BoardBit {
 	 * @param B
 	 */
 	protected BoardBitDb(BoardBit B) {
-		super(B.M, B.N, B.X);
+		super(B);
 		alignments_n = 0;
 		
 		MAX = new MovePair(M, N);
@@ -132,8 +132,6 @@ public class BoardBitDb extends BoardBit {
 		
 		initAlignmentStructures();
 		markedThreats = new LinkedList<ThreatApplied>();
-		
-		copy(B);
 	}
 	
 	/**
@@ -143,7 +141,7 @@ public class BoardBitDb extends BoardBit {
 	 * @param copy_threats
 	 */
 	protected BoardBitDb(BoardBitDb B, boolean copy_threats) {
-		super(B.M, B.N, B.X);
+		super();
 		alignments_n = B.alignments_n;
 		
 		MAX = new MovePair(M, N);

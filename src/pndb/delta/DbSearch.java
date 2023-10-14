@@ -113,7 +113,7 @@ public class DbSearch {
 	 * 		and related_squares_by_col contains, for each column j, the number of squares related to the winning sequence, in column j;
 	 * 2.	otherwise, it's null.
 	 */
-	public DbSearchResult selectColumn(BoardBit B, PnNode root_pn, long time_remaining, byte player, byte max_tier) {
+	public DbSearchResult selectColumn(BoardBit B, PnTTnode root_pn, long time_remaining, byte player, byte max_tier) {
 		
 		// debug
 		log = "__\ndbSearch\n";

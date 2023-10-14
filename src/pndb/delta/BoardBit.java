@@ -22,9 +22,9 @@ public class BoardBit {
 	//#endregion CONSTANTS
 
 	
-	public final byte M;		// number of rows
-	public final byte N;		// columns
-	public final byte X;		// marks to align
+	public static byte M;		// number of rows
+	public static byte N;		// columns
+	public static byte X;		// marks to align
 
 	// board is an array of columns, each represented by one or more bitstrings.
 	// board =1 for the first player's cells; board_mask =1 for any player's cell.
@@ -43,16 +43,20 @@ public class BoardBit {
 	 * @param N
 	 * @param X
 	 */
-	public BoardBit(int M, int N, int X) {
-		this.M = (byte)M;
-		this.N = (byte)N;
-		this.X = (byte)X;
+	public BoardBit() {
 
 		createStructures();
-
 		game_state = GameState.OPEN;
 	}
-
+	/**
+	 * Copy all.
+	 * Complexity: O(N * COL_SIZE(M))) = O(N) if M <= 64 else O(2N)
+	 * @param B to copy
+	 */
+	public BoardBit(BoardBit B) {
+		createStructures();
+		copy(B);
+	}
 	/**
 	 * Copy all.
 	 * Complexity: O(N * COL_SIZE(M))) = O(N) if M <= 64 else O(2N)
@@ -60,7 +64,9 @@ public class BoardBit {
 	 */
 	public void copy(BoardBit B) {
 
-		// copy all
+		game_state = B.game_state;
+
+		// copy structures
 		for(int j = 0; j < N; j++) {
 			for(int i = 0; i < COL_SIZE(M); i++) {
 				board[j][i]			= B.board[j][i];
@@ -235,6 +241,12 @@ public class BoardBit {
 		}
 		/**
 		 * Complexity: O(1)
+		 */
+		public byte cellState(int j) {
+			return (free[j] == 0) ? CellState.FREE : cellState(free[j] - 1, j);
+		}
+		/**
+		 * Complexity: O(1)
 		 * @param c
 		 * @return the cell's state, as CellState
 		 */
@@ -281,6 +293,16 @@ public class BoardBit {
 		 * Complexity: O(1)
 		 */
 		public byte gameState() {return game_state;}
+		/**
+		 * Complexity: O(N)
+		 * @return depth
+		 */
+		public int getDepth() {
+			int depth = 0;
+			for(int j = 0; j < N; j++)
+				depth += free[j];
+			return depth;
+		}
 
 	//#endregion GET_SET
 

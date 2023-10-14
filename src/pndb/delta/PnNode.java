@@ -34,6 +34,16 @@ public class PnNode {
 	 */
 	public PnNode most_proving;
 
+	/*
+	public PnNode parent;
+	public PnNode partner;		//
+	
+	public PnNode most_proving;
+	public PnNode sibling;
+	public byte[] cols;			// move (column), for each child
+	*/
+
+
 	public long hash_dag;
 	public short depth;
 	public short tag;			// for tagging tree nodes

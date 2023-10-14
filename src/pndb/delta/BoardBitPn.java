@@ -1,8 +1,6 @@
 package pndb.delta;
 
 import pndb.delta.constants.Auxiliary;
-import pndb.delta.constants.GameState;
-import pndb.delta.tt.TTElementNode;
 import pndb.delta.tt.TTElementProved;
 import pndb.delta.tt.TranspositionTable;
 
@@ -11,11 +9,11 @@ import pndb.delta.tt.TranspositionTable;
 
 public class BoardBitPn extends BoardBit {
 	
-	public static TranspositionTable<TTElementNode, TTElementNode.KeyDepth> TTdag;
+	public static TranspositionTable<PnTTnode, PnTTnode.KeyDepth> TTdag;
 	public static TranspositionTable<TTElementProved, TTElementProved.KeyDepth> TTproved;
-	public long hash_dag;
-	public long hash_proved;
+	public long hash;
 
+	public byte player;
 
 
 	/**
@@ -23,39 +21,31 @@ public class BoardBitPn extends BoardBit {
 	 * @param M
 	 * @param N
 	 * @param X
+	 * @param player CellState
 	 */
-	public BoardBitPn(int M, int N, int X) {
-		super(M, N, X);
-		hash_dag	= 0;
-		hash_proved = 0;
+	public BoardBitPn(int player) {
+		super();
+		hash = 0;
+		this.player	= (byte)player;
+	}
+	public BoardBitPn(BoardBitPn B) {
+		copy(B);
+	}
+	public void copy(BoardBitPn B) {
+		super.copy(B);
+		hash	= B.hash;
+		player	= B.player;
 	}
 
 	/**
 	 * Complexity: O(1)
 	 * @param col
-	 * @param player
 	 * @return GameState
 	 */
-	@Override
-	public void mark(int col, byte player) {
-		hash_dag	= TTdag.getHash(hash_dag, free[col], col, Auxiliary.getPlayerBit(player));
-		hash_proved	= TTproved.getHash(hash_proved, free[col], col, Auxiliary.getPlayerBit(player));
+	public void mark(int col) {
+		hash	= TTdag.getHash(hash, free[col], col, Auxiliary.getPlayerBit(player));
 		super.mark(col, player);
-	}
-	/**
-	 * Complexity: O(4X)
-	 * @param i
-	 * @param j
-	 * @param player
-	 * @return
-	 */
-	protected byte check(int i, int j, byte player) {
-		if(isWinningMove(i, j)) game_state = cell2GameState(player);
-		else if(free_n == 0) game_state = GameState.DRAW;
-		else game_state = GameState.OPEN;
-		
-		return game_state;
-
+		player = Auxiliary.opponent(player);
 	}
 	/**
 	 * Complexity: O(4X)
@@ -63,8 +53,8 @@ public class BoardBitPn extends BoardBit {
 	 * @param player
 	 * @return GameState
 	 */
-	public byte markCheck(int col, byte player) {
-		mark(col, player);
+	public byte markCheck(int col) {
+		mark(col);
 		return check(free[col] - 1, col, player);
 	}
 
@@ -73,9 +63,9 @@ public class BoardBitPn extends BoardBit {
 	 */
 	@Override
 	public void unmark(int col) {
-		hash_dag	= TTdag.getHash(hash_dag, free[col] - 1, col, _cellState(free[col] - 1, col));
-		hash_proved	= TTproved.getHash(hash_proved, free[col] - 1, col, _cellState(free[col] - 1, col));
+		hash	= TTdag.getHash(hash, free[col] - 1, col, _cellState(free[col] - 1, col));
 		super.unmark(col);
+		player = Auxiliary.opponent(player);
 	}
 
 
