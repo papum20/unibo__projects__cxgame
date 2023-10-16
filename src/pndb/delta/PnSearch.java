@@ -80,6 +80,7 @@ import pndb.delta.tt.TTElementProved.KeyDepth;
  * .metti `age` in TTproved, così se ti serve deepestNode alla fine di selectCol (se perso), se un child ha age vecchia vuol dire che potresti dover
  * ricalcolare il deepest, ricorsivamente.
  * .depth_reachable in pnttnode
+ * .make proved db node add proved child? so when other parents find it in dag, its proved already
  * 
  * .errorr cono
  * .remove dag clean
@@ -121,7 +122,7 @@ public class PnSearch implements CXPlayer {
 	protected BoardBitPn	lastIt_board;
 
 	// debug
-	private final boolean DEBUG_PROVED	= true;
+	private final boolean DEBUG_PROVED	= false;
 	private final boolean DEBUG_TIME	= false;
 	private final boolean DEBUG_LOG		= false;
 	protected String log;
@@ -134,8 +135,7 @@ public class PnSearch implements CXPlayer {
 	private PnTTnode node_last_db;
 	private int file_rand;
 	private FileWriter file_proved;
-	private int proved_n;
-	private int dag_n;
+	private int created_n;
 
 	
 	
@@ -158,7 +158,7 @@ public class PnSearch implements CXPlayer {
 
 		BoardBitPn.TTdag 	= TTdag;
 		BoardBitPn.TTproved	= TTproved;
-		key_dag			= new PnTTnode.KeyDepth();
+		key_dag				= new PnTTnode.KeyDepth();
 		TTproved_key		= new TTElementProved.KeyDepth();
 		PnTTnode.board		= board;
 		PnTTnode.TTdag		= TTdag;
@@ -176,8 +176,7 @@ public class PnSearch implements CXPlayer {
 		System.out.println("\n-_-\nSTART GAME\n-_-\n");
 		file_rand = new Random().nextInt();
 		System.out.println("RAND HASH:"+file_rand);
-		proved_n = 0;
-		dag_n = 0;
+		created_n = 0;
 		
 	}
 
@@ -208,21 +207,29 @@ public class PnSearch implements CXPlayer {
 			// see if new root was already visited, otherwise create it
 			root = TTdag.get(PnTTnode.setKey(key_dag, board.hash, MC.length));
 			if(root == null) {
-				root = new PnTTnode(board.hash, (short)MC.length);
+				root = new PnTTnode(board.hash, (short)MC.length, (MC.length / 2) % 2 );
 				root.setProofAndDisproof(1, 1);
+
+				created_n++;
 			}
 
 			// remove unreachable nodes from previous rounds
-			root.setTag();		// unique tag for each round
+			root.setTag((root.depth / 2) % 2);		// unique tag for each round
 			if(lastIt_root != null) {
+				// debug
+				System.out.println("timebefore tagTree: " + (System.currentTimeMillis() - timer_start) );
+				
 				root.tagTree();
+				// debug
+				System.out.println("time before removeUnmarkedTree: " + (System.currentTimeMillis() - timer_start) );
+
 				PnTTnode.board = lastIt_board;
 				lastIt_root.removeUnmarkedTree(root.getTag());
 				PnTTnode.board = board;
 			}
 
 			// debug
-			System.out.println("root hash:" + board.hash + "\tdepth" + root.depth );
+			System.out.println("root hash:" + board.hash + "\tdepth " + root.depth );
 			board.print();
 			testerMemoryStruct mem = new testerMemoryStruct(runtime.maxMemory(), runtime.totalMemory(), runtime.freeMemory(), Auxiliary.freeMemory(runtime));
 			System.out.println("time after clean, before gc: " + (System.currentTimeMillis() - timer_start) );
@@ -245,17 +252,21 @@ public class PnSearch implements CXPlayer {
 			
 			// debug
 			if(DEBUG_PROVED) file_proved.close();
-			log += "ended visit\nproved_n=" + proved_n + "\tdag_n=" + dag_n + "\n";
+			log += "ended visit\nproved_n = " + TTdag.count + "\tdag_n = " + TTproved.count + "\tcreated_n = " + created_n + "\n";
 			log += "root_eval=null:" + (root_eval==null) + "\n";
 			if(root_eval != null) {
 				log += "depths " + root.depth + " " + root_eval.depth_cur + "\n";
 				log += root_eval.col() + " "+root_eval.won()+" " +root_eval.depth_reachable + "\n";
 			}
+			System.out.println("TIME after debugs, before lastIt_root/board: " + (System.currentTimeMillis() - timer_start) );
 			
 			
 			lastIt_root	 = root;
 			lastIt_board.copy(board);
 			
+			// debug
+			System.out.println("TIME before select move: " + (System.currentTimeMillis() - timer_start) );
+
 			int move;
 			if(root_eval != null)
 				move = root_eval.col();
@@ -265,13 +276,15 @@ public class PnSearch implements CXPlayer {
 			board.markCheck(move);
 
 			// debug
+			System.out.println("TIME after select move: " + (System.currentTimeMillis() - timer_start) );
 			log += "before debug&return\n";
 			log += root.debugString(root);
 			log += "\nMy move: " + move + "\n";
 			log += board.printString(0);
 			log += "time,mem before return: " + (System.currentTimeMillis() - timer_start) + " " + Auxiliary.freeMemory(runtime) + "\n";
 			System.out.println("\nLOG:\n" + log);
-
+			System.out.println("TIME before return: " + (System.currentTimeMillis() - timer_start) );
+			
 			return move;
 
 		} catch (IOException e) {
@@ -347,7 +360,6 @@ public class PnSearch implements CXPlayer {
 			ms = System.currentTimeMillis();
 
 			LinkedList<Integer> marked				= new LinkedList<Integer>();
-			LinkedList<Long> nodes_to_prune			= new LinkedList<Long>();
 			LinkedList<BoardBitPn> boards_to_prune	= new LinkedList<BoardBitPn>();
 
 			/* enhancement: keep track of current node (next to develop), instead of 
@@ -371,7 +383,7 @@ public class PnSearch implements CXPlayer {
 				// debug
 				debugVisit(2, most_proving_node);
 				
-				updateAncestorsWhileChanged(most_proving_node.depth, nodes_to_prune, boards_to_prune, null, true);
+				updateAncestorsWhileChanged(most_proving_node.depth, boards_to_prune, null, true);
 
 				// debug
 				log += "update ancestors end; now resetBoard\n";
@@ -387,7 +399,7 @@ public class PnSearch implements CXPlayer {
 				// debug
 				log += "resetBoard end; before prune\n";
 
-				pruneTrees(nodes_to_prune, boards_to_prune);
+				pruneTrees(boards_to_prune);
 				
 				// debug
 				log += "pruning end\n";
@@ -405,8 +417,11 @@ public class PnSearch implements CXPlayer {
 			System.out.println("TIMES:\nin develop: before eval:\t" + time_last_a[0] + "\nbefore genchildren: " + time_last_a[1] + "\nafter genchildren: " + time_last_a[2]);
 			log += "end of loop\n";
 			root.debug(root);
-
+			
 			resetBoard(marked);
+
+			// debug
+			System.out.println("TIME at end of visit: " + (System.currentTimeMillis() - timer_start) );
 		}
 
 		/**
@@ -461,7 +476,6 @@ public class PnSearch implements CXPlayer {
 
 			// debug
 			if(DEBUG_PROVED) file_proved.write("proved db\n");
-			proved_n++;
 
 			/* Heuristic: update parent's children with iterated related squares.
 			 * If, in the current board, the current player has a winning sequence,
@@ -523,7 +537,6 @@ public class PnSearch implements CXPlayer {
 					
 					// debug
 					if(DEBUG_LOG) log += "proved\n";
-					proved_n++;
 					
 					updateProved(entry);
 				}
@@ -546,7 +559,7 @@ public class PnSearch implements CXPlayer {
 			
 			log += "selectMostProving\t" + board.hash + "\n";
 			if(DEBUG_PROVED) file_proved.write("selectMostProving\t" + board.hash);
-			if(DEBUG_PROVED) file_proved.write("\tlevel" + node.depth + "\n");
+			if(DEBUG_PROVED) file_proved.write("\tlevel " + node.depth + "\n");
 
 			if(!node.isExpanded()) return node;
 			else {
@@ -699,7 +712,7 @@ for(j = 0; j < BoardBit.N; j++) {
 				
 				PnTTnode child = TTdag.get(PnTTnode.setKey(key_dag, board.hash, node.depth + 1));
 				if(child == null) {
-					child = new PnTTnode(board.hash, (short)(node.depth + 1));
+					child =node.createChild();
 					/* Heuristic initialization: nodes without any threat should be considered less (or not at all).
 					 * Proof init offset: if threats=0, BoardBit.N+1 should give enough space to prioritize other moves;
 					 * otherwise, use current_child, so its an incremental number also respecting the random shuffle.
@@ -711,8 +724,8 @@ for(j = 0; j < BoardBit.N; j++) {
 
 					// debug
 					if(!child.isProved()) {
-						dag_n++;
-					} else proved_n++;
+						created_n++;
+					}
 					
 				} else {
 					// debug
@@ -734,7 +747,7 @@ for(j = 0; j < BoardBit.N; j++) {
 		 * @param most_proving true if it's the most_proving node, i.e. only first it
 		 * @return
 		 */
-		public void updateAncestorsWhileChanged(int depth, LinkedList<Long> nodes_to_prune, LinkedList<BoardBitPn> boards_to_prune, TTElementProved caller, boolean most_proving) throws IOException {
+		public void updateAncestorsWhileChanged(int depth, LinkedList<BoardBitPn> boards_to_prune, TTElementProved caller, boolean most_proving) throws IOException {
 			
 			// debug
 			if(DEBUG_LOG) log += "updateAncestors for " + board.hash + "\t " + depth + "\n";
@@ -747,7 +760,7 @@ for(j = 0; j < BoardBit.N; j++) {
 				// just need to update deepest move (using caller), so can save time
 				
 				// debug
-				if(DEBUG_PROVED) file_proved.write("updateAncestors for " + board.hash +"\t" + depth + "already proved\n");
+				if(DEBUG_PROVED) file_proved.write("updateAncestors for " + board.hash +"\t" + depth + " already proved\n");
 
 				if(caller != null) {
 					TTElementProved best_child = getEntryProved(board.hash, entry.col(), entry.depth_cur, board.player);
@@ -757,7 +770,6 @@ for(j = 0; j < BoardBit.N; j++) {
 						return;
 				} else if(most_proving) {
 					updateProved(entry);
-					nodes_to_prune.add(board.hash);
 					boards_to_prune.add(new BoardBitPn(board));
 				} else
 					return;
@@ -776,7 +788,6 @@ for(j = 0; j < BoardBit.N; j++) {
 					if(DEBUG_PROVED) file_proved.write("setProof for " + board.hash + "\t" + node.depth + "\tn " + old_proof + "\t" + old_disproof + "most proving " + old_most_proving + "\n\t->" 
 						+ node.n[0] + "\t" + node.n[1] + "\t" +((node.most_proving_col==-1)?-1:TTdag.getHash(board.hash, board.free[node.most_proving_col], node.most_proving_col, Auxiliary.getPlayerBit(board.player))) + "\n");
 					
-					nodes_to_prune.add(board.hash);
 					boards_to_prune.add(new BoardBitPn(board));
 				}
 			} else {
@@ -790,7 +801,7 @@ for(j = 0; j < BoardBit.N; j++) {
 			for(int j = 0; j < BoardBit.N; j++) {
 				if(board.cellState(j) == Auxiliary.opponent(board.player)) {
 					board.unmark(j);
-					updateAncestorsWhileChanged(depth - 1, nodes_to_prune, boards_to_prune, entry, false);	// marked=null, so don't push/pop when not on most_proving path
+					updateAncestorsWhileChanged(depth - 1, boards_to_prune, entry, false);	// marked=null, so don't push/pop when not on most_proving path
 					board.mark(j);
 				}
 			}
@@ -816,7 +827,7 @@ for(j = 0; j < BoardBit.N; j++) {
 		 * Remove any reference to `node`, and also to its descendants if they only had one parent.
 		 * @param isroot true for tree root
 		 */
-		private void pruneTree(long hash, BoardBitPn board, int depth, boolean isroot) throws IOException {
+		private void pruneTree(BoardBitPn board, int depth, boolean isroot) throws IOException {
 
 			// debug
 			//log += "_clearProved: col ";
@@ -824,17 +835,24 @@ for(j = 0; j < BoardBit.N; j++) {
 			//      log += node.lastMoveFromFirstParent();
 			//log += ", isroot: " + (node == root) + "parents=null,children=null" + (node.parents == null) + " " + (node.children == null) + "\n";
 
-			PnTTnode node = getEntry(hash, TTElementProved.COL_NULL, depth, board.player);
-			if(node != null && (isroot || !node.hasParents()) ) {
-				TTdag.remove(PnTTnode.setKey(key_dag, board.hash, depth));
+			// (if exists)
+			
+			PnTTnode node = getEntry(board.hash, TTElementProved.COL_NULL, depth, board.player);
+			
+			if (isroot || ( node != null && !node.hasParents() )) {
 
+				if(node != null) {
+					TTdag.remove(PnTTnode.setKey(key_dag, board.hash, depth));
+					TTdag.count--;
+				}
+				
 				// debug
-				if(DEBUG_PROVED) file_proved.write(hash + "\t" + depth + "\n");
+				if(DEBUG_PROVED) file_proved.write(board.hash + "\t" + depth + "\n");
 
 				for(int j = 0; j < BoardBit.N; j++) {
 					if(board.freeCol(j)) {
 						board.mark(j);
-						pruneTree(TTdag.getHash(hash, board.free[j], j, Auxiliary.getPlayerBit(board.player)), board, depth + 1, false);
+						pruneTree(board, depth + 1, false);
 						board.unmark(j);
 					}
 				}
@@ -844,19 +862,17 @@ for(j = 0; j < BoardBit.N; j++) {
 		 * 
 		 * @param nodes_proved
 		 */
-		private void pruneTrees(LinkedList<Long> roots, LinkedList<BoardBitPn> boards) throws IOException {
+		private void pruneTrees(LinkedList<BoardBitPn> boards) throws IOException {
 
-			ListIterator<Long> it_root = roots.listIterator();
 			ListIterator<BoardBitPn> it_board = boards.listIterator();
-			while(it_root.hasNext()) {
+			while(it_board.hasNext()) {
 
 				// debug
 				if(DEBUG_PROVED) file_proved.write("prune\n");
 
 				PnTTnode.board = it_board.next();
-				pruneTree(it_root.next(), PnTTnode.board, PnTTnode.board.getDepth(), true);
+				pruneTree(PnTTnode.board, PnTTnode.board.getDepth(), true);
 			}
-			roots.clear();
 			boards.clear();
 			PnTTnode.board = board;
 		}
@@ -950,7 +966,7 @@ for(j = 0; j < BoardBit.N; j++) {
 			return node.depth - root.depth;
 		}
 		/**
-		 * Get entry from TTproved.
+		 * Get entry from TTdag.
 		 * @param hash node's hash
 		 * @param col set to col for node's child if want entry for child, else TTElementProved.COL_NULL
 		 * @param depth node's depth
@@ -993,7 +1009,7 @@ for(j = 0; j < BoardBit.N; j++) {
 		 */
 		private TTElementProved addEntryProved(long hash, int depth_cur, int depth_reachable, boolean won, int col) {
 			// debug
-			proved_n++;
+			TTproved.count++;
 			
 			TTElementProved entry = new TTElementProved(hash, depth_cur, depth_reachable, won, col);
 			TTproved.insert(hash, entry);

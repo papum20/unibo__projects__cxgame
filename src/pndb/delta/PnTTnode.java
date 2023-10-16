@@ -77,7 +77,7 @@ public class PnTTnode extends Element<PnTTnode, KeyDepth> {
 	/**
 	 * Complexity: O(1)
 	 */
-	public PnTTnode(long key, short depth) {
+	public PnTTnode(long key, short depth, int tag) {
 		key2 = (int)(key >> TABLE_SIZE);
 		key1 = (short)(key >> MASK2_BITS);
 		this.depth = (short)depth;
@@ -85,6 +85,7 @@ public class PnTTnode extends Element<PnTTnode, KeyDepth> {
 		this.n					= new int[2];
 		this.most_proving_col	= -1;
 		this.bits				= 0;
+		setTag(tag);
 
 		TTdag.insert(key, this);
 	}
@@ -132,6 +133,10 @@ public class PnTTnode extends Element<PnTTnode, KeyDepth> {
 	//#endregion TT
 
 	
+	public PnTTnode createChild() {
+		return new PnTTnode(board.hash, (short)(depth + 1), getTag());
+	}
+	
 	/**
 	 * Copy this tag to all descendants.
 	 * Complexity: O(tree.size)
@@ -142,7 +147,7 @@ public class PnTTnode extends Element<PnTTnode, KeyDepth> {
 			if(board.freeCol(j)) {
 				PnTTnode child = getChild(j);
 
-				if(child != null) {
+				if(child != null && child.getTag() != getTag()) {
 					child.setTag(getTag());
 					board.mark(j);
 					child.tagTree();
@@ -160,6 +165,8 @@ public class PnTTnode extends Element<PnTTnode, KeyDepth> {
 			return;
 		else {
 			TTdag.remove(PnTTnode.setKey(key_dag, board.hash, depth));
+			TTdag.count--;
+			
 			for(int j = 0; j < BoardBit.N; j++) {
 				if(board.freeCol(j)) {
 					PnTTnode child = getChild(j);
@@ -177,13 +184,23 @@ public class PnTTnode extends Element<PnTTnode, KeyDepth> {
 
 		public boolean hasParents() {
 			for(int j = 0; j < BoardBit.N; j++) {
-				if(getParent(j) != null)
+				if(board.free[j] > 0 && getParent(j) != null)
+					return true;
+			}
+			return false;
+		}
+		public static boolean hasParents(int depth) {
+			for(int j = 0; j < BoardBit.N; j++) {
+				if(board.free[j] > 0 && getParent(depth, j) != null)
 					return true;
 			}
 			return false;
 		}
 		public PnTTnode getParent(int col) {
-			return getEntry(board.hash, col, depth - 2, Auxiliary.opponent(board.player));
+			return TTdag.get(PnTTnode.setKey(key_dag, TTdag.getHash(board.hash, board.free[col] - 1, col, Auxiliary.getPlayerBit(Auxiliary.opponent(board.player))), depth - 1));
+		}
+		public static PnTTnode getParent(int depth, int col) {
+			return TTdag.get(PnTTnode.setKey(key_dag, TTdag.getHash(board.hash, board.free[col] - 1, col, Auxiliary.getPlayerBit(Auxiliary.opponent(board.player))), depth - 1));
 		}
 		public PnTTnode getChild(int col) {
 			return (col == TTElementProved.COL_NULL) ? null : getEntry(col);
@@ -262,7 +279,7 @@ public class PnTTnode extends Element<PnTTnode, KeyDepth> {
 		public PnTTnode getEntry(int col) {
 			return getEntry(board.hash, col, depth, board.player);
 		}
-		private PnTTnode getEntry(long hash, int col, int depth, byte player) {
+		private static PnTTnode getEntry(long hash, int col, int depth, byte player) {
 			if(col == TTElementProved.COL_NULL)
 				return TTdag.get(PnTTnode.setKey(key_dag, hash, depth));
 			else
@@ -271,7 +288,7 @@ public class PnTTnode extends Element<PnTTnode, KeyDepth> {
 		public TTElementProved getEntryProved(int col) {
 			return getEntryProved(board.hash, col, depth, board.player);
 		}
-		private TTElementProved getEntryProved(long hash, int col, int depth, byte player) {
+		private static TTElementProved getEntryProved(long hash, int col, int depth, byte player) {
 			if(col == TTElementProved.COL_NULL)
 				return TTproved.get(TTElementProved.setKey(key_proved, hash, depth));
 			else
@@ -352,6 +369,9 @@ public class PnTTnode extends Element<PnTTnode, KeyDepth> {
 		 */
 		public TTElementProved prove(boolean value, short depth_reachable, int col) {
 
+			TTdag.count--;
+			TTproved.count++;
+
 			if(value) setProofAndDisproof(0, N_INFINITE);
 			else setProofAndDisproof(N_INFINITE, 0);
 
@@ -365,13 +385,10 @@ public class PnTTnode extends Element<PnTTnode, KeyDepth> {
 		}
 
 		/**
-		 * change node tag and return the new tag.
+		 * change node tag.
 		 * <p> tag is either 0 or 1.
 		 * @return
 		 */
-		public int setTag() {
-			return bits ^= MASK_TAG;
-		}
 		public void setTag(int val) {
 			bits = (byte) ((bits & ~MASK_TAG) | (val & MASK_TAG));
 		}
