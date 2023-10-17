@@ -88,6 +88,7 @@ public class PnTTnode extends Element<PnTTnode, KeyDepth> {
 		setTag(tag);
 
 		TTdag.insert(key, this);
+		TTdag.count++;
 	}
 	
 

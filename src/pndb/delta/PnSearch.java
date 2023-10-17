@@ -122,7 +122,7 @@ public class PnSearch implements CXPlayer {
 	protected BoardBitPn	lastIt_board;
 
 	// debug
-	private final boolean DEBUG_PROVED	= false;
+	private final boolean DEBUG_PROVED	= true;
 	private final boolean DEBUG_TIME	= false;
 	private final boolean DEBUG_LOG		= false;
 	protected String log;
@@ -213,11 +213,15 @@ public class PnSearch implements CXPlayer {
 				created_n++;
 			}
 
+			// debug
+			System.out.println("root hash:" + board.hash + "\tdepth " + root.depth );
+			board.print();
+
 			// remove unreachable nodes from previous rounds
 			root.setTag((root.depth / 2) % 2);		// unique tag for each round
 			if(lastIt_root != null) {
 				// debug
-				System.out.println("timebefore tagTree: " + (System.currentTimeMillis() - timer_start) );
+				System.out.println("time before tagTree: " + (System.currentTimeMillis() - timer_start) );
 				
 				root.tagTree();
 				// debug
@@ -229,18 +233,14 @@ public class PnSearch implements CXPlayer {
 			}
 
 			// debug
-			System.out.println("root hash:" + board.hash + "\tdepth " + root.depth );
-			board.print();
 			testerMemoryStruct mem = new testerMemoryStruct(runtime.maxMemory(), runtime.totalMemory(), runtime.freeMemory(), Auxiliary.freeMemory(runtime));
-			System.out.println("time after clean, before gc: " + (System.currentTimeMillis() - timer_start) );
-			System.out.println("mem before gc: " + mem);
+			System.out.println("time,mem before gc: " + (System.currentTimeMillis() - timer_start) + "\t" + mem);
 			
 			runtime.gc();
 			
 			// debug
 			mem.set(runtime.maxMemory(), runtime.totalMemory(), runtime.freeMemory(), Auxiliary.freeMemory(runtime));
-			System.out.println("time before start visit: " + (System.currentTimeMillis() - timer_start) );
-			System.out.println("mem after gc: " + mem);
+			System.out.println("time,mem before start visit: " + (System.currentTimeMillis() - timer_start) + "\t" + mem);
 			
 			// visit
 			TTElementProved root_eval = getEntryProved(board.hash, TTElementProved.COL_NULL, root.depth, board.player);
@@ -258,7 +258,7 @@ public class PnSearch implements CXPlayer {
 				log += "depths " + root.depth + " " + root_eval.depth_cur + "\n";
 				log += root_eval.col() + " "+root_eval.won()+" " +root_eval.depth_reachable + "\n";
 			}
-			System.out.println("TIME after debugs, before lastIt_root/board: " + (System.currentTimeMillis() - timer_start) );
+			System.out.println("TIME before lastIt_root/board: " + (System.currentTimeMillis() - timer_start) );
 			
 			
 			lastIt_root	 = root;
@@ -276,12 +276,12 @@ public class PnSearch implements CXPlayer {
 			board.markCheck(move);
 
 			// debug
-			System.out.println("TIME after select move: " + (System.currentTimeMillis() - timer_start) );
+			System.out.println("TIME before return: " + (System.currentTimeMillis() - timer_start) );
 			log += "before debug&return\n";
 			log += root.debugString(root);
 			log += "\nMy move: " + move + "\n";
 			log += board.printString(0);
-			log += "time,mem before return: " + (System.currentTimeMillis() - timer_start) + " " + Auxiliary.freeMemory(runtime) + "\n";
+			log += "time,mem before return (last): " + (System.currentTimeMillis() - timer_start) + " " + Auxiliary.freeMemory(runtime) + "\n";
 			System.out.println("\nLOG:\n" + log);
 			System.out.println("TIME before return: " + (System.currentTimeMillis() - timer_start) );
 			
@@ -451,7 +451,7 @@ public class PnSearch implements CXPlayer {
 				log += "eval: game_state!=open\n";
 				if(DEBUG_PROVED) file_proved.write("state " + board.game_state + "\n");
 				
-				node.prove(board.game_state == GameState.WINP1);		// root cant be ended, or the game would be ended
+				node.prove(board.game_state == MY_WIN);		// root cant be ended, or the game would be ended
 				return true;
 			}
 		}
@@ -472,7 +472,7 @@ public class PnSearch implements CXPlayer {
 			if(eval == null)
 				return false;
 
-			node.prove(player == MY_PLAYER, (short)(node.depth + (eval.threats_n * 2 + 1)), eval.winning_col);
+			node.prove(player == MY_PLAYER, (short)(node.depth + (eval.threats_n * 2 - 1)), eval.winning_col);
 
 			// debug
 			if(DEBUG_PROVED) file_proved.write("proved db\n");
@@ -535,10 +535,11 @@ public class PnSearch implements CXPlayer {
 
 				if(entry != null) {
 					
-					// debug
-					if(DEBUG_LOG) log += "proved\n";
-					
 					updateProved(entry);
+					
+					// debug
+					if(DEBUG_LOG) log += "proved " + entry.won() + " " + entry.depth_reachable + " " + entry.col() + "\n";
+					if(DEBUG_PROVED) file_proved.write("proved " + entry.won() + " " + entry.depth_reachable + " " + entry.col() + "\n");
 				}
 				
 				// debug
@@ -642,16 +643,16 @@ public class PnSearch implements CXPlayer {
 					threats = dbSearch.getThreatCounts(board, board.player);
 			int current_child, j, k;
 
-// get for each column the score from db, and check if they are free
-boolean won = (board.player != MY_PLAYER);
-for(j = 0; j < BoardBit.N; j++) {
+			// get for each column the score from db, and check if they are free
+			boolean won = (board.player != MY_PLAYER);
+			for(j = 0; j < BoardBit.N; j++) {
 				//if(res_db != null && res_db.related_squares_by_col[j] > 0) col_scores[j] = res_db.related_squares_by_col[j];
 				if( board.freeCol(j) ) {
 					TTElementProved entry = getEntryProved(board.hash, j, node.depth, board.player);
 
 					if(entry == null)
 						col_scores[j] = 1;
-						else {
+					else {
 						// debug
 						if(DEBUG_PROVED) file_proved.write("found proved child " + TTdag.getHash(board.hash, board.free[j], j, Auxiliary.getPlayerBit(board.player)) + "\t" + entry.won() + "\n");
 						
@@ -689,7 +690,7 @@ for(j = 0; j < BoardBit.N; j++) {
 					children_cols[current_child++] = (byte)j;
 					// move back the new child in the right place
 					for(k = current_child - 1; (k > 0) && (threats[children_cols[k - 1]] > threats[j]); k--)
-					Auxiliary.swapByte(children_cols, k, k - 1);
+						Auxiliary.swapByte(children_cols, k, k - 1);
 				}
 			}
 
@@ -712,7 +713,7 @@ for(j = 0; j < BoardBit.N; j++) {
 				
 				PnTTnode child = TTdag.get(PnTTnode.setKey(key_dag, board.hash, node.depth + 1));
 				if(child == null) {
-					child =node.createChild();
+					child = node.createChild();
 					/* Heuristic initialization: nodes without any threat should be considered less (or not at all).
 					 * Proof init offset: if threats=0, BoardBit.N+1 should give enough space to prioritize other moves;
 					 * otherwise, use current_child, so its an incremental number also respecting the random shuffle.
@@ -958,7 +959,7 @@ for(j = 0; j < BoardBit.N; j++) {
 		private boolean isBetterChild(TTElementProved parent, TTElementProved current, TTElementProved test) {
 			return test != null &&
 				(current == null || ( parent.won() != current.won() && parent.won() == test.won() )	// set anyway
-				|| current.won() == test.won() && ( test.depth_reachable < current.depth_reachable == (parent.won() == current.won()) )	// set if deeper
+				|| current.won() == test.won() && ( test.depth_reachable > current.depth_reachable == (parent.won() == current.won()) )	// set if deeper
 			);
 		}
 		

@@ -20,35 +20,37 @@ public class testerPn {
 		pn.initPlayer(M, N, X, first, 10);
 
 		BoardBit board = pn.board;
+		CXBoard last_board = new CXBoard(M, N, X);
 		
 
 		String[] bb = {
-			
-			/* selected 1, which loses in 1 */
-			"...o.oo..",
-			"..xx.xx..",
-			"..ox.xo..",
-			"o.oxoxo..",
-			"o.oxooo..",
-			"x.xoxxx..",
-			"o.oxoxx..",
-			"o.oxoxxxo",
-			"oxoxxxxoo"
-			
+
+			/* selected 3, which loses in 1 */
+			"xx..o..x.",
+			"xo..o..o.",
+			"oo..x..o.",
+			"oo..ox.o.",
+			"oooxxo.o.",
+			"xxxoxx.xo",
+			"oxoxxoxxx",
+			"oxoxxxoxx",
+			"xoxooxoxo"
 		};
 
 		for(int i = 0; i< M; i++) {
 			for(int j = 0; j < N; j++) {
 				if(bb[M-i-1].substring(j, j+1).equals("."))
 					continue;
-				else board.markCheck(j, (bb[M-i-1].substring(j, j+1).equals("x")) ? CellState.P1 : CellState.P2);
+				else {
+					board.markCheck(j, (bb[M-i-1].substring(j, j+1).equals("x")) ? CellState.P1 : CellState.P2);
+					last_board.markColumn(j);
+				}
 			}
 		}
 		
 		
-		CXBoard last_board = new CXBoard(M, N, X);
 		//last_board.markColumn(1);
-		last_board.markColumn(0);
+		last_board.markColumn(3);
 
 		// set the player to do next move(set in last_board)
 		pn.board.player = CellState.P2;
