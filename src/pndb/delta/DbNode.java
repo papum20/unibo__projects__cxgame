@@ -47,9 +47,9 @@ public class DbNode {
 		 * Check if a combination with node is valid, i.e. if they're not in conflict and both have a marked cell the other doesn't.
 		 * Complexity: O(N)
 		 */
-		public BoardsRelation validCombinationWith(DbNode node, byte attacker) {
+		public BoardsRelation validCombinationWith(DbNode node) {
 
-			return board.validCombinationWith(node.board, attacker);
+			return board.validCombinationWith(node.board);
 		}
 
 	//#endregion DB

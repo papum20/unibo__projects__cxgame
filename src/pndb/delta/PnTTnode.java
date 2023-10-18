@@ -1,13 +1,9 @@
 package pndb.delta;
 
-import java.util.LinkedList;
-
-import pndb.delta.constants.Auxiliary;
 import pndb.delta.constants.Constants;
 import pndb.delta.constants.GameState;
 import pndb.delta.PnTTnode.KeyDepth;
 import pndb.delta.tt.TTElementProved;
-import pndb.delta.tt.TranspositionTable;
 import pndb.delta.tt.TranspositionTable.Element;
 import pndb.delta.tt.TranspositionTable.Element.Key;
 
@@ -52,18 +48,14 @@ public class PnTTnode extends Element<PnTTnode, KeyDepth> {
 	 */
 
 	//#region CONSTANTS
-	public static final int N_ZERO		= 0;
-	public static final int N_INFINITE	= Constants.INFINITE;
+		public static final int N_ZERO		= 0;
+		public static final int N_INFINITE	= Constants.INFINITE;
 
-	public static final byte PROOF		= 0;	// proof index
-	public static final byte DISPROOF	= 1;	// disproof index
+		public static final byte PROOF		= 0;	// proof index
+		public static final byte DISPROOF	= 1;	// disproof index
 	//#endregion CONSTANTS
 
-	public static TranspositionTable<PnTTnode, KeyDepth> TTdag;
-	public static TranspositionTable<TTElementProved, TTElementProved.KeyDepth> TTproved;
 	public static BoardBitPn board;
-	private static KeyDepth key_dag						= new KeyDepth();
-	private static TTElementProved.KeyDepth key_proved	= new TTElementProved.KeyDepth();
 
 	public final int[] n;		// n_proof, n_disproof
 	public short most_proving_col;
@@ -87,8 +79,7 @@ public class PnTTnode extends Element<PnTTnode, KeyDepth> {
 		this.bits				= 0;
 		setTag(tag);
 
-		TTdag.insert(key, this);
-		TTdag.count++;
+		board.addEntry(this);
 	}
 	
 
@@ -165,8 +156,7 @@ public class PnTTnode extends Element<PnTTnode, KeyDepth> {
 		if(getTag() == tag)
 			return;
 		else {
-			TTdag.remove(PnTTnode.setKey(key_dag, board.hash, depth));
-			TTdag.count--;
+			board.removeEntry(depth);
 			
 			for(int j = 0; j < BoardBit.N; j++) {
 				if(board.freeCol(j)) {
@@ -185,58 +175,13 @@ public class PnTTnode extends Element<PnTTnode, KeyDepth> {
 
 		public boolean hasParents() {
 			for(int j = 0; j < BoardBit.N; j++) {
-				if(board.free[j] > 0 && getParent(j) != null)
+				if(board.free[j] > 0 && board.getEntryParent(j, depth) != null)
 					return true;
 			}
 			return false;
-		}
-		public static boolean hasParents(int depth) {
-			for(int j = 0; j < BoardBit.N; j++) {
-				if(board.free[j] > 0 && getParent(depth, j) != null)
-					return true;
-			}
-			return false;
-		}
-		public PnTTnode getParent(int col) {
-			return TTdag.get(PnTTnode.setKey(key_dag, TTdag.getHash(board.hash, board.free[col] - 1, col, Auxiliary.getPlayerBit(Auxiliary.opponent(board.player))), depth - 1));
-		}
-		public static PnTTnode getParent(int depth, int col) {
-			return TTdag.get(PnTTnode.setKey(key_dag, TTdag.getHash(board.hash, board.free[col] - 1, col, Auxiliary.getPlayerBit(Auxiliary.opponent(board.player))), depth - 1));
 		}
 		public PnTTnode getChild(int col) {
-			return (col == TTElementProved.COL_NULL) ? null : getEntry(col);
-		}
-		/**
-		 * 
-		 * @return all children present in dag.
-		 */
-		public LinkedList<PnTTnode> getChildren() {
-
-			LinkedList<PnTTnode> res = new LinkedList<PnTTnode>();
-			
-			for(int j = 0; j < BoardBit.N; j++) {
-				if(board.freeCol(j)) {
-					PnTTnode child = getChild(j);
-					if(child != null) res.add(child);
-				}
-			}
-			return res;
-		}
-		/**
-		 * 
-		 * @return all proved children TTElementProved elements.
-		 */
-		public LinkedList<TTElementProved> getProvedChildren() {
-
-			LinkedList<TTElementProved> res = new LinkedList<TTElementProved>();
-			
-			for(int j = 0; j < BoardBit.N; j++) {
-				if(board.freeCol(j)) {
-					TTElementProved entry = TTproved.get(TTElementProved.setKey(key_proved, board.hash, depth + 1));
-					if(entry != null) res.add(entry);
-				}
-			}
-			return res;
+			return (col == TTElementProved.COL_NULL) ? null : board.getEntry(col, depth);
 		}
 		/**
 		 * if possible, get the best move, i.e. best proof/disproof ratio;
@@ -261,7 +206,7 @@ public class PnTTnode extends Element<PnTTnode, KeyDepth> {
 				TTElementProved best = null, child;
 				for(int j = 0; j < BoardBit.N; j++) {
 					if(board.freeCol(j)) {
-						child = getEntryProved(board.hash, j, depth, board.player);
+						child = board.getEntryProved(j, depth);
 						if(child != null && (best == null || child.depth_reachable > best.depth_reachable)) {
 							best		= child;
 							best_col	= j;
@@ -270,30 +215,6 @@ public class PnTTnode extends Element<PnTTnode, KeyDepth> {
 				}
 			}
 			return best_col;
-		}
-		/**
-		 * Get entry from TTdag.
-		 * @param col set to col for node's child if want entry for child, else -1
-		 * @param player current player at node (in case, who's making move col)
-		 * @return entry
-		 */
-		public PnTTnode getEntry(int col) {
-			return getEntry(board.hash, col, depth, board.player);
-		}
-		private static PnTTnode getEntry(long hash, int col, int depth, byte player) {
-			if(col == TTElementProved.COL_NULL)
-				return TTdag.get(PnTTnode.setKey(key_dag, hash, depth));
-			else
-				return TTdag.get(PnTTnode.setKey(key_dag, TTdag.getHash(hash, board.free[col], col, Auxiliary.getPlayerBit(player)), depth + 1));
-		}
-		public TTElementProved getEntryProved(int col) {
-			return getEntryProved(board.hash, col, depth, board.player);
-		}
-		private static TTElementProved getEntryProved(long hash, int col, int depth, byte player) {
-			if(col == TTElementProved.COL_NULL)
-				return TTproved.get(TTElementProved.setKey(key_proved, hash, depth));
-			else
-				return TTproved.get(TTElementProved.setKey(key_proved, TTdag.getHash(hash, board.free[col], col, Auxiliary.getPlayerBit(player)), depth + 1));
 		}
 
 		/**
@@ -322,7 +243,7 @@ public class PnTTnode extends Element<PnTTnode, KeyDepth> {
 			{
 				if(board.freeCol(j)) {
 					child = getChild(j);
-					entry = getEntryProved(j);
+					entry = board.getEntryProved(j, depth);
 
 					if(entry != null && entry.won() == (idx == PROOF))
 						return prove(idx == PROOF);
@@ -353,15 +274,13 @@ public class PnTTnode extends Element<PnTTnode, KeyDepth> {
 		 */
 		public TTElementProved prove(boolean value, short depth_reachable, int col) {
 
-			TTdag.count--;
-			TTproved.count++;
 
 			if(value) setProofAndDisproof(0, N_INFINITE);
 			else setProofAndDisproof(N_INFINITE, 0);
 
 			TTElementProved entry = new TTElementProved(board.hash, depth, depth_reachable, value, col);
-			TTproved.insert(board.hash, entry);
-			TTdag.remove(setKey(key_dag, board.hash, depth));
+			board.addEntryProved(entry);
+			board.removeEntry(depth);
 			return entry;
 		}
 		public TTElementProved prove(boolean value) {

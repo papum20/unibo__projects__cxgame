@@ -5,7 +5,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.LinkedList;
 
-import connectx.CXCell;
 import pndb.delta.Operators.AlignmentPattern;
 import pndb.delta.Operators.ThreatsByRank;
 import pndb.delta.threats.AlignmentsList;
@@ -64,13 +63,13 @@ public class BoardBitDb extends BoardBit {
 	 * dleft:		dimension=M+N-1,	indexed: by start of diagonal on the top row, i.e. from 0 to N+M-1
 	 */
 	protected AlignmentsList[] alignments_by_dir;
-	
-	protected final byte[] Player_byte 	= {CellState.P1, CellState.P2};
-	protected int currentPlayer;		// currentPlayer plays next move (= 0 or 1)
-
 	private short alignments_n;
+	
+	protected byte attacker;
+
 
 	public static TranspositionTable<TTElementBool, TranspositionTable.Element.Key> TT;
+	private static TranspositionTable.Element.Key key = new TranspositionTable.Element.Key();
 	public long hash;
 	
 	/* implementation
@@ -109,7 +108,7 @@ public class BoardBitDb extends BoardBit {
 		MAX = new MovePair(M, N);
 		MAX_SIDE = Math.max(M, N);
 		MIN_MARKS = X - Operators.MARK_DIFF_MIN;
-		currentPlayer = 0;
+		attacker = 0;
 		hash = 0;
 		
 		initAlignmentStructures();
@@ -127,7 +126,7 @@ public class BoardBitDb extends BoardBit {
 		MAX = new MovePair(M, N);
 		MAX_SIDE = Math.max(M, N);
 		MIN_MARKS = X - Operators.MARK_DIFF_MIN;
-		currentPlayer = 0;
+		attacker = 0;
 		hash = 0;
 		
 		initAlignmentStructures();
@@ -147,7 +146,7 @@ public class BoardBitDb extends BoardBit {
 		MAX = new MovePair(M, N);
 		MAX_SIDE = Math.max(M, N);
 		MIN_MARKS = X - Operators.MARK_DIFF_MIN;
-		currentPlayer = B.currentPlayer;
+		attacker = B.attacker;
 		hash = B.hash;
 		hash = 0;
 		
@@ -228,16 +227,7 @@ public class BoardBitDb extends BoardBit {
 			markCheck(j, player);
 			removeAlignments(new MovePair(i, j), Auxiliary.opponent(player));
 		}
-		/**
-		 * Complexity: O(4X + alignments_involving(cell))
-		 */
-		/*
-		public void mark(int j, byte player) {
-			mark(free[j], j, player);
-		}
-		*/
 		
-		//public void markCell(MovePair cell) {markCell(cell.i(), cell.j(), Player[currentPlayer]);}
 		/**
 		 * Complexity: O(4X + alignments_involving(cell) )
 		 */
@@ -257,11 +247,11 @@ public class BoardBitDb extends BoardBit {
 
 			for(int i = 0; i < related.length; i++) {
 				if(i == atk_index) {
-					markAny(related[i].i, related[i].j, Player_byte[currentPlayer]);		// markAny, for vertical
-					check(related[i].i, related[i].j, Player_byte[currentPlayer]);			// only check for attacker
+					markAny(related[i].i, related[i].j, attacker);	// markAny, for vertical
+					check(related[i].i, related[i].j, attacker);		// only check for attacker
 				} else
-					markAny(related[i].i, related[i].j, Player_byte[1 - currentPlayer]);	// markAny, for vertical
-					check(related[i].i, related[i].j, Player_byte[1 - currentPlayer]);		// only check for attacker
+					markAny(related[i].i, related[i].j, attacker);	// markAny, for vertical
+					check(related[i].i, related[i].j, attacker);		// only check for attacker
 			}
 		}
 		@Override
@@ -356,14 +346,14 @@ public class BoardBitDb extends BoardBit {
 					res = getCopy(true);
 					//if there exist any defensive moves
 					if(threat.related.length > 1)
-						res.markMore(threat.getDefensive(atk), Player_byte[currentPlayer]);
+						res.markMore(threat.getDefensive(atk), attacker);
 					// add this threat and check_alignments are done in getDefensiveRoot
 					break;
 					//used for dependency stage
 				case BTH:
 					res = getCopy(false);
 					res.markThreat(threat.related, atk);
-					res.addThreat(threat, atk, Player_byte[currentPlayer]);
+					res.addThreat(threat, atk, attacker);
 					if(check_threats) res.checkAlignments(threat.related[atk], max_tier, -1, "dep");
 			}
 			return res;
@@ -376,13 +366,13 @@ public class BoardBitDb extends BoardBit {
 		 *		= O(10N + 16X B.markedThreats.length + 8X added_threats)	// alignments_involving(cell) are probably less than 4X
 		 *		= O(10N + 24X B.markedThreats.length)						// if all B's threats were added (worst case)
 		 */
-		public BoardBitDb getCombined(BoardBitDb B, byte attacker, int max_tier) {
+		public BoardBitDb getCombined(BoardBitDb B, int max_tier) {
 
 			BoardBitDb res = getCopy(true);
 			LinkedList<MovePair> added_threat_attacks = new LinkedList<MovePair>();
 
 			for(ThreatApplied athreat : B.markedThreats) {
-				if(isUsefulThreat(athreat, attacker)) {
+				if(isUsefulThreat(athreat)) {
 					//mark other board's threat on res
 					for(int i = 0; i < athreat.threat.related.length; i++) {
 						MovePair c = athreat.threat.related[i];
@@ -415,7 +405,7 @@ public class BoardBitDb extends BoardBit {
 		 * @param attacker
 		 * @return
 		 */
-		public BoardsRelation validCombinationWith(BoardBitDb B, byte attacker) {
+		public BoardsRelation validCombinationWith(BoardBitDb B) {
 
 			long flip = (attacker == MY_PLAYER) ? 0 : -1;
 			boolean useful_own = false, useful_other = false;
@@ -866,10 +856,10 @@ public class BoardBitDb extends BoardBit {
 			 * <p>
 			 * Complexity: O(iterations O(findAlignmentsInDirection)) = O(6 N 2N) =
 			 * 	<p>		= O(12 N**2)
-			 * @param player
+			 * @param attacker
 			 * @param max_tier
 			 */
-			public void findAllAlignments(byte player, int max_tier, boolean only_valid, String caller) {
+			public void findAllAlignments(int max_tier, boolean only_valid, String caller) {
 
 				MovePair start, end;
 				for(int d = 0; d < DIR_ABS_N; d++)
@@ -879,7 +869,7 @@ public class BoardBitDb extends BoardBit {
 						start = nextStartOfRow_inDir(start, d)
 					) {
 						end.reset(start).clamp_diag(MIN, MAX, DIRECTIONS[d], Math.max(M, N));
-						findAlignmentsInDirection(start, end,  player, d, max_tier, null, null, only_valid, null, 0, caller + "all_");
+						findAlignmentsInDirection(start, end,  attacker, d, max_tier, null, null, only_valid, null, 0, caller + "all_");
 					}
 				}
 			}
@@ -935,7 +925,7 @@ public class BoardBitDb extends BoardBit {
 			 * @param player
 			 * @return true if there are valid alignments (calculated before, with proper max_tier)
 			 */
-			public boolean hasAlignments(byte player) {
+			public boolean hasAlignments() {
 				return alignments_n > 0;
 			}
 
@@ -946,7 +936,7 @@ public class BoardBitDb extends BoardBit {
 			 * @param attacker
 			 * @return true if the AppliedThreat is compatible with this board, and useful, i.e. adds at least one attacker's threat.
 			 */
-			protected boolean isUsefulThreat(ThreatApplied athreat, byte attacker) {
+			protected boolean isUsefulThreat(ThreatApplied athreat) {
 
 				byte state, state_athreat;
 				boolean useful = false;
@@ -967,7 +957,7 @@ public class BoardBitDb extends BoardBit {
 			 * <p>	= O(6N + markedThreats.length AVG(O(Opeartors.applied)) AVG(O(Opeartors.applied)) )
 			 * <p>	= O(6N + X markedThreats.length )	// worst-case
 			 */
-			public ThreatsByRank getApplicableOperators(byte attacker, int max_tier) {
+			public ThreatsByRank getApplicableOperators(int max_tier) {
 
 				byte defender		= Auxiliary.opponent(attacker);
 				ThreatsByRank res	= new ThreatsByRank();
@@ -1005,8 +995,8 @@ public class BoardBitDb extends BoardBit {
 			 */
 			public int[] getThreatCounts(byte player) {
 
-				setPlayer(player);
-				findAllAlignments(player, Operators.MAX_TIER, false, "selCol_");
+				setAttacker(player);
+				findAllAlignments(Operators.MAX_TIER, false, "selCol_");
 				
 				int[] threats_by_col = new int[N];
 
@@ -1046,14 +1036,9 @@ public class BoardBitDb extends BoardBit {
 
 	//#region GET
 	
-		/**
-		 * Complexity: O(1)
-		 */
-		public int getCurrentPlayer() {return currentPlayer;}
-		/**
-		 * Complexity: O(1)
-		 */
-		public void setPlayer(byte player) {currentPlayer = (player == this.Player_byte[0]) ? 0 : 1;}
+		public void setAttacker(byte player) {
+			this.attacker = player;
+		}
 		/**
 		 * Complexity: O(N)
 		 */
@@ -1062,10 +1047,6 @@ public class BoardBitDb extends BoardBit {
 			for(int j = 0; j < N; j++) MC_n += free[j];
 			return MC_n;
 		}
-		/**
-		 * Complexity: O(1)
-		 */
-		public CXCell getMarkedCell(int i) {return null;}
 		/**
 		 * Complexity: O(1)
 		 */
@@ -1127,6 +1108,25 @@ public class BoardBitDb extends BoardBit {
 		
 	//#endregion INIT
 
+	//#re>gion TT
+
+		/**
+		 * Get entry from TT.
+		 * @return entry
+		 */
+		public TTElementBool getEntry() {
+			return TT.get(TTElementBool.setKey(key, hash));
+		}
+		public void addEntry(TTElementBool node) {
+			TT.insert(hash, node);
+			TT.count++;
+		}
+		public void removeEntry() {
+			TT.remove(TTElementBool.setKey(key, hash));
+			TT.count--;
+		}
+	
+	//#endregion TT
 
 	//#region DEBUG
 
@@ -1147,8 +1147,8 @@ public class BoardBitDb extends BoardBit {
 				MovePair dir = DIRECTIONS[d % DIR_ABS_N];
 				res += indent + "direction: " + dir + "\n";
 
-				for(int player = 0; player < 2; player++) {
-					res += indent + "player " + Player_byte[player] + ":\n\n";
+				for(byte player = 0; player < 2; player++) {
+					res += indent + "player " + player + ":\n\n";
 					if(alignments_by_dir[d] == null)
 						continue;
 						
@@ -1156,7 +1156,7 @@ public class BoardBitDb extends BoardBit {
 
 						if(alignments_by_dir[d].get(i) != null) {
 							res += indent + "index " + i + "\n\n";
-							for(BiNode<ThreatPosition> p = alignments_by_dir[d].getFirst(Player_byte[player], i);
+							for(BiNode<ThreatPosition> p = alignments_by_dir[d].getFirst(player, i);
 								p != null; p = p.next
 							) {
 								res += indent + p.item + "\n\n";
