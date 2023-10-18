@@ -298,7 +298,6 @@ public class PnTTnode extends Element<PnTTnode, KeyDepth> {
 
 		/**
 		 * return the tag, which is either 0 or 1.
-		 * @return
 		 */
 		public int getTag() {
 			return bits & MASK_TAG;
@@ -308,15 +307,6 @@ public class PnTTnode extends Element<PnTTnode, KeyDepth> {
 
 
 	//#region SET
-		/**
-		 * Complexity: O(1)
-		 * @param p
-		 * @param d
-		 */
-		public void setProofAndDisproof(int p, int d) {
-			n[PROOF]	= p;
-			n[DISPROOF]	= d;
-		}
 		/**
 		 * update proof numbers using children in dag, considering this node is minimizing n[idx].
 		 * @param idx
@@ -356,13 +346,6 @@ public class PnTTnode extends Element<PnTTnode, KeyDepth> {
 		}
 		
 		/**
-		 * identify this node es expanded, i.e. was developed.
-		 */
-		public void setExpanded() {
-			bits |= MASK_EXPANDED;
-		}
-		
-		/**
 		 * prove node, i.e. move from dag to proved tt.
 		 * Complexity: O(1)
 		 * @param value value to assing (True/False for binary trees)
@@ -385,10 +368,18 @@ public class PnTTnode extends Element<PnTTnode, KeyDepth> {
 			return prove(value, (board.game_state == GameState.DRAW) ? (short)(depth + 1) : depth, TTElementProved.COL_NULL);
 		}
 
+		public void setProofAndDisproof(int p, int d) {
+			n[PROOF]	= p;
+			n[DISPROOF]	= d;
+		}
 		/**
-		 * change node tag.
-		 * <p> tag is either 0 or 1.
-		 * @return
+		 * identify this node es expanded, i.e. was developed.
+		 */
+		public void setExpanded() {
+			bits |= MASK_EXPANDED;
+		}
+		/**
+		 * tag is either 0 or 1.
 		 */
 		public void setTag(int val) {
 			bits = (byte) ((bits & ~MASK_TAG) | (val & MASK_TAG));

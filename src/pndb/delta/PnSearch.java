@@ -66,7 +66,14 @@ import pndb.delta.tt.TTElementProved.KeyDepth;
  * <p>	24.	updateAncestors could start updating proved nodes unreachable from root
  * <p>	25.	a node, if existing, is always either in tt dag or proved.
  * <p>	26. had to remove current_node enhancement: with dag it's very expensive keeping track of last updated, while selectMostProving isn't actually very expensive.
- * 
+ * <p>	27. note on setProofAndDisproofNumbers->updateProved():
+ *				If proved, set the final best move.
+ *				Note that if current player won, knowing that at least one move led to a win, choose the one which wins first;
+ *				otherwise, choose the deepest path.
+ *				This also assures the correct precedence for draws (which have assigned max depth + 1) for both players.
+ *				Finally, note that this could not be the deepest/least deep move, because you don't have to analyze the full tree.
+ *				However, it's certain that, in every moment, a proved node is updated with the best move considering all the existsing tree in that instant.
+ *				
  * TODO;
  * .db corretto: db ricorsivo su tier3 (con più risposte)
  * ..oppure: provale tutte, con accortezze: 1. usa tutte minacce di 1atk 1def (saranno molte combinazioni in più);
@@ -79,13 +86,11 @@ import pndb.delta.tt.TTElementProved.KeyDepth;
  * .count mem, n of nodes
  * .metti `age` in TTproved, così se ti serve deepestNode alla fine di selectCol (se perso), se un child ha age vecchia vuol dire che potresti dover
  * ricalcolare il deepest, ricorsivamente.
- * .depth_reachable in pnttnode
+ * 
+ * ENHANCEMENTS TO TRY (VS):
  * .make proved db node add proved child? so when other parents find it in dag, its proved already
- * 
- * .errorr cono
- * .remove dag clean
- * 
- * check there are not problems with def.length=0 with new operator
+ * .initProof: relative or absolute depth?
+ * .db for (iterated) related squares with null move
  * 
  */
 public class PnSearch implements CXPlayer {
@@ -116,13 +121,13 @@ public class PnSearch implements CXPlayer {
 	protected Runtime runtime;
 	
 	// implementation
-	private PnTTnode.KeyDepth key_dag;
-	private KeyDepth TTproved_key;
+	private PnTTnode.KeyDepth 			key_dag;
+	private TTElementProved.KeyDepth	key_proved;
 	protected PnTTnode		lastIt_root;
 	protected BoardBitPn	lastIt_board;
 
 	// debug
-	private final boolean DEBUG_PROVED	= true;
+	private final boolean DEBUG_PROVED	= false;
 	private final boolean DEBUG_TIME	= false;
 	private final boolean DEBUG_LOG		= false;
 	protected String log;
@@ -132,7 +137,6 @@ public class PnSearch implements CXPlayer {
 	private long[] time_last = new long[5];
 	private testerMemoryStruct[] mem_last = new testerMemoryStruct[5];
 	private long[] time_last_a = new long[3];
-	private PnTTnode node_last_db;
 	private int file_rand;
 	private FileWriter file_proved;
 	private int created_n;
@@ -159,7 +163,7 @@ public class PnSearch implements CXPlayer {
 		BoardBitPn.TTdag 	= TTdag;
 		BoardBitPn.TTproved	= TTproved;
 		key_dag				= new PnTTnode.KeyDepth();
-		TTproved_key		= new TTElementProved.KeyDepth();
+		key_proved			= new TTElementProved.KeyDepth();
 		PnTTnode.board		= board;
 		PnTTnode.TTdag		= TTdag;
 		PnTTnode.TTproved	= TTproved;
@@ -224,6 +228,7 @@ public class PnSearch implements CXPlayer {
 				System.out.println("time before tagTree: " + (System.currentTimeMillis() - timer_start) );
 				
 				root.tagTree();
+
 				// debug
 				System.out.println("time before removeUnmarkedTree: " + (System.currentTimeMillis() - timer_start) );
 
@@ -249,7 +254,6 @@ public class PnSearch implements CXPlayer {
 				root_eval = getEntryProved(board.hash, TTElementProved.COL_NULL, root.depth, board.player);
 			}
 
-			
 			// debug
 			if(DEBUG_PROVED) file_proved.close();
 			log += "ended visit\nproved_n = " + TTdag.count + "\tdag_n = " + TTproved.count + "\tcreated_n = " + created_n + "\n";
@@ -258,15 +262,12 @@ public class PnSearch implements CXPlayer {
 				log += "depths " + root.depth + " " + root_eval.depth_cur + "\n";
 				log += root_eval.col() + " "+root_eval.won()+" " +root_eval.depth_reachable + "\n";
 			}
-			System.out.println("TIME before lastIt_root/board: " + (System.currentTimeMillis() - timer_start) );
+			System.out.println("TIME before select move: " + (System.currentTimeMillis() - timer_start) );
 			
 			
 			lastIt_root	 = root;
 			lastIt_board.copy(board);
 			
-			// debug
-			System.out.println("TIME before select move: " + (System.currentTimeMillis() - timer_start) );
-
 			int move;
 			if(root_eval != null)
 				move = root_eval.col();
@@ -277,13 +278,10 @@ public class PnSearch implements CXPlayer {
 
 			// debug
 			System.out.println("TIME before return: " + (System.currentTimeMillis() - timer_start) );
-			log += "before debug&return\n";
-			log += root.debugString(root);
 			log += "\nMy move: " + move + "\n";
-			log += board.printString(0);
-			log += "time,mem before return (last): " + (System.currentTimeMillis() - timer_start) + " " + Auxiliary.freeMemory(runtime) + "\n";
+			log += board.printString(0) + root.debugString(root);
+			System.out.println("time,mem before return (last): " + (System.currentTimeMillis() - timer_start) + " " + Auxiliary.freeMemory(runtime) + "\n");
 			System.out.println("\nLOG:\n" + log);
-			System.out.println("TIME before return: " + (System.currentTimeMillis() - timer_start) );
 			
 			return move;
 
@@ -435,16 +433,13 @@ public class PnSearch implements CXPlayer {
 		 */
 		protected boolean evaluate(PnTTnode node) throws IOException {
 
-			// debug
-			log += "evaluate\n";
-		
 			if(board.game_state == GameState.OPEN) {
 				TTElementProved evaluation = getEntryProved(board.hash, TTElementProved.COL_NULL, node.depth, board.player);
 
 				if(evaluation != null)
 					return true;
 				else
-					return evaluateDb(node, board.player);
+					return evaluateDb(node);
 			}
 			else {
 				// debug
@@ -463,20 +458,15 @@ public class PnSearch implements CXPlayer {
 		 * @param player
 		 * @return true if found a win.
 		 */
-		protected boolean evaluateDb(PnTTnode node, byte player) throws IOException {
+		protected boolean evaluateDb(PnTTnode node) throws IOException {
 
-			log += "evaluateDb\n";
-
-			DbSearchResult eval = dbSearch.selectColumn(board, node, timer_start + timer_duration - System.currentTimeMillis(), player, Operators.MAX_TIER);
+			DbSearchResult eval = dbSearch.selectColumn(board, node, timer_start + timer_duration - System.currentTimeMillis(), board.player, Operators.MAX_TIER);
 			
 			if(eval == null)
 				return false;
 
-			node.prove(player == MY_PLAYER, (short)(node.depth + (eval.threats_n * 2 - 1)), eval.winning_col);
-
-			// debug
-			if(DEBUG_PROVED) file_proved.write("proved db\n");
-
+			node.prove(board.player == MY_PLAYER, (short)(node.depth + (eval.threats_n * 2 - 1)), eval.winning_col);
+			
 			/* Heuristic: update parent's children with iterated related squares.
 			 * If, in the current board, the current player has a winning sequence,
 			 * starting with a certain move `x` in column `X` involving certain cells `s` (thus certain columns `S`),
@@ -489,6 +479,10 @@ public class PnSearch implements CXPlayer {
 			 * 
 			 * Probably that's already taken in count in parent's null-move dbSearch (generateAllChildren).
 			 */
+
+			// debug
+			log += "db evaluated\n";
+			if(DEBUG_PROVED) file_proved.write("proved db\n");
 
 			return true;
 		}
@@ -506,12 +500,6 @@ public class PnSearch implements CXPlayer {
 		 * @param offset offset for initProofAndDisproofNumbers, in case of `node` open and not expanded.
 		 */
 		protected void setProofAndDisproofNumbers(PnTTnode node, int offset) throws IOException {
-			/* TTproved management:
-				if game_state != OPEN: just put depth, col=last move, won=game_state
-				if my turn: if won choose a winning node (depth = its depth, col = col to get there), else search the deepest one
-				else: if (I) won it means any moves makes me win, so could choose any (or maybe the deepest in the opponent's interest, but i'd still win);
-				for algo purpose, don't leave empty and choose any; otherwise, choose the least deep which wins for him (so tries not to choose a draw)
-			*/
 
 			if(DEBUG_LOG) log += "setProof for " + board.hash + "\t " + node.depth + "\tn " + node.n[0] + "\t" + node.n[1] + "\n";
 			
@@ -520,6 +508,7 @@ public class PnSearch implements CXPlayer {
 				if(DEBUG_LOG) log += "state " + board.game_state + "\n";
 				if(DEBUG_PROVED) file_proved.write("setProof for " + board.hash + "\t" + node.depth + "\tn " + node.n[0] + "\t" + node.n[1] + "\tstate " + board.game_state + "\n");
 
+				// here prove() just sets its depth, and col=-1, as it's an ended state
 				node.prove(board.game_state == MY_WIN);
 			}
 			// if node has children, set numbers according to children numbers.
@@ -528,21 +517,23 @@ public class PnSearch implements CXPlayer {
 				// debug
 				if(DEBUG_LOG) log += "expanded " + node.n[0] + "\t" + node.n[1] + "\tmost proving " +((node.most_proving_col==-1)?-1:TTdag.getHash(board.hash, board.free[node.most_proving_col], node.most_proving_col, Auxiliary.getPlayerBit(board.player))) + "\n";
 
+				// set numbers according to children numbers
 				TTElementProved entry = node.updateProofAndDisproof(board.player == MY_PLAYER ? PROOF : DISPROOF);
 
+				/*	If proved, set the final best move.
+					Note that if current player won, knowing that at least one move led to a win, choose the one which wins first;
+					otherwise, choose the deepest path.
+					This also assures the correct precedence for draws (which have assigned max depth + 1) for both players.
+					Finally, note that this could not be the deepest/least deep move, because you don't have to analyze the full tree.
+				*/
+				if(entry != null) updateProved(entry);
+				
 				// debug
 				if(DEBUG_LOG) log += "updated " + node.n[0] + "\t" + node.n[1] + "\tmost proving " +((node.most_proving_col==-1)?-1:TTdag.getHash(board.hash, board.free[node.most_proving_col], node.most_proving_col, Auxiliary.getPlayerBit(board.player))) + "\n";
-
 				if(entry != null) {
-					
-					updateProved(entry);
-					
-					// debug
 					if(DEBUG_LOG) log += "proved " + entry.won() + " " + entry.depth_reachable + " " + entry.col() + "\n";
 					if(DEBUG_PROVED) file_proved.write("proved " + entry.won() + " " + entry.depth_reachable + " " + entry.col() + "\n");
 				}
-				
-				// debug
 				if(DEBUG_LOG) log += "setProof node expanded end\n";
 			}
 			else {
@@ -565,14 +556,9 @@ public class PnSearch implements CXPlayer {
 			if(!node.isExpanded()) return node;
 			else {
 				board.markCheck(node.most_proving_col);
-				/* move `node` as first parent for most_proving (implementation detail useful when going back up in the tree,
-				using `updateAncestors`) */
 				marked.push(Integer.valueOf(node.most_proving_col));
-
-				return selectMostProving(getEntry(board.hash, TTElementProved.COL_NULL, node.depth + 1, board.player), marked);
+				return selectMostProving(node.getChild(node.most_proving_col), marked);
 			}
-			// node.most_proving should always be != null
-
 		}
 
 		/**
@@ -895,44 +881,6 @@ public class PnSearch implements CXPlayer {
 			node.setProofAndDisproof(number, number);
 		}
 
-		private void setDeepestProvedDescendant(TTElementProved entry, long hash, byte player) throws IOException {
-
-			// debug
-			if(DEBUG_PROVED) file_proved.write("setDeepest for " + hash + " " + entry.won() + "\tplayer " + player + "\n");
-			String s = "";
-			for(int j = 0; j < BoardBit.N; j++) {
-				if(board.freeCol(j)) {
-					TTElementProved entry_child = getEntryProved(hash, j, entry.depth_cur, player);
-					if(entry_child != null) {
-						s +=  "won " + entry_child.won() + " col " + entry_child.col() + " depth " + entry_child.depth_cur + " depth_max " + entry_child.depth_reachable +  "\n";
-						if(DEBUG_PROVED) file_proved.write("setDeepest: won " + entry_child.won() + "\t,col " + entry_child.col() + "\t,depth " + entry_child.depth_cur + " depth_max " + entry_child.depth_reachable +  "\n");
-					} else {
-						if(DEBUG_PROVED) file_proved.write("setDeepest: " + TTdag.getHash(hash, board.free[j], j, Auxiliary.getPlayerBit(player)) + "\t" + board.free[j] + " " + j  + "\n");
-
-					}
-				}
-			}
-			if(!s.equals(""))
-				if(DEBUG_PROVED) file_proved.write( "setDeepestProved, for " + hash + " " + entry.won() + " " + entry.col() + " " + entry.depth_reachable + " " + entry.depth_cur +  "\n" + s + "\n");
-			
-			int best_col = entry.col(), best_depth = entry.depth_reachable;
-			TTElementProved entry_child;
-			for(int j = 0; j < BoardBit.N; j++) {
-				if(board.freeCol(j)) {
-					entry_child = getEntryProved(hash, j, entry.depth_cur, player);
-					if(entry_child != null && entry_child.won() == entry.won()
-						&& (best_col == TTElementProved.COL_NULL || (entry_child.depth_reachable < best_depth == (entry.won() == (player == MY_PLAYER)) ) )
-					) {
-						// search deepest if winning for current `player`, otherwise least deep
-						best_col = j;
-						best_depth = entry_child.depth_reachable;
-					}
-				}
-			}
-			if(best_col != TTElementProved.COL_NULL) {
-				entry.set(best_col, (short)best_depth);
-			}
-		}
 		/**
 		 * check all proved children, to find the best and deeepst/least deep path.
 		 * @param entry
@@ -990,9 +938,9 @@ public class PnSearch implements CXPlayer {
 		 */
 		private TTElementProved getEntryProved(long hash, int col, int depth, byte player) {
 			if(col == TTElementProved.COL_NULL)
-				return TTproved.get(TTElementProved.setKey(TTproved_key, hash, depth));
+				return TTproved.get(TTElementProved.setKey(key_proved, hash, depth));
 			else
-				return TTproved.get(TTElementProved.setKey(TTproved_key, TTdag.getHash(hash, board.free[col], col, Auxiliary.getPlayerBit(player)), depth + 1));
+				return TTproved.get(TTElementProved.setKey(key_proved, TTdag.getHash(hash, board.free[col], col, Auxiliary.getPlayerBit(player)), depth + 1));
 		}
 		private int getColFromEntryProved(TTElementProved child, int depth) {
 			for(int j = 0; j < BoardBit.N; j++) {
@@ -1001,22 +949,7 @@ public class PnSearch implements CXPlayer {
 			}
 			return -1;
 		}
-		/**
-		 * Insert entry in TTproved.
-		 * @param hash
-		 * @param col
-		 * @param depth
-		 * @param player
-		 */
-		private TTElementProved addEntryProved(long hash, int depth_cur, int depth_reachable, boolean won, int col) {
-			// debug
-			TTproved.count++;
-			
-			TTElementProved entry = new TTElementProved(hash, depth_cur, depth_reachable, won, col);
-			TTproved.insert(hash, entry);
-			return entry;
-		}
-		
+
 		/**
 		 * Complexity: O(1)
 		 * @return true if it's time to end the turn
