@@ -1,7 +1,5 @@
 package pndb.delta;
 
-import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.ListIterator;
@@ -56,21 +54,6 @@ public class DbSearch {
 	protected int found_win_sequences;
 	protected DbNode win_node;
 	protected boolean[][] GOAL_SQUARES;		// used for defensive search.
-	
-	// DEBUG
-	protected final boolean DEBUG_ON			= false;
-	private final boolean DEBUG_TIME			= false;
-	protected final boolean DEBUG_PRINT			= false;
-	private final boolean DEBUG_ONLY_FOUND_SEQ	= true;
-	protected int counter;
-	protected FileWriter file;
-	private int DEBUG_CODE_MAX		= 999999999;
-	protected String log;
-	private long ms;
-	private int visit_loops_n;
-	private String indent;
-
-
 
 
 	public DbSearch() {
@@ -93,12 +76,7 @@ public class DbSearch {
 		BoardBitDb.TT = TT;
 		TTkey = new TranspositionTable.Element.Key();
 
-		GOAL_SQUARES = new boolean[M][N];
-		// initialized to false
-
-		// debug
-		counter = 0;
-		file = null;
+		GOAL_SQUARES = new boolean[M][N];	// initialized to false
 	}
 
 	
@@ -115,76 +93,31 @@ public class DbSearch {
 	 */
 	public DbSearchResult selectColumn(BoardBit B, PnTTnode root_pn, long time_remaining, byte player, byte max_tier) {
 		
-		// debug
-		log = "__\ndbSearch\n";
-
 		DbNode root = null;;
 
-		try {
-			
-			// timer
-			timer_start	= System.currentTimeMillis();
-			timer_end	= timer_start + time_remaining;
-			
-			// update own board instance
-			board = new BoardBitDb(B);
-			board.setPlayer(player);
-			
-			board.findAllAlignments(player, Operators.MAX_TIER, true, "selCol_");
-			
-			// debug
-			if(DEBUG_ON && board.hasAlignments(player)) {
-				file = new FileWriter("debug/db1main/main" + (counter++) + "_" + debugRandomCode() + "_" + board.getMC_n() + ".txt");
-				file.write("root board:\n" + board.printString(0) + board.printAlignmentsString(0));
-				file.close();
-			}
-			
-			// db init
-			root = createRoot(board);
-			win_node 	= null;
-			found_win_sequences = 0;
-			
-			// recursive call for each possible move
-			visit(root, player, true, max_tier);
-			root = null;
+		// timer
+		timer_start	= System.currentTimeMillis();
+		timer_end	= timer_start + time_remaining;
+		
+		// update own board instance
+		board = new BoardBitDb(B);
+		board.setPlayer(player);
+		
+		board.findAllAlignments(player, Operators.MAX_TIER, true, "selCol_");
+		
+		// db init
+		root = createRoot(board);
+		win_node 	= null;
+		found_win_sequences = 0;
+		
+		// recursive call for each possible move
+		visit(root, player, true, max_tier);
+		root = null;
 
-			// debug
-			if(DEBUG_ON) file.close();
-			if(foundWin()) {
-				if(DEBUG_PRINT)
-					System.out.println("found win: " + foundWin() );
-				log += "found win: " + foundWin() + "\n";
-				log += "win node \n";
-				log += win_node.board.printString(0);
-			}
+		if(foundWin())
+			return getReturnValue(player);
 
-			if(foundWin())
-				return getReturnValue(player);
-
-			return null;
-
-		} catch (IOException io) {
-			return null;
-		} catch (ArrayIndexOutOfBoundsException e) {
-			if(root == null) System.out.println("root is null");
-			else {
-				root.board.print();
-				root.board.printAlignments();
-			}
-			System.out.println(log + "\nout of bounds in db\n");
-			if(DEBUG_ON) try {file.close();} catch(IOException io) {}
-			throw e;
-		} catch (Exception e) {
-			if(root == null) System.out.println("root is null");
-			else {
-				root.board.print();
-				root.board.printAlignments();
-			}
-			System.out.println(log + "\nany error in db\n");
-			if(DEBUG_ON) try {file.close();} catch(IOException io) {}
-			throw e;
-		}
-
+		return null;
 	}
 	
 	/**
@@ -241,25 +174,7 @@ public class DbSearch {
 		 * @param max_tier
 		 * @return true if the visit was successful, i.e. reached a goal state for the attacker.
 		 */
-		protected boolean visit(DbNode root, byte attacker, boolean attacking, int max_tier) throws IOException {
-
-			// debug
-			log = "dbVisit\n";
-			String filename_current = "";
-			boolean found_something = false;
-			ms = System.currentTimeMillis();
-			short level = attacking? (short)1 : (short)8;
-			indent = "";
-			for(int i = 0; i < level; i++) indent += "\t";
-			if(DEBUG_ON) {
-				if(!attacking) file.write("\t\t\t\t--------\tSTART OF DEFENSE\t--------\n");
-				else {
-					filename_current = "debug/db1/db" + (counter++) + "_" + debugRandomCode() + "_" + root.board.getMC_n() + "-" + (root.board.getMC_n() > 0 ? root.board.getMarkedCell(root.board.getMC_n()-1) : "_") + "-" + level + ".txt";
-					file = new FileWriter(filename_current);
-					file.write("attacker, attacking, maxtier = " + attacker + " " + attacking + " " + max_tier + "\n");
-
-				}
-			}
+		protected boolean visit(DbNode root, byte attacker, boolean attacking, int max_tier) {
 
 			// init dependency and combination lists
 			LinkedList<DbNode> lastDependency = new LinkedList<DbNode>(), lastCombination = new LinkedList<DbNode>();
@@ -275,64 +190,20 @@ public class DbSearch {
 				// start dependency stage
 				lastDependency.clear();
 				
-				// debug
-				log += "dbVisit for " + attacker + ", attacking: " + attacking + "\n";
-				if(DEBUG_ON) file.write(indent + "-------\tDEPENDENCY\t--------\n");
-				if(DEBUG_TIME) printTime();
-				
 				// HEURISTIC: only for attacker, only search for threats of tier < max tier found in defenses
 				int max_tier_t = attacking? max_tier : root.getMaxTier();
 				if(addDependencyStage(attacker, attacking, lastDependency, lastCombination, root, max_tier_t))	//uses lastCombination, fills lastDependency
 					found_goal_state = true;
 					
-				// debug
-				if(DEBUG_TIME) printTime();
-				log += "added dependency\n";
-				if(!lastDependency.isEmpty()) found_something = true;
-				if(DEBUG_ON) file.write(indent + "--------\tCOMBINATION\t--------\n");
-				
 				// START COMBINATIO STAGE
 				if((attacking && !foundWin()) || (!attacking && !found_goal_state))
 				{
 					lastCombination.clear();
 					
-					// debug
-					if(DEBUG_TIME) printTime();
-
 					addCombinationStage(root, attacker, attacking, lastDependency, lastCombination);				//uses lasdtDependency, fills lastCombination
-					
-					// debug
-					if(DEBUG_TIME) printTime();
-					if(!lastCombination.isEmpty()) found_something = true;
-					if(DEBUG_ON) file.write(indent + "--------\tEND OF COMBINATION\t--------\n");
-					
-				}
-				
-				// DEBUG
-				level++;
-				visit_loops_n++;
-				if(DEBUG_ON) {
-					file.write("ATTACKING: " + (attacking? "ATTACKER":"DEFENDER") + "\n");
-					file.write("FOUND SEQUENCE: " + found_goal_state + "\n");
-					file.write("VISIT WON: " + foundWin() + "\n");
 				}
 			}
 
-			// DEBUG
-			log += "end of loop\n";
-			if(DEBUG_ON) {
-				if(!attacking) {
-					file.write("\t\t\t\t--------\tEND OF DEFENSE\t--------\n");
-				} else {
-					file.close();
-					if(!found_something) {
-						File todel = new File(filename_current);
-						if(DEBUG_ONLY_FOUND_SEQ && !found_goal_state)
-							todel.delete();
-					}
-				}
-			}
-			
 			return found_goal_state;
 
 		}
@@ -342,11 +213,8 @@ public class DbSearch {
 		 * @param attacker
 		 * @return true if found a defense (i.e. threat sequence was not winning)
 		 */
-		private boolean visitGlobalDefense(DbNode possible_win, DbNode root, byte attacker) throws IOException {
+		private boolean visitGlobalDefense(DbNode possible_win, DbNode root, byte attacker) {
 
-			//DEBUG
-			if(DEBUG_ON) file.write("\t\t\t\tWIN:\n" + possible_win.board.printString(1) + "\t\t\t\t-----\n");
-			
 			//add each combination of attacker's made threats to each dependency node
 			DbNode new_root			= createDefensiveRoot(root, possible_win.board.getMarkedThreats(), attacker);
 			int first_threat_tier	= new_root.getMaxTier();
@@ -389,10 +257,7 @@ public class DbSearch {
 		 * @param max_tier
 		 * @return true if reached a goal state for the current player.
 		 */
-		private boolean addDependencyStage(byte attacker, boolean attacking, LinkedList<DbNode> lastDependency, LinkedList<DbNode> lastCombination, DbNode root, int max_tier) throws IOException {
-
-			// debug
-			log += "depStage\n";
+		private boolean addDependencyStage(byte attacker, boolean attacking, LinkedList<DbNode> lastDependency, LinkedList<DbNode> lastCombination, DbNode root, int max_tier) {
 
 			boolean found_sequence = false;
 			ListIterator<DbNode> it = lastCombination.listIterator();
@@ -404,11 +269,6 @@ public class DbSearch {
 			) {
 				DbNode node = it.next();
 
-				// debug
-				if(DEBUG_ON) file.write(indent + "DEPENDENCY: parent: \n" + node.board.printString(node.board.getMC_n()) + node.board.printAlignmentsString(node.board.getMC_n()) + indent + "children: \n" +
-								((node.board.getMC_n() == 0 || node.board.getMarkedCell(node.board.getMC_n()-1) == null) ? "no MC\n" :
-									(node.board.getMarkedCell(node.board.getMC_n()-1).i + " " + node.board.getMarkedCell(node.board.getMC_n()-1).j + " " + node.board.getMarkedCell(node.board.getMC_n()-1).state + "\n")));
-				
 				found_sequence = addDependentChildren(node, attacker, attacking, 1, lastDependency, root, max_tier);
 			}
 			return found_sequence;
@@ -433,20 +293,14 @@ public class DbSearch {
 		 * @param lastCombination
 		 * @return only return true if the dbSearch should end, because a checked and won node was found in the TT.
 		 */
-		private void addCombinationStage(DbNode root, byte attacker, boolean attacking, LinkedList<DbNode> lastDependency, LinkedList<DbNode> lastCombination) throws IOException {
+		private void addCombinationStage(DbNode root, byte attacker, boolean attacking, LinkedList<DbNode> lastDependency, LinkedList<DbNode> lastCombination) {
 			
-			// debug
-			log += "combStage\n";
-
 			ListIterator<DbNode> it = lastDependency.listIterator();
 			while (
 				!isTimeEnded() && it.hasNext()
 				&& (!attacking || found_win_sequences < MAX_THREAT_SEQUENCES)
 			) {
 				DbNode node = it.next();
-				
-				// debug
-				if(DEBUG_ON) file.write(indent + "parent: \n" + node.board.printString(node.board.getMC_n()) + indent + "children: \n");
 				
 				findAllCombinationNodes(node, root, attacker, attacking, lastCombination, root);
 			}
@@ -482,16 +336,11 @@ public class DbSearch {
 		 * @param max_tier
 		 * @return true if reached a goal state for the current player.
 		 */
-		private boolean addDependentChildren(DbNode node, byte attacker, boolean attacking, int lev, LinkedList<DbNode> lastDependency, DbNode root, int max_tier) throws IOException {
-
-			log += "addDependentChildren\n";
+		private boolean addDependentChildren(DbNode node, byte attacker, boolean attacking, int lev, LinkedList<DbNode> lastDependency, DbNode root, int max_tier) {
 
 			byte state = node.board.gameState();
 			if(state == GameState.OPEN)
 			{
-				// debug
-				log += "start getApplicable Operators\n";
-				
 				boolean found_sequence = false;
 				//LinkedList<CXCell[]> applicableOperators = getApplicableOperators(node, MAX_CHILDREN, my_attacker);
 				ThreatsByRank applicableOperators = node.board.getApplicableOperators(attacker, max_tier);
@@ -509,33 +358,16 @@ public class DbSearch {
 								if(isTimeEnded())
 									return found_sequence;
 
-								// debug
-								if(DEBUG_ON) {
-									file.write(indent + "\t\t\t" + threat.type + "\t" + atk_index + "\t");
-									for(int i = 0; i < threat.related.length; i++) file.write(threat.related[i] + " " + threat.uses[i] + "\t");
-									file.write("\n");
-								}
-								log += "applying type=" + threat.type + ", atk_idx=" + threat.nextAtk(0) + ": ";
-								for(int i = 0; i < threat.related.length; i++) log += threat.related[i] + " ";
-								log += "\n" + board.printString(1) + "\n" + board.printAlignmentsString(0) + "\n--\n";
-								
 								//if a goal square is marked, returns true, as goal squares are only used for defensive search, where only score matters
 								MovePair atk_cell = threat.related[atk_index];
+
 								if(GOAL_SQUARES[atk_cell.i][atk_cell.j]) {
-									
-									DbNode newChild = addDependentChild(node, threat, atk_index, lastDependency, attacker);
+									addDependentChild(node, threat, atk_index, lastDependency, attacker);
 									// don't add to TT, as it's only for defense
-									
-									// debug
-									if(DEBUG_ON) file.write(indent + "-" + lev + "\t---\n" + newChild.board.printString(lev) + "MARKED GOAL SQUARE " + atk_cell + "\n");
-									
 									return true;
 								}
 								else {
 									DbNode newChild = addDependentChild(node, threat, atk_index, lastDependency, attacker);
-
-									// debug
-									if(DEBUG_ON) file.write(indent + "-" + lev + "\t---\n" + newChild.board.printString(lev) + newChild.board.printAlignmentsString(lev) + indent + "---\n");
 
 									if(addDependentChildren(newChild, attacker, attacking, lev+1, lastDependency, root, max_tier))
 										found_sequence = true;
@@ -550,10 +382,6 @@ public class DbSearch {
 				return found_sequence;
 			}
 			else {
-				
-				// debug
-				if(DEBUG_ON) file.write("STATE (dependency): " + state + "\n");
-
 				// consider p2's wins first (e.g. in case a threat creates a win for both)
 				if(state != Auxiliary.cellState2winState(attacker)) {
 					return false;
@@ -588,10 +416,7 @@ public class DbSearch {
 		 * @param lastCombination
 		 * @param root
 		 */
-		private void findAllCombinationNodes(DbNode partner, DbNode node, byte attacker, boolean attacking, LinkedList<DbNode> lastCombination, DbNode root) throws IOException {
-			
-			// debug
-			log += "combNodes\n";
+		private void findAllCombinationNodes(DbNode partner, DbNode node, byte attacker, boolean attacking, LinkedList<DbNode> lastCombination, DbNode root) {
 			
 			if(
 				// interrupt db
@@ -604,12 +429,6 @@ public class DbSearch {
 				//doesn't check if isDependencyNode() : also combinations of combination nodes could result in alignments
 			)
 				return;
-
-			// DEBUG
-			if(DEBUG_ON) {
-				file.write(indent + "\t\tfirst parent: \n" + partner.board.printString(partner.board.getMC_n()));
-				file.write("\n" + indent + "\t\tsecond parent: \n" + node.board.printString(node.board.getMC_n()) + "\n");
-			}
 
 			//create combination with A's board (copied)
 			addCombinationChild(partner, node, lastCombination, root, attacker, attacking);
@@ -638,10 +457,7 @@ public class DbSearch {
 		 * @return
 		 * @throws IOException
 		 */
-		private DbNode createDefensiveRoot(DbNode root, LinkedList<ThreatApplied> athreats, byte attacker) throws IOException {
-
-			// debug
-			log += "createDef start\n";
+		private DbNode createDefensiveRoot(DbNode root, LinkedList<ThreatApplied> athreats, byte attacker) {
 
 			ListIterator<ThreatApplied> it = athreats.listIterator();
 			ThreatApplied athreat = null, athreat_prev = null;
@@ -652,24 +468,14 @@ public class DbSearch {
 			def_root.board.setPlayer(Auxiliary.opponent(attacker));
 			def_root.board.findAllAlignments(Auxiliary.opponent(attacker), max_tier, true, "defRoot_");
 
-			
-			// debug
-			if(DEBUG_ON) file.write("MAX THREAT: " + max_tier + "\n");
-			// debug
-			if(DEBUG_ON) file.write("def_root before loop" + "\n" + def_root.board.printString(0) + def_root.board.printAlignmentsString(0) + "\n");
-			
 			//add a node for each threat, each node child/dependant from the previous one
 			DbNode prev, node = def_root;
 			while(it.hasNext()) {
 
-				
 				athreat = it.next();
 				prev = node;
 				prev.board.mark(athreat.threat.related[athreat.related_index], attacker);
 
-				// debug
-				if(DEBUG_ON) file.write("prev after mark atk" + "\n" + prev.board.printString(0) + prev.board.printAlignmentsString(0) + "\n");
-				
 				/* in all cases, except for the last threat, which is winning.
 				Note that even a threat of tier > 1 could win by mistake: in such case, the problem is that it also has defensive moves;
 				however these won't be added thanks to this condition, but will be ignored.
@@ -685,17 +491,6 @@ public class DbSearch {
 					BoardBitDb node_board = prev.board.getDependant(athreat.threat, athreat.related_index, USE.DEF, prev.getMaxTier(), false);
 					node = new DbNode(node_board, true, prev.getMaxTier());
 					prev.addChild(node);
-
-					// debug
-					if(DEBUG_ON) file.write("node after mark def" + "\n" + node.board.printString(0) + node.board.printAlignmentsString(0) + "\n");
-					
-				}
-				
-				//DEBUG
-				if(DEBUG_ON) {
-					file.write("\t\t\t\t" + athreat.threat.related[athreat.related_index] + "\n" + prev.board.printString(prev.board.getMC_n()));
-					for(MovePair m : athreat.threat.related) file.write("\t\t\t\t" + m + " ");
-					file.write("\n");
 				}
 			}
 			
@@ -719,9 +514,6 @@ public class DbSearch {
 		 */
 		protected DbNode addDependentChild(DbNode node, ThreatCells threat, int atk, LinkedList<DbNode> lastDependency, byte attacker) {
 			
-			// debug
-			log += "addDepChild\n";
-
 			BoardBitDb new_board	= node.board.getDependant(threat, atk, USE.BTH, node.getMaxTier(), true);
 			DbNode newChild 		= new DbNode(new_board, false, node.getMaxTier());
 
@@ -756,16 +548,10 @@ public class DbSearch {
 		 */
 		private void addCombinationChild(DbNode A, DbNode B, LinkedList<DbNode> lastCombination, DbNode root, byte attacker, boolean attacking) {
 
-			// debug
-			log += "addCombChild\n";
-			
 			int max_threat					= Math.min(A.getMaxTier(), B.getMaxTier());
 			BoardBitDb new_board			= A.board.getCombined(B.board, attacker, max_threat);
 			DbNode new_child				= null;
 			TTElementBool entry = TT.get(TTElementBool.setKey(TTkey, new_board.hash));
-
-			// debug
-			if(DEBUG_ON) new_board.printFile(file, new_board.getMC_n());
 
 			// if already analyzed and saved in TT
 			if(entry != null)
@@ -885,23 +671,6 @@ public class DbSearch {
 			return lastCombination.size() > 0;
 		}
 
-		//#region DEBUG
-
-			protected void printTime() {
-				ms = System.nanoTime() - ms;
-				if(ms > 0) {
-					System.out.println("pn, turn " + visit_loops_n + ", time select most proving: " + ms);
-					System.out.println("..." + log + "\n...");
-				}
-				ms = System.nanoTime();
-			}
-
-			protected int debugRandomCode() {
-				return (int)(Math.random() * DEBUG_CODE_MAX);
-			}
-		
-		//#endregion DEBUG
-		
 	//#endregion HELPER
 
 }
