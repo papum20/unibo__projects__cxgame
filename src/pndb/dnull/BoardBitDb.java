@@ -1,25 +1,25 @@
-package pndb.delta;
+package pndb.dnull;
 
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.LinkedList;
 
-import pndb.delta.Operators.AlignmentPattern;
-import pndb.delta.Operators.ThreatsByRank;
-import pndb.delta.threats.AlignmentsList;
-import pndb.delta.threats.BiList_ThreatPos;
-import pndb.delta.threats.ThreatApplied;
-import pndb.delta.threats.ThreatCells;
-import pndb.delta.threats.ThreatPosition;
-import pndb.delta.threats.ThreatCells.USE;
-import pndb.delta.tt.TTElementBool;
-import pndb.delta.tt.TranspositionTable;
-import pndb.delta.constants.Auxiliary;
-import pndb.delta.constants.CellState;
-import pndb.delta.constants.GameState;
-import pndb.delta.constants.MovePair;
-import pndb.delta.constants.Constants.BoardsRelation;
+import pndb.dnull.Operators.AlignmentPattern;
+import pndb.dnull.Operators.ThreatsByRank;
+import pndb.dnull.threats.AlignmentsList;
+import pndb.dnull.threats.BiList_ThreatPos;
+import pndb.dnull.threats.ThreatApplied;
+import pndb.dnull.threats.ThreatCells;
+import pndb.dnull.threats.ThreatPosition;
+import pndb.dnull.threats.ThreatCells.USE;
+import pndb.dnull.tt.TTElementBool;
+import pndb.dnull.tt.TranspositionTable;
+import pndb.dnull.constants.Auxiliary;
+import pndb.dnull.constants.CellState;
+import pndb.dnull.constants.GameState;
+import pndb.dnull.constants.MovePair;
+import pndb.dnull.constants.Constants.BoardsRelation;
 import pndb.structures.BiList.BiNode;
 
 

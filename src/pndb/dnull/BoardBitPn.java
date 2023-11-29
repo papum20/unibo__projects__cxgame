@@ -1,8 +1,8 @@
-package pndb.delta;
+package pndb.dnull;
 
-import pndb.delta.constants.Auxiliary;
-import pndb.delta.tt.TTElementProved;
-import pndb.delta.tt.TranspositionTable;
+import pndb.dnull.constants.Auxiliary;
+import pndb.dnull.tt.TTElementProved;
+import pndb.dnull.tt.TranspositionTable;
 
 
 

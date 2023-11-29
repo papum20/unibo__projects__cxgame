@@ -1,4 +1,4 @@
-package pndb.delta;
+package pndb.dnull;
 
 import java.util.LinkedList;
 import java.util.ListIterator;
@@ -6,13 +6,13 @@ import java.util.ListIterator;
 import connectx.CXBoard;
 import connectx.CXCell;
 import connectx.CXPlayer;
-import pndb.delta.constants.Auxiliary;
-import pndb.delta.constants.CellState;
-import pndb.delta.constants.GameState;
-import pndb.delta.structs.DbSearchResult;
-import pndb.delta.tt.TranspositionTable;
-import pndb.delta.tt.TTElementProved;
-import pndb.delta.tt.TTElementProved.KeyDepth;
+import pndb.dnull.constants.Auxiliary;
+import pndb.dnull.constants.CellState;
+import pndb.dnull.constants.GameState;
+import pndb.dnull.structs.DbSearchResult;
+import pndb.dnull.tt.TranspositionTable;
+import pndb.dnull.tt.TTElementProved;
+import pndb.dnull.tt.TTElementProved.KeyDepth;
 
 
 
@@ -118,6 +118,8 @@ public class PnSearch implements CXPlayer {
 		protected byte YOUR_PLAYER	= CellState.P2;
 		protected byte MY_WIN		= GameState.WINP1;
 		protected byte YOUR_WIN		= GameState.WINP2;
+
+		protected int PROOF_WIN_SEQ_OFFSET;	// offset for init proof numbers in generateAllChildren
 	//#endregion CONSTANTS
 
 	public BoardBitPn board;			// public for debug
@@ -151,6 +153,8 @@ public class PnSearch implements CXPlayer {
 		BoardBit.M = (byte)M;
 		BoardBit.N = (byte)N;
 		BoardBit.X = (byte)X;
+
+		PROOF_WIN_SEQ_OFFSET = N * 2;
 
 		board = new BoardBitPn(first ? MY_PLAYER : YOUR_PLAYER);
 		BoardBitPn.TTdag	= new TranspositionTable<TTPnNode, TTPnNode.KeyDepth>(M, N, TTPnNode.getTable());
@@ -245,7 +249,7 @@ public class PnSearch implements CXPlayer {
 
 	@Override
 	public String playerName() {
-		return "PnDb delta";
+		return "PnDb dnull";
 	}
 
 
@@ -470,17 +474,25 @@ public class PnSearch implements CXPlayer {
 			int[]	col_scores = new int[BoardBit.N],
 					threats = dbSearch.getThreatCounts(board, board.player);
 			int current_child, j, k;
-
+			DbSearchResult res_db = dbSearch.selectColumn(board, node, timer_start + timer_duration - System.currentTimeMillis(), Auxiliary.opponent(board.player), Operators.MAX_TIER);
+			
 			// get for each column the score from db, and check if they are free
 			boolean won = (board.player != MY_PLAYER);
 			for(j = 0; j < BoardBit.N; j++) {
-				//if(res_db != null && res_db.related_squares_by_col[j] > 0) col_scores[j] = res_db.related_squares_by_col[j];
 				if( board.freeCol(j) ) {
 					TTElementProved entry = board.getEntryProved(j, node.depth);
-
-					if(entry == null)
+					
+					if(entry == null) {
 						col_scores[j] = 1;
-					else {
+						// count winning threat sequence as very high threat, and remove a lot of priority for not involved cells (cols)
+						if(res_db != null) {
+							if(res_db.related_squares_by_col[j] > 0)
+								threats[j] = res_db.related_squares_by_col[j];
+							else
+								threats[j] += PROOF_WIN_SEQ_OFFSET;
+
+						} 
+					} else {
 						available_cols_n--;
 						if(entry.won() == (board.player == MY_PLAYER)) {
 							won = (board.player == MY_PLAYER);

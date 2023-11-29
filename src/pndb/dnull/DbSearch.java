@@ -1,21 +1,21 @@
-package pndb.delta;
+package pndb.dnull;
 
 import java.util.LinkedList;
 import java.util.ListIterator;
 
-import pndb.delta.Operators.ThreatsByRank;
-import pndb.delta.threats.ThreatApplied;
-import pndb.delta.threats.ThreatCells;
-import pndb.delta.threats.ThreatCells.USE;
-import pndb.delta.constants.Auxiliary;
-import pndb.delta.constants.CellState;
-import pndb.delta.constants.GameState;
-import pndb.delta.constants.MovePair;
-import pndb.delta.constants.Constants.BoardsRelation;
-import pndb.delta.structs.DbSearchResult;
-import pndb.delta.tt.TranspositionTable;
-import pndb.delta.tt.TranspositionTable.Element.Key;
-import pndb.delta.tt.TTElementBool;
+import pndb.dnull.Operators.ThreatsByRank;
+import pndb.dnull.threats.ThreatApplied;
+import pndb.dnull.threats.ThreatCells;
+import pndb.dnull.threats.ThreatCells.USE;
+import pndb.dnull.constants.Auxiliary;
+import pndb.dnull.constants.CellState;
+import pndb.dnull.constants.GameState;
+import pndb.dnull.constants.MovePair;
+import pndb.dnull.constants.Constants.BoardsRelation;
+import pndb.dnull.structs.DbSearchResult;
+import pndb.dnull.tt.TranspositionTable;
+import pndb.dnull.tt.TranspositionTable.Element.Key;
+import pndb.dnull.tt.TTElementBool;
 
 
 

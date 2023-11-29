@@ -1,9 +1,9 @@
-package pndb.delta.tt;
+package pndb.old.delta.tt;
 
-import pndb.delta.PnNode;
-import pndb.delta.tt.TranspositionTable.Element;
-import pndb.delta.tt.TranspositionTable.Element.Key;
-import pndb.delta.tt.TTElementNode.KeyDepth;
+import pndb.old.delta.tt.TranspositionTable.Element;
+import pndb.old.delta.tt.TranspositionTable.Element.Key;
+import pndb.old.delta.PnNode;
+import pndb.old.delta.tt.TTElementNode.KeyDepth;
 
 
 

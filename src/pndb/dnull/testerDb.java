@@ -1,7 +1,7 @@
-package pndb.delta;
+package pndb.dnull;
 
-import pndb.delta.constants.CellState;
-import pndb.delta.structs.DbSearchResult;
+import pndb.dnull.constants.CellState;
+import pndb.dnull.structs.DbSearchResult;
 
 public class testerDb {
 	

@@ -1,6 +1,6 @@
-package pndb.delta.threats;
+package pndb.dnull.threats;
 
-import pndb.delta.constants.MovePair;
+import pndb.dnull.constants.MovePair;
 
 
 

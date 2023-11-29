@@ -2,14 +2,14 @@ package pndb.delta;
 
 import pndb.delta.constants.Constants;
 import pndb.delta.constants.GameState;
-import pndb.delta.PnTTnode.KeyDepth;
+import pndb.delta.TTPnNode.KeyDepth;
 import pndb.delta.tt.TTElementProved;
 import pndb.delta.tt.TranspositionTable.Element;
 import pndb.delta.tt.TranspositionTable.Element.Key;
 
 
 
-public class PnTTnode extends Element<PnTTnode, KeyDepth> {
+public class TTPnNode extends Element<TTPnNode, KeyDepth> {
 	//KEY = key1 + key2 + index = (16+32+16) bit = 64bit
 
 	public static class KeyDepth extends Key {
@@ -69,7 +69,7 @@ public class PnTTnode extends Element<PnTTnode, KeyDepth> {
 	/**
 	 * Complexity: O(1)
 	 */
-	public PnTTnode(long key, short depth, int tag) {
+	public TTPnNode(long key, short depth, int tag) {
 		key2 = (int)(key >> TABLE_SIZE);
 		key1 = (short)(key >> MASK2_BITS);
 		this.depth = (short)depth;
@@ -89,7 +89,7 @@ public class PnTTnode extends Element<PnTTnode, KeyDepth> {
 		 * Complexity: O(n), with n length of the list
 		 * @param e
 		 */
-		protected void listAppend(PnTTnode e) {
+		protected void listAppend(TTPnNode e) {
 			if(next == null) next = e;
 			else next.listAppend(e);
 		}
@@ -99,14 +99,14 @@ public class PnTTnode extends Element<PnTTnode, KeyDepth> {
 		 * @param cmp
 		 * @return
 		 */
-		protected PnTTnode listGet(KeyDepth k) {
+		protected TTPnNode listGet(KeyDepth k) {
 			if (compareKey(k)) return this;
 			else if(next == null) return null;
 			else return next.listGet(k);
 		}
 
-		public static PnTTnode[] getTable() {
-			return new PnTTnode[(int)(Math.pow(2, TABLE_SIZE))];
+		public static TTPnNode[] getTable() {
+			return new TTPnNode[(int)(Math.pow(2, TABLE_SIZE))];
 		}
 		public static KeyDepth calculateKey(long key, int depth) {
 			return new KeyDepth(key, key >> MASK2_BITS, key >> TABLE_SIZE, (int)(key & MASK_IDX), depth);
@@ -125,8 +125,8 @@ public class PnTTnode extends Element<PnTTnode, KeyDepth> {
 	//#endregion TT
 
 	
-	public PnTTnode createChild() {
-		return new PnTTnode(board.hash, (short)(depth + 1), getTag());
+	public TTPnNode createChild() {
+		return new TTPnNode(board.hash, (short)(depth + 1), getTag());
 	}
 	
 	/**
@@ -137,7 +137,7 @@ public class PnTTnode extends Element<PnTTnode, KeyDepth> {
 	public void tagTree() {
 		for(int j = 0; j < BoardBit.N; j++) {
 			if(board.freeCol(j)) {
-				PnTTnode child = getChild(j);
+				TTPnNode child = getChild(j);
 
 				if(child != null && child.getTag() != getTag()) {
 					child.setTag(getTag());
@@ -160,7 +160,7 @@ public class PnTTnode extends Element<PnTTnode, KeyDepth> {
 			
 			for(int j = 0; j < BoardBit.N; j++) {
 				if(board.freeCol(j)) {
-					PnTTnode child = getChild(j);
+					TTPnNode child = getChild(j);
 					if(child != null) {
 						board.mark(j);
 						child.removeUnmarkedTree(tag);
@@ -180,7 +180,7 @@ public class PnTTnode extends Element<PnTTnode, KeyDepth> {
 			}
 			return false;
 		}
-		public PnTTnode getChild(int col) {
+		public TTPnNode getChild(int col) {
 			return (col == TTElementProved.COL_NULL) ? null : board.getEntry(col, depth);
 		}
 		/**
@@ -192,7 +192,7 @@ public class PnTTnode extends Element<PnTTnode, KeyDepth> {
 
 			int best_col = -1;
 			if(n[DISPROOF] > 0) {	// if not disproved
-				PnTTnode best = null, child;
+				TTPnNode best = null, child;
 				for(int j = 0; j < BoardBit.N; j++) {
 					if(board.freeCol(j)) {
 						child = getChild(j);
@@ -230,13 +230,13 @@ public class PnTTnode extends Element<PnTTnode, KeyDepth> {
 	//#region SET
 		/**
 		 * update proof numbers using children in dag, considering this node is minimizing n[idx].
-		 * @param idx
+		 * @param idx PROOF or DISPROOF
 		 * @return entry if proved, else null
 		 */
 		public TTElementProved updateProofAndDisproof(int idx) {
 
 			long disproof = 0;
-			PnTTnode most_proving = null, child;
+			TTPnNode most_proving = null, child;
 			TTElementProved entry;
 			
 			for(int j = 0; j < BoardBit.N; j++)
@@ -267,13 +267,15 @@ public class PnTTnode extends Element<PnTTnode, KeyDepth> {
 		}
 		
 		/**
-		 * prove node, i.e. move from dag to proved tt.
+		 * Prove node, i.e. move from dag to proved tt.
+		 * 
 		 * Complexity: O(1)
 		 * @param value value to assing (True/False for binary trees)
-		 * @param prune if true, prune children (i.e. set to null)
+		 * @param depth_reachable best depth reachable (min if won, max if lost)
+		 * @param col col to get to best position reachable
 		 */
 		public TTElementProved prove(boolean value, short depth_reachable, int col) {
-
+			
 
 			if(value) setProofAndDisproof(0, N_INFINITE);
 			else setProofAndDisproof(N_INFINITE, 0);
@@ -283,6 +285,12 @@ public class PnTTnode extends Element<PnTTnode, KeyDepth> {
 			board.removeEntry(depth);
 			return entry;
 		}
+		/**
+		 * Prove node, i.e. move from dag to proved tt.
+		 * 
+		 * Complexity: O(1)
+		 * @param value value to assing (True/False for binary trees)
+		 */
 		public TTElementProved prove(boolean value) {
 			return prove(value, (board.game_state == GameState.DRAW) ? (short)(depth + 1) : depth, TTElementProved.COL_NULL);
 		}
@@ -326,11 +334,11 @@ public class PnTTnode extends Element<PnTTnode, KeyDepth> {
 	
 	//#region DEBUG
 	
-	public void debug(PnTTnode root) {
+	public void debug(TTPnNode root) {
 		System.out.println(debugString(root));
 	}
 
-	public String debugString(PnTTnode root) {
+	public String debugString(TTPnNode root) {
 		String s = "node with col " + ", node==root? " + (this==root) + "; numbers: " + n[0] + ", " + n[1] + "\n";
 		return s;
 	}
