@@ -15,7 +15,7 @@ public class BoardBitPn extends BoardBit {
 	private static TTElementProved.KeyDepth	key_proved	= new TTElementProved.KeyDepth();
 	private static TTPnNode.KeyDepth key_dag			= new TTPnNode.KeyDepth();
 
-	public byte player;
+	public byte player;	// player to move next
 
 
 	/**

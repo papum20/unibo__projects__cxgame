@@ -159,6 +159,7 @@ public class PnSearch implements CXPlayer {
 		board = new BoardBitPn(first ? MY_PLAYER : YOUR_PLAYER);
 		BoardBitPn.TTdag	= new TranspositionTable<TTPnNode, TTPnNode.KeyDepth>(M, N, TTPnNode.getTable());
 		BoardBitPn.TTproved	= new TranspositionTable<TTElementProved, KeyDepth>(M, N, TTElementProved.getTable());
+		TTPnNode.board = board;
 		
 		dbSearch = new DbSearch();		
 		dbSearch.init(M, N, X, first);
@@ -314,9 +315,9 @@ public class PnSearch implements CXPlayer {
 			while(!root.isProved() && !isTimeEnded()) {
 
 				most_proving_node = selectMostProving(root, marked_stack);
-
-				developNode(most_proving_node);
 				
+				developNode(most_proving_node);
+
 				updateAncestorsWhileChanged(most_proving_node.depth, boards_to_prune, null, true);
 
 				resetBoard(marked_stack);
@@ -411,12 +412,13 @@ public class PnSearch implements CXPlayer {
 		 * @return the most proving node
 		 */
 		private TTPnNode selectMostProving(TTPnNode node, LinkedList<Integer> marked_stack) {
-			
+
 			if(!node.isExpanded()) return node;
 			else {
 				board.markCheck(node.most_proving_col);
 				marked_stack.push(Integer.valueOf(node.most_proving_col));
-				return selectMostProving(node.getChild(node.most_proving_col), marked_stack);
+				// careful: node.getChild uses board, but it just changed. Better use board.getEntry directly
+				return selectMostProving(board.getEntry(COL_NULL, node.depth + 1), marked_stack);
 			}
 		}
 
@@ -577,7 +579,6 @@ public class PnSearch implements CXPlayer {
 			
 			TTPnNode node = board.getEntry(COL_NULL, depth);
 			TTElementProved entry = board.getEntryProved(COL_NULL, depth);
-			
 			
 			if(entry != null) {
 				// just need to update deepest move (using caller), so can save time

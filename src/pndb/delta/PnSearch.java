@@ -155,6 +155,7 @@ public class PnSearch implements CXPlayer {
 		board = new BoardBitPn(first ? MY_PLAYER : YOUR_PLAYER);
 		BoardBitPn.TTdag	= new TranspositionTable<TTPnNode, TTPnNode.KeyDepth>(M, N, TTPnNode.getTable());
 		BoardBitPn.TTproved	= new TranspositionTable<TTElementProved, KeyDepth>(M, N, TTElementProved.getTable());
+		TTPnNode.board = board;
 		
 		dbSearch = new DbSearch();		
 		dbSearch.init(M, N, X, first);
@@ -412,8 +413,8 @@ public class PnSearch implements CXPlayer {
 			else {
 				board.markCheck(node.most_proving_col);
 				marked_stack.push(Integer.valueOf(node.most_proving_col));
-				return selectMostProving(node.getChild(node.most_proving_col), marked_stack);
-			}
+				// careful: node.getChild uses board, but it just changed. Better use board.getEntry directly
+				return selectMostProving(board.getEntry(COL_NULL, node.depth + 1), marked_stack);			}
 		}
 
 		/**
