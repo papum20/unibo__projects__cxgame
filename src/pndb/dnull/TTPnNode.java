@@ -258,7 +258,7 @@ public class TTPnNode extends Element<TTPnNode, KeyDepth> {
 			}
 			
 			if(most_proving == null)	// disprove
-			return prove(idx != PROOF);
+				return prove(idx != PROOF);
 			else {
 				n[idx]		= most_proving.n[idx];
 				n[1 - idx]	= (int)disproof;

@@ -234,7 +234,7 @@ public class PnSearch implements CXPlayer {
 		board.markCheck(move);
 		
 		// debug
-		System.out.println("proved_n = " + BoardBitPn.TTdag.count + "\tdag_n = " + BoardBitPn.TTproved.count + "\tcreated_n = " + created_n + "\n");
+		System.out.println("dag_n = " + BoardBitPn.TTdag.count + "\tproved_n = " + BoardBitPn.TTproved.count + "\tcreated_n = " + created_n + "\n");
 		if(root_eval != null) System.out.println("root eval: " + root_eval.col() + " "+root_eval.won()+" " +root_eval.depth_reachable + "\n");
 		System.out.println("\nMy move: " + move + "\n");
 		System.out.println(board.printString(0) + root.debugString(root));
@@ -414,7 +414,8 @@ public class PnSearch implements CXPlayer {
 				board.markCheck(node.most_proving_col);
 				marked_stack.push(Integer.valueOf(node.most_proving_col));
 				// careful: node.getChild uses board, but it just changed. Better use board.getEntry directly
-				return selectMostProving(board.getEntry(COL_NULL, node.depth + 1), marked_stack);			}
+				return selectMostProving(board.getEntry(COL_NULL, node.depth + 1), marked_stack);
+			}
 		}
 
 		/**
@@ -543,8 +544,7 @@ public class PnSearch implements CXPlayer {
 					setProofAndDisproofNumbers(child, (threats[j] == 0) ? (BoardBit.N + 1) : (current_child) );
 					
 					// debug
-					if(!child.isProved())
-						created_n++;
+					created_n++;
 				}
 
 				board.unmark(j);
@@ -589,9 +589,11 @@ public class PnSearch implements CXPlayer {
 				
 				if(old_proof == node.n[PROOF] && old_disproof == node.n[DISPROOF])
 					return;
-				else if(node.isProved())
+				else if(node.isProved()) {
+					entry = board.getEntryProved(COL_NULL, depth);
 					boards_to_prune.add(new BoardBitPn(board));
-			} else {
+				}
+			} else {	// configuration doesn't exist
 				return;
 			}
 
