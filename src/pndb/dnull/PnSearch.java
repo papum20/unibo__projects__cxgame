@@ -139,6 +139,8 @@ public class PnSearch implements CXPlayer {
 	// debug
 	private int created_n;
 
+	private String log = "";
+
 	
 	
 
@@ -153,8 +155,6 @@ public class PnSearch implements CXPlayer {
 		BoardBit.M = (byte)M;
 		BoardBit.N = (byte)N;
 		BoardBit.X = (byte)X;
-
-		PROOF_WIN_SEQ_OFFSET = N * 2;
 
 		board = new BoardBitPn(first ? MY_PLAYER : YOUR_PLAYER);
 		BoardBitPn.TTdag	= new TranspositionTable<TTPnNode, TTPnNode.KeyDepth>(M, N, TTPnNode.getTable());
@@ -178,73 +178,84 @@ public class PnSearch implements CXPlayer {
 	@Override
 	public int selectColumn(CXBoard B) {
 
-		timer_start = System.currentTimeMillis();
-		
-		// update own board.
-		CXCell[] MC = B.getMarkedCells();
-		if(MC.length > 0)
-			board.markCheck(B.getLastMove().j);
+		try {
 			
-		// see if new root was already visited, otherwise create it
-		root = board.getEntry(COL_NULL, MC.length);
-		if(root == null) {
-			root = new TTPnNode(board.hash, (short)MC.length, (MC.length / 2) % 2 );
-			root.setProofAndDisproof(1, 1);
+			timer_start = System.currentTimeMillis();
+			
+			// update own board.
+			CXCell[] MC = B.getMarkedCells();
+			if(MC.length > 0)
+				board.markCheck(B.getLastMove().j);
+				
+			// see if new root was already visited, otherwise create it
+			root = board.getEntry(COL_NULL, MC.length);
+			if(root == null) {
+				root = new TTPnNode(board.hash, (short)MC.length, (MC.length / 2) % 2 );
+				root.setProofAndDisproof(1, 1);
 
-			created_n++;
+				created_n++;
+			}
+
+			// debug
+			System.out.println("---\n" + playerName());
+			System.out.println("Opponent: " + ((B.getLastMove() == null) ? null : B.getLastMove().j) );
+			System.out.println("root hash:" + board.hash + "\tdepth " + root.depth );
+			board.print();
+			debugVisit("before tagTree");
+
+			// remove unreachable nodes from previous rounds
+			root.setTag((root.depth / 2) % 2);		// unique tag for each round
+			if(lastIt_root != null) {
+				root.tagTree();
+
+				debugVisit("before removeUnmarkedTree");
+
+				TTPnNode.board = lastIt_board;
+				lastIt_root.removeUnmarkedTree(root.getTag());
+				TTPnNode.board = board;
+			}
+
+			debugVisit("before gc");
+			
+			runtime.gc();
+			
+			debugVisit("before visit");
+			
+			// visit
+			TTElementProved root_eval = board.getEntryProved(COL_NULL, root.depth);
+			if(root_eval == null) {
+				visit();
+				root_eval = board.getEntryProved(COL_NULL, root.depth);
+			}
+
+			lastIt_root	= root;
+			lastIt_board.copy(board);
+			
+			int move;
+			if(root_eval != null)
+				move = root_eval.col();
+			else {
+				move = root.getMoveToBestChild();
+			}
+			board.markCheck(move);
+			
+			// debug
+			System.out.println("dag_n = " + BoardBitPn.TTdag.count + "\tproved_n = " + BoardBitPn.TTproved.count + "\tcreated_n = " + created_n + "\n");
+			if(root_eval != null) System.out.println("root eval: " + root_eval.col() + " "+root_eval.won()+" " +root_eval.depth_reachable + "\n");
+			System.out.println("\nMy move: " + move + "\n");
+			System.out.println(board.printString(0) + root.debugString(root));
+			System.out.println("time,mem before return: " + (System.currentTimeMillis() - timer_start) + " " + Auxiliary.freeMemory(runtime) + "\n");
+			
+			return move;
+			
+		} catch(Exception e) {
+			System.out.println(e);
+			System.out.println("log: " + log);
+			System.out.println("dag_n = " + BoardBitPn.TTdag.count + "\tproved_n = " + BoardBitPn.TTproved.count + "\tcreated_n = " + created_n + "\n");
+			System.out.println(board.printString(0) + ((root != null) ? root.debugString(root) : "root is null") );
+			System.out.println("time,mem before return: " + (System.currentTimeMillis() - timer_start) + " " + Auxiliary.freeMemory(runtime) + "\n");
+			throw e;
 		}
-
-		// debug
-		System.out.println("---\n" + playerName());
-		System.out.println("Opponent: " + ((B.getLastMove() == null) ? null : B.getLastMove().j) );
-		System.out.println("root hash:" + board.hash + "\tdepth " + root.depth );
-		board.print();
-		debugVisit("before tagTree");
-
-		// remove unreachable nodes from previous rounds
-		root.setTag((root.depth / 2) % 2);		// unique tag for each round
-		if(lastIt_root != null) {
-			root.tagTree();
-
-			debugVisit("before removeUnmarkedTree");
-
-			TTPnNode.board = lastIt_board;
-			lastIt_root.removeUnmarkedTree(root.getTag());
-			TTPnNode.board = board;
-		}
-
-		debugVisit("before gc");
-		
-		runtime.gc();
-		
-		debugVisit("before visit");
-		
-		// visit
-		TTElementProved root_eval = board.getEntryProved(COL_NULL, root.depth);
-		if(root_eval == null) {
-			visit();
-			root_eval = board.getEntryProved(COL_NULL, root.depth);
-		}
-
-		lastIt_root	= root;
-		lastIt_board.copy(board);
-		
-		int move;
-		if(root_eval != null)
-			move = root_eval.col();
-		else {
-			move = root.getMoveToBestChild();
-		}
-		board.markCheck(move);
-		
-		// debug
-		System.out.println("dag_n = " + BoardBitPn.TTdag.count + "\tproved_n = " + BoardBitPn.TTproved.count + "\tcreated_n = " + created_n + "\n");
-		if(root_eval != null) System.out.println("root eval: " + root_eval.col() + " "+root_eval.won()+" " +root_eval.depth_reachable + "\n");
-		System.out.println("\nMy move: " + move + "\n");
-		System.out.println(board.printString(0) + root.debugString(root));
-		System.out.println("time,mem before return: " + (System.currentTimeMillis() - timer_start) + " " + Auxiliary.freeMemory(runtime) + "\n");
-		
-		return move;
 
 	}
 
@@ -317,6 +328,8 @@ public class PnSearch implements CXPlayer {
 				most_proving_node = selectMostProving(root, marked_stack);
 				
 				developNode(most_proving_node);
+				
+				log = "most proving: " + most_proving_node.debugString(root) + "\n";
 
 				updateAncestorsWhileChanged(most_proving_node.depth, boards_to_prune, null, true);
 
@@ -412,6 +425,8 @@ public class PnSearch implements CXPlayer {
 		 * @return the most proving node
 		 */
 		private TTPnNode selectMostProving(TTPnNode node, LinkedList<Integer> marked_stack) {
+
+			log += "selectMostProving: " + node.debugString(root) + "\n";
 
 			if(!node.isExpanded()) return node;
 			else {
@@ -580,6 +595,7 @@ public class PnSearch implements CXPlayer {
 			TTPnNode node = board.getEntry(COL_NULL, depth);
 			TTElementProved entry = board.getEntryProved(COL_NULL, depth);
 			
+			log += "depth: " + depth + ";\tnode: " + ((node != null) ? node.debugString(root) : "null") + ";\tentry: " + ((entry != null) ? (entry.col() + " " + entry.depth_cur + " " + entry.depth_reachable) : "null") + "\n";
 			
 			if(entry != null) {
 				// just need to update deepest move (using caller), so can save time
