@@ -395,7 +395,7 @@ public class PnSearch implements CXPlayer {
 			else if(node.isExpanded())
 			{
 				// set numbers according to children numbers
-				TTElementProved entry = node.updateProofAndDisproof(board.player == MY_PLAYER ? PROOF : DISPROOF);
+				TTElementProved entry = node.updateProofAndDisproofOrProve(board.player == MY_PLAYER ? PROOF : DISPROOF);
 				//	If proved, set the final best move.
 				if(entry != null) updateProved(entry);
 			}
@@ -479,7 +479,7 @@ public class PnSearch implements CXPlayer {
 			DbSearchResult res_db = dbSearch.selectColumn(board, node, timer_start + timer_duration - System.currentTimeMillis(), Auxiliary.opponent(board.player), Operators.MAX_TIER);
 			
 			// get for each column the score from db, and check if they are free
-			boolean won = (board.player != MY_PLAYER);
+			boolean won = !getCurrentPlayersWin();
 			for(j = 0; j < BoardBit.N; j++) {
 				if( board.freeCol(j) ) {
 					TTElementProved entry = board.getEntryProved(j, node.depth);
@@ -495,11 +495,12 @@ public class PnSearch implements CXPlayer {
 
 						} 
 					} else {
-						available_cols_n--;
-						if(entry.won() == (board.player == MY_PLAYER)) {
-							won = (board.player == MY_PLAYER);
+						if(entry.won() == getCurrentPlayersWin()) {
+							won = getCurrentPlayersWin();
 							available_cols_n = 0;
 							break;
+						} else {
+							available_cols_n--;
 						}
 					}
 				}
@@ -524,7 +525,7 @@ public class PnSearch implements CXPlayer {
 				{
 					children_cols[current_child++] = (byte)j;
 					// move back the new child in the right place
-					for(k = current_child - 1; (k > 0) && (threats[children_cols[k - 1]] > threats[j]); k--)
+					for(k = current_child - 1; k > 0 && threats[children_cols[k - 1]] > threats[j]; k--)
 						Auxiliary.swapByte(children_cols, k, k - 1);
 				}
 			}
@@ -579,12 +580,12 @@ public class PnSearch implements CXPlayer {
 			TTPnNode node = board.getEntry(COL_NULL, depth);
 			TTElementProved entry = board.getEntryProved(COL_NULL, depth);
 			
+			
 			if(entry != null) {
 				// just need to update deepest move (using caller), so can save time
 				
 				if(caller != null) {
-					TTElementProved best_child = board.getEntryProved(entry.col(), entry.depth_cur);
-					if(isBetterChild(entry, best_child, caller))
+					if(isBetterChild(entry, caller))
 						entry.set(getColFromEntryProved(caller, depth), caller.depth_reachable);
 					else
 						return;
@@ -592,9 +593,10 @@ public class PnSearch implements CXPlayer {
 					updateProved(entry);
 					boards_to_prune.add(new BoardBitPn(board));
 				} else
-					return;
+					return;	// no recursion if no change
 			} else if(node != null)
 			{
+				// it was either called by a proved node or a child (or it's the first recursion step)
 				int old_proof = node.n[PROOF], old_disproof = node.n[DISPROOF];
 				setProofAndDisproofNumbers(node, 0);		// offset useless, node always expanded here 
 				
@@ -690,32 +692,32 @@ public class PnSearch implements CXPlayer {
 		}
 
 		/**
-		 * check all proved children, to find the best and deeepst/least deep path.
+		 * Check all proved children, to find the best and deeepst/least deep path.
+		 * Assume that the node is not in an ended game state (so there are or can be children).
 		 * @param entry
 		 */
 		private void updateProved(TTElementProved entry) {
 
-			TTElementProved best_child = null;
 			for(int j = 0; j < BoardBit.N; j++) {
 				if(board.freeCol(j)) {
 					TTElementProved child = board.getEntryProved(j, entry.depth_cur);
-					if(isBetterChild(entry, best_child, child)) {
-						best_child = child;
-						entry.set(j, best_child.depth_reachable);
+					if(isBetterChild(entry, child)) {
+						entry.set(j, child.depth_reachable);
 					}
 				}
 			}
 		}
 		/**
 		 * 
-		 * @param current
+		 * @param parent
 		 * @param test
-		 * @return true if should replace current with test.
+		 * @return true if test is better than parent's values.
 		 */
-		private boolean isBetterChild(TTElementProved parent, TTElementProved current, TTElementProved test) {
+		private boolean isBetterChild(TTElementProved parent, TTElementProved test) {
+
 			return test != null &&
-				(current == null || ( parent.won() != current.won() && parent.won() == test.won() )	// set anyway
-				|| current.won() == test.won() && ( test.depth_reachable > current.depth_reachable == (parent.won() == current.won()) )	// set if deeper
+				(parent.col() == COL_NULL || ( getCurrentPlayersWin() != parent.won() && getCurrentPlayersWin() == test.won() )	// set anyway
+				|| parent.won() == test.won() && ( test.depth_reachable < parent.depth_reachable == (parent.won() == getCurrentPlayersWin()) )	// set if deeper (if losing), or less deep (if winning)
 			);
 		}
 		
@@ -730,6 +732,15 @@ public class PnSearch implements CXPlayer {
 			}
 			return -1;
 		}
+
+		/**
+		 * 
+		 * @return the boolean value for current player's win (as in tt proved, i.e. true for my player).
+		 */
+		private boolean getCurrentPlayersWin() {
+			return board.player == MY_PLAYER;
+		}
+
 
 		/**
 		 * Complexity: O(1)

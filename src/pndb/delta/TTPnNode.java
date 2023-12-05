@@ -230,10 +230,11 @@ public class TTPnNode extends Element<TTPnNode, KeyDepth> {
 	//#region SET
 		/**
 		 * update proof numbers using children in dag, considering this node is minimizing n[idx].
+		 * In case, prove the node.
 		 * @param idx PROOF or DISPROOF
 		 * @return entry if proved, else null
 		 */
-		public TTElementProved updateProofAndDisproof(int idx) {
+		public TTElementProved updateProofAndDisproofOrProve(int idx) {
 
 			long disproof = 0;
 			TTPnNode most_proving = null, child;
@@ -276,7 +277,6 @@ public class TTPnNode extends Element<TTPnNode, KeyDepth> {
 		 */
 		public TTElementProved prove(boolean value, short depth_reachable, int col) {
 			
-
 			if(value) setProofAndDisproof(0, N_INFINITE);
 			else setProofAndDisproof(N_INFINITE, 0);
 
