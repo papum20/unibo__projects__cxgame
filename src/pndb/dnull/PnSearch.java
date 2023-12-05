@@ -319,29 +319,40 @@ public class PnSearch implements CXPlayer {
 			LinkedList<Integer> marked_stack		= new LinkedList<Integer>();
 			LinkedList<BoardBitPn> boards_to_prune	= new LinkedList<BoardBitPn>();
 
-			/* enhancement: keep track of current node (next to develop), instead of 
-			* looking for it at each iteration, restarting from root.
-			*/
-			TTPnNode most_proving_node;
-			while(!root.isProved() && !isTimeEnded()) {
+			try {
 
-				most_proving_node = selectMostProving(root, marked_stack);
-				
-				developNode(most_proving_node);
-				
-				log = "most proving: " + most_proving_node.debugString(root) + "\n";
+				/* enhancement: keep track of current node (next to develop), instead of 
+				* looking for it at each iteration, restarting from root.
+				*/
+				TTPnNode most_proving_node;
+				while(!root.isProved() && !isTimeEnded()) {
 
-				updateAncestorsWhileChanged(most_proving_node.depth, boards_to_prune, null, true);
+					most_proving_node = selectMostProving(root, marked_stack);
+					
+					developNode(most_proving_node);
+					
+					log = "most proving: " + most_proving_node.debugString(root) + "\n";
+
+					updateAncestorsWhileChanged(most_proving_node.depth, boards_to_prune, null, true);
+
+					resetBoard(marked_stack);
+					pruneTrees(boards_to_prune);
+					
+					visit_loops_n++;
+				}
 
 				resetBoard(marked_stack);
-				pruneTrees(boards_to_prune);
-				
-				visit_loops_n++;
+
+				System.out.println("end of loop : n_loops = " + visit_loops_n + "\n" + debugVisit(""));
+			}
+			catch(Exception e) {
+				System.out.println("end of loop : n_loops = " + visit_loops_n + "\n" + debugVisit(""));
+				log += "marked:\n";
+				for(Integer i : marked_stack)
+					log += i + "\n";
+				throw e;
 			}
 
-			resetBoard(marked_stack);
-
-			System.out.println("end of loop : n_loops = " + visit_loops_n + "\n" + debugVisit(""));
 		}
 
 		/**
@@ -356,6 +367,8 @@ public class PnSearch implements CXPlayer {
 		 */
 		protected boolean evaluate(TTPnNode node) {
 
+			log += "evaluate: " + node.debugString(root) + "\n";
+			
 			if(board.game_state == GameState.OPEN) {
 				TTElementProved evaluation = board.getEntryProved(COL_NULL, node.depth);
 
@@ -378,6 +391,8 @@ public class PnSearch implements CXPlayer {
 		 * @return true if found a win.
 		 */
 		protected boolean evaluateDb(TTPnNode node) {
+
+			log += "evaluateDb: " + node.debugString(root) + "\n";
 
 			DbSearchResult eval = dbSearch.selectColumn(board, node, timer_start + timer_duration - System.currentTimeMillis(), board.player, Operators.MAX_TIER);
 			
@@ -463,6 +478,8 @@ public class PnSearch implements CXPlayer {
 		 * @param node
 		 */
 		public void generateAllChildren(TTPnNode node) {
+
+			log += "generateChildren: " + node.debugString(root) + "\n";
 
 			/* Heuristic: implicit threat.
 			 * Only inspect moves in an implicit threat, i.e. a sequence by which the opponent could win

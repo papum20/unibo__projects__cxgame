@@ -84,8 +84,8 @@ public class BoardBit {
 	 * @return GameState
 	 */
 	public void mark(int col, byte player) {
-		board[col][free[col] / BITSTRING_LEN]		|= (player & 1) << (free[col] % BITSTRING_LEN);	// =1 for CellState.ME
-		board_mask[col][free[col] / BITSTRING_LEN]	|= 1 << (free[col] % BITSTRING_LEN);
+		board[col][free[col] / BITSTRING_LEN]		|= (long)(player & 1) << (free[col] % BITSTRING_LEN);	// =1 for CellState.ME
+		board_mask[col][free[col] / BITSTRING_LEN]	|= (long)1 << (free[col] % BITSTRING_LEN);
 		free[col]++;
 		free_n--;
 	}
@@ -124,8 +124,8 @@ public class BoardBit {
 	public void unmark(int col) {
 		free[col]--;
 		
-		board[col][free[col] / BITSTRING_LEN]		&= ~(1 << (free[col] % BITSTRING_LEN));
-		board_mask[col][free[col] / BITSTRING_LEN]	^= 1 << (free[col] % BITSTRING_LEN);
+		board[col][free[col] / BITSTRING_LEN]		&= ~((long)1 << (free[col] % BITSTRING_LEN));
+		board_mask[col][free[col] / BITSTRING_LEN]	^= (long)1 << (free[col] % BITSTRING_LEN);
 		free_n++;
 
 		game_state = GameState.OPEN;
@@ -161,44 +161,44 @@ public class BoardBit {
 
 		// Vertical check
 		n = 1;
-		for (k = i-1, mask = 1 << (k % BITSTRING_LEN);
+		for (k = i-1, mask = (long)1 << (k % BITSTRING_LEN);
 			k >= 0
 			&& (board[j][k / BITSTRING_LEN] & mask)			== s * mask
 			&& (board_mask[j][k / BITSTRING_LEN] & mask)	== s_mask * mask
-			; k--, mask = 1 << (k % BITSTRING_LEN)
+			; k--, mask = (long)1 << (k % BITSTRING_LEN)
 		)
 			n++;
 		if (n >= X) return true;
 			
 		// Diagonal check
 		n = 1;
-		for (k = 1, mask = 1 << ((i-k) % BITSTRING_LEN); 
+		for (k = 1, mask = (long)1 << ((i-k) % BITSTRING_LEN); 
 			i-k >= 0 && j-k >= 0 &&
 			(board[j-k][(i-k) / BITSTRING_LEN] & mask)		== s * mask &&
 			(board_mask[j-k][(i-k) / BITSTRING_LEN] & mask)	== s_mask * mask;
-			k++, mask = 1 << ((i-k) % BITSTRING_LEN))
+			k++, mask = (long)1 << ((i-k) % BITSTRING_LEN))
 				n++; // backward check
-		for (k = 1, mask = 1 << ((i+k) % BITSTRING_LEN); 
+		for (k = 1, mask = (long)1 << ((i+k) % BITSTRING_LEN); 
 			i+k < M && j+k < N &&
 			(board[j+k][(i+k) / BITSTRING_LEN] & mask)		== s * mask &&
 			(board_mask[j+k][(i+k) / BITSTRING_LEN] & mask)	== s_mask * mask;
-			k++, mask = 1 << ((i+k) % BITSTRING_LEN))
+			k++, mask = (long)1 << ((i+k) % BITSTRING_LEN))
 				n++; // forward check
 		if (n >= X) return true;
 		
 		// Anti-diagonal check
 		n = 1;
-		for (k = 1, mask = 1 << ((i-k) % BITSTRING_LEN); 
+		for (k = 1, mask = (long)1 << ((i-k) % BITSTRING_LEN); 
 			i-k >= 0 && j+k < N &&
 			(board[j+k][(i-k) / BITSTRING_LEN] & mask)		== s * mask &&
 			(board_mask[j+k][(i-k) / BITSTRING_LEN] & mask)	== s_mask * mask;
-			k++, mask = 1 << ((i-k) % BITSTRING_LEN))
+			k++, mask = (long)1 << ((i-k) % BITSTRING_LEN))
 				n++; // backward check
-		for (k = 1, mask = 1 << ((i+k) % BITSTRING_LEN); 
+		for (k = 1, mask = (long)1 << ((i+k) % BITSTRING_LEN); 
 			i+k < M && j-k >= 0 &&
 			(board[j-k][(i+k) / BITSTRING_LEN] & mask)		== s * mask &&
 			(board_mask[j-k][(i+k) / BITSTRING_LEN] & mask)	== s_mask * mask;
-			k++, mask = 1 << ((i+k) % BITSTRING_LEN))
+			k++, mask = (long)1 << ((i+k) % BITSTRING_LEN))
 				n++; // forward check
 		if (n >= X) return true;
 			

@@ -119,14 +119,14 @@ public class BoardBitDb extends BoardBit {
 	 * Complexity: O(3N + N) = O(4N)
 	 * @param B
 	 */
-	protected BoardBitDb(BoardBit B) {
+	protected BoardBitDb(BoardBit B, byte player) {
 		super(B);
 		alignments_n = 0;
 		
 		MAX = new MovePair(M, N);
 		MAX_SIDE = Math.max(M, N);
 		MIN_MARKS = X - Operators.MARK_DIFF_MIN;
-		attacker = 0;
+		attacker = player;
 		hash = 0;
 		
 		alignments_by_dir = new AlignmentsList[DIR_ABS_N];
@@ -209,8 +209,8 @@ public class BoardBitDb extends BoardBit {
 		private void markAny(int i, int j, byte player) {
 			hash = TT.getHash(hash, i, j, Auxiliary.getPlayerBit(player));
 
-			board[j][i / BITSTRING_LEN]			|= (player & 1) << (i % BITSTRING_LEN);	// =1 for CellState.ME
-			board_mask[j][i / BITSTRING_LEN]	|= 1 << (i % BITSTRING_LEN);
+			board[j][i / BITSTRING_LEN]			|= (long)(player & 1) << (i % BITSTRING_LEN);	// =1 for CellState.ME
+			board_mask[j][i / BITSTRING_LEN]	|= (long)1 << (i % BITSTRING_LEN);
 			free[j]++;
 			free_n--;
 
@@ -255,9 +255,10 @@ public class BoardBitDb extends BoardBit {
 				if(i == atk_index) {
 					markAny(related[i].i, related[i].j, attacker);	// markAny, for vertical
 					check(related[i].i, related[i].j, attacker);		// only check for attacker
-				} else
-					markAny(related[i].i, related[i].j, attacker);	// markAny, for vertical
-					check(related[i].i, related[i].j, attacker);		// only check for attacker
+				} else {
+					markAny(related[i].i, related[i].j, Auxiliary.opponent(attacker));	// markAny, for vertical
+					check(related[i].i, related[i].j, Auxiliary.opponent(attacker));	// only check for defender
+				}
 			}
 		}
 		@Override

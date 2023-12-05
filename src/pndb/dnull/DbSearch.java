@@ -88,8 +88,7 @@ public class DbSearch {
 		timer_duration	= timer_start + time_remaining;
 		
 		// update own board instance
-		board = new BoardBitDb(B);
-		board.setAttacker(player);
+		board = new BoardBitDb(B, player);
 		
 		board.findAllAlignments(Operators.MAX_TIER, true, "selCol_");
 		
@@ -114,7 +113,6 @@ public class DbSearch {
 	 */
 	public int[] getThreatCounts(BoardBit B, byte player) {
 
-		board = new BoardBitDb(B);
 		return board.getThreatCounts(player);
 	}
 

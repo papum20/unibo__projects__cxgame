@@ -61,7 +61,6 @@ public class DbSearch {
 		MY_PLAYER	= CellState.P1;
 		BoardBitDb.MY_PLAYER = MY_PLAYER;
 		
-		board			= new BoardBitDb(M, N, X);
 		BoardBitDb.TT	= new TranspositionTable<TTElementBool, Key>(M, N, TTElementBool.getTable());
 		
 		GOAL_SQUARES = new boolean[M][N];	// initialized to false
@@ -88,8 +87,7 @@ public class DbSearch {
 		timer_duration	= timer_start + time_remaining;
 		
 		// update own board instance
-		board = new BoardBitDb(B);
-		board.setAttacker(player);
+		board = new BoardBitDb(B, player);
 		
 		board.findAllAlignments(Operators.MAX_TIER, true, "selCol_");
 		
@@ -114,7 +112,7 @@ public class DbSearch {
 	 */
 	public int[] getThreatCounts(BoardBit B, byte player) {
 
-		board = new BoardBitDb(B);
+		board = new BoardBitDb(B, player);
 		return board.getThreatCounts(player);
 	}
 

@@ -248,7 +248,7 @@ public class TTPnNode extends Element<TTPnNode, KeyDepth> {
 					if(entry != null && entry.won() == (idx == PROOF))
 						return prove(idx == PROOF);
 					else if(child == null)
-					continue;
+						continue;
 					else if(most_proving == null || child.n[idx] < most_proving.n[idx]) {
 						most_proving = child;
 						most_proving_col = (short)j;
@@ -338,7 +338,7 @@ public class TTPnNode extends Element<TTPnNode, KeyDepth> {
 	}
 
 	public String debugString(TTPnNode root) {
-		String s = "node: most proving col " + most_proving_col + ",\tnode==root? " + (this==root) + "; numbers: " + n[0] + ", " + n[1] + "\tbits:" + bits + "\n";
+		String s = "node with col " + ", node==root? " + (this==root) + "; numbers: " + n[0] + ", " + n[1] + ",\tdepth: " + depth + "\n";
 		return s;
 	}
 
