@@ -61,7 +61,6 @@ public class DbSearch {
 		MY_PLAYER	= CellState.P1;
 		BoardBitDb.MY_PLAYER = MY_PLAYER;
 		
-		board			= new BoardBitDb(M, N, X);
 		BoardBitDb.TT	= new TranspositionTable<TTElementBool, Key>(M, N, TTElementBool.getTable());
 		
 		GOAL_SQUARES = new boolean[M][N];	// initialized to false
@@ -113,6 +112,7 @@ public class DbSearch {
 	 */
 	public int[] getThreatCounts(BoardBit B, byte player) {
 
+		board = new BoardBitDb(B, player);
 		return board.getThreatCounts(player);
 	}
 
@@ -446,7 +446,7 @@ public class DbSearch {
 			ThreatApplied athreat = null, athreat_prev = null;
 
 			//create defenisve root copying current root, using opponent as player and marking only the move made by the current attacker in the first threat
-			byte max_tier	= (byte)(Operators.tier(athreats.getFirst().threat.type) - 1);		// only look for threats better than mine
+			byte max_tier	= (byte)(Operators.tier_from_code(athreats.getFirst().threat.type) - 1);		// only look for threats better than mine
 			byte attacker	= root.board.attacker;
 			DbNode def_root	= DbNode.copy(root.board, true, max_tier, false);
 			def_root.board.setAttacker(Auxiliary.opponent(attacker));

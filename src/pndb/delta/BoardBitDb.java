@@ -739,7 +739,9 @@ public class BoardBitDb extends BoardBit {
 					) {
 						if(dir_index == DIR_IDX_VERTICAL) {
 							// vertical: last check and break (note: before is 0)
-							_addValidAlignments(dir_index, player, lined, marks, before, after + M - c3.i, last_stacked, stacked);
+							_addAllValidAlignments(dir_index, player,
+								lined, marks, before, after + M - c3.i,
+								last_stacked, stacked);
 							return;
 						}
 						c3.sum(dir);
@@ -750,7 +752,7 @@ public class BoardBitDb extends BoardBit {
 					/* cases "hard":
 					 * reset alignment (make c1 jump ahead)
 					 */
-					else if(cellState(c1) != player) {
+					else if(cellState(c3) != player) {
 						c1.reset(c3.sum(dir));
 						// reduce the line
 						_findAlignmentsInDirection(second, dir, dir_index, player,
