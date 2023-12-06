@@ -225,9 +225,9 @@ public class MovePair {
 		 */
 		public int getDistanceInDir(MovePair target, MovePair dir) {
 			if(Math.abs(i - target.i) > Math.abs(j - target.j))
-				return (i - target.i) * dir.i;
+				return (target.i - i) * dir.i;
 			else
-				return (j - target.j) * dir.j;
+				return (target.j - j) * dir.j;
 		}
 		/** 
 		 * abs(difference), excluded;

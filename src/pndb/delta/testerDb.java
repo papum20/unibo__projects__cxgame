@@ -8,9 +8,9 @@ public class testerDb {
 
 	public static void main(String[] args) {
 
-		BoardBit.M = 38;
-		BoardBit.N = 58;
-		BoardBit.X = 12;
+		BoardBit.M = 70;
+		BoardBit.N = 47;
+		BoardBit.X = 11;
 		boolean first = true;
 		
 
@@ -21,44 +21,77 @@ public class testerDb {
 
 
 		String[] bb = {
-			"..........................................................",
-			"..........................................................",
-			"..........................................................",
-			"..........................................................",
-			"..........................................................",
-			"..........................................................",
-			"..........................................................",
-			"..........................................................",
-			"..........................................................",
-			"...o......................................................",
-			"...o......................................................",
-			"...o......................................................",
-			"...o......................................................",
-			"...o......................................................",
-			"...o......................................................",
-			"...o......................................................",
-			"...o......................................................",
-			"...o......................................................",
-			"...x......................................................",
-			"...o......................................................",
-			"...o......................................................",
-			".o.o......................................................",
-			".o.o......................................................",
-			".x.o......................................................",
-			".x.o......................................................",
-			".x.o......................................................",
-			".x.o.....................................................x",
-			".x.o.....................................................x",
-			".x.o...........................x.........................x",
-			"xxxx...........o...............x............o..o.........x",
-			"xxox...........oo.o.x.o..o..x..x..x..x...x..x..o.........x",
-			"xxox...........oo.ooo.o..o..o..xx.o..x..xx..xx.x.......o.x",
-			"xxxo..........ooo.oooxoo.ox.oxxxx.xx.x..xx.xxx.x.......o.o",
-			"xoox........o.oxo.oooooo.ox.oxxxxxoxxxxxxxoxxoox.o.....oox",
-			"xxxox...x...ooxxo.oooooo.oxooxxooxoxxoxxxoxxooxx.o...o.xxo",
-			"xxxxo...o...xxxxxxxxooxooooooxoooooxxooxxoxxoooxxo.o.ooxxo",
-			"xxoxxx.xo..oooxxxoxxooxxoxxooooooooxoxxxoxxxxoooxooo.xoxxo",
-			"xxooxooox.xxoxoxxooxoxxoooxxooxoxxoxoxoooxxxooxoooxxxxooxo"
+			"...............................................",
+			"...............................................",
+			"...............................................",
+			"...............................................",
+			"...............................................",
+			"...............................................",
+			"...............................................",
+			"...............................................",
+			"...............................................",
+			"...............................................",
+			"...............................................",
+			"...............................................",
+			"...............................................",
+			"...............................................",
+			"...............................................",
+			"...............................................",
+			"...............................................",
+			"...............................................",
+			"...............................................",
+			"...............................................",
+			"...............................................",
+			"...............................................",
+			"...............................................",
+			"...............................................",
+			"...............................................",
+			"...............................................",
+			"...............................................",
+			"...............................................",
+			"...............................................",
+			"...............................................",
+			"...............................................",
+			"...............................................",
+			"...............................................",
+			"...............................................",
+			"...............................................",
+			"...............................................",
+			"...............................................",
+			"...............................................",
+			"xooxxxooxooxxxoooxxxooxxx.xxxxx.xxx.xxxx.oxx.xo",
+			"xxooooxoxoxoooxxxooooxoxoooooooxoooxxooxooxo.oo",
+			"oxxoxxxxooxooxxxooooooxoooooooxxooxxooxxxooooox",
+			"xxxooxxoxxoxxoxxoooooxooxoooooooxxooooxxxxooxxo",
+			"xxxooxxxooxooxxxxxoxoxxxxxooooooxoooooxxoxxoooo",
+			"xxxxxxxoxxooxoxxxxxxoxxxxoooxoooxoooooxxxxoooox",
+			"xxxoxoxxooxxoxxxxoxxxooxxxxxoxooxoooxoxoxxooooo",
+			"xxooxoxoxxooxoxxoxxxoxxooxooxoooxoooooooxxooooo",
+			"xxxoxoxxooxxoxxxxxxoxxooxxxoooooxoooooooxxooxoo",
+			"xxxxxoxooxooxooxxxxxxoxxxxxxxoooxoooooxoxxoxxxo",
+			"xxxxxooxooxxoxxxxoxxoxxxxxoxxoooxoooooxxxxooooo",
+			"xoxxxoooxxooxoxoxooxxoxoxoooxoxxooxxoxxoxoooooo",
+			"xxxxxooxooxxoxxxoxoxxxxxxxoxooxxxxxxooxoxoooooo",
+			"oxxxoxxooxooxoxxxxoxooxxxxxxoooxoxxxoooooxxoooo",
+			"xxxxxoxoooxxoxoxxooxxoxxxxxxooxooxxxooxooxxooox",
+			"xoxoooxooxooxoxoxoooxooxxxxxoxoxoxxxxooooxxoooo",
+			"ooooooxoooxxoxoxoooxxoxxoxxxooxoooxxxoxooxxoooo",
+			"ooxoooxooxooxoxxxoooxooxxoxxooxxoxoooooooxxoxoo",
+			"xoxoooxoooxxoxooooooxooxooxoooxxoxooooxoooxxxxo",
+			"oxxoooxxoxooxoxxooxoxooxooooxxxxoxoooooxxoxxxxo",
+			"xxxoooxoxoxxoxooooooxoooooooxxxxoxxooxxoxoxxxoo",
+			"oxxoooxoooooxoxoooxoooxooxooxoxxxxooooxxooxxxxo",
+			"xoxooxxoooxoxxoxoxxooxxxoxooxxxxxxooxxooxxxxxxo",
+			"oxoxxxooooooxooooxxoxoxxxxoxxxxxxxoxxxooxxoxoxx",
+			"xxoxoooooxooxooxxxxoxoxxxxxxxxoxxxoxxxooxxxxxxx",
+			"xxoxoooooxooooxxxxxxxxoxxxxxoxxxxooxxxoxoxxxxxx",
+			"xxxxoooooxoooxxxxxxxoooxoxxxoxooxooxxxoxoxoxxxx",
+			"xxxxoooooxxxxxxxoxxxooooxxoooxoooooxxoxxoooxxxx",
+			"xxxxooxxoxoxxxxxoxoxoooooooxxxoooxoxxooxoxooxxx",
+			"xxxooooxxxooxxooooooooxooxoooxxxoxxxxooxxoooxox",
+			"xxxxooxooxooxooooxoooooooooxooooxoxoxooxoxoooxo",
+			"xoxxooxoxxoooxoxxxxxxoxoxoxxxoxoooooxxxooxxoxxo"		
+		   //012345678901234567890123456789012345678901234567
 		};
 
 		for(int i = 0; i< BoardBit.M; i++) {
@@ -70,13 +103,11 @@ public class testerDb {
 		}
 
 		board.print();
-		board.markCheck(32, CellState.P1);
-		board.markCheck(3, CellState.P2);
-		board.print();
 		
+		System.out.println("db");
 
 		
-		DbSearchResult res = db.selectColumn(board, null, 10000, CellState.P2, Operators.MAX_TIER);
+		DbSearchResult res = db.selectColumn(board, null, 10000, CellState.P1, Operators.MAX_TIER);
 
 		System.out.println((res == null)? null : res.winning_col);
 	}

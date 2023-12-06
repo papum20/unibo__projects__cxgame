@@ -446,7 +446,7 @@ public class DbSearch {
 			ThreatApplied athreat = null, athreat_prev = null;
 
 			//create defenisve root copying current root, using opponent as player and marking only the move made by the current attacker in the first threat
-			byte max_tier	= (byte)(Operators.tier(athreats.getFirst().threat.type) - 1);		// only look for threats better than mine
+			byte max_tier	= (byte)(Operators.tier_from_code(athreats.getFirst().threat.type) - 1);		// only look for threats better than mine
 			byte attacker	= root.board.attacker;
 			DbNode def_root	= DbNode.copy(root.board, true, max_tier, false);
 			def_root.board.setAttacker(Auxiliary.opponent(attacker));

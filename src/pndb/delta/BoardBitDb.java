@@ -566,7 +566,7 @@ public class BoardBitDb extends BoardBit {
 			*/
 			private void _addValidAlignments(int dir_index, byte player, int lined, int marks, int before, int after, final MovePair last_stacked, int stacked) throws IOException {
 
-				int tier = X - marks;
+				int tier = Operators.tier_from_alignment(X, marks);
 
 				// check alignments, foreach alignment of mark marks
 				for(byte threat_code : Operators.alignmentCodes(tier))
@@ -599,6 +599,32 @@ public class BoardBitDb extends BoardBit {
 					}
 				}
 			}
+
+			/**
+			 * Check for alignments for all values of before (decreasing it up to 0);
+			 * optimization: first check if has enough lined.
+			 * @param dir_index
+			 * @param player
+			 * @param lined
+			 * @param marks
+			 * @param before
+			 * @param after
+			 * @param last_stacked
+			 * @param stacked
+			 * @throws IOException
+			 */
+			private void _addAllValidAlignments(int dir_index, byte player,
+				int lined, int marks, int before, int after,
+				final MovePair last_stacked, int stacked
+			) throws IOException {
+				// test alignments and extend the line
+				if(lined >= Operators.MAX_LINED_LEN(X)) {
+					while(before >= 0) {
+						_addValidAlignments(dir_index, player, lined, marks, before, after, last_stacked, stacked);
+						before--;
+					}
+				}
+			}
 			
 			/**
 			 * invariants:
@@ -611,6 +637,8 @@ public class BoardBitDb extends BoardBit {
 			 * -	c3 = c2 + after : lookahead;
 			 * 
 			 * note: the second extreme is always excluded from counting the alignment (c1, c2, after..).
+			 * efficiency: c2 and c3 neveg go back
+			 * 
 			 * @param second limit (included)
 			 * @param dir
 			 * @param player
@@ -622,129 +650,122 @@ public class BoardBitDb extends BoardBit {
 			 * @param only_valid
 			 * @param max_tier
 			 * @param stacked see `findAlignmentsInDirection`
-			 * @param checking_alignments (implementative) if true: need to check for alignments, and not increase c1 while before > 0
 			 */
 			private void _findAlignmentsInDirection(final MovePair second, MovePair dir, int dir_index, byte player,
 				int lined, int marks, int before, int after,
-				boolean only_valid, int max_tier, final MovePair last_stacked, int stacked, boolean checking_alignments
+				boolean only_valid, int max_tier, final MovePair last_stacked, int stacked
 			) throws IOException {
-				// test alignments and extend the line
-				if(checking_alignments && before > 0) {
-					_addValidAlignments(dir_index, player, lined, marks, before, after, last_stacked, stacked);
-					// also check for alignments with next before
-					_findAlignmentsInDirection(second, dir, dir_index, player, lined, marks, before - 1, after, only_valid, max_tier, last_stacked, stacked, true);
-				}
-				// if second-c1 < X, end recursion
-				else if(c1.getDistanceInDir(second, dir) > before || !c1.inBounds(MIN, MAX)) {
+
+				// end recursion if not enough space to create any alignment
+				if(c1.getDistanceInDir(second, dir) < Operators.MIN_LINED_LEN(X) || !c1.inBounds(MIN, MAX)) {
 					return;
 				}
-				// test alignments and reduce the line
-				else if(lined > X) {
-					// test multiple alignments and reduce the line
-					if(before > 0 && X - marks <= max_tier) {
-						_findAlignmentsInDirection(second, dir, dir_index, player, lined, marks, before, after, only_valid, max_tier, last_stacked, stacked, true);
-					}
-					// test alignemnts only with before=0 and reduce the line
-					else {
-						if(X - marks <= max_tier)
-							_addValidAlignments(dir_index, player, lined, marks, before, after, last_stacked, stacked);
-						c1.sum(dir);
-						_findAlignmentsInDirection(second, dir, dir_index, player, lined - 1,
-							marks - 1, 0,	// c1 is player's cell, otherwise that would be the priority.
-							0,				// lined only grows if c2 finds a player's cell, so after is already 0
-							only_valid, max_tier, last_stacked, stacked, false);
-					}
-				}
-				// if c1=free, make sure the free cell is the first free in the column
-				else if( (!only_valid || free[c1.j] == c1.i
-					|| dir_index == DIR_IDX_VERTICAL)
-					&& cellFree(c1.i, c1.j)
+				/* cases to "soft" increase c1 (don't reset all params): 
+				 * check the free cell is the first free in the column (i.e. can put a stone directly in it),
+				 * otherwise pass to next branches.
+				 */
+				else if( cellFree(c1.i, c1.j) && (
+					!only_valid							// can skip
+					|| free[c1.j] == c1.i				// is first free
+					|| dir_index == DIR_IDX_VERTICAL)	// see later
 				) {
 					if(dir_index == DIR_IDX_VERTICAL) {
-						// vertical: break
+						// there aren't holes stacked in vertical
 						return;
 					}
 					c1.sum(dir);
 					if(lined > 0)
-					// it means c2 is on a player's cell, and c1 was already advancing, and now is passing on an 'in' free cell
-						_findAlignmentsInDirection(second, dir, dir_index, player, lined - 1, marks,
-							Math.min(before + 1, Operators.MAX_OUT_ONE_SIDE), after, only_valid, max_tier, last_stacked, stacked, false);
+						// it means c2 is on a player's cell, and c1 was already advancing, and now is passing on an 'in' free cell
+						_findAlignmentsInDirection(second, dir, dir_index, player,
+							lined - 1, marks, Math.min(before + 1, Operators.MAX_OUT_ONE_SIDE), after,
+							only_valid, max_tier, last_stacked, stacked);
 					else
 						// still searching for the start of any alignment
-						_findAlignmentsInDirection(second, dir, dir_index, player, 0, 0, Math.min(before + 1, Operators.MAX_OUT_ONE_SIDE), 0, only_valid, max_tier, last_stacked, stacked, false);
+						_findAlignmentsInDirection(second, dir, dir_index, player,
+							0, 0, Math.min(before + 1, Operators.MAX_OUT_ONE_SIDE), 0,
+							only_valid, max_tier, last_stacked, stacked);
 				}
-				// if c1!=free, if free is greater but it's a player's cell, no problem: extend line
-				else if( (only_valid && free[c1.j] < c1.i)
-					|| _cellState(c1.i, c1.j) != Auxiliary.getPlayerBit(player)
-				) {
+				/* cases to "hard" increase c1 (reset params):
+				 * other cases except c1 = player; specifically:
+				 * 1. other cases c1 free (only_valid && first free cell is lower && dir != vertical),
+				 * or 2. c1 occupied by opponent
+				 */
+				else if(cellState(c1) != player) {
 					// can only happen whlie was searching for the start of any alignment
 					c1.sum(dir);
-					_findAlignmentsInDirection(second, dir, dir_index, player, 0, 0, 0, 0, only_valid, max_tier, last_stacked, stacked, false);
-				} else {
+					_findAlignmentsInDirection(second, dir, dir_index, player,
+						0, 0, 0, 0,
+						only_valid, max_tier, last_stacked, stacked);
+				}
+				/* case c1 = player:
+				 * note: only in this branch alignment grows (i.e. c2/c3 increase)
+				 */
+				else {
 					if(lined + after == 0)
-						// c3 could be before c1
+						// to be sure (c3 could be before c1)
 						c3.reset(c1);
 
+					// test alignments and reduce the line
+					if(lined >= Operators.MAX_LINED_LEN(X)) {
+						// test alignments
+						_addAllValidAlignments(dir_index, player,
+							lined, marks, before, after,
+							last_stacked, stacked);
+					}
+						
 					/* c1 is on a player's cell, now let's analyze .
 					 * not to add useless threats (i.e. smaller ones when there are bigger ones available), we extend c2 as much as we can,
 					 * and then we add them just before reducing 'lined' - and we (try to) do that each very time we need to do that (all cases).
 					 */
-					if(after + lined > X + Operators.MAX_LINED) {
-						// too much free space while looking for the next c2, need to increase c1.
-						if(before > 0 && X - marks <= max_tier) {
-							_findAlignmentsInDirection(second, dir, dir_index, player, lined, marks, before, after, only_valid, max_tier, last_stacked, stacked, true);
-						} else {
-							if(X - marks <= max_tier)
-								_addValidAlignments(dir_index, player, lined, marks, before, after, last_stacked, stacked);
-							c1.sum(dir);
-							_findAlignmentsInDirection(second, dir, dir_index, player, lined - 1, marks - 1, 0, after, only_valid, max_tier, last_stacked, stacked, false);
-						}
-					} else if(!c3.inBounds(MIN, MAX)) {
-						
-						// debug
-						//System.out.println(X - marks + " " + max_tier);
-						
-						if(X - marks > max_tier) {
-							return;
-						} else if(before > 0) {
-							_findAlignmentsInDirection(second, dir, dir_index, player, lined, marks, before, after, only_valid, max_tier, last_stacked, stacked, true);
-						} else {
-							if(X - marks <= max_tier)
-								_addValidAlignments(dir_index, player, lined, marks, before, after, last_stacked, stacked);
-							c1.sum(dir);
-							_findAlignmentsInDirection(second, dir, dir_index, player, lined - 1, marks - 1, 0, after, only_valid, max_tier, last_stacked, stacked, false);
-						}
+					/* note that the following condition reflect previous ones, but opereate on c3 instead of c1.
+					 */
+
+					// too much free space while looking for the next c2, need to increase c1.
+					if(after + lined > Operators.MAX_LINED_LEN(X) || !c3.inBounds(MIN, MAX)) {
+						// reduce the line
+						c1.sum(dir);
+						_findAlignmentsInDirection(second, dir, dir_index, player,
+							lined - 1, marks - 1, 0, after,
+							only_valid, max_tier, last_stacked, stacked);
 					}
-					// if c3=free, make sure the free cell is the first free in the column
-					else if( (!only_valid || free[c3.j] == c3.i
-						|| dir_index == DIR_IDX_VERTICAL)
-						&& cellFree(c3.i, c3.j)
+					/* case c3 empty:
+					 * (same as for c1)
+					 * increase after (after checks)
+					 */
+					else if( cellFree(c3.i, c3.j) && (
+						!only_valid							// can skip
+						|| free[c3.j] == c3.i				// is first free
+						|| dir_index == DIR_IDX_VERTICAL)	// see later
 					) {
 						if(dir_index == DIR_IDX_VERTICAL) {
-							if(X - marks <= max_tier)
-								// vertical: last check and break (note: before is 0)
-								_addValidAlignments(dir_index, player, lined, marks, before, after + M - c3.i, last_stacked, stacked);
-						} else {
-							c3.sum(dir);
-							_findAlignmentsInDirection(second, dir, dir_index, player, lined, marks, before, after + 1, only_valid, max_tier, last_stacked, stacked, false);
+							// vertical: last check and break (note: before is 0)
+							_addValidAlignments(dir_index, player, lined, marks, before, after + M - c3.i, last_stacked, stacked);
+							return;
 						}
+						c3.sum(dir);
+						_findAlignmentsInDirection(second, dir, dir_index, player,
+							lined, marks, before, after + 1,
+							only_valid, max_tier, last_stacked, stacked);
 					}
-					// if c3!=free, if free is greater but it's a player's cell, no problem
-					else if( (only_valid && free[c3.j] < c3.i)
-						|| _cellState(c3.i, c3.j) != Auxiliary.getPlayerBit(player)
-					) {
-						if(before > 0 && X - marks <= max_tier) {
-							_findAlignmentsInDirection(second, dir, dir_index, player, lined, marks, before, after, only_valid, max_tier, last_stacked, stacked, true);
-						} else {
-							if(X - marks <= max_tier)
-								_addValidAlignments(dir_index, player, lined, marks, before, after, last_stacked, stacked);
-							c1.reset(c3.sum(dir));
-							_findAlignmentsInDirection(second, dir, dir_index, player, 0, 0, 0, 0, only_valid, max_tier, last_stacked, stacked, false);
-						}
-					} else {
+					/* cases "hard":
+					 * reset alignment (make c1 jump ahead)
+					 */
+					else if(cellState(c1) != player) {
+						c1.reset(c3.sum(dir));
+						// reduce the line
+						_findAlignmentsInDirection(second, dir, dir_index, player,
+							0, 0, 0, 0,
+							only_valid, max_tier, last_stacked, stacked);
+					}
+					/* case c3 = player.
+					 * increase c3
+					 */
+					else {
 						c2.reset(c3);
 						c3.sum(dir);
-						_findAlignmentsInDirection(second, dir, dir_index, player, lined + after + 1, marks + 1, before, 0, only_valid, max_tier, last_stacked, stacked, false);
+						_findAlignmentsInDirection(second, dir, dir_index, player,
+							lined + after + 1, marks + 1, before, 0,
+							only_valid, max_tier, last_stacked, stacked);
 					}
 				}
 
@@ -814,8 +835,7 @@ public class BoardBitDb extends BoardBit {
 					_findAlignmentsInDirection(second,				// flip if direction inverted
 						DIRECTIONS[dir_index], dir_index, player,
 						0, 0, 0, 0,
-						only_valid, max_tier, last_stacked, stacked, false
-					);
+						only_valid, max_tier, last_stacked, stacked);
 
 					// additional threat, for vertical dir
 					if(dir_index == DIR_IDX_VERTICAL && second.i >= free[second.j] && free[second.j] < M && game_state == GameState.OPEN && max_tier >= 2) {
@@ -979,7 +999,7 @@ public class BoardBitDb extends BoardBit {
 								continue;
 								
 							BiNode<ThreatPosition> alignment = alignments_in_line.getFirst(attacker);
-							if(alignment != null && Operators.tier(alignment.item.type) <= max_tier) {
+							if(alignment != null && Operators.tier_from_code(alignment.item.type) <= max_tier) {
 								do {
 									ThreatCells cell_threat_operator = Operators.applied(this, alignment.item, attacker, defender);
 									

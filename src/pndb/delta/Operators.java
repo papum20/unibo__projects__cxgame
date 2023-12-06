@@ -246,15 +246,32 @@ public class Operators {
 	public static final int TIER_N		= ALIGNMENT_CODES.length;				//number of tiers for alignments (K-1 to K-3, not excluding K even if it is won)
 	public static final byte MAX_TIER	= (byte)(ALIGNMENT_CODES.length - 1);
 
-	// 0...7 (also -8...-1)
-	public static byte tier(byte threat) {
+	public static int MIN_LINED_LEN(int X) {
+		return X + MIN_LINED;
+	}
+	public static int MAX_LINED_LEN(int X) {
+		return X;
+	}
+	/**
+	 * Tier from aligned marks.
+	 * @param X
+	 * @param marks
+	 * @return
+	 */
+	public static byte tier_from_alignment(int X, int marks) {
+		return (byte)(X - marks);
+	}
+	/** 0...7 (also -8...-1)
+	 * tier from threat code.
+	 */
+	public static byte tier_from_code(byte threat) {
 		return (byte)((threat & THREAT_TIER_MASK) >> (byte)4);
 	}
 	public static byte indexInTier(byte threat) {
 		return (byte)(threat & THREAT_INDEX_MASK);
 	}
 	public static int score(byte threat) {
-		return ALIGNMENT_SCORES[tier(threat)][indexInTier(threat)];
+		return ALIGNMENT_SCORES[tier_from_code(threat)][indexInTier(threat)];
 	}
 
 	/**
@@ -271,7 +288,7 @@ public class Operators {
 		String s = "nomake";
 		
 		try {
-			ThreatCells res = APPLIERS[tier(op.type)].get((int)(op.type)).getThreatCells(board, op);
+			ThreatCells res = APPLIERS[tier_from_code(op.type)].get((int)(op.type)).getThreatCells(board, op);
 			// for vertical direction, only allow the first move as attacker's
 			if(res != null && op.start.getDirection(op.end).equals(MovePair.DIRECTIONS[MovePair.DIR_IDX_VERTICAL])) {
 				res.uses[0] = USE.ATK;
@@ -314,7 +331,7 @@ public class Operators {
 		ThreatCells res;
 
 		if(stacked == 1) {
-			if(tier(threat.type) == 2 && threat.related.length == 2) {
+			if(tier_from_code(threat.type) == 2 && threat.related.length == 2) {
 				res = new ThreatCells(3, threat.type);
 				res.set(new MovePair(last_stacked), 0, USE.ATK);
 				res.set(new MovePair(threat.related[0]), 1, USE.DEF);
@@ -418,7 +435,7 @@ public class Operators {
 					for(int i = 0; i < TIER_N; i++) add(i, null);
 				}
 				public void add(ThreatCells threat) {
-					int tier = tier(threat.type);
+					int tier = tier_from_code(threat.type);
 					if(get(tier) == null) set(tier, new LinkedList<ThreatCells>());
 					get(tier).add(threat);
 				}
