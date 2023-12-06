@@ -8,9 +8,9 @@ public class testerDb {
 
 	public static void main(String[] args) {
 
-		BoardBit.M = 70;
-		BoardBit.N = 47;
-		BoardBit.X = 11;
+		BoardBit.M = 18;
+		BoardBit.N = 20;
+		BoardBit.X = 7;
 		boolean first = true;
 		
 
@@ -21,76 +21,24 @@ public class testerDb {
 
 
 		String[] bb = {
-			"...............................................",
-			"...............................................",
-			"...............................................",
-			"...............................................",
-			"...............................................",
-			"...............................................",
-			"...............................................",
-			"...............................................",
-			"...............................................",
-			"...............................................",
-			"...............................................",
-			"...............................................",
-			"...............................................",
-			"...............................................",
-			"...............................................",
-			"...............................................",
-			"...............................................",
-			"...............................................",
-			"...............................................",
-			"...............................................",
-			"...............................................",
-			"...............................................",
-			"...............................................",
-			"...............................................",
-			"...............................................",
-			"...............................................",
-			"...............................................",
-			"...............................................",
-			"...............................................",
-			"...............................................",
-			"...............................................",
-			"...............................................",
-			"...............................................",
-			"...............................................",
-			"...............................................",
-			"...............................................",
-			"...............................................",
-			"...............................................",
-			"xooxxxooxooxxxoooxxxooxxx.xxxxx.xxx.xxxx.oxx.xo",
-			"xxooooxoxoxoooxxxooooxoxoooooooxoooxxooxooxo.oo",
-			"oxxoxxxxooxooxxxooooooxoooooooxxooxxooxxxooooox",
-			"xxxooxxoxxoxxoxxoooooxooxoooooooxxooooxxxxooxxo",
-			"xxxooxxxooxooxxxxxoxoxxxxxooooooxoooooxxoxxoooo",
-			"xxxxxxxoxxooxoxxxxxxoxxxxoooxoooxoooooxxxxoooox",
-			"xxxoxoxxooxxoxxxxoxxxooxxxxxoxooxoooxoxoxxooooo",
-			"xxooxoxoxxooxoxxoxxxoxxooxooxoooxoooooooxxooooo",
-			"xxxoxoxxooxxoxxxxxxoxxooxxxoooooxoooooooxxooxoo",
-			"xxxxxoxooxooxooxxxxxxoxxxxxxxoooxoooooxoxxoxxxo",
-			"xxxxxooxooxxoxxxxoxxoxxxxxoxxoooxoooooxxxxooooo",
-			"xoxxxoooxxooxoxoxooxxoxoxoooxoxxooxxoxxoxoooooo",
-			"xxxxxooxooxxoxxxoxoxxxxxxxoxooxxxxxxooxoxoooooo",
-			"oxxxoxxooxooxoxxxxoxooxxxxxxoooxoxxxoooooxxoooo",
-			"xxxxxoxoooxxoxoxxooxxoxxxxxxooxooxxxooxooxxooox",
-			"xoxoooxooxooxoxoxoooxooxxxxxoxoxoxxxxooooxxoooo",
-			"ooooooxoooxxoxoxoooxxoxxoxxxooxoooxxxoxooxxoooo",
-			"ooxoooxooxooxoxxxoooxooxxoxxooxxoxoooooooxxoxoo",
-			"xoxoooxoooxxoxooooooxooxooxoooxxoxooooxoooxxxxo",
-			"oxxoooxxoxooxoxxooxoxooxooooxxxxoxoooooxxoxxxxo",
-			"xxxoooxoxoxxoxooooooxoooooooxxxxoxxooxxoxoxxxoo",
-			"oxxoooxoooooxoxoooxoooxooxooxoxxxxooooxxooxxxxo",
-			"xoxooxxoooxoxxoxoxxooxxxoxooxxxxxxooxxooxxxxxxo",
-			"oxoxxxooooooxooooxxoxoxxxxoxxxxxxxoxxxooxxoxoxx",
-			"xxoxoooooxooxooxxxxoxoxxxxxxxxoxxxoxxxooxxxxxxx",
-			"xxoxoooooxooooxxxxxxxxoxxxxxoxxxxooxxxoxoxxxxxx",
-			"xxxxoooooxoooxxxxxxxoooxoxxxoxooxooxxxoxoxoxxxx",
-			"xxxxoooooxxxxxxxoxxxooooxxoooxoooooxxoxxoooxxxx",
-			"xxxxooxxoxoxxxxxoxoxoooooooxxxoooxoxxooxoxooxxx",
-			"xxxooooxxxooxxooooooooxooxoooxxxoxxxxooxxoooxox",
-			"xxxxooxooxooxooooxoooooooooxooooxoxoxooxoxoooxo",
-			"xoxxooxoxxoooxoxxxxxxoxoxoxxxoxoooooxxxooxxoxxo"		
+			"....................",
+			"....................",
+			"....................",
+			"....................",
+			"....................",
+			"....................",
+			"....................",
+			"....................",
+			"....................",
+			"....................",
+			"....................",
+			"....................",
+			"....................",
+			"....................",
+			"....................",
+			"x...................",
+			"x...................",
+			"xo.....o............"
 		   //012345678901234567890123456789012345678901234567
 		};
 
@@ -107,7 +55,7 @@ public class testerDb {
 		System.out.println("db");
 
 		
-		DbSearchResult res = db.selectColumn(board, null, 10000, CellState.P1, Operators.MAX_TIER);
+		DbSearchResult res = db.selectColumn(board, null, 10000, CellState.P2, Operators.MAX_TIER);
 
 		System.out.println((res == null)? null : res.winning_col);
 	}

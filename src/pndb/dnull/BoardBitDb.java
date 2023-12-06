@@ -567,6 +567,8 @@ public class BoardBitDb extends BoardBit {
 			private void _addValidAlignments(int dir_index, byte player, int lined, int marks, int before, int after, final MovePair last_stacked, int stacked) throws IOException {
 
 				int tier = Operators.tier_from_alignment(X, marks);
+				if(tier > Operators.MAX_TIER)
+					return;
 
 				// check alignments, foreach alignment of mark marks
 				for(byte threat_code : Operators.alignmentCodes(tier))
@@ -602,7 +604,7 @@ public class BoardBitDb extends BoardBit {
 
 			/**
 			 * Check for alignments for all values of before (decreasing it up to 0);
-			 * optimization: first check if has enough lined.
+			 * 
 			 * @param dir_index
 			 * @param player
 			 * @param lined
@@ -618,7 +620,7 @@ public class BoardBitDb extends BoardBit {
 				final MovePair last_stacked, int stacked
 			) throws IOException {
 				// test alignments and extend the line
-				if(lined >= Operators.MAX_LINED_LEN(X)) {
+				if(lined >= Operators.MIN_LINED_LEN(X)) {
 					while(before >= 0) {
 						_addValidAlignments(dir_index, player, lined, marks, before, after, last_stacked, stacked);
 						before--;
@@ -705,13 +707,10 @@ public class BoardBitDb extends BoardBit {
 						// to be sure (c3 could be before c1)
 						c3.reset(c1);
 
-					// test alignments and reduce the line
-					if(lined >= Operators.MAX_LINED_LEN(X)) {
-						// test alignments
-						_addAllValidAlignments(dir_index, player,
-							lined, marks, before, after,
-							last_stacked, stacked);
-					}
+					// test alignments
+					_addAllValidAlignments(dir_index, player,
+						lined, marks, before, after,
+						last_stacked, stacked);
 						
 					/* c1 is on a player's cell, now let's analyze .
 					 * not to add useless threats (i.e. smaller ones when there are bigger ones available), we extend c2 as much as we can,
