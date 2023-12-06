@@ -10,9 +10,9 @@ public class testerPn {
 
 	public static void main(String[] args) {
 
-		int	M = 9,
-			N = 9,
-			X = 5;
+		int	M = 18,
+			N = 20,
+			X = 7;
 		boolean first = true;
 		
 		
@@ -24,17 +24,24 @@ public class testerPn {
 		
 
 		String[] bb = {
-
-			/* selected 3, which loses in 1 */
-			"xx..o..x.",
-			"xo..o..o.",
-			"oo..x..o.",
-			"oo..ox.o.",
-			"oooxxo.o.",
-			"xxxoxx.xo",
-			"oxoxxoxxx",
-			"oxoxxxoxx",
-			"xoxooxoxo"
+			"....................",
+			"....................",
+			"....................",
+			"....................",
+			"....................",
+			"x...................",
+			"o...................",
+			"x...................",
+			"o...................",
+			"o...................",
+			"x.x.................",
+			"o.x.................",
+			"o.o.................",
+			"x.o.................",
+			"oxx.x..............x",
+			"xoo.x.x............x",
+			"xox.o.x.......x....x",
+			"ooo.x.o..ooo..o....x"
 		};
 
 		for(int i = 0; i< M; i++) {
@@ -50,7 +57,7 @@ public class testerPn {
 		
 		
 		//last_board.markColumn(1);
-		last_board.markColumn(3);
+		last_board.markColumn(8);
 
 		// set the player to do next move(set in last_board)
 		pn.board.player = CellState.P2;

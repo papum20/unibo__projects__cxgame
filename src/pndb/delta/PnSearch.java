@@ -80,7 +80,6 @@ import pndb.delta.tt.TTElementProved.KeyDepth;
  * .count mem, n of nodes
  * .remove time checks (in db): useless?
  * 
- * .evaluate: probably no mean in checking if proved node exist.
  * .could create a child node for a found db, so other parents can find it in db - and also so you can compare the best child for the proved node.
  * but need to check if was already either in dag or proved, and also should assign a column to that node too.
  * .make all you can global vars, e.g. current node dag/proved.
@@ -333,8 +332,15 @@ public class PnSearch implements CXPlayer {
 
 					most_proving_node = selectMostProving(root, marked_stack);
 
+					// debug
+					System.out.println("selected most proving: " + most_proving_node.debugString(root));
+					String moves = "";
+					for(Integer i:marked_stack) moves += i + ", ";
+					System.out.println("marked stack: " + moves);
+
 					developNode(most_proving_node);
 					
+					// debug
 					log = "most proving: " + most_proving_node.debugString(root) + "\n";
 					
 					updateAncestorsWhileChanged(most_proving_node.depth, boards_to_prune, null, true);
@@ -372,16 +378,15 @@ public class PnSearch implements CXPlayer {
 		protected boolean evaluate(TTPnNode node) {
 
 			log += "evaluate: " + node.debugString(root) + "\n";
+
+			// debug
+			if(board.game_state != GameState.OPEN) {
+				System.out.println("ended state");
+			}
 			
 			if(board.game_state == GameState.OPEN) {
-				TTElementProved evaluation = board.getEntryProved(COL_NULL, node.depth);
-
-				if(evaluation != null)
-					return true;
-				else
-					return evaluateDb(node);
-			}
-			else {
+				return evaluateDb(node);
+			} else {
 				node.prove(board.game_state == MY_WIN);
 				return true;
 			}
@@ -402,6 +407,9 @@ public class PnSearch implements CXPlayer {
 			
 			if(eval == null)
 				return false;
+
+			// debug
+			System.out.println("proved with col " + eval.winning_col + "\t-\t" + node.debugString(root));
 
 			node.prove(board.player == MY_PLAYER, (short)(node.depth + (eval.threats_n * 2 - 1)), eval.winning_col);
 			return true;
@@ -485,6 +493,8 @@ public class PnSearch implements CXPlayer {
 
 			log += "generateChildren: " + node.debugString(root) + "\n";
 
+			System.out.println("generateChildren for " + node.debugString(root));
+
 			/* Heuristic: implicit threat.
 			 * Only inspect moves in an implicit threat, i.e. a sequence by which the opponent could win
 			 * if the current player was to make a "null move".
@@ -538,6 +548,9 @@ public class PnSearch implements CXPlayer {
 			/* Check if the found child nodes can prove this node.
 			Otherwise, note that the found nodes won't contribute to this node's numbers. */
 			if(available_cols_n == 0) {
+				// debug
+				System.out.println("proved to " + won);
+				
 				node.prove(won);
 				return;
 			}
@@ -586,6 +599,9 @@ public class PnSearch implements CXPlayer {
 					
 					// debug
 					created_n++;
+
+					// debug
+					System.out.println("created child at " + j + "\t" + child.debugString(root));
 				}
 
 				board.unmark(j);
@@ -609,6 +625,7 @@ public class PnSearch implements CXPlayer {
 			TTElementProved entry = board.getEntryProved(COL_NULL, depth);
 			
 			log += "depth: " + depth + ";\tnode: " + ((node != null) ? node.debugString(root) : "null") + ";\tentry: " + ((entry != null) ? (entry.col() + " " + entry.depth_cur + " " + entry.depth_reachable) : "null") + "\n";
+			System.out.println("updateAncestors: depth: " + depth + ";\tnode: " + ((node != null) ? node.debugString(root) : "null") + ";\tentry: " + ((entry != null) ? (entry.col() + " " + entry.depth_cur + " " + entry.depth_reachable) : "null"));
 			
 			if(entry != null) {
 				// just need to update deepest move (using caller), so can save time
@@ -638,6 +655,8 @@ public class PnSearch implements CXPlayer {
 			} else {	// configuration doesn't exist
 				return;
 			}
+
+			System.out.println("new values: " + ((entry == null) ? node.debugString(root) : (entry.col() + " " + entry.depth_cur + " " + entry.depth_reachable) ));
 
 			if(depth == root.depth)	// no recursion on root's parents
 				return;

@@ -6,13 +6,18 @@ import java.util.ListIterator;
 import connectx.CXBoard;
 import connectx.CXCell;
 import connectx.CXPlayer;
-import pndb.dnull.constants.Auxiliary;
-import pndb.dnull.constants.CellState;
-import pndb.dnull.constants.GameState;
-import pndb.dnull.structs.DbSearchResult;
-import pndb.dnull.tt.TranspositionTable;
-import pndb.dnull.tt.TTElementProved;
-import pndb.dnull.tt.TTElementProved.KeyDepth;
+import pndb.delta.BoardBit;
+import pndb.delta.BoardBitPn;
+import pndb.delta.DbSearch;
+import pndb.delta.Operators;
+import pndb.delta.TTPnNode;
+import pndb.delta.constants.Auxiliary;
+import pndb.delta.constants.CellState;
+import pndb.delta.constants.GameState;
+import pndb.delta.structs.DbSearchResult;
+import pndb.delta.tt.TranspositionTable;
+import pndb.delta.tt.TTElementProved;
+import pndb.delta.tt.TTElementProved.KeyDepth;
 
 
 
@@ -370,14 +375,8 @@ public class PnSearch implements CXPlayer {
 			log += "evaluate: " + node.debugString(root) + "\n";
 			
 			if(board.game_state == GameState.OPEN) {
-				TTElementProved evaluation = board.getEntryProved(COL_NULL, node.depth);
-
-				if(evaluation != null)
-					return true;
-				else
-					return evaluateDb(node);
-			}
-			else {
+				return evaluateDb(node);
+			} else {
 				node.prove(board.game_state == MY_WIN);
 				return true;
 			}

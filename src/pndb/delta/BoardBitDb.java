@@ -283,7 +283,7 @@ public class BoardBitDb extends BoardBit {
 			if(isWinningMove(cell.i, cell.j))
 				game_state = cell2GameState(cell.i, cell.j);
 			else {
-				findAlignments(cell, cellState(cell), max_tier, null, null, true, null, 0, dir_excluded, caller + "checkOne_");
+				findAlignments(cell, cellState(cell), max_tier, true, null, 0, dir_excluded, caller + "checkOne_");
 				if(free_n == 0 && game_state == GameState.OPEN) game_state = GameState.DRAW;
 			}
 		}
@@ -308,7 +308,7 @@ public class BoardBitDb extends BoardBit {
 
 				if(game_state == GameState.OPEN) {
 					for(int i = 1; i < cells.length; i++)
-						findAlignmentsInDirection(cells[i], cells[i-1], cellState(cells[i]), dir_index, max_tier, null, null, true, null, 0, caller + "checkArray_");
+						findAlignmentsInDirection(cells[i], cells[i-1], cellState(cells[i]), dir_index, max_tier, true, null, 0, caller + "checkArray_");
 				}
 				//update gameState
 				if(free_n == 0 && game_state == GameState.OPEN) game_state = GameState.DRAW;
@@ -399,7 +399,7 @@ public class BoardBitDb extends BoardBit {
 
 			// calculate alignments
 			for(MovePair m = added_threat_attacks.pop(); !added_threat_attacks.isEmpty(); m = added_threat_attacks.pop())
-				findAlignments(m, attacker,  max_tier, this, B, true, null, 0, -1, "combined_");
+				findAlignments(m, attacker,  max_tier, true, null, 0, -1, "combined_");
 
 			return res;
 		}
@@ -567,8 +567,6 @@ public class BoardBitDb extends BoardBit {
 			private void _addValidAlignments(int dir_index, byte player, int lined, int marks, int before, int after, final MovePair last_stacked, int stacked) throws IOException {
 
 				int tier = Operators.tier_from_alignment(X, marks);
-				if(tier > Operators.MAX_TIER)
-					return;
 
 				// check alignments, foreach alignment of mark marks
 				for(byte threat_code : Operators.alignmentCodes(tier))
@@ -604,6 +602,7 @@ public class BoardBitDb extends BoardBit {
 
 			/**
 			 * Check for alignments for all values of before (decreasing it up to 0);
+			 * also check for tier <= max_tier.
 			 * 
 			 * @param dir_index
 			 * @param player
@@ -617,10 +616,10 @@ public class BoardBitDb extends BoardBit {
 			 */
 			private void _addAllValidAlignments(int dir_index, byte player,
 				int lined, int marks, int before, int after,
-				final MovePair last_stacked, int stacked
+				int max_tier, final MovePair last_stacked, int stacked
 			) throws IOException {
 				// test alignments and extend the line
-				if(lined >= Operators.MIN_LINED_LEN(X)) {
+				if(Operators.tier_from_alignment(X, marks) <= max_tier) {
 					while(before >= 0) {
 						_addValidAlignments(dir_index, player, lined, marks, before, after, last_stacked, stacked);
 						before--;
@@ -710,7 +709,7 @@ public class BoardBitDb extends BoardBit {
 					// test alignments
 					_addAllValidAlignments(dir_index, player,
 						lined, marks, before, after,
-						last_stacked, stacked);
+						max_tier, last_stacked, stacked);
 						
 					/* c1 is on a player's cell, now let's analyze .
 					 * not to add useless threats (i.e. smaller ones when there are bigger ones available), we extend c2 as much as we can,
@@ -740,7 +739,7 @@ public class BoardBitDb extends BoardBit {
 							// vertical: last check and break (note: before is 0)
 							_addAllValidAlignments(dir_index, player,
 								lined, marks, before, after + M - c3.i,
-								last_stacked, stacked);
+								max_tier, last_stacked, stacked);
 							return;
 						}
 						c3.sum(dir);
@@ -794,13 +793,11 @@ public class BoardBitDb extends BoardBit {
 			 * @param player
 			 * @param dir_index
 			 * @param max_tier
-			 * @param check1
-			 * @param check2
 			 * @param only_valid if true, only search for immediately applicable threats, i.e. free[j] = i, for each (i,j) in threat
 			 * @param stacked (implementative) number of pieces stacked to check for other alignments (to init to 0)
 			 * @param caller
 			 */
-			protected void findAlignmentsInDirection(MovePair first, MovePair second, byte player, int dir_index, int max_tier, BoardBitDb check1, BoardBitDb check2, boolean only_valid, MovePair last_stacked, int stacked, String caller) {
+			protected void findAlignmentsInDirection(MovePair first, MovePair second, byte player, int dir_index, int max_tier, boolean only_valid, MovePair last_stacked, int stacked, String caller) {
 
 				try {
 
@@ -843,7 +840,7 @@ public class BoardBitDb extends BoardBit {
 						MovePair new_stacked = new MovePair(free[second.j], second.j);
 						markCheck(new_stacked.j, player);
 						// exclude vertical, or would add non-existing alignments
-						findAlignments(new_stacked.getSum(DIRECTIONS[DIR_IDX_VERTICAL]), player, max_tier - 1, check1, check2, only_valid, new_stacked, stacked + 1, DIR_IDX_VERTICAL, caller);
+						findAlignments(new_stacked.getSum(DIRECTIONS[DIR_IDX_VERTICAL]), player, max_tier - 1, only_valid, new_stacked, stacked + 1, DIR_IDX_VERTICAL, caller);
 						unmark(new_stacked.j);
 					}
 
@@ -872,10 +869,10 @@ public class BoardBitDb extends BoardBit {
 			 * 
 			 * @param stacked see `findAlignmentsInDireciton` (to init to 0)
 			 */
-			protected void findAlignments(final MovePair cell, final byte player, int max_tier, BoardBitDb check1, BoardBitDb check2, boolean only_valid, final MovePair last_stacked, int stacked, int dir_excluded, String caller) {
+			protected void findAlignments(final MovePair cell, final byte player, int max_tier, boolean only_valid, final MovePair last_stacked, int stacked, int dir_excluded, String caller) {
 				for(int d = 0; d < DIR_ABS_N; d++) {
 					if(d != dir_excluded)
-						findAlignmentsInDirection(cell, cell, player, d, max_tier, check1, check2, only_valid, last_stacked, stacked, caller + "find_");
+						findAlignmentsInDirection(cell, cell, player, d, max_tier, only_valid, last_stacked, stacked, caller + "find_");
 				}
 			}
 			
@@ -897,7 +894,7 @@ public class BoardBitDb extends BoardBit {
 						start = nextStartOfRow_inDir(start, d)
 					) {
 						end.reset(start).clamp_diag(MIN, MAX, DIRECTIONS[d], Math.max(M, N));
-						findAlignmentsInDirection(start, end,  attacker, d, max_tier, null, null, only_valid, null, 0, caller + "all_");
+						findAlignmentsInDirection(start, end,  attacker, d, max_tier, only_valid, null, 0, caller + "all_");
 					}
 				}
 			}
