@@ -141,7 +141,7 @@ public class PnSearch implements CXPlayer {
 	// debug
 	private int created_n;
 
-	private boolean DEBUG_ON = false;
+	private boolean DEBUG_ON = true;
 	private String log = "";
 
 	
@@ -606,8 +606,9 @@ public class PnSearch implements CXPlayer {
 					// debug
 					if(DEBUG_ON) System.out.println("created child at " + j + "\t" + child.debugString(root));
 				}
-
+				
 				board.unmark(j);
+				System.out.println(node.getChild(j).debugString(root));
 			}
 
 		}
