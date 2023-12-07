@@ -141,6 +141,7 @@ public class PnSearch implements CXPlayer {
 	// debug
 	private int created_n;
 
+	private boolean DEBUG_ON = false;
 	private String log = "";
 
 	
@@ -333,10 +334,12 @@ public class PnSearch implements CXPlayer {
 					most_proving_node = selectMostProving(root, marked_stack);
 
 					// debug
-					System.out.println("selected most proving: " + most_proving_node.debugString(root));
-					String moves = "";
-					for(Integer i:marked_stack) moves += i + ", ";
-					System.out.println("marked stack: " + moves);
+					if(DEBUG_ON) {
+						System.out.println("selected most proving: " + most_proving_node.debugString(root));
+						String moves = "";
+						for(Integer i:marked_stack) moves += i + ", ";
+						System.out.println("marked stack: " + moves);
+					}
 
 					developNode(most_proving_node);
 					
@@ -380,7 +383,7 @@ public class PnSearch implements CXPlayer {
 			log += "evaluate: " + node.debugString(root) + "\n";
 
 			// debug
-			if(board.game_state != GameState.OPEN) {
+			if(DEBUG_ON && board.game_state != GameState.OPEN) {
 				System.out.println("ended state");
 			}
 			
@@ -409,7 +412,7 @@ public class PnSearch implements CXPlayer {
 				return false;
 
 			// debug
-			System.out.println("proved with col " + eval.winning_col + "\t-\t" + node.debugString(root));
+			if(DEBUG_ON) System.out.println("proved with col " + eval.winning_col + "\t-\t" + node.debugString(root));
 
 			node.prove(board.player == MY_PLAYER, (short)(node.depth + (eval.threats_n * 2 - 1)), eval.winning_col);
 			return true;
@@ -491,9 +494,9 @@ public class PnSearch implements CXPlayer {
 		 */
 		public void generateAllChildren(TTPnNode node) {
 
+			// debug
 			log += "generateChildren: " + node.debugString(root) + "\n";
-
-			System.out.println("generateChildren for " + node.debugString(root));
+			if(DEBUG_ON) System.out.println("generateChildren for " + node.debugString(root));
 
 			/* Heuristic: implicit threat.
 			 * Only inspect moves in an implicit threat, i.e. a sequence by which the opponent could win
@@ -549,7 +552,7 @@ public class PnSearch implements CXPlayer {
 			Otherwise, note that the found nodes won't contribute to this node's numbers. */
 			if(available_cols_n == 0) {
 				// debug
-				System.out.println("proved to " + won);
+				if(DEBUG_ON) System.out.println("proved to " + won);
 				
 				node.prove(won);
 				return;
@@ -601,7 +604,7 @@ public class PnSearch implements CXPlayer {
 					created_n++;
 
 					// debug
-					System.out.println("created child at " + j + "\t" + child.debugString(root));
+					if(DEBUG_ON) System.out.println("created child at " + j + "\t" + child.debugString(root));
 				}
 
 				board.unmark(j);
@@ -624,8 +627,9 @@ public class PnSearch implements CXPlayer {
 			TTPnNode node = board.getEntry(COL_NULL, depth);
 			TTElementProved entry = board.getEntryProved(COL_NULL, depth);
 			
+			// debug
 			log += "depth: " + depth + ";\tnode: " + ((node != null) ? node.debugString(root) : "null") + ";\tentry: " + ((entry != null) ? (entry.col() + " " + entry.depth_cur + " " + entry.depth_reachable) : "null") + "\n";
-			System.out.println("updateAncestors: depth: " + depth + ";\tnode: " + ((node != null) ? node.debugString(root) : "null") + ";\tentry: " + ((entry != null) ? (entry.col() + " " + entry.depth_cur + " " + entry.depth_reachable) : "null"));
+			if(DEBUG_ON) System.out.println("updateAncestors: depth: " + depth + ";\tnode: " + ((node != null) ? node.debugString(root) : "null") + ";\tentry: " + ((entry != null) ? (entry.col() + " " + entry.depth_cur + " " + entry.depth_reachable) : "null"));
 			
 			if(entry != null) {
 				// just need to update deepest move (using caller), so can save time
@@ -656,7 +660,8 @@ public class PnSearch implements CXPlayer {
 				return;
 			}
 
-			System.out.println("new values: " + ((entry == null) ? node.debugString(root) : (entry.col() + " " + entry.depth_cur + " " + entry.depth_reachable) ));
+			// debug
+			if(DEBUG_ON) System.out.println("new values: " + ((entry == null) ? node.debugString(root) : (entry.col() + " " + entry.depth_cur + " " + entry.depth_reachable) ));
 
 			if(depth == root.depth)	// no recursion on root's parents
 				return;
