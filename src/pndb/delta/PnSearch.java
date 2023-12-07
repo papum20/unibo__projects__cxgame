@@ -75,6 +75,7 @@ import pndb.delta.tt.TTElementProved.KeyDepth;
  * TODO;
  * retry genChildren with null-move euristic and db 
  * 
+ * 
  * .merge 2 threat classes, remove appliers
  * .(alla fine) aumenta tempo (tanto basta), ma metti comunque i check per interromperlo nel caso durante l'esecuzione (parti più costose: develop, ancestors, db)
  * .count mem, n of nodes
@@ -83,6 +84,9 @@ import pndb.delta.tt.TTElementProved.KeyDepth;
  * .could create a child node for a found db, so other parents can find it in db - and also so you can compare the best child for the proved node.
  * but need to check if was already either in dag or proved, and also should assign a column to that node too.
  * .make all you can global vars, e.g. current node dag/proved.
+ * 
+ * .check prune
+ * .simplify static hash codes in tts
  * 
  * ENHANCEMENTS TO TRY (VS):
  * .make proved db node add proved child? so when other parents find it in dag, its proved already
@@ -141,7 +145,7 @@ public class PnSearch implements CXPlayer {
 	// debug
 	private int created_n;
 
-	private boolean DEBUG_ON = true;
+	private boolean DEBUG_ON = false;
 	private String log = "";
 
 	
@@ -317,7 +321,6 @@ public class PnSearch implements CXPlayer {
 		 */
 		private void visit() {
 
-			
 			int visit_loops_n = 0;	// debug
 			
 			LinkedList<Integer> marked_stack		= new LinkedList<Integer>();
@@ -608,7 +611,6 @@ public class PnSearch implements CXPlayer {
 				}
 				
 				board.unmark(j);
-				System.out.println(node.getChild(j).debugString(root));
 			}
 
 		}

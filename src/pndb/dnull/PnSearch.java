@@ -6,18 +6,13 @@ import java.util.ListIterator;
 import connectx.CXBoard;
 import connectx.CXCell;
 import connectx.CXPlayer;
-import pndb.delta.BoardBit;
-import pndb.delta.BoardBitPn;
-import pndb.delta.DbSearch;
-import pndb.delta.Operators;
-import pndb.delta.TTPnNode;
-import pndb.delta.constants.Auxiliary;
-import pndb.delta.constants.CellState;
-import pndb.delta.constants.GameState;
-import pndb.delta.structs.DbSearchResult;
-import pndb.delta.tt.TranspositionTable;
-import pndb.delta.tt.TTElementProved;
-import pndb.delta.tt.TTElementProved.KeyDepth;
+import pndb.dnull.constants.Auxiliary;
+import pndb.dnull.constants.CellState;
+import pndb.dnull.constants.GameState;
+import pndb.dnull.structs.DbSearchResult;
+import pndb.dnull.tt.TranspositionTable;
+import pndb.dnull.tt.TTElementProved;
+import pndb.dnull.tt.TTElementProved.KeyDepth;
 
 
 
@@ -144,6 +139,7 @@ public class PnSearch implements CXPlayer {
 	// debug
 	private int created_n;
 
+	private boolean DEBUG_ON = false;
 	private String log = "";
 
 	
@@ -334,8 +330,17 @@ public class PnSearch implements CXPlayer {
 
 					most_proving_node = selectMostProving(root, marked_stack);
 					
+					// debug
+					if(DEBUG_ON) {
+						System.out.println("selected most proving: " + most_proving_node.debugString(root));
+						String moves = "";
+						for(Integer i:marked_stack) moves += i + ", ";
+						System.out.println("marked stack: " + moves);
+					}
+					
 					developNode(most_proving_node);
 					
+					// debug
 					log = "most proving: " + most_proving_node.debugString(root) + "\n";
 
 					updateAncestorsWhileChanged(most_proving_node.depth, boards_to_prune, null, true);
@@ -373,6 +378,11 @@ public class PnSearch implements CXPlayer {
 		protected boolean evaluate(TTPnNode node) {
 
 			log += "evaluate: " + node.debugString(root) + "\n";
+
+			// debug
+			if(DEBUG_ON && board.game_state != GameState.OPEN) {
+				System.out.println("ended state");
+			}
 			
 			if(board.game_state == GameState.OPEN) {
 				return evaluateDb(node);
@@ -398,10 +408,12 @@ public class PnSearch implements CXPlayer {
 			if(eval == null)
 				return false;
 
+			// debug
+			if(DEBUG_ON) System.out.println("proved with col " + eval.winning_col + "\t-\t" + node.debugString(root));
+
 			node.prove(board.player == MY_PLAYER, (short)(node.depth + (eval.threats_n * 2 - 1)), eval.winning_col);
 			return true;
 		}
-
 
 		/**
 		 * set proof and disproof; update node.mostProving; in case insert in TTwon.
@@ -478,7 +490,9 @@ public class PnSearch implements CXPlayer {
 		 */
 		public void generateAllChildren(TTPnNode node) {
 
+			// debug
 			log += "generateChildren: " + node.debugString(root) + "\n";
+			if(DEBUG_ON) System.out.println("generateChildren for " + node.debugString(root));
 
 			/* Heuristic: implicit threat.
 			 * Only inspect moves in an implicit threat, i.e. a sequence by which the opponent could win
@@ -541,6 +555,9 @@ public class PnSearch implements CXPlayer {
 			/* Check if the found child nodes can prove this node.
 			Otherwise, note that the found nodes won't contribute to this node's numbers. */
 			if(available_cols_n == 0) {
+				// debug
+				if(DEBUG_ON) System.out.println("proved to " + won);
+
 				node.prove(won);
 				return;
 			}
@@ -589,6 +606,9 @@ public class PnSearch implements CXPlayer {
 					
 					// debug
 					created_n++;
+
+					// debug
+					if(DEBUG_ON) System.out.println("created child at " + j + "\t" + child.debugString(root));
 				}
 
 				board.unmark(j);
@@ -607,11 +627,13 @@ public class PnSearch implements CXPlayer {
 		 * @return
 		 */
 		public void updateAncestorsWhileChanged(int depth, LinkedList<BoardBitPn> boards_to_prune, TTElementProved caller, boolean most_proving) {
-			
+
 			TTPnNode node = board.getEntry(COL_NULL, depth);
 			TTElementProved entry = board.getEntryProved(COL_NULL, depth);
 			
+			// debug
 			log += "depth: " + depth + ";\tnode: " + ((node != null) ? node.debugString(root) : "null") + ";\tentry: " + ((entry != null) ? (entry.col() + " " + entry.depth_cur + " " + entry.depth_reachable) : "null") + "\n";
+			if(DEBUG_ON) System.out.println("updateAncestors: depth: " + depth + ";\tnode: " + ((node != null) ? node.debugString(root) : "null") + ";\tentry: " + ((entry != null) ? (entry.col() + " " + entry.depth_cur + " " + entry.depth_reachable) : "null"));
 			
 			if(entry != null) {
 				// just need to update deepest move (using caller), so can save time
@@ -641,6 +663,9 @@ public class PnSearch implements CXPlayer {
 			} else {	// configuration doesn't exist
 				return;
 			}
+
+			// debug
+			if(DEBUG_ON) System.out.println("new values: " + ((entry == null) ? node.debugString(root) : (entry.col() + " " + entry.depth_cur + " " + entry.depth_reachable) ));
 
 			if(depth == root.depth)	// no recursion on root's parents
 				return;

@@ -1,8 +1,7 @@
 package pndb.dnull;
 
 import connectx.CXBoard;
-import pndb.delta.BoardBit;
-import pndb.delta.constants.CellState;
+import pndb.dnull.constants.CellState;
 
 
 

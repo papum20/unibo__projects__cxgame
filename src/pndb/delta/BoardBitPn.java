@@ -90,9 +90,7 @@ public class BoardBitPn extends BoardBit {
 			return TTdag.get(TTPnNode.setKey(key_dag, TTdag.getHash(hash, free[col] - 1, col, Auxiliary.getPlayerBit(Auxiliary.opponent(player))), depth - 1));
 		}
 		public void addEntry(TTPnNode node) {
-			System.out.println("add entry " + hash + " " + node.debugString(null));
 			TTdag.insert(hash, node);
-			System.out.println("add entry " + getEntry(COL_NULL, node.depth));
 			TTdag.count++;
 		}
 		public void removeEntry(int depth) {

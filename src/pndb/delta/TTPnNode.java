@@ -246,8 +246,6 @@ public class TTPnNode extends Element<TTPnNode, KeyDepth> {
 					child = getChild(j);
 					entry = board.getEntryProved(j, depth);
 
-					System.out.println((child == null) + " " + (entry == null));
-
 					if(entry != null && entry.won() == (idx == PROOF))
 						return prove(idx == PROOF);
 					else if(child == null)
@@ -259,8 +257,7 @@ public class TTPnNode extends Element<TTPnNode, KeyDepth> {
 					disproof = Math.min(disproof + (long)child.n[1 - idx], N_INFINITE);
 				}
 			}
-			System.out.println("most_proving_col: " + most_proving_col);
-			System.out.println(most_proving == null);
+			
 			if(most_proving == null)	// disprove
 				return prove(idx != PROOF);
 			else {
