@@ -339,7 +339,7 @@ public class TTPnNode extends Element<TTPnNode, KeyDepth> {
 	}
 
 	public String debugString(TTPnNode root) {
-		String s = "node with col " + ", node==root? " + (this==root) + "; numbers: " + n[0] + ", " + n[1] + ",\tdepth: " + depth + "\n";
+		String s = "node with col " + ", node==root? " + (this==root) + "; numbers: " + n[0] + ", " + n[1] + ",\tdepth: " + depth;
 		return s;
 	}
 

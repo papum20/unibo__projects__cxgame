@@ -81,8 +81,8 @@ public class TTElementProved extends Element<TTElementProved, KeyDepth> {
 		else return next.listGet(k);
 	}
 
-	public void set(int col, short depth_reachable) {
-		this.val = (byte)((val & MASK_WON) | (col & MASK_COL));
+	public void set(boolean won, int col, short depth_reachable) {
+		this.val = (byte)((val & ~MASK_WON & ~MASK_COL) | (won ? MASK_WON : 0) | (col & MASK_COL));
 		this.depth_reachable = depth_reachable;
 	}
 

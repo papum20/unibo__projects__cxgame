@@ -47,7 +47,7 @@ public class CXBoard {
 	public final int X;
 
 	// grid for the board
-	protected CXCellState[][] B;
+	public CXCellState[][] B;
 
 	protected LinkedList<CXCell> MC;   // Marked Cells stack (used to undo)
 	protected int                RP[]; // First free row position

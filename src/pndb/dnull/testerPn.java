@@ -1,7 +1,7 @@
 package pndb.dnull;
 
 import connectx.CXBoard;
-import pndb.dnull.constants.CellState;
+import pndb.delta.constants.CellState;
 
 
 
@@ -24,15 +24,15 @@ public class testerPn {
 		
 
 		String[] bb = {
-			".........",
-			"x........",
-			"o........",
-			"xx.......",
-			"oo.......",
-			"xx.....o.",
-			"oo.....o.",
-			"xx....xo.",
-			"oxxxoxxoo"
+			"...oxx...",
+			"...xooo..",
+			"...ooxo..",
+			"...xxxxo.",
+			"...oooxx.",
+			".x.oxoxox",
+			"xx.xxxxox",
+			"oo.oxxoxo",
+			"ooxoxooox"
 		};
 
 		for(int i = 0; i< M; i++) {
@@ -41,14 +41,13 @@ public class testerPn {
 					continue;
 				else {
 					board.markCheck(j, (bb[M-i-1].substring(j, j+1).equals("x")) ? CellState.P1 : CellState.P2);
-					last_board.markColumn(j);
+					//last_board.markColumn(j);
 				}
 			}
 		}
 		
-		
 		//last_board.markColumn(1);
-		last_board.markColumn(8);
+		last_board.markColumn(1);
 
 		// set the player to do next move(set in last_board)
 		pn.board.player = CellState.P2;

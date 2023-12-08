@@ -333,7 +333,7 @@ public class PnSearch implements CXPlayer {
 					
 					// debug
 					if(DEBUG_ON) {
-						System.out.println("selected most proving: " + most_proving_node.debugString(root));
+						System.out.println("\nselected most proving: " + most_proving_node.debugString(root) + ";\thash: " + board.hash);
 						String moves = "";
 						for(Integer i:marked_stack) moves += i + ", ";
 						System.out.println("marked stack: " + moves);
@@ -351,8 +351,6 @@ public class PnSearch implements CXPlayer {
 					
 					visit_loops_n++;
 				}
-
-				resetBoard(marked_stack);
 
 				System.out.println("end of loop : n_loops = " + visit_loops_n + "\n" + debugVisit(""));
 			}
@@ -633,15 +631,15 @@ public class PnSearch implements CXPlayer {
 			TTElementProved entry = board.getEntryProved(COL_NULL, depth);
 			
 			// debug
-			log += "depth: " + depth + ";\tnode: " + ((node != null) ? node.debugString(root) : "null") + ";\tentry: " + ((entry != null) ? (entry.col() + " " + entry.depth_cur + " " + entry.depth_reachable) : "null") + "\n";
-			if(DEBUG_ON) System.out.println("updateAncestors: depth: " + depth + ";\tnode: " + ((node != null) ? node.debugString(root) : "null") + ";\tentry: " + ((entry != null) ? (entry.col() + " " + entry.depth_cur + " " + entry.depth_reachable) : "null"));
+			log += "depth: " + depth + ";\tnode: " + ((node != null) ? node.debugString(root) : "null") + ";\tentry: " + ((entry != null) ? (entry.won() + " " + entry.col() + " " + entry.depth_cur + " " + entry.depth_reachable) : "null") + "\n";
+			if(DEBUG_ON) System.out.println("updateAncestors: depth: " + depth + ";\tnode: " + ((node != null) ? node.debugString(root) : "null") + ";\tentry: " + ((entry != null) ? (entry.won() + " " + entry.col() + " " + entry.depth_cur + " " + entry.depth_reachable) : "null"));
 			
 			if(entry != null) {
 				// just need to update deepest move (using caller), so can save time
 				
 				if(caller != null) {
 					if(isBetterChild(entry, caller))
-						entry.set(getColFromEntryProved(caller, depth), caller.depth_reachable);
+						entry.set(caller.won(), getColFromEntryProved(caller, depth), caller.depth_reachable);
 					else
 						return;
 				} else if(most_proving) {
@@ -666,7 +664,7 @@ public class PnSearch implements CXPlayer {
 			}
 
 			// debug
-			if(DEBUG_ON) System.out.println("new values: " + ((entry == null) ? node.debugString(root) : (entry.col() + " " + entry.depth_cur + " " + entry.depth_reachable) ));
+			if(DEBUG_ON) System.out.println("new values: " + ((entry == null) ? node.debugString(root) : (entry.won() + " " + entry.col() + " " + entry.depth_cur + " " + entry.depth_reachable) ));
 
 			if(depth == root.depth)	// no recursion on root's parents
 				return;
@@ -760,7 +758,7 @@ public class PnSearch implements CXPlayer {
 				if(board.freeCol(j)) {
 					TTElementProved child = board.getEntryProved(j, entry.depth_cur);
 					if(isBetterChild(entry, child)) {
-						entry.set(j, child.depth_reachable);
+						entry.set(child.won(), j, child.depth_reachable);
 					}
 				}
 			}
