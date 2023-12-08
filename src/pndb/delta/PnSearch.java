@@ -85,9 +85,6 @@ import pndb.delta.tt.TTElementProved.KeyDepth;
  * but need to check if was already either in dag or proved, and also should assign a column to that node too.
  * .make all you can global vars, e.g. current node dag/proved.
  * 
- * .check prune
- * .simplify static hash codes in tts
- * 
  * ENHANCEMENTS TO TRY (VS):
  * .make proved db node add proved child? so when other parents find it in dag, its proved already
  * .initProof: relative or absolute depth?
@@ -164,9 +161,10 @@ public class PnSearch implements CXPlayer {
 		BoardBit.X = (byte)X;
 
 		board = new BoardBitPn(first ? MY_PLAYER : YOUR_PLAYER);
-		BoardBitPn.TTdag	= new TranspositionTable<TTPnNode, TTPnNode.KeyDepth>(M, N, TTPnNode.getTable());
-		BoardBitPn.TTproved	= new TranspositionTable<TTElementProved, KeyDepth>(M, N, TTElementProved.getTable());
 		TTPnNode.board = board;
+		TranspositionTable.initMovesHashes(M, N);
+		BoardBitPn.TTdag	= new TranspositionTable<TTPnNode, TTPnNode.KeyDepth>(TTPnNode.getTable());
+		BoardBitPn.TTproved	= new TranspositionTable<TTElementProved, KeyDepth>(TTElementProved.getTable());
 		
 		dbSearch = new DbSearch();		
 		dbSearch.init(M, N, X, first);
@@ -208,25 +206,25 @@ public class PnSearch implements CXPlayer {
 			System.out.println("Opponent: " + ((B.getLastMove() == null) ? null : B.getLastMove().j) );
 			System.out.println("root hash:" + board.hash + "\tdepth " + root.depth );
 			board.print();
-			debugVisit("before tagTree");
+			System.out.println(debugVisit("before tagTree"));
 
 			// remove unreachable nodes from previous rounds
 			root.setTag((root.depth / 2) % 2);		// unique tag for each round
+			root.tagTree();
 			if(lastIt_root != null) {
-				root.tagTree();
 
-				debugVisit("before removeUnmarkedTree");
+				System.out.println(debugVisit("before removeUnmarkedTree"));
 
 				TTPnNode.board = lastIt_board;
 				lastIt_root.removeUnmarkedTree(root.getTag());
 				TTPnNode.board = board;
 			}
 
-			debugVisit("before gc");
+			System.out.println(debugVisit("before gc"));
 			
 			runtime.gc();
 			
-			debugVisit("before visit");
+			System.out.println(debugVisit("before visit"));
 			
 			// visit
 			TTElementProved root_eval = board.getEntryProved(COL_NULL, root.depth);
@@ -692,8 +690,12 @@ public class PnSearch implements CXPlayer {
 		}
 
 		/**
-		 * Remove any reference to `node`, and also to its descendants if they only had one parent.
-		 * @param isroot true for tree root
+		 * Remove from the dag an isolated tree, rooted at the position of `board`,
+		 * i.e. remove the root and all its descendants if they only had one parent (also in this same tree).
+		 * 
+		 * @param board current board
+		 * @param depth current depth
+		 * @param isroot true for the tree root
 		 */
 		private void pruneTree(BoardBitPn board, int depth, boolean isroot) {
 
@@ -701,7 +703,7 @@ public class PnSearch implements CXPlayer {
 			
 			if (isroot || ( node != null && !node.hasParents() )) {
 
-				if(node != null)
+				if(node != null)	// root could also be proved (actually is always, for the current use of this function)
 					board.removeEntry(depth);
 				
 				for(int j = 0; j < BoardBit.N; j++) {
@@ -714,8 +716,9 @@ public class PnSearch implements CXPlayer {
 			}
 		}
 		/**
+		 * Call pruneTree for each board in `boards`.
 		 * 
-		 * @param nodes_proved
+		 * @param boards boards to prune
 		 */
 		private void pruneTrees(LinkedList<BoardBitPn> boards) {
 
@@ -815,7 +818,7 @@ public class PnSearch implements CXPlayer {
 		}
 
 		private String debugVisit(String log) {
-			return "log: time = " + (System.currentTimeMillis() - timer_start) + "\tmems = " + runtime.maxMemory() + "\t" + runtime.totalMemory() + "\t" + runtime.freeMemory() + "\t" + Auxiliary.freeMemory(runtime) + "\n";
+			return "log: " + log + " ;\ttime = " + (System.currentTimeMillis() - timer_start) + "\tmems = " + runtime.maxMemory() + "\t" + runtime.totalMemory() + "\t" + runtime.freeMemory() + "\t" + Auxiliary.freeMemory(runtime) + "\n";
 		}
 
 	//#endregion AUXILIARY

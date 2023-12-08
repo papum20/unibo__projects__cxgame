@@ -61,7 +61,8 @@ public class DbSearch {
 		MY_PLAYER	= CellState.P1;
 		BoardBitDb.MY_PLAYER = MY_PLAYER;
 		
-		BoardBitDb.TT	= new TranspositionTable<TTElementBool, Key>(M, N, TTElementBool.getTable());
+		BoardBitDb.TT	= new TranspositionTable<TTElementBool, Key>(TTElementBool.getTable());
+		// TranspositionTable.initMovesHashes(M, N);	// already initialized in PnSearch
 		
 		GOAL_SQUARES = new boolean[M][N];	// initialized to false
 	}

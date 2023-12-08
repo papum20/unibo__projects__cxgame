@@ -158,9 +158,10 @@ public class PnSearch implements CXPlayer {
 		BoardBit.X = (byte)X;
 
 		board = new BoardBitPn(first ? MY_PLAYER : YOUR_PLAYER);
-		BoardBitPn.TTdag	= new TranspositionTable<TTPnNode, TTPnNode.KeyDepth>(M, N, TTPnNode.getTable());
-		BoardBitPn.TTproved	= new TranspositionTable<TTElementProved, KeyDepth>(M, N, TTElementProved.getTable());
 		TTPnNode.board = board;
+		TranspositionTable.initMovesHashes(M, N);
+		BoardBitPn.TTdag	= new TranspositionTable<TTPnNode, TTPnNode.KeyDepth>(TTPnNode.getTable());
+		BoardBitPn.TTproved	= new TranspositionTable<TTElementProved, KeyDepth>(TTElementProved.getTable());
 		
 		dbSearch = new DbSearch();		
 		dbSearch.init(M, N, X, first);
@@ -202,25 +203,25 @@ public class PnSearch implements CXPlayer {
 			System.out.println("Opponent: " + ((B.getLastMove() == null) ? null : B.getLastMove().j) );
 			System.out.println("root hash:" + board.hash + "\tdepth " + root.depth );
 			board.print();
-			debugVisit("before tagTree");
+			System.out.println(debugVisit("before tagTree"));
 
 			// remove unreachable nodes from previous rounds
 			root.setTag((root.depth / 2) % 2);		// unique tag for each round
+			root.tagTree();
 			if(lastIt_root != null) {
-				root.tagTree();
 
-				debugVisit("before removeUnmarkedTree");
+				System.out.println(debugVisit("before removeUnmarkedTree"));
 
 				TTPnNode.board = lastIt_board;
 				lastIt_root.removeUnmarkedTree(root.getTag());
 				TTPnNode.board = board;
 			}
 
-			debugVisit("before gc");
+			System.out.println(debugVisit("before gc"));
 			
 			runtime.gc();
 			
-			debugVisit("before visit");
+			System.out.println(debugVisit("before visit"));
 			
 			// visit
 			TTElementProved root_eval = board.getEntryProved(COL_NULL, root.depth);

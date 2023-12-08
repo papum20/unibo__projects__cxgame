@@ -7,8 +7,8 @@ import pndb.dnull.tt.TranspositionTable.Element.Key;
 
 public class TranspositionTable<E extends TranspositionTable.Element<E,K>, K extends Key> {
 
-	public final long[][][] moves;	//random hashes defined for each move
-	private E[] table;				//actual array where entries are stored
+	public static long[][][] moves = null;	//random hashes defined for each move
+	private E[] table;						//actual array where entries are stored
 
 	private static final int PLAYERS_N = 2;
 
@@ -21,11 +21,17 @@ public class TranspositionTable<E extends TranspositionTable.Element<E,K>, K ext
 	 * @param M
 	 * @param N
 	 */
-	public TranspositionTable(int M, int N, E[] table) {
+	public TranspositionTable(E[] table) {
+
+		this.table = table;
+		count = 0;
+	}
+	
+	public static void initMovesHashes(int M, int N) {
+		
 		Random random = new Random();
 		moves = new long[M][N][PLAYERS_N];
-		this.table = table;
-
+		
 		for(int i = 0; i < M; i++) {
 			for(int j = 0; j < N; j++) {
 				for(int k = 0; k < PLAYERS_N; k++) {
@@ -34,7 +40,6 @@ public class TranspositionTable<E extends TranspositionTable.Element<E,K>, K ext
 			}
 		}
 
-		count = 0;
 	}
 
 	/**
@@ -45,7 +50,7 @@ public class TranspositionTable<E extends TranspositionTable.Element<E,K>, K ext
 	 * @param k
 	 * @return
 	 */
-	public long getHash(long hash, int i, int j, int k) {
+	public static long getHash(long hash, int i, int j, int k) {
 		long move_hash = moves[i][j][k];
 		return (hash ^ move_hash);
 	}

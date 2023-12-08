@@ -45,7 +45,7 @@ public class BoardBitPn extends BoardBit {
 	 * @return GameState
 	 */
 	public void mark(int col) {
-		hash	= TTdag.getHash(hash, free[col], col, Auxiliary.getPlayerBit(player));
+		hash	= TranspositionTable.getHash(hash, free[col], col, Auxiliary.getPlayerBit(player));
 		super.mark(col, player);
 		player = Auxiliary.opponent(player);
 	}
@@ -65,7 +65,7 @@ public class BoardBitPn extends BoardBit {
 	 */
 	@Override
 	public void unmark(int col) {
-		hash	= TTdag.getHash(hash, free[col] - 1, col, _cellState(free[col] - 1, col));
+		hash	= TranspositionTable.getHash(hash, free[col] - 1, col, _cellState(free[col] - 1, col));
 		super.unmark(col);
 		player = Auxiliary.opponent(player);
 	}
@@ -84,10 +84,10 @@ public class BoardBitPn extends BoardBit {
 		public TTPnNode getEntry(int col, int depth) {
 			return (col == TTElementProved.COL_NULL) ? 
 			TTdag.get(TTPnNode.setKey(key_dag, hash, depth))
-			: TTdag.get(TTPnNode.setKey(key_dag, TTdag.getHash(hash, free[col], col, Auxiliary.getPlayerBit(player)), depth + 1));
+			: TTdag.get(TTPnNode.setKey(key_dag, TranspositionTable.getHash(hash, free[col], col, Auxiliary.getPlayerBit(player)), depth + 1));
 		}
 		public TTPnNode getEntryParent(int col, int depth) {
-			return TTdag.get(TTPnNode.setKey(key_dag, TTdag.getHash(hash, free[col] - 1, col, Auxiliary.getPlayerBit(Auxiliary.opponent(player))), depth - 1));
+			return TTdag.get(TTPnNode.setKey(key_dag, TranspositionTable.getHash(hash, free[col] - 1, col, Auxiliary.getPlayerBit(Auxiliary.opponent(player))), depth - 1));
 		}
 		public void addEntry(TTPnNode node) {
 			TTdag.insert(hash, node);
@@ -100,7 +100,7 @@ public class BoardBitPn extends BoardBit {
 		public TTElementProved getEntryProved(int col, int depth) {
 			return (col == TTElementProved.COL_NULL) ? 
 			TTproved.get(TTElementProved.setKey(key_proved, hash, depth))
-			: TTproved.get(TTElementProved.setKey(key_proved, TTdag.getHash(hash, free[col], col, Auxiliary.getPlayerBit(player)), depth + 1));
+			: TTproved.get(TTElementProved.setKey(key_proved, TranspositionTable.getHash(hash, free[col], col, Auxiliary.getPlayerBit(player)), depth + 1));
 		}
 		public void addEntryProved(TTElementProved node) {
 			TTproved.insert(hash, node);
