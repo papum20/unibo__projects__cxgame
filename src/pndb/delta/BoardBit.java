@@ -99,7 +99,7 @@ public class BoardBit {
 	 */
 	protected byte check(int i, int j, byte player) {
 		if(game_state != GameState.OPEN) return game_state;
-		if(isWinningMove(i, j)) game_state = cell2GameState(player);
+		else if(isWinningMove(i, j)) game_state = cell2GameState(player);
 		else if(free_n == 0) game_state = GameState.DRAW;
 		else game_state = GameState.OPEN;
 		
@@ -138,7 +138,7 @@ public class BoardBit {
 	 * @return
 	 */
 	protected boolean isWinningMove(int i, int j) {
-		long	mask_ij = 1 << (i % BITSTRING_LEN);
+		long	mask_ij = (long)1 << (i % BITSTRING_LEN);
 		long	s		= (board[j][i / BITSTRING_LEN] & mask_ij)		>> (i % BITSTRING_LEN),
 				s_mask	= (board_mask[j][i / BITSTRING_LEN] & mask_ij)	>> (i % BITSTRING_LEN);
 		long mask = mask_ij;

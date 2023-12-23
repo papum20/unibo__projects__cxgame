@@ -2,6 +2,7 @@ package pndb.delta;
 
 import pndb.delta.constants.CellState;
 import pndb.delta.structs.DbSearchResult;
+import pndb.dnull.tt.TranspositionTable;
 
 public class testerDb {
 	
@@ -14,6 +15,7 @@ public class testerDb {
 		boolean first = true;
 		
 
+		TranspositionTable.initMovesHashes(BoardBit.M, BoardBit.N);
 		DbSearch db = new DbSearch();
 		db.init(BoardBit.M, BoardBit.N, BoardBit.X, first);
 

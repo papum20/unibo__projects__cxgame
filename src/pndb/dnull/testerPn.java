@@ -10,9 +10,9 @@ public class testerPn {
 
 	public static void main(String[] args) {
 
-		int	M = 9,
-			N = 9,
-			X = 5;
+		int	M = 70,
+			N = 47,
+			X = 11;
 		boolean first = true;
 		
 		
@@ -24,15 +24,76 @@ public class testerPn {
 		
 
 		String[] bb = {
-			"...oxx...",
-			"...xooo..",
-			"...ooxo..",
-			"...xxxxo.",
-			"...oooxx.",
-			".x.oxoxox",
-			"xx.xxxxox",
-			"oo.oxxoxo",
-			"ooxoxooox"
+			"...............................................",
+			"...............................................",
+			"...............................................",
+			"...............................................",
+			"...............................................",
+			"...............................................",
+			"...............................................",
+			"...............................................",
+			"...............................................",
+			"...............................................",
+			"...............................................",
+			"...............................................",
+			"...............................................",
+			"...............................................",
+			"...............................................",
+			"...............................................",
+			"...............................................",
+			"...............................................",
+			"...............................................",
+			"...............................................",
+			"...............................................",
+			"...............................................",
+			"...............................................",
+			"...............................................",
+			"...............................................",
+			"...............................................",
+			"...............................................",
+			"...............................................",
+			"...............................................",
+			"...............................................",
+			"...............................................",
+			"...............................................",
+			"...............................................",
+			"...............................................",
+			"...............................................",
+			"...............................................",
+			"...............................................",
+			"...............................................",
+			"ooxx...................ox......x....o.x.x..o...",
+			"xxooo....x...........x.xooooo.xo....xxo.xooxxxx",
+			"xoxoo...xo...........o.oxooooooox...oox.oxoxoxx",
+			"ooxxo...xx...x.......o.xxoxxoooxo...ooxoxxoxxxo",
+			"ooooxx..xx...x.......oxoxxooxoooo...ooooxoxxoox",
+			"xxxoxx..xox.xxx......xoxoxxoooxxoo..xoxoxoxxxox",
+			"oxxxxx..oxoxxxx.....oxxxxooooooooox.ooooxxoxoxx",
+			"oxxxox..oxoxxxx..x..oxoxooxoooooxoo.oooooxxxoxo",
+			"oxxoox..oxxxxoo.xx..xooxxxxxooooooo.oxoxxoxxxxx",
+			"oxxxoo..xxxxxxo.xxxxxxoxxxxoxoxoooo.oooxxxxooxx",
+			"oxxoxo..oxoxoxo.xoxoxoxxxooxoooxooooxoxoxxxxoxx",
+			"xoxooo..xxxoxxoxxoxxoxxooxxxoxxoooooxoooxxoxxxx",
+			"ooxooxx.oxxxooooxxoxoxooxooxoxxoxoxooxxxxxxxxox",
+			"oxxxoxo.xxooxxxoxoxxxoxoxxxxxxooxxoooxxxxxxooxx",
+			"oooooxo.oxxoxxooxxoxxxooooxooooxxooooxoooxxooxx",
+			"xooxoxo.oxxoooxxooxooxoxxoxoooxoxoooxxooxxxxxox",
+			"oooxooxxoooxxoxxxxooxxxooxoxooooxxooooxoxxooxoo",
+			"xooxoooxxxoooxoxooooxooxxoxxoxoxoxxxoxooooxxxxx",
+			"xoooxxooooxxoxxoxxxxxoxoxxoxoooxoxoxoxxoxoxxxoo",
+			"oooooxoxxoxooooooxxoxxooxxoooxxxooooxoxxoxxxxxx",
+			"xoooooooooxxxxxxxxxoxxxxxxxoxoxooooooxxxooooxxx",
+			"ooxooxoooooxxxoxoxxooooooxooooooxoooxoxxxxxoxox",
+			"oxoooooxxooooooxooxxxxxxxoxoxooxxxxxxoooxxxxxxo",
+			"oxxoxoxxoxoooooxoooooxxooxxxooxxxxooxoooxxxxoxx",
+			"xxxooxoxooxoooxxooooooxxxoooxxxxxoxxxooooxxxxoo",
+			"xoooxxxoxoxxooooxoooxoxxoxoxxoooxoxooxxxxxxoxxx",
+			"xooxxxxxoooxooooooxoooxoxxoxoxoxxoxxxooxoxxxxox",
+			"oxxxoxooxxooxxxxoxoooooooxoxxoxxoxooxxxxxxxoxoo",
+			"xxoxxoxooooxoxoooxxoxooooxooooooooooxxxoooxooxx",
+			"ooxxoxxxoxxoxxoxooxoooooxoxxoxxoxooooxxooxoxoox",
+			"oxxxxxoxxxxooxxxxxxoxoooooxooxoooxooooxxxxoooox",
+			"xxoxoxxxoxoooooxxoxxooooxxooooooxoxxxooxxoxxxox"
 		};
 
 		for(int i = 0; i< M; i++) {
@@ -47,7 +108,7 @@ public class testerPn {
 		}
 		
 		//last_board.markColumn(1);
-		last_board.markColumn(1);
+		last_board.markColumn(0);
 
 		// set the player to do next move(set in last_board)
 		pn.board.player = CellState.P2;

@@ -187,7 +187,9 @@ public class PnSearch implements CXPlayer {
 			// update own board.
 			CXCell[] MC = B.getMarkedCells();
 			if(MC.length > 0)
+				System.out.println("state " + board.game_state);
 				board.markCheck(B.getLastMove().j);
+				System.out.println("state " + board.game_state);
 				
 			// see if new root was already visited, otherwise create it
 			root = board.getEntry(COL_NULL, MC.length);
