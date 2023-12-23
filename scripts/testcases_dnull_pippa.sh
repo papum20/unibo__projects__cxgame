@@ -7,7 +7,7 @@ then
 fi
 
 
-_OUTDIR="debug/match/dnull"
+_OUTDIR="debug/match/pippa"
 OUTDIR="${_OUTDIR}/$1"
 TESTS="1"
 
@@ -30,28 +30,28 @@ mkdir ${OUTDIR}
 ./ltest 9 9 5		pndb.delta.PnSearch connectx.L0.L0		-r ${TESTS} > ${OUTDIR}/${PLAYER_NAME_1_1}_${PLAYER_NAME_1_2}_995.txt
 cat scripts/testcases_dnull_pippa.sh >> ${OUTDIR}/${PLAYER_NAME_1_1}_${PLAYER_NAME_1_2}_995.txt
 
-./ltest 18 20 7		pndb.delta.PnSearch connectx.L0.L0		-r ${TESTS} > ${OUTDIR}/${PLAYER_NAME_1_1}_${PLAYER_NAME_1_2}.txt
+./ltest 18 20 7		pndb.delta.PnSearch connectx.L0.L0		-r ${TESTS} > ${OUTDIR}/${PLAYER_NAME_1_1}_${PLAYER_NAME_1_2}_18207.txt
 cat scripts/testcases_dnull_pippa.sh >> ${OUTDIR}/${PLAYER_NAME_1_1}_${PLAYER_NAME_1_2}_18207.txt
 
 #dnull l0
 ./ltest 9 9 5		pndb.dnull.PnSearch connectx.L0.L0		-r ${TESTS} > ${OUTDIR}/${PLAYER_NAME_2_1}_${PLAYER_NAME_2_2}_995.txt
 cat scripts/testcases_dnull_pippa.sh >> ${OUTDIR}/${PLAYER_NAME_2_1}_${PLAYER_NAME_2_2}_995.txt
 
-./ltest 18 20 7		pndb.dnull.PnSearch connectx.L0.L0		-r ${TESTS} > ${OUTDIR}/${PLAYER_NAME_2_1}_${PLAYER_NAME_2_2}.txt
+./ltest 18 20 7		pndb.dnull.PnSearch connectx.L0.L0		-r ${TESTS} > ${OUTDIR}/${PLAYER_NAME_2_1}_${PLAYER_NAME_2_2}_18207.txt
 cat scripts/testcases_dnull_pippa.sh >> ${OUTDIR}/${PLAYER_NAME_2_1}_${PLAYER_NAME_2_2}_18207.txt
 
 #delta l1
 ./ltest 9 9 5		pndb.delta.PnSearch connectx.L1.L1		-r ${TESTS} > ${OUTDIR}/${PLAYER_NAME_3_1}_${PLAYER_NAME_3_2}_995.txt
 cat scripts/testcases_dnull_pippa.sh >> ${OUTDIR}/${PLAYER_NAME_3_1}_${PLAYER_NAME_3_2}_995.txt
 
-./ltest 18 20 7		pndb.delta.PnSearch connectx.L1.L1		-r ${TESTS} > ${OUTDIR}/${PLAYER_NAME_3_1}_${PLAYER_NAME_3_2}.txt
+./ltest 18 20 7		pndb.delta.PnSearch connectx.L1.L1		-r ${TESTS} > ${OUTDIR}/${PLAYER_NAME_3_1}_${PLAYER_NAME_3_2}_18207.txt
 cat scripts/testcases_dnull_pippa.sh >> ${OUTDIR}/${PLAYER_NAME_3_1}_${PLAYER_NAME_3_2}_18207.txt
 
 #dnull l1
 ./ltest 9 9 5		pndb.dnull.PnSearch connectx.L1.L1		-r ${TESTS} > ${OUTDIR}/${PLAYER_NAME_4_1}_${PLAYER_NAME_4_2}_995.txt
 cat scripts/testcases_dnull_pippa.sh >> ${OUTDIR}/${PLAYER_NAME_4_1}_${PLAYER_NAME_4_2}_995.txt
 
-./ltest 18 20 7		pndb.dnull.PnSearch connectx.L1.L1		-r ${TESTS} > ${OUTDIR}/${PLAYER_NAME_4_1}_${PLAYER_NAME_4_2}.txt
+./ltest 18 20 7		pndb.dnull.PnSearch connectx.L1.L1		-r ${TESTS} > ${OUTDIR}/${PLAYER_NAME_4_1}_${PLAYER_NAME_4_2}_18207.txt
 cat scripts/testcases_dnull_pippa.sh >> ${OUTDIR}/${PLAYER_NAME_4_1}_${PLAYER_NAME_4_2}_18207.txt
 
 
