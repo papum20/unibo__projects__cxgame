@@ -207,7 +207,7 @@ public class BoardBitDb extends BoardBit {
 		 * @return GameState
 		 */
 		private void markAny(int i, int j, byte player) {
-			hash = TT.getHash(hash, i, j, Auxiliary.getPlayerBit(player));
+			hash = TranspositionTable.getHash(hash, i, j, Auxiliary.getPlayerBit(player));
 
 			board[j][i / BITSTRING_LEN]			|= (long)(player & 1) << (i % BITSTRING_LEN);	// =1 for CellState.ME
 			board_mask[j][i / BITSTRING_LEN]	|= (long)1 << (i % BITSTRING_LEN);
@@ -218,7 +218,7 @@ public class BoardBitDb extends BoardBit {
 		}
 		@Override
 		public void mark(int col, byte player) {
-			hash = TT.getHash(hash, free[col], col, Auxiliary.getPlayerBit(player));
+			hash = TranspositionTable.getHash(hash, free[col], col, Auxiliary.getPlayerBit(player));
 			super.mark(col, player);
 		}
 		/**
@@ -263,7 +263,7 @@ public class BoardBitDb extends BoardBit {
 		}
 		@Override
 		public void unmark(int col) {
-			hash = TT.getHash(hash, free[col] - 1, col, _cellState(free[col] - 1, col));
+			hash = TranspositionTable.getHash(hash, free[col] - 1, col, _cellState(free[col] - 1, col));
 			super.unmark(col);
 		}
 
@@ -1104,7 +1104,7 @@ public class BoardBitDb extends BoardBit {
 	
 	//#endregion SET
 
-	//#re>gion TT
+	//#region TT
 
 		/**
 		 * Get entry from TT.

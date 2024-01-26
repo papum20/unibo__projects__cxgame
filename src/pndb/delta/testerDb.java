@@ -2,17 +2,20 @@ package pndb.delta;
 
 import pndb.delta.constants.CellState;
 import pndb.delta.structs.DbSearchResult;
+import pndb.delta.tt.TranspositionTable;
 
 public class testerDb {
 	
 
 	public static void main(String[] args) {
 
-		BoardBit.M = 18;
-		BoardBit.N = 20;
-		BoardBit.X = 7;
+		BoardBit.M = 9;
+		BoardBit.N = 9;
+		BoardBit.X = 5;
 		boolean first = true;
 		
+
+		TranspositionTable.initMovesHashes(BoardBit.M, BoardBit.N);
 
 		DbSearch db = new DbSearch();
 		db.init(BoardBit.M, BoardBit.N, BoardBit.X, first);
@@ -21,24 +24,15 @@ public class testerDb {
 
 
 		String[] bb = {
-			"....................",
-			"....................",
-			"....................",
-			"....................",
-			"....................",
-			"....................",
-			"....................",
-			"....................",
-			"....................",
-			"....................",
-			"....................",
-			"....................",
-			"....................",
-			"....................",
-			"....................",
-			"x...................",
-			"x...................",
-			"xo.....o............"
+			".........",
+			".........",
+			".........",
+			".........",
+			"..oo.oo..",
+			"..xo.ox..",
+			"..ooxoo..",
+			"..xxxxx..",
+			"..xoxxx.."
 		   //012345678901234567890123456789012345678901234567
 		};
 
@@ -55,7 +49,7 @@ public class testerDb {
 		System.out.println("db");
 
 		
-		DbSearchResult res = db.selectColumn(board, null, 10000, CellState.P2, Operators.MAX_TIER);
+		DbSearchResult res = db.selectColumn(board, null, 10000, CellState.P1, Operators.MAX_TIER);
 
 		System.out.println((res == null)? null : res.winning_col);
 	}

@@ -434,8 +434,8 @@ public class DbSearch {
 		/**
 		 * Complexity: O(DbNode.copy )
 		 * 
-		 * 	 * 		with mc: O(3M + 10N + B.marked_threats.length + MN) = O(B.marked_threats.length + N**2 + 13N)
-	 * 		no mc: O(3M + 10N + B.marked_threats.length) = O(B.marked_threats.length + 13N)
+		 * 	* 		with mc: O(3M + 10N + B.marked_threats.length + MN) = O(B.marked_threats.length + N**2 + 13N)
+	 	 *	* 		no mc: O(3M + 10N + B.marked_threats.length) = O(B.marked_threats.length + 13N)
 		 * @param root
 		 * @param athreats
 		 * @param attacker

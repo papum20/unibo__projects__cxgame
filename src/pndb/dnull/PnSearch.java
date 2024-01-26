@@ -17,109 +17,80 @@ import pndb.dnull.tt.TTElementProved.KeyDepth;
 
 
 /**
- * notes:
- * <p>	-	i'm always CellState.ME, GameState.P1.
- * <p>	-	TT: always used with MY_PLAYER = 0, YOUR = 1 (for state).
- * <p>	-	TT is used for positions evaluated and verified by db, so it contains certain values.
- * <p>	-	(tryit)	TT uses global depths.
- * <P>	-	tt.doppia entry: scopo: in base a chi tocca si usa indice
- * 
- * <p>Enhancements:
- * <p>	1.	(tryit) Saves all levels for endgames (in TT) and, for each visit, saves the deepest one,
- * 			so it can return it in case all moves are losing.
- * <p>	2.	(nonmc) no BoardBit.MC
- * <p>	3.	(nocel) no BoardBitDb.alignments_by_cell.
- * <p>	4.	(gamma) int for BoardBitDb.hasAlignments
- * <p>	5.	(halfn) use half number proof init
- * <p>	6.	(ranch) Randomly shuffles children with same priority, so they are analyzed in a different order
- * <p>	7.	() only create BoardBitDb.alignemts_by_dir when created first element
- * <p>	8.	(scomb) board.getCombined only search for attacker's threats, cell by cell (for those added).
- * <p>	9.	(scomb) board.getCombined: already checks isUseful(threat), so useless to check in findAlignments
- * <p>	10.	(delta) db correctly: cxgame is not like mnkgame, where one more move never gives any disadvantage
- * 			(but usually an advantage), so db performing all defending moves at the same time isn't (always)
- * 			correct. Idea for the correct implementation, which also mixes pn and db: you have to try each
- * 			defending move, individually, and make massive use of TT, as db will also need to check many
- * 			configurations multiple times; when player A creates a X-1, B is forced to reply (so all other moves
- * 			can be removed from pn); when creates a X-2, B is forced to reply (unless he has a better threat,
- * 			enhancement already used in db) - alternatively, he could make another move and be forced in the next
- * 			trun (when it's became a X-1)... (thinking in progress)... so, conclusion: can I just add a new operator,
- * 			for this case?? i.e. add a piece, and the empty cell above is part of a threat (also not in vertical 
- * 			direction).
- * <p>	11.	(delta) draw=max depth + 1, so is preferred in case of loss
- * <p>	12. db not correct, but almost: 1. only tier3 are not correct (involve more responses);
- * 			2. you could reach that position also putting attacker's moves, so wrong cases are rare.
- * <p>	13. (delta) new threat (stacked)... see note Operators.makeStacked()
- * 			...dubious
- * <p>	14. problem with transpositions in dags (thesis), ambiguity
- * <p>	15.	(delta) PnTTnode: more parents (dag)
- * <p>	16. (delta) no prune, keep nodes for next visits (using tt for each node)
- * <p>	17.	M*N < 2**15, because of short type for numbers
- * <p>	18.	dbSearch: note about wins by mistake, with threats of tier > 1 (intersecting with tier 1 ones)
- * <p>	19. why deleting previous nodes: i guess if you managed to prove a node from a previous position, which was
- * 			more generical, you'll probably be able to re-do it now, with less nodes.
- * <p>	20.	TT.remove at start of each selectColumn, to remove entries from previous rounds
- * <p>	21.	each node is inserted in dag at creation time
- * <p>	22.	in list nodes to remove, same node could be put more times: so use set
- * <p>	23.	PnTTnodes need children as array/list, bc of dag (each node has its own parents/children)
- * <p>	24.	updateAncestors could start updating proved nodes unreachable from root
- * <p>	25.	a node, if existing, is always either in tt dag or proved.
- * <p>	26. had to remove current_node enhancement: with dag it's very expensive keeping track of last updated, while selectMostProving isn't actually very expensive.
- * <p>	27. note on setProofAndDisproofNumbers->updateProved():
+ * explaining notes:
+ * <p>	1.	i'm always CellState.ME, GameState.P1.
+ * <p>	2.	TT: always used with MY_PLAYER = 0, YOUR = 1 (for state).
+ * <p>	3.	TT is used for positions evaluated and verified by db, so it contains certain values.
+ * <p>	4.	(tryit)	TT uses global depths.
+ * <p>	5.	a node, if existing, is always either in tt dag or proved.
+ * <p>	6. note on setProofAndDisproofNumbers->updateProved():
  *				If proved, set the final best move.
  *				Note that if current player won, knowing that at least one move led to a win, choose the one which wins first;
  *				otherwise, choose the deepest path.
  *				This also assures the correct precedence for draws (which have assigned max depth + 1) for both players.
  *				Finally, note that this could not be the deepest/least deep move, because you don't have to analyze the full tree.
  *				However, it's certain that, in every moment, a proved node is updated with the best move considering all the existsing tree in that instant.
- *				
- * TODO;
- * retry genChildren with null-move euristic and db 
  * 
- * .merge 2 threat classes, remove appliers
- * .(alla fine) aumenta tempo (tanto basta), ma metti comunque i check per interromperlo nel caso durante l'esecuzione (parti più costose: develop, ancestors, db)
- * .count mem, n of nodes
- * .remove time checks (in db): useless?
+ * <p>Enhancements introduced during development (PN):
+ * <p>	1.	(tryit) Saves all levels for endgames (in TT) and, for each visit, saves the deepest one,
+ * 			so it can return it in case all moves are losing.
+ * <p>	2.	(nonmc) no BoardBit.MC
+ * <p>	3.	had to remove current_node enhancement: with dag it's very expensive keeping track of last updated, while selectMostProving isn't actually very expensive.
+ * <p>	4.	(halfn) use half number proof init
+ * <p>	5.	(ranch) Randomly shuffles children with same priority, so they are analyzed in a different order
+ * <p>	6.	(delta) draw=max depth + 1, so is preferred in case of loss
+ * <p>	7.	(delta) no prune, keep nodes for next visits (using tt for each node)
+ * <p>	8.	pruneTree at start of each selectColumn, to remove entries from previous rounds
  * 
- * ENHANCEMENTS TO TRY (VS):
- * .make proved db node add proved child? so when other parents find it in dag, its proved already
- * .initProof: relative or absolute depth?
- * .db for (iterated) related squares with null move
- *	(same).Heuristic: update parent's children with iterated related squares.
- *	If, in the current board, the current player has a winning sequence,
- *	starting with a certain move `x` in column `X` involving certain cells `s` (thus certain columns `S`),
- *	if the other player (who moved in the parent node) was to make a move not in any of `S`,
- *	then the current player could play `x`, and apply his winning sequence as planned,
- *	because the opponent's move is useless for such sequence.
- *	
- *	As an additional proof, if current player could create a new threat or avoid the opponent's one with 
- *	such different move, then `s` wouldn't represent a winning sequence (Db also checks defenses).
- *	
- *	Probably that's already taken in count in parent's null-move dbSearch (generateAllChildren).
+ * <p>Enhancements introduced during development (DB):
+ * <p>	1.	(gamma) int for BoardBitDb.hasAlignments
+ * <p>	2.	() only create BoardBitDb.alignemts_by_dir when created first element
+ * <p>	3.	(scomb) board.getCombined only search for attacker's threats, cell by cell (for those added).
+ * <p>	4.	(scomb) board.getCombined: already checks isUseful(threat), so useless to check in findAlignments
+ * <p>	5. db not correct, but almost: 1. only tier3 are not correct (involve more responses);
+ * 			2. you could reach that position also putting attacker's moves, so wrong cases are rare.
+ * <p>	6. (delta) new threat (stacked)... see note Operators.makeStacked()
+ 
  *
+ * TODO:
+ * -	remove db.comb: only if hasAls
+ * 				
  * NOT DONE (just ideas):
- * .db corretto: db ricorsivo su tier3 (con più risposte)
- * ..oppure: provale tutte, con accortezze: 1. usa tutte minacce di 1atk 1def (saranno molte combinazioni in più);
- * 2. a questo punto in combine, stai attento che da ognuno si aggiunga l'intera minaccia (1atk e 1def, non solo atk) (se no 
- * rischi di aggiungere più atk che def e la situazione non sarebbe raggiungibile)
- * 
- * QUESTIONS:
- * .stacked 13 dubious (are these new operators well made?)
- *	
+ * <p>	1.	(delta) db correctly: cxgame is not like mnkgame, where one more move never gives any disadvantage
+ * 			(but usually an advantage), so db performing all defending moves at the same time isn't (always)
+ * 			correct. Idea for the correct implementation, which also mixes pn and db: you have to try each
+ * 			defending move, individually, and make massive use of TT, as db will also need to check many
+ * 			configurations multiple times; when player A creates a X-1, B is forced to reply (so all other moves
+ * 			can be removed from pn); when creates a X-2, B is forced to reply (unless he has a better threat,
+ * 			enhancement already used in db) - alternatively, he could make another move and be forced in the next
+ * 			trun (when it's became a X-1)...
+ * 			(in altre parole, in italiano)
+ * 			.db corretto: db ricorsivo su tier3 (con più risposte)
+ * 			..oppure: provale tutte, con accortezze: 1. usa tutte minacce di 1atk 1def (saranno molte combinazioni in più);
+ * 			2. a questo punto in combine, stai attento che da ognuno si aggiunga l'intera minaccia (1atk e 1def, non solo atk) (se no 
+ * 			rischi di aggiungere più atk che def e la situazione non sarebbe raggiungibile)
+ * <p>	2.	merge threat classes, simplify
+ * <p>	3.	count memory usage, n of nodes
+ * <p>	4.	remove time checks (in db): useless?
+ * <p>	5.	db: use also a permanent tt
+ * <p>	6.	Heuristic: update parent's children with iterated related squares (explained in thesis)
+ * <p>	7.	(nocel) no BoardBitDb.alignments_by_cell.
  * 
  */
 public class PnSearch implements CXPlayer {
-
+	
 	//#region CONSTANTS
 		protected static final byte PROOF		= TTPnNode.PROOF;
 		protected static final byte DISPROOF	= TTPnNode.DISPROOF;
 		protected static final byte COL_NULL	= TTElementProved.COL_NULL;
-
+		
 		protected byte MY_PLAYER	= CellState.P1;
 		protected byte YOUR_PLAYER	= CellState.P2;
 		protected byte MY_WIN		= GameState.WINP1;
 		protected byte YOUR_WIN		= GameState.WINP2;
 
-		protected int PROOF_WIN_SEQ_OFFSET;	// offset for init proof numbers in generateAllChildren
+		protected int PROOF_OFFSET_NO_IMPLICIT_THREAT;	// offset for init proof numbers in generateAllChildren, when implicit threat
+		protected int PROOF_OFFSET_NO_LINE;				// offset for init proof numbers in generateAllChildren, when no alignment
 	//#endregion CONSTANTS
 
 	public BoardBitPn board;			// public for debug
@@ -170,6 +141,9 @@ public class PnSearch implements CXPlayer {
 		runtime = Runtime.getRuntime();
 		lastIt_board = new BoardBitPn(first ? MY_PLAYER : YOUR_PLAYER);
 		created_n = 0;
+
+		PROOF_OFFSET_NO_IMPLICIT_THREAT	= N + 1;
+		PROOF_OFFSET_NO_LINE			= N * 2 + 1;
 
 		System.out.println("\n-_-\nSTART GAME\n-_-\n");
 	}
@@ -535,7 +509,7 @@ public class PnSearch implements CXPlayer {
 							if(res_db.related_squares_by_col[j] > 0)
 								threats[j] = res_db.related_squares_by_col[j];
 							else
-								threats[j] += PROOF_WIN_SEQ_OFFSET;
+								threats[j] += PROOF_OFFSET_NO_IMPLICIT_THREAT;
 
 						} 
 					} else {
@@ -601,7 +575,7 @@ public class PnSearch implements CXPlayer {
 					 * Proof init offset: if threats=0, BoardBit.N+1 should give enough space to prioritize other moves;
 					 * otherwise, use current_child, so its an incremental number also respecting the random shuffle.
 					 */
-					setProofAndDisproofNumbers(child, (threats[j] == 0) ? (BoardBit.N + 1) : (current_child) );
+					setProofAndDisproofNumbers(child, (threats[j] == 0) ? PROOF_OFFSET_NO_LINE : (current_child) );
 					
 					// debug
 					created_n++;
@@ -692,8 +666,12 @@ public class PnSearch implements CXPlayer {
 		}
 
 		/**
-		 * Remove any reference to `node`, and also to its descendants if they only had one parent.
-		 * @param isroot true for tree root
+		 * Remove from the dag an isolated tree, rooted at the position of `board`,
+		 * i.e. remove the root and all its descendants if they only had one parent (also in this same tree).
+		 * 
+		 * @param board current board
+		 * @param depth current depth
+		 * @param isroot true for the tree root
 		 */
 		private void pruneTree(BoardBitPn board, int depth, boolean isroot) {
 
@@ -701,7 +679,7 @@ public class PnSearch implements CXPlayer {
 			
 			if (isroot || ( node != null && !node.hasParents() )) {
 
-				if(node != null)
+				if(node != null)	// root could also be proved (actually is always, for the current use of this function)
 					board.removeEntry(depth);
 				
 				for(int j = 0; j < BoardBit.N; j++) {
@@ -713,9 +691,11 @@ public class PnSearch implements CXPlayer {
 				}
 			}
 		}
+		
 		/**
+		 * Call pruneTree for each board in `boards`.
 		 * 
-		 * @param nodes_proved
+		 * @param boards boards to prune
 		 */
 		private void pruneTrees(LinkedList<BoardBitPn> boards) {
 

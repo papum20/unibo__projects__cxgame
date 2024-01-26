@@ -612,6 +612,7 @@ public class BoardBitDb extends BoardBit {
 			 * @param after
 			 * @param last_stacked
 			 * @param stacked
+			 * @throws IOException
 			 */
 			private void _addAllValidAlignments(int dir_index, byte player,
 				int lined, int marks, int before, int after,
