@@ -5,6 +5,9 @@ import pndb.tt.TranspositionTable.Element.Key;
 
 
 
+/**
+ * Complexities and methods docstrings are the same for TT.Element.
+ */
 public class TTElementBool extends Element<TTElementBool, Key> {
 		//KEY = key1 + key2 + index = (16+32+16) bit = 64bit
 
@@ -15,10 +18,7 @@ public class TTElementBool extends Element<TTElementBool, Key> {
 		private static final int TABLE_SIZE = 16;
 		private static final int MASK2_BITS = TABLE_SIZE + Integer.SIZE;
 		private static final int MASK_IDX	= 65535;		//2**16-1 = 16 ones
-
-		/**
-		 * Complexity: O(1)
-		 */
+		
 		public TTElementBool() {
 
 		}
@@ -32,20 +32,10 @@ public class TTElementBool extends Element<TTElementBool, Key> {
 			this.val = (byte)val;
 		}
 
-		/**
-		 * Complexity: O(n), with n length of the list
-		 * @param e
-		 */
-		protected void listAppend(TTElementBool e) {
-			if(next == null) next = e;
-			else next.listAppend(e);
+		protected void listAdd(TTElementBool e) {
+			if(next != null) e.next = next;
+			next = e;
 		}
-		/**
-		 * Returns the element if cmp==this or a next element in the list (assuming the index is the same)
-		 * Complexity: O(n), with n length of the list
-		 * @param cmp
-		 * @return
-		 */
 		protected TTElementBool listGet(Key k) {
 			if (compareKey(k)) return this;
 			else if(next == null) return null;

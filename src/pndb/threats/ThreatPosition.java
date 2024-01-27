@@ -42,7 +42,10 @@ public class ThreatPosition {
 		this.end = new MovePair(end);
 		this.type = type;
 	}*/
-	//returns the position at offset index from start towards end
+
+	/**
+	 * @return the position at offset index from start towards end
+	 */
 	public MovePair at(int index) {
 		int diff_i = end.i - start.i, diff_j = end.j - start.j;
 		int len = (diff_i > diff_j) ? diff_i : diff_j;

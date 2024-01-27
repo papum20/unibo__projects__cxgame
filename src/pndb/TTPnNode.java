@@ -9,6 +9,10 @@ import pndb.tt.TranspositionTable.Element.Key;
 
 
 
+
+/**
+ * Complexities and methods docstrings for TTElement are the same for TT.Element.
+ */
 public class TTPnNode extends Element<TTPnNode, KeyDepth> {
 	//KEY = key1 + key2 + index = (16+32+16) bit = 64bit
 
@@ -85,20 +89,10 @@ public class TTPnNode extends Element<TTPnNode, KeyDepth> {
 
 	//#region TT
 
-		/**
-		 * Complexity: O(n), with n length of the list
-		 * @param e
-		 */
-		protected void listAppend(TTPnNode e) {
-			if(next == null) next = e;
-			else next.listAppend(e);
+		protected void listAdd(TTPnNode e) {
+			if(next != null) e.next = next;
+			next = e;
 		}
-		/**
-		 * Returns the element if cmp==this or a next element in the list (assuming the index is the same)
-		 * Complexity: O(n), with n length of the list
-		 * @param cmp
-		 * @return
-		 */
 		protected TTPnNode listGet(KeyDepth k) {
 			if (compareKey(k)) return this;
 			else if(next == null) return null;
@@ -125,14 +119,18 @@ public class TTPnNode extends Element<TTPnNode, KeyDepth> {
 	//#endregion TT
 
 	
+	/**
+	 * Complexity: O(1)
+	 * @return
+	 */
 	public TTPnNode createChild() {
 		return new TTPnNode(board.hash, (short)(depth + 1), getTag());
 	}
 	
 	/**
-	 * Copy this tag to all descendants.
-	 * Complexity: O(tree.size)
-	 * 			= O(N**(M*N-d) )
+	 * <p>	Copy this tag to all descendants.
+	 * <p>	Complexity: O(tree.size)
+	 * <p>	-	= O(N**(M*N-d) )
 	 */
 	public void tagTree() {
 		for(int j = 0; j < BoardBit.N; j++) {
@@ -149,7 +147,9 @@ public class TTPnNode extends Element<TTPnNode, KeyDepth> {
 		}
 	}
 	/**
-	 * remove descendants from dag if have tag!=tag
+	 * <p>	Remove descendants from dag if have tag!=tag.
+	 * <p>	Complexity: O(tree.size)
+	 * <p>	-	= O(N**(M*N-d) )
 	 * @param tag not to unmark
 	 */
 	public void removeUnmarkedTree(int tag) {
@@ -173,6 +173,9 @@ public class TTPnNode extends Element<TTPnNode, KeyDepth> {
 
 	//#region GET
 
+		/**
+		 * Complexity: O(N)
+		 */
 		public boolean hasParents() {
 			for(int j = 0; j < BoardBit.N; j++) {
 				if(board.free[j] > 0 && board.getEntryParent(j, depth) != null)
@@ -180,12 +183,18 @@ public class TTPnNode extends Element<TTPnNode, KeyDepth> {
 			}
 			return false;
 		}
+
+		/**
+		 * Complexity: O(1)
+		 */
 		public TTPnNode getChild(int col) {
 			return (col == TTElementProved.COL_NULL) ? null : board.getEntry(col, depth);
 		}
+
 		/**
-		 * if possible, get the best move, i.e. best proof/disproof ratio;
-		 * else, get the move to the deepest sequence found.
+		 * <p>	if possible, get the best move, i.e. best proof/disproof ratio;
+		 * <p>	else, get the move to the deepest sequence found.
+		 * <p>	Complexity: O(2N)
 		 * @return the column
 		 */
 		public int getMoveToBestChild() {
@@ -229,8 +238,9 @@ public class TTPnNode extends Element<TTPnNode, KeyDepth> {
 
 	//#region SET
 		/**
-		 * update proof numbers using children in dag, considering this node is minimizing n[idx].
-		 * In case, prove the node.
+		 * <p>	update proof numbers using children in dag, considering this node is minimizing n[idx].
+		 * <p>	In case, prove the node.
+		 * <p>	Complexity: O(N(alpha + 1))
 		 * @param idx PROOF or DISPROOF
 		 * @return entry if proved, else null
 		 */
@@ -268,9 +278,9 @@ public class TTPnNode extends Element<TTPnNode, KeyDepth> {
 		}
 		
 		/**
-		 * Prove node, i.e. move from dag to proved tt.
-		 * 
-		 * Complexity: O(1)
+		 * <p>	Prove node, i.e. move from dag to proved tt.
+		 * <p>	Complexity: O(1 + alpha)
+		 * <p>
 		 * @param value value to assing (True/False for binary trees)
 		 * @param depth_reachable best depth reachable (min if won, max if lost)
 		 * @param col col to get to best position reachable
@@ -286,9 +296,9 @@ public class TTPnNode extends Element<TTPnNode, KeyDepth> {
 			return entry;
 		}
 		/**
-		 * Prove node, i.e. move from dag to proved tt.
-		 * 
-		 * Complexity: O(1)
+		 * <p>	Prove node, i.e. move from dag to proved tt.
+		 * <p>	Complexity: O(1)
+		 * <p>
 		 * @param value value to assing (True/False for binary trees)
 		 */
 		public TTElementProved prove(boolean value) {

@@ -66,14 +66,14 @@ public class DbSearch {
 	
 
 	/**
-	 * 
+	 * <p>	Complexity: O( N * applied_threats_n**3 )
 	 * @param B
 	 * @param root_pn
 	 * @param time_remaining
 	 * @return a DbSearchResult structure, filled as follows:  
-	 * 1.	if found a winning sequence, winning_col is the first winning move,
+	 * <p>	1.	if found a winning sequence, winning_col is the first winning move,
 	 * 		and related_squares_by_col contains, for each column j, the number of squares related to the winning sequence, in column j;
-	 * 2.	otherwise, it's null.
+	 * <p>	2.	otherwise, it's null.
 	 */
 	public DbSearchResult selectColumn(BoardBit B, TTPnNode root_pn, long time_remaining, byte player, byte max_tier) {
 		
@@ -116,41 +116,14 @@ public class DbSearch {
 	//#region ALGORITHM
 
 		/**
-		 * Complexity: 
-		 * 		iteration: O(addDependencyStage + addCombinationStage + lastDependency.clear + lastCombination.clear)
-		 * 				= O(addDependencyStage + addCombinationStage + lastDependency.length + lastCombination.length)
-		 * 
-		 * 			case rooot.applicable_threats==0:
-		 * 				= O( 6XN + lastDependency.length + lastCombination.length)
-		 * 
-		 * 			case rooot.applicable_threats>0:
-		 * 				= O(addDependencyStage + addCombinationStage)
-		 * 				= O(addDependencyStage + addCombinationStage)
-		 * 
-		 *		  		case attacking (betha):
-		 * 					O(	lastCombination.length *
-		 * 							* {
-		 * 								[P(!end_game)* node.applicable_threats_n**2 * 27X**2] +
-		 * 								+ P(endgame) * O(visitGlobalDefenses(node))
-		 * 							} 			-- [for each node in lastCombination]
-		 * 						+ lastDependency.length *
-		 * 							* (A.marked_threats.length + 9N + 4 B.marked_threats.length(X + A.avg_threats_per_dir_per_line) + 8X A.added_threats.length
-		 * 							)			-- [for each A,B in lastDependency]
-		 * 					)
-		 * 			case !attacking (betha):
-		 * 					O(	lastCombination.length *
-		 * 							* [
-		 * 								P(!end_game) * node.applicable_threats_n**2 * (27X**2 )
-		 * 							]			-- [for each node in lastCombination]
-		 * 						+ lastDependency.length *
-		 * 							* (A.marked_threats.length + 9N + 4 B.marked_threats.length(X + A.avg_threats_per_dir_per_line) + 8X A.added_threats.length
-		 * 							)			-- [for each A,B in lastDependency]
-		 * 					)
-		 * 
-		 * 
-		 *
-		 * 					notes: combinationStage is not executed if lastCombination.length==0, i.e. if (end_game || applicable_threats==0)
-		 * 
+		 * <p>	Complexity (best): O( N * applied_threats_n**3 )
+		 * <p>	*	what counts is, each applied threat creates a new node (including those resulting later)
+		 * <p>	*	so depends on number of initial nodes, and those found in dependency and combination
+		 * <p>	*	(resulting from applied_threats_n for depStage, applied_threats_n**2 for combStage)
+		 * <p>
+		 * <p>	-	Complexity (generical)(best):	O(dependencyStage + combinationStage),		no win found
+		 * <p>	-	Complexity (generical)(worst):	O(11(dependencyStage + combinationStage)),	additional defensive visits
+		 * <p>	-	Complexity (best): O( 6N (1 + applied_threats_foreach) * (init + comb_found + dep_found) + 16N * comb_found + N * dep_found**2 )
 		 * @param root
 		 * @param attacker
 		 * @param attacking
@@ -192,6 +165,7 @@ public class DbSearch {
 		}
 
 		/**
+		 * <p>	Complexity: O(visit)
 		 * @param root
 		 * @param attacker
 		 * @return true if found a defense (i.e. threat sequence was not winning)
@@ -216,22 +190,11 @@ public class DbSearch {
 
 		/**
 		 * Complexity:
-		 * 			O(addDependentChildren * lastCombination.length)
-		 * 			= lastCombination.length *
-		 * 				( P(!end_game) * {[P(applicable_threats_n==0) * O(6XN)] + [P(applicable_threats_n>0) * O( node.applicable_threats_n**2 * (27X**2 ))]} +
-		 * 				+ {P(endgame) * P(attacking) * O(visitGlobalDefenses)}
-		 * 				)
-		 * 		case attacking:
-		 * 				O(lastCombination.length *
-		 * 				( P(!end_game) * {[P(applicable_threats_n==0) * O(6XN)] + [P(applicable_threats_n>0) * O( node.applicable_threats_n**2 * (27X**2 ))]} +
-		 * 				+ {P(endgame) P(attacking) * O(visitGlobalDefenses)}
-		 * 				))
-		 * 		case !attacking:
-		 * 				O(lastCombination.length *
-		 * 				P(!end_game) * {[P(applicable_threats_n==0) * O(6XN)] + [P(applicable_threats_n>0) * O( node.applicable_threats_n**2 * (27X**2 ))]}
-		 * 				)
-		 * 				note: with !attacking, goal_squares and max_tier could reduce iterations number
-		 * 
+		 * <p>	Complexity (worst):				O( 6N (1 + applied_threats_n) * (lastCombination.length + nodes_created_n) )
+		 * <p>	*	so iterations number is lastCombination.length + currentDependency.length
+		 * <p>	Complexity (iteration)(worst):	O( 6N (1 + applied_threats_n) )
+		 * <p>	Complexity (iteration)(best):	O(1),		if ended state
+		 * <p>	*	all ignore visitGlobalDefense
 		 * @param attacker
 		 * @param attacking
 		 * @param lastDependency
@@ -259,15 +222,14 @@ public class DbSearch {
 		}
 		
 		/**
-		 * (see notes for findAllCombinationNodes() and class notes)
-		 * Complexity: 
-		 * 		= lastDependency.length * O(findAllCombinationNodes) + O(removeCombinationTTEntries)
-		 * 		= lastDependency.length * O( A.marked_threats.length + N**2 + 4 B.marked_threats.length(X + A.avg_threats_per_dir_per_line) + 432X**2 A.added_threats.length ) + O(lastCombination.length)
-		 * 		= lastDependency.length * O( A.marked_threats.length + N**2 + 4 B.marked_threats.length(X + A.avg_threats_per_dir_per_line) + 432X**2 A.added_threats.length )
-		 * 		= O(lastDependency.length * (A.marked_threats.length + N**2 + 4 B.marked_threats.length(X + A.avg_threats_per_dir_per_line) + 432X**2 A.added_threats.length )
-		 * 
-		 * -	betha:
-		 * 			= O(lastDependency.length * (A.marked_threats.length + 9N + 4X B.marked_threats.length + 4 B.marked_threats.length A.avg_threats_per_dir_per_line + 8X A.added_threats.length )
+		 * <p>	(see notes for findAllCombinationNodes() and class notes)
+		 * <p>
+		 * <p>	Complexity: same as findAllCombinationNodes() 
+		 * <p>
+		 * <p>	Complexity: O( (6N + added_threats_n * 3 * 16X) * combinations_created_n + N * lastDependency.length**2 )
+		 * <p>		*	added_threats_n for new combination
+		 * <p>		*	lastDependency.length**2 for each combination
+		 * <p>	Complexity (worst): O(16N * combinations_created_n + N * lastDependency.length**2 ),	if has to create all AlignmentsRows now
 		 * 
 		 * @param root
 		 * @param attacker
@@ -292,24 +254,10 @@ public class DbSearch {
 		}
 
 		/**
-		 * Complexity:
-		 * 		iteration: P(!end_game) * [O(getApplicableOperators) + O(applicable_threats_n * addDependantChild)] + P(endgame) * O(visitGlobalDefensive)
-		 * 				= P(!end_game) * {[P(applicable_threats_n==0) * O(6XN)] + [P(applicable_threats_n>0) * O( node.applicable_threats_n**2 * (27X**2 ))]} +
-		 * 				+ {P(endgame) P(attacking) * O(visitGlobalDefensive) + P(!attacking) * O(1) }
-		 * 				= P(!end_game) * {[P(applicable_threats_n==0) * O(6XN)] + [P(applicable_threats_n>0) * O( node.applicable_threats_n**2 * (27X**2 ))]} +
-		 * 				+ {P(endgame) P(attacking) * O(visitGlobalDefensive)}
-		 * 		case !end_game: O( 3X(M+N)	+ node.applicable_threats_n*(27X**2 + 4X + 64 + newChild.applicable_threats_n) )
-		 * 						= O( 3X2N	+ node.applicable_threats_n*(27X**2 + 4X + 64 + newChild.children_n) )
-		 * 						= O( 6XN	+ node.applicable_threats_n*(27X**2 + 4X + 64 + newChild.children_n) )
-		 * 			case applicable_threats_n=0: O(6XN)
-		 * 			case applicable_threats_n>0: O( node.applicable_threats_n*(27X**2 + 4X + 64 + newChild.applicable_threats_n) )
-		 * 										= O( node.applicable_threats_n**2 * (27X**2 ))
-		 * 										= O( node.applicable_threats_n**2 * (27X**2 ))
-		 * 										, assuming similar number of applicable threats.
-		 * 		case end_game: O(visitGlobalDefensive)
-		 * 						if attacking, else O(1)
-		 * 
-		 * 		, with P(X)=probability of X
+		 * <p>	Complexity (worst):				O( 6N (1 + applied_threats_n) * nodes_created_n )
+		 * <p>	Complexity (iteration)(worst):	O( 6N (1 + applied_threats_n) )
+		 * <p>	Complexity (iteration)(best):	O(1),		if ended state
+		 * <p>	*	all ignore visitGlobalDefense
 		 * @param lastDependency
 		 * @param node
 		 * @param root
@@ -380,17 +328,14 @@ public class DbSearch {
 		}
 
 		/**
-		 * Fill the `lastCombination` list. It will be checked for defenses (rare cases) in the next dependency stage.
-		 * Note that checking foundWin() wouldn't work for defensive visits
-		 * (where of course you haven't found a win yet, but you are proving one, and a defense is not a win).
-		 * 
-		 * Complexity:
-		 * 		iteration: O(validCombinationWith) + O(addCombinationChild)
-		 * 			no mc:
-		 * 				O( N + 4X B.marked_threats.length + 4 B.marked_threats.length A.avg_threats_per_dir_per_line + 432 X**2 added_threats.length )
-		 * 
-		 * 			betha:
-		 * 				O( 9N + 4X B.marked_threats.length + 4 B.marked_threats.length A.avg_threats_per_dir_per_line + 8X A.added_threats.length )
+		 * <p>	Fill the `lastCombination` list. It will be checked for defenses (rare cases) in the next dependency stage.
+		 * <p>	Note that checking foundWin() wouldn't work for defensive visits
+		 * <p>	(where of course you haven't found a win yet, but you are proving one, and a defense is not a win).
+		 * <p>
+		 * <p>	Complexity: O( (6N + added_threats_n * 3 * 16X) * combinations_created_n + N * lastDependency.length**2 )
+		 * <p>		*	added_threats_n for new combination
+		 * <p>		*	lastDependency.length**2 for each combination
+		 * <p>	Complexity (worst): O(16N * combinations_created_n + N * lastDependency.length**2 ),	if has to create all AlignmentsRows now
 		 * @param partner fixed node for combination
 		 * @param node iterating node for combination
 		 * @param attacking
@@ -422,16 +367,17 @@ public class DbSearch {
 
 	//#region CREATE
 
-		
+		/**
+		 * <p>	Complexity: O(6N)
+		 * <p>	-	O(10N), if M > 64
+		 */
 		protected DbNode createRoot(BoardBitDb B) {
 			return DbNode.copy(B, true, Operators.MAX_TIER, true);
 		}
 	
 		/**
-		 * Complexity: O(DbNode.copy )
-		 * 
-		 * 	 * 		with mc: O(3M + 10N + B.marked_threats.length + MN) = O(B.marked_threats.length + N**2 + 13N)
-	 * 		no mc: O(3M + 10N + B.marked_threats.length) = O(B.marked_threats.length + 13N)
+		 * <p>	Complexity: O(12N**2)
+		 * <p>	*	capped by findAllAlignments
 		 * @param root
 		 * @param athreats
 		 * @param attacker
@@ -479,19 +425,11 @@ public class DbSearch {
 		}
 
 		/**
-		 * Complexity:  O(27X**2 + 4X + 64) + O(node.applicable_threats_n)
-		 * sets child's game_state if entry exists in TT
-		 */
-				/**
-		 * sets child's game_state if entry exists in TT.
-		 * Complexity: 
-		 * 		O(node.getDependant) + O(node.children_n)
-		 * 		= O(64 + 4X + CheckAlignments) + O(node.applicable_threats_n)
-		 * 		= O(64 + 4X + 18(2X+second-first)**2 ) + O(node.applicable_threats_n)
-		 * 		= O(64 + 4X + 18(2X+X)**2 ) + O(node.applicable_threats_n)
-		 * 		= O(64 + 4X + 27X**2 ) + O(node.applicable_threats_n)
-		 * 		= O(27X**2 + 4X + 64) + O(node.applicable_threats_n)
-		 * @param first
+		 * <p>	Complexity: same as BoardBitDb.getDependant
+		 * <p>	-	Complexity: O(6N),
+		 * <p>	-	Complexity: O(16N),		if has to create AlignmentsRows now
+		 * <p>		*	capped by getCopy+checkAlignments
+		 * <p>
 		 */
 		protected DbNode addDependentChild(DbNode node, ThreatCells threat, int atk, LinkedList<DbNode> lastDependency) {
 			
@@ -503,28 +441,16 @@ public class DbSearch {
 
 			return newChild;
 		}
+
 		/**
-		 * Adding the child to both parents is useless, and also would create problems with infinite recursion/repetitions.
-		 * Only creates the child if the board wasn't already obtained by another combination in the same stage, of the same dbSearch (using TT, see class notes).
-		 * 
-		 * Complexity:
-		 * 		if !added: O(A.getCombined(B))
-		 *				= O(N**2 + 9N + 4X B.marked_threats.length + 4 B.marked_threats.length avg_threats_per_dir_per_line + 288X**2 added_threats.length )
-		 * 		if added: O(A.getCombined(B)) + O(hasAlignments) + O(A.addChild)
-		 *				= O(N**2 + 9N + 4X B.marked_threats.length + 4 B.marked_threats.length avg_threats_per_dir_per_line + 288X**2 added_threats.length + 6N + threats )
-		 *				= O(N**2 + 15N + 4X B.marked_threats.length + 4 B.marked_threats.length avg_threats_per_dir_per_line + 288X**2 added_threats.length )
-		 * 
-		 * 		anyway: 
-		 *				= O(N**2 + N + 4X B.marked_threats.length	+ 4 B.marked_threats.length avg_threats_per_dir_per_line + 288X**2 added_threats.length )
-		 *			no mc (worst case):
-		 *				= O(		N + 4X B.marked_threats.length	+ 4 B.marked_threats.length avg_threats_per_dir_per_line + 288X**2 added_threats.length )
-		 *
-		 *		betha:
-		 *		 		= O(	   9N + 4X B.marked_threats.length	+ 4 B.marked_threats.length avg_threats_per_dir_per_line + 8X A.added_threats.length ) 
-		 * 		
-		 * 		note: usually few children.
-		 * 
-		 * = O(marked_threats.length + N**2) + O(B.marked_threats.length * (16X * avg_threats_per_dir_per_line) )
+		 * <p>	Adding the child to both parents is useless, and also would create problems with infinite recursion/repetitions.
+		 * <p>	Only creates the child if the board wasn't already obtained by another combination in the same stage, of the same dbSearch (using TT, see class notes).
+		 * <p>
+		 * <p>	Complexity:	same as BoardBitDb.getCombined
+		 * <p>	-	Complexity (best):	O( 6N ), 	if nothing added
+		 * <p>	-	Complexity:			O( 6N + added_threats_n * 3 * 16X )
+		 * <p>		*	getCopy + findAlignment for each added threat, assuming its len 3 (avg)
+		 * <p>	-	Complexity (worst): O(16N),		if has to create all AlignmentsRows now
 		 * 
 		 */
 		private void addCombinationChild(DbNode A, DbNode B, LinkedList<DbNode> lastCombination, DbNode root, boolean attacking) {
@@ -553,8 +479,9 @@ public class DbSearch {
 
 
 		/**
-		 * Add to lastCombination all node's descendants.
-		 * Complexity: O(children_n)
+		 * <p>	Add to lastCombination all node's descendants.
+		 * <p>	Complexity: O(n)
+		 * <p>	*	n number of nodes in sub-tree added
 		 * @param node
 		 * @param lastCombination
 		 */
@@ -571,7 +498,7 @@ public class DbSearch {
 	//#region GET_SET
 
 		/**
-		 * Complexity: O(lastCombination.length)
+		 * Complexity: O(2 lastCombination.length (1 + alpha))
 		 * @param lastCombination
 		 * @param attacker
 		 */
@@ -591,9 +518,8 @@ public class DbSearch {
 		}
 	
 		/**
-		 * Complexity:
-		 * 		worst: O(4*athreats.length),
-		 * 		with 4 max threat length.
+		 * <p>	Complexity: O(4*athreats.length)
+		 * <p>	*	with 4 max threat length.
 		 * @param threats : threats to mark as goal squares
 		 * @param mark : true marks, false unmarks
 		 */
@@ -643,10 +569,10 @@ public class DbSearch {
 		}
 
 		/**
-		 * the tree is changed if either lastdCombination o lastDependency are not empty;
-		 * however, dependency nodes are created from other dependency nodes only in the same level,
-		 * so such iteration would be useless.
-		 * Complexity: O(1)
+		 * <p>	the tree is changed if either lastdCombination o lastDependency are not empty;
+		 * <p>	however, dependency nodes are created from other dependency nodes only in the same level,
+		 * 		so such iteration would be useless.
+		 * <p>	Complexity: O(1)
 		*/
 		private boolean isTreeChanged(LinkedList<DbNode> lastCombination) {
 			return lastCombination.size() > 0;

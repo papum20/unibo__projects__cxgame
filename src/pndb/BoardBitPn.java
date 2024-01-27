@@ -6,6 +6,9 @@ import pndb.tt.TranspositionTable;
 
 
 
+/**
+ * Complexities use N both for M and N, so imagine N is the max/avg.
+ */
 public class BoardBitPn extends BoardBit {
 	
 	public static TranspositionTable<TTPnNode, TTPnNode.KeyDepth> TTdag;
@@ -18,7 +21,8 @@ public class BoardBitPn extends BoardBit {
 
 
 	/**
-	 *  Complexity: O(3N) if M <= 64 else O(5N)
+	 *	<p>	Complexity: O(3N)
+	 *	<p>	-	O(5N), if M > 64
 	 * @param M
 	 * @param N
 	 * @param X
@@ -29,9 +33,21 @@ public class BoardBitPn extends BoardBit {
 		hash = 0;
 		this.player	= (byte)player;
 	}
+
+	/**
+	 *	<p>	Complexity: O(3N)
+	 *	<p>	-	O(5N), if M > 64
+	 * @param B
+	 */
 	public BoardBitPn(BoardBitPn B) {
 		copy(B);
 	}
+
+	/**
+	 *	<p>	Complexity: O(3N)
+	 *	<p>	-	O(5N), if M > 64
+	 * @param B
+	 */
 	public void copy(BoardBitPn B) {
 		super.copy(B);
 		hash	= B.hash;
@@ -48,8 +64,10 @@ public class BoardBitPn extends BoardBit {
 		super.mark(col, player);
 		player = Auxiliary.opponent(player);
 	}
+
 	/**
-	 * Complexity: O(4X)
+	 *	<p>	Complexity (worst):	O(4X)
+	 *	<p>	Complexity (best):	O(1)
 	 * @param col
 	 * @param attacker
 	 * @return GameState
@@ -73,7 +91,8 @@ public class BoardBitPn extends BoardBit {
 	//#region TT
 
 		/**
-		 * Get entry from TTdag.
+		 * <p>	Get entry from TTdag, for child obtained with move at `col`.
+		 * <p>	Complexity: O(1 + alpha)
 		 * @param hash node's hash
 		 * @param col set to col for node's child if want entry for child, else TTElementProved.COL_NULL
 		 * @param depth node's depth
@@ -85,25 +104,58 @@ public class BoardBitPn extends BoardBit {
 			TTdag.get(TTPnNode.setKey(key_dag, hash, depth))
 			: TTdag.get(TTPnNode.setKey(key_dag, TranspositionTable.getHash(hash, free[col], col, Auxiliary.getPlayerBit(player)), depth + 1));
 		}
+
+		/**
+		 * <p>	Get entry from TTdag, for parent obtained undoing move at `col`.
+		 * <p>	Complexity: O(1 + alpha)
+		 * @param col
+		 * @param depth
+		 * @return
+		 */
 		public TTPnNode getEntryParent(int col, int depth) {
 			return TTdag.get(TTPnNode.setKey(key_dag, TranspositionTable.getHash(hash, free[col] - 1, col, Auxiliary.getPlayerBit(Auxiliary.opponent(player))), depth - 1));
 		}
+
+		/**
+		 * <p>	Add node to TTdag.
+		 * <p>	Complexity: O(1)
+		 * @param node
+		 */
 		public void addEntry(TTPnNode node) {
 			TTdag.insert(hash, node);
-			TTdag.count++;
+			//TTdag.count++;
 		}
+
+		/**
+		 * <p>	Remove node from TTdag.
+		 * <p>	Complexity: O(1 + alpha)
+		 */
 		public void removeEntry(int depth) {
 			TTdag.remove(TTPnNode.setKey(key_dag, hash, depth));
-			TTdag.count--;
+			//TTdag.count--;
 		}
+
+		/**
+		 * <p>	Get entry from TTproved, for child obtained with move at `col`.
+		 * <p>	Complexity: O(1 + alpha)
+		 * @param col
+		 * @param depth
+		 * @return
+		 */
 		public TTElementProved getEntryProved(int col, int depth) {
 			return (col == TTElementProved.COL_NULL) ? 
 			TTproved.get(TTElementProved.setKey(key_proved, hash, depth))
 			: TTproved.get(TTElementProved.setKey(key_proved, TranspositionTable.getHash(hash, free[col], col, Auxiliary.getPlayerBit(player)), depth + 1));
 		}
+
+		/**
+		 * <p>	Add node to TTproved.
+		 * <p>	Complexity: O(1)
+		 * @param node
+		 */
 		public void addEntryProved(TTElementProved node) {
 			TTproved.insert(hash, node);
-			TTproved.count++;
+			//TTproved.count++;
 		}
 	
 	//#endregion TT

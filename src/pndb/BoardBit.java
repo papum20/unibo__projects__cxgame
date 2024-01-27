@@ -11,6 +11,9 @@ import pndb.constants.MovePair;
 
 
 
+/**
+ * Complexities use N both for M and N, so imagine N is the max/avg.
+ */
 public class BoardBit {
 	
 	//#region CONSTANTS
@@ -37,7 +40,8 @@ public class BoardBit {
 
 
 	/**
-	 *  Complexity: O(3N) if M <= 64 else O(5N)
+	 *	<p>	Complexity: O(3N)
+	 *	<p>	-	O(5N), if M > 64
 	 * @param M
 	 * @param N
 	 * @param X
@@ -48,8 +52,9 @@ public class BoardBit {
 		game_state = GameState.OPEN;
 	}
 	/**
-	 * Copy all.
-	 * Complexity: O(N * COL_SIZE(M))) = O(N) if M <= 64 else O(2N)
+	 *	<p>	Copy all.
+	 *	<p>	Complexity: O(6N)
+	 *	<p>	-	O(10N), if M > 64
 	 * @param B to copy
 	 */
 	public BoardBit(BoardBit B) {
@@ -57,8 +62,9 @@ public class BoardBit {
 		copy(B);
 	}
 	/**
-	 * Copy all.
-	 * Complexity: O(N * COL_SIZE(M))) = O(N) if M <= 64 else O(2N)
+	 *	<p>	Copy all.
+	 *	<p>	Complexity: O(3N)
+	 *	<p>	-	O(5N), if M > 64
 	 * @param B to copy
 	 */
 	public void copy(BoardBit B) {
@@ -89,8 +95,9 @@ public class BoardBit {
 		free_n--;
 	}
 	/**
-	 * Check game state, only if it's OPEN.
-	 * Complexity: O(4X)
+	 *	<p>	Check game state, only if it's OPEN.
+	 *	<p>	Complexity (worst):	O(4X)
+	 *	<p>	Complexity (best):	O(1)
 	 * @param i
 	 * @param j
 	 * @param player
@@ -106,8 +113,9 @@ public class BoardBit {
 		
 	}
 	/**
-	 * Mark and check game state, only if it's OPEN.
-	 * Complexity: O(4X)
+	 *	<p>	Mark and check game state, only if it's OPEN.
+	 *	<p>	Complexity (worst):	O(4X)
+	 *	<p>	Complexity (best):	O(1)
 	 * @param col
 	 * @param player
 	 * @return GameState
@@ -116,7 +124,7 @@ public class BoardBit {
 		mark(col, player);
 		return check(free[col] - 1, col, player);
 	}
-
+	
 	/**
 	 * Complexity: O(1)
 	 */
@@ -126,7 +134,7 @@ public class BoardBit {
 		board[col][free[col] / BITSTRING_LEN]		&= ~((long)1 << (free[col] % BITSTRING_LEN));
 		board_mask[col][free[col] / BITSTRING_LEN]	^= (long)1 << (free[col] % BITSTRING_LEN);
 		free_n++;
-
+		
 		game_state = GameState.OPEN;
 	}
 
@@ -139,38 +147,38 @@ public class BoardBit {
 	protected boolean isWinningMove(int i, int j) {
 		long	mask_ij = 1 << (i % BITSTRING_LEN);
 		long	s		= (board[j][i / BITSTRING_LEN] & mask_ij)		>> (i % BITSTRING_LEN),
-				s_mask	= (board_mask[j][i / BITSTRING_LEN] & mask_ij)	>> (i % BITSTRING_LEN);
+		s_mask	= (board_mask[j][i / BITSTRING_LEN] & mask_ij)	>> (i % BITSTRING_LEN);
 		long mask = mask_ij;
 		int n;
 		int k;
-
+		
 		// Horizontal check
 		n = 1;
 		for (k = j-1;
-			k >= 0 &&
-			(board[k][i / BITSTRING_LEN] & mask_ij)			== s * mask_ij &&
-			(board_mask[k][i / BITSTRING_LEN] & mask_ij)	== s_mask * mask_ij;
+		k >= 0 &&
+		(board[k][i / BITSTRING_LEN] & mask_ij)			== s * mask_ij &&
+		(board_mask[k][i / BITSTRING_LEN] & mask_ij)	== s_mask * mask_ij;
 			k--) n++; // backward check
-		for (k = j+1;
+			for (k = j+1;
 			k < N &&
 			(board[k][i / BITSTRING_LEN] & mask_ij)			== s * mask_ij &&
 			(board_mask[k][i / BITSTRING_LEN] & mask_ij)	== s_mask * mask_ij;
 			k++) n++; // forward check
-		if (n >= X) return true;
-
-		// Vertical check
-		n = 1;
-		for (k = i-1, mask = (long)1 << (k % BITSTRING_LEN);
+			if (n >= X) return true;
+			
+			// Vertical check
+			n = 1;
+			for (k = i-1, mask = (long)1 << (k % BITSTRING_LEN);
 			k >= 0
 			&& (board[j][k / BITSTRING_LEN] & mask)			== s * mask
 			&& (board_mask[j][k / BITSTRING_LEN] & mask)	== s_mask * mask
 			; k--, mask = (long)1 << (k % BITSTRING_LEN)
-		)
+			)
 			n++;
-		if (n >= X) return true;
+			if (n >= X) return true;
 			
-		// Diagonal check
-		n = 1;
+			// Diagonal check
+			n = 1;
 		for (k = 1, mask = (long)1 << ((i-k) % BITSTRING_LEN); 
 			i-k >= 0 && j-k >= 0 &&
 			(board[j-k][(i-k) / BITSTRING_LEN] & mask)		== s * mask &&
@@ -292,6 +300,7 @@ public class BoardBit {
 		 * Complexity: O(1)
 		 */
 		public byte gameState() {return game_state;}
+		
 		/**
 		 * Complexity: O(N)
 		 * @return depth
@@ -309,6 +318,7 @@ public class BoardBit {
 
 		/**
 		 * How many bitstrings (long) a column of col_cells cells takes.
+		 * <p>
 		 * Complexity: O(1)
 		 * @param col_cells
 		 * @return
@@ -320,7 +330,9 @@ public class BoardBit {
 	//#region INIT
 
 		/**
-		 * Complexity: O(2 * (N * COL_SIZE(M)) + N + 1) = O(3N) if M <= 64 else O(5N)
+		 *	<p>	Complexity: O(3N)
+		 * 	<p>	-	O(2 * (N * COL_SIZE(M)) + N + 1)
+		 * 	<p>	-	O(5N), if M > 64
 		 */
 		protected void createStructures() {
 			board		= new long[N][COL_SIZE(M)];

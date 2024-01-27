@@ -47,6 +47,11 @@ public class ThreatCells {
 		return -1;
 	}
 	
+	/**
+	 * Complexity: O(related.length)
+	 * @param atk
+	 * @return
+	 */
 	public MovePair[] getDefensive(int atk) {
 		if(related.length <= 1) return null;
 		MovePair[] defensive = new MovePair[related.length - 1];

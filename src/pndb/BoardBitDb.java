@@ -11,19 +11,23 @@ import pndb.constants.CellState;
 import pndb.constants.GameState;
 import pndb.constants.MovePair;
 import pndb.constants.Constants.BoardsRelation;
-import pndb.threats.AlignmentsList;
-import pndb.threats.BiList_ThreatPos;
 import pndb.threats.ThreatApplied;
 import pndb.threats.ThreatCells;
 import pndb.threats.ThreatPosition;
 import pndb.threats.ThreatCells.USE;
 import pndb.tt.TTElementBool;
 import pndb.tt.TranspositionTable;
+import pndb.structures.AlignmentsRows;
+import pndb.structures.BiList_ThreatPos;
 import pndb.structures.BiList.BiNode;
 
 
 
-
+/**
+ * <p>	1.	Complexities use N both for M and N, so imagine N is the max/avg.
+ * <p>	2.	Most complexities are capped by something like 10N, because alignments_by_dir are created only when needed,
+ * 			so, of course, they're actually only created once per board.
+ */
 public class BoardBitDb extends BoardBit {
 	
 
@@ -61,7 +65,7 @@ public class BoardBitDb extends BoardBit {
 	 * dright:		dimension=M+N-1,	indexed: by start of diagonal on the top row, i.e. from -M+1 to N-1
 	 * dleft:		dimension=M+N-1,	indexed: by start of diagonal on the top row, i.e. from 0 to N+M-1
 	 */
-	protected AlignmentsList[] alignments_by_dir;
+	protected AlignmentsRows[] alignments_by_dir;
 	private short alignments_n;
 	
 	protected byte attacker;
@@ -94,8 +98,8 @@ public class BoardBitDb extends BoardBit {
 
 
 	/**
-	 * Complexity: O(3N)
-	 * 		= O(9N)
+	 *	<p>	Complexity: O(3N)
+	 *	<p>	-	O(5N), if M > 64
 	 * @param M
 	 * @param N
 	 * @param X
@@ -110,12 +114,14 @@ public class BoardBitDb extends BoardBit {
 		attacker = 0;
 		hash = 0;
 		
-		alignments_by_dir = new AlignmentsList[DIR_ABS_N];
+		alignments_by_dir = new AlignmentsRows[DIR_ABS_N];
 		markedThreats = new LinkedList<ThreatApplied>();
 	}
 
 	/**
-	 * Complexity: O(3N + N) = O(4N)
+	 *	<p>	Copy all except threats, and set player.
+	 *	<p>	Complexity: O(6N)
+	 *	<p>	-	O(10N), if M > 64
 	 * @param B
 	 */
 	protected BoardBitDb(BoardBit B, byte player) {
@@ -128,13 +134,14 @@ public class BoardBitDb extends BoardBit {
 		attacker = player;
 		hash = 0;
 		
-		alignments_by_dir = new AlignmentsList[DIR_ABS_N];
+		alignments_by_dir = new AlignmentsRows[DIR_ABS_N];
 		markedThreats = new LinkedList<ThreatApplied>();
 	}
 	
 	/**
-	 * Complexity: O(3N + 6N copy_threats + N)
-	 * <p>	= O(4N) if(copy_threats) else O(10N)
+	 * <p>	Copy all and optionally copy threats.
+	 * <p>	Complexity: O(6N)
+	 * <p>	-	O(10N), if M > 64
 	 * @param B
 	 * @param copy_threats
 	 */
@@ -150,29 +157,30 @@ public class BoardBitDb extends BoardBit {
 		hash = 0;
 		
 		if(copy_threats)
-			alignments_by_dir = new AlignmentsList[]{
-				(B.alignments_by_dir[0] != null) ? new AlignmentsList(B.alignments_by_dir[0]) : null,
-				(B.alignments_by_dir[1] != null) ? new AlignmentsList(B.alignments_by_dir[1]) : null,
-				(B.alignments_by_dir[2] != null) ? new AlignmentsList(B.alignments_by_dir[2]) : null,
-				(B.alignments_by_dir[3] != null) ? new AlignmentsList(B.alignments_by_dir[3]) : null
+			alignments_by_dir = new AlignmentsRows[]{
+				(B.alignments_by_dir[0] != null) ? new AlignmentsRows(B.alignments_by_dir[0]) : null,
+				(B.alignments_by_dir[1] != null) ? new AlignmentsRows(B.alignments_by_dir[1]) : null,
+				(B.alignments_by_dir[2] != null) ? new AlignmentsRows(B.alignments_by_dir[2]) : null,
+				(B.alignments_by_dir[3] != null) ? new AlignmentsRows(B.alignments_by_dir[3]) : null
 			};
-		else alignments_by_dir = new AlignmentsList[DIR_ABS_N];
+		else alignments_by_dir = new AlignmentsRows[DIR_ABS_N];
 		markedThreats = new LinkedList<ThreatApplied>(B.markedThreats);	//copy marked threats
 		
 		copy(B);
 	}
 	
 	/**
-	 * Complexity: O(3N + 6N copy_threats + N)
-	 * <p>	= O(4N) if(copy_threats) else O(10N)
+	 * <p>	Complexity: O(6N)
+	 * <p>	-	O(10N), if M > 64
 	 */
 	public BoardBitDb getCopy(boolean copy_threats) {
 		return new BoardBitDb(this, copy_threats);
 	}
 	
 	/**
-	 * Complexity: O(N*COLSIZE(M))  
-	 * 	<p>	= O(N)
+	 *	<p>	Copy all.
+	 *	<p>	Complexity: O(3N)
+	 *	<p>	-	O(5N), if M > 64
 	 * @param B
 	 */
 	public void copy(BoardBitDb B) {
@@ -196,11 +204,10 @@ public class BoardBitDb extends BoardBit {
 	//#region BOARD
 
 		/**
-		 * Mark an arbitrary cell. Use with caution.
-		 * <p>
-		 * Increases free[] anyway.
-		 * <p>
-		 * Complexity:  O(4 + alignments_involving(cell) )
+		 * <p>	Mark an arbitrary cell. Use with caution.
+		 * <p>	Increases free[] anyway.
+		 * <p>	Complexity:  O(1)
+		 * <p>	-	Complexity: O(1 + removeAlignments)
 		 * @param col
 		 * @param player
 		 * @return GameState
@@ -215,15 +222,22 @@ public class BoardBitDb extends BoardBit {
 
 			removeAlignments(new MovePair(i, j), Auxiliary.opponent(player));
 		}
+
+		/**
+		 * <p>	Complexity: O(1)
+		 */
 		@Override
 		public void mark(int col, byte player) {
 			hash = TranspositionTable.getHash(hash, free[col], col, Auxiliary.getPlayerBit(player));
 			super.mark(col, player);
 		}
+
 		/**
-		 * Mark cell; also remove opponent's alignments, but doesn't find new ones.
-		 * <p>
-		 * Complexity: O(4X + alignments_involving(cell))
+		 * <p>	Mark cell; also remove opponent's alignments, but doesn't find new ones.
+		 * <p>	Complexity (worst):	O(4X)
+		 * <p>	Complexity (best):	O(1)
+		 * <p>	-	Complexity (worst):	O(4X +	removeAlignments)
+		 * <p>	-	Complexity (best):	O(1	+	removeAlignments)
 		 * @param i
 		 * @param j
 		 * @param player
@@ -234,19 +248,29 @@ public class BoardBitDb extends BoardBit {
 		}
 		
 		/**
-		 * Complexity: O(4X + alignments_involving(cell) )
+		 * <p>	Complexity (worst):	O(4X)
+		 * <p>	Complexity (best):	O(1)
+		 * <p>	-	Complexity (worst):	O(4X +	removeAlignments)
+		 * <p>	-	Complexity (best):	O(1	+	removeAlignments)
 		 */
 		public void mark(MovePair cell, byte player) {mark(cell.i, cell.j, player);}
+
 		/**
-		 * Complexity: O(16 (X + AVG_THREATS_PER_DIR_PER_LINE)),
-		 * 		considering that it's usually used for marking threats.
+		 * <p>	Complexity (worst):	O(cells.len * 4X)
+		 * <p>	Complexity (best):	O(cells.len * 1)
+		 * <p>	*	cells are usually only a few threat cells
+		 * <p>	*	having common als, remove works less
 		 */
 		public void markMore(MovePair[] cells, byte player) {
 			for(MovePair c : cells) mark(c.i, c.j, player);
 		}
+
 		/**
-		 * Complexity: O(16*AVG_THREATS_PER_DIR_PER_LINE + 4X),
-		 * 		as only one move is for the atttacker.
+		 * <p>	Complexity (worst): O(16X)
+		 * <p>	Complexity (worst):	O(related.len * 4X)
+		 * <p>	Complexity (best):	O(related.len * 1)
+		 * <p>	*	related are usually only a few
+		 * <p>	*	having common als, remove works less
 		 */
 		public void markThreat(MovePair[] related, int atk_index) {
 
@@ -260,6 +284,10 @@ public class BoardBitDb extends BoardBit {
 				}
 			}
 		}
+
+		/**
+		 * Complexity: O(1)
+		 */
 		@Override
 		public void unmark(int col) {
 			hash = TranspositionTable.getHash(hash, free[col] - 1, col, _cellState(free[col] - 1, col));
@@ -267,11 +295,9 @@ public class BoardBitDb extends BoardBit {
 		}
 
 		/**
-		 * Complexity: 
-		 *  -	best case: O(4X)
-		 * 	-	worst and avg: O(1132 X**2)
-		 * 
-		 * 	-	betha: O(8X)
+		 * <p>	Complexity (best):		O(4X),	if isWinningMove
+		 * <p>	Complexity (best):		O(16X),	if findAlignments
+		 * <p>	Complexity (worst/avg):	O(10N),	if findAlignments, and has to create all AlignmentsRows now
 		 * @param cell
 		 * @param max_tier
 		 * @param dir_excluded
@@ -287,18 +313,17 @@ public class BoardBitDb extends BoardBit {
 			}
 		}
 		/**
-		 * Complexity: 
-		 *  -	best case (single cell): O(checkAlignments) 	-- the other one
-		 * 	-	worst case (more cells): O( 4*(checkAlignments + findAlignmentsInDirection) )
-		 * 			= O( 4836 X**2 )
-		 * 			as usually used for threats, which have consecutive cells
-		 * 
-		 *  -	betha: O(40X)
+		 * <p>	Complexity (best):	O(4X),	if isWinningMove
+		 * <p>	Complexity (best):	O(16X),	if 1 cell
+		 * <p>	Complexity (best):	O(70X), if more cells
+		 * <p>	-	= O(4*16X + 6X)
+		 * <p>	Complexity (worst):	O(10N),	if has to create all AlignmentsRows now
 		 */
 		public void checkAlignments(MovePair[] cells, int max_tier) {
 			if(cells.length == 1) {
 				checkAlignments(cells[0], max_tier, -1);
 			} else {
+				// only check the common direction once
 				MovePair dir = cells[0].getDirection(cells[1]);
 				int dir_index = dirIdx_fromDir(dir);
 
@@ -320,12 +345,11 @@ public class BoardBitDb extends BoardBit {
 	//#region DB_SEARCH
 
 		/**
-		 * Complexity: (all assuming check_threats=true, otherwise don't consider that)
-		 * 	-	case atk: O(16X * 4 + CheckAlignments ) = O(64X CheckAlignments)
-		 * 	-	case def: O(64X * 4) = O(256X)
-		 * 			( + CheckAlignments), performed in DbSearch.defensiveVisit
-		 * 	-	case bth: O(16 * 4 + 4X + CheckAlignments ) = O(64 + 4X + CheckAlignments)
-		 * 	note: using getCopy(false), no threat to remove.
+		 * <p>	Complexity, def: O(6N),		capped by getCopy
+		 * <p>	Complexity, bth: O(6N),		if not check_threats,	capped by getCopy
+		 * <p>	Complexity, bth: O(16N),	if check_threats and has to create AlignmentsRows now
+		 * <p>	*	capped by getCopy+checkAlignments
+		 * <p>
 		 * @param threat as defined in Operators
 		 * @param atk attacker's move index in threat
 		 * @param use whose threat cells to add
@@ -366,11 +390,11 @@ public class BoardBitDb extends BoardBit {
 		}
 		
 		/**
-		 * Only checks for alignments not included in the union of A's and B's alignments, i.e. those which involve at  least one cell only present in A and one only in B.
-		 *	Complexity: O(getCopy + B.markedThreats.length 4 res + added_threats O(findAlignments(cell)) )
-		 *		= O(10N + B.markedThreats.length + B.markedThreats.length 4 (4X + alignments_involving(cells)) + added_threats 8X )
-		 *		= O(10N + 16X B.markedThreats.length + 8X added_threats)	// alignments_involving(cell) are probably less than 4X
-		 *		= O(10N + 24X B.markedThreats.length)						// if all B's threats were added (worst case)
+		 * <p>	Only checks for alignments not included in the union of A's and B's alignments, i.e. those which involve at  least one cell only present in A and one only in B.
+		 * <p>	Complexity (best):	O( 6N ), 	if nothing added
+		 * <p>	Complexity:			O( 6N + added_threats_n * 3 * 16X )
+		 * <p>	*	getCopy + findAlignment for each added threat, assuming its len 3 (avg)
+		 * <p>	Complexity (worst): O(16N),		if has to create all AlignmentsRows now
 		 */
 		public BoardBitDb getCombined(BoardBitDb B, int max_tier) {
 
@@ -404,9 +428,11 @@ public class BoardBitDb extends BoardBit {
 		}
 
 		/**
-		 * Check if a combination with node is valid, i.e. if they're not in conflict and both have a marked cell the other doesn't.
-		 * Assumes both boards have the same `MY_PLAYER` (i.e. the same bit-byte association for players).
-		 * Complexity: O(N COLSIZE(M)) = O(N)
+		 * <p>	Check if a combination with node is valid, i.e. if they're not in conflict and both have a marked cell the other doesn't.
+		 * <p>	Assumes both boards have the same `MY_PLAYER` (i.e. the same bit-byte association for players).
+		 * <p>
+		 * <p>	Complexity: O(N)
+		 * <p>	-	O(2N), if M > 64
 		 * @param B
 		 * @param attacker
 		 * @return
@@ -470,7 +496,8 @@ public class BoardBitDb extends BoardBit {
 		//#region ALIGNMENTS
 
 			/**
-			 * Complexity: O(4 + alignments_involving(cell) )
+			 * <p>	Complexity: O(1)
+			 * <p>	-	O(4 + als_involving_center), usually not many
 			 * @param center
 			 * @param player
 			 */
@@ -483,19 +510,19 @@ public class BoardBitDb extends BoardBit {
 					if(alignments_by_dir[d] == null)
 						continue;
 
-					BiList_ThreatPos alignments_in_line = alignments_by_dir[d].get(getIndex_for_alignmentsByDir(DIRECTIONS[d], center));
+					BiList_ThreatPos als_in_row = alignments_by_dir[d].get(getIndex_for_alignmentsByDir(DIRECTIONS[d], center));
 
-					if(alignments_in_line != null) {
-						BiNode<ThreatPosition>	p = alignments_in_line.getFirst(player),
-												p_next;
+					if(als_in_row != null) {
+						BiNode<ThreatPosition>	al = als_in_row.getFirst(player),
+												al_next;
 						
-						while(p != null) {
-							p_next = p.next;
+						while(al != null) {
+							al_next = al.next;
 
-							if(center.inBetween_included(p.item.start, p.item.end))
-								removeAlignmentNode(alignments_in_line, p, player);
+							if(center.inBetween_included(al.item.start, al.item.end))
+								removeAlignmentNode(als_in_row, al, player);
 
-							p = p_next;
+							al = al_next;
 						}
 					}
 				}
@@ -504,12 +531,15 @@ public class BoardBitDb extends BoardBit {
 
 
 			/**
-			 * Return the first/last (depending on parameter `find_first`) cell containing `target`, moving from `start`, with increment `incr`,
-			 * for a max distance of `max_distance` (excluded).
-			 * Stop if finds a cell containing `stop_value` (excluded), or if reaches `stop_cell` (excluded), or if `only_target` is true and finds
-			 * something different from target (in case of `only_target`, `stop_value` is not considered).
-			 * 
-			 * Complexity: variable, max O(max{M,N})
+			 * <p>	Return the first/last (depending on parameter `find_first`) cell containing `target`, moving from `start`, with increment `incr`,
+			 * 		for a max distance of `max_distance` (excluded).
+			 * <p>	Stop if finds a cell containing `stop_value` (excluded), or if reaches `stop_cell` (excluded), or if `only_target` is true and finds
+			 * 		something different from target (in case of `only_target`, `stop_value` is not considered).
+			 * <p>
+			 * <p>	note: this function could be simplified, as is used only once.
+			 * <p>
+			 * <p>	Complexity: O(3)
+			 * <p>	*	considering the only way it's used
 			 * @param res where the result is stored.
 			 * @param start
 			 * @param incr
@@ -523,7 +553,9 @@ public class BoardBitDb extends BoardBit {
 			 * @param dir_index
 			 * @return the distance found
 			 */
-			protected int _findOccurrenceUntil(MovePair res, final MovePair start, MovePair incr, int max_distance, byte target, byte stop_value, boolean only_target, boolean find_first, boolean only_valid, int dir_index) {
+			protected int _findOccurrenceUntil(MovePair res, final MovePair start, MovePair incr,
+				int max_distance, byte target, byte stop_value, boolean only_target, boolean find_first, boolean only_valid, int dir_index
+			) {
 				
 				int distance;
 
@@ -543,7 +575,9 @@ public class BoardBitDb extends BoardBit {
 			}
 
 			/**
-			 * note: no max_tier, must check before calling.
+			 * <p>	note: no max_tier, must check before calling.
+			 * <p>	Complexity (best): O(6),	checks all als of 1 type
+			 * <p>	Complexity (worst): O(2N),	if has to create an AlignmentsRows
 			 * @param dir_index
 			 * @param player
 			 * @param lined
@@ -582,9 +616,11 @@ public class BoardBitDb extends BoardBit {
 			}
 
 			/**
-			 * Check for alignments for all values of before (decreasing it up to 0);
-			 * also check for tier <= max_tier.
-			 * 
+			 * <p>	Check for alignments for all values of before (decreasing it up to 0);
+			 * <p>	also check for tier <= max_tier.
+			 * <p>	Complexity (best): O(18),	if has to check all values for before, for all al types of 1 tier
+			 * <p>	Complexity (worst): O(2N),	if has to create an AlignmentsRows
+			 * <p>	Complexity (best):	O(1),	if wrong tier
 			 * @param dir_index
 			 * @param player
 			 * @param lined
@@ -608,18 +644,22 @@ public class BoardBitDb extends BoardBit {
 			}
 			
 			/**
-			 * invariants:
-			 * -	c1 and c2 indicate the first and last mark of a possible alignment (otehrwise, the priority is to bring both on a player's cell);
-			 * -	lined = c2-c1 : length of the alignment (excluding outer free cells);
-			 * -	marks : number of marks in range c1-c2;
-			 * -	in = lined - marks : number of free cells in range c1-c2;
-			 * -	before, after: trailing and lookahead number of free cells, constantly kept updated not to go beyond max value
-			 * 		(before is initialized correctly as a parameter, while after is checked in a recursion condition);
-			 * -	c3 = c2 + after : lookahead;
-			 * 
-			 * note: the second extreme is always excluded from counting the alignment (c1, c2, after..).
-			 * efficiency: c2 and c3 neveg go back
-			 * 
+			 * <p>	invariants:
+			 * <p>	-	c1 and c2 indicate the first and last mark of a possible alignment (otehrwise, the priority is to bring both on a player's cell);
+			 * <p>	-	lined = c2-c1 : length of the alignment (excluding outer free cells);
+			 * <p>	-	marks : number of marks in range c1-c2;
+			 * <p>	-	in = lined - marks : number of free cells in range c1-c2;
+			 * <p>	-	before, after: trailing and lookahead number of free cells, constantly kept updated not to go beyond max value
+			 * 			(before is initialized correctly as a parameter, while after is checked in a recursion condition);
+			 * <p>	-	c3 = c2 + after : lookahead;
+			 * <p>
+			 * <p>	note: the second extreme is always excluded from counting the alignment (c1, c2, after..).
+			 * <p>	efficiency: c2 and c3 neveg go back
+			 * <p>
+			 * <p>	Complexity (best):	O(2 * (second - first + 2X)),		nothing found/either c1 or c2 advance
+			 * <p>	Complexity (worst):	O( 2N + 18 * possible_als_found),	if found als, and has to create AlignmentsRows
+			 * <p>	*	note that only 1 AlignmentsRows can be added, in 1 same direction
+			 * <p>	*	with possible_als_found=number of calls for addAllValidAlignments
 			 * @param second limit (included)
 			 * @param dir
 			 * @param player
@@ -752,22 +792,24 @@ public class BoardBitDb extends BoardBit {
 			}
 
 			/**
-			 * Find all alignments involving at least one cell between the aligned first, second.
-			 * Also, if check1 and check2 != null, checks that the new threat involves at least one cell only present in 1, and one only in 2.
-			 * 
-			 * 1 -	the cells whose alignments will change are those at max distance K-1 from this;
-			 * 2 -	considering the algorithm is correct, we assume they already have associated, if already
-			 * 		existed, alignments from K-MIN_SYM_LINE to K-1 symbols (if existed of K, the game would be ended);
-			 * 3 -	that said, we will only need to increase existing alignments by 1 symbol, and to add
-			 * 		new alignments of K-MIN_SYM_LINE.
-			 * HOWEVER, this will be a future enhancement: for now, the function simply deletes and recreates all.  
-			 * 
-			 * Complexity: variable, worst cases (with worst approximation):
-			 * 	-	whole line: O(2N)
-			 *  -	single cell: O(4X)
-			 * 			as c1, c3 pass (at most) on each of the 2X (whole line: 2N) cells involving the cell.
-			 *  -	sequence: O( 2X+(second-first) )
-			 * 				= O(3X) if second-first==X
+			 * <p>	Find all alignments involving at least one cell between the aligned first, second.
+			 * <p>	Also, if check1 and check2 != null, checks that the new threat involves at least one cell only present in 1, and one only in 2.
+			 * <p>	
+			 * <p>	1 -	the cells whose alignments will change are those at max distance K-1 from this;
+			 * <p>	2 -	considering the algorithm is correct, we assume they already have associated, if already
+			 *			existed, alignments from K-MIN_SYM_LINE to K-1 symbols (if existed of K, the game would be ended);
+			 * <p>	3 -	that said, we will only need to increase existing alignments by 1 symbol, and to add
+			 * 			new alignments of K-MIN_SYM_LINE.
+			 * <p>	HOWEVER, this will be a future enhancement: for now, the function simply deletes and recreates all.  
+			 * <p>
+			 * <p>	Complexity (best):	O( 2 * (second - first + 2X) ),		nothing found/either c1 or c2 advance
+			 * <p>	-	O(2N),	if whole row
+			 * <p>	-	O(4X),	if single cell
+			 * <p>	Complexity (worst):	O( 6N + 18 * possible_als_found ),	if found als, and has to create AlignmentsRows
+			 * <p>	*	note: as 3 * _findAlignmentsInDirection
+			 * <p>	*	note that only 1 AlignmentsRows can be added, in 1 same direction
+			 * <p>	*	with possible_als_found=number of calls for addAllValidAlignments
+			 * <p>
 			 * @param first
 			 * @param second
 			 * @param player
@@ -811,11 +853,13 @@ public class BoardBitDb extends BoardBit {
 			}
 
 			/**
-			 * Find alignments for a cell in all directions.
-			 * <p>
-			 * Complexity: O(iterations O(findAlignmentsInDirection(cell)) )
-			 * <p>	= O(12X)
-			 * 
+			 * <p>	Find alignments for a cell in all directions.
+			 * <p>	Complexity (approx):	O(10N),	if adds all AlignmentsRows now
+			 * <p>	Complexity (best):		O(16X)
+			 * <p>	Complexity (worst):		O( 10N + 18 * possible_als_found ),	if found als, and has to create AlignmentsRows
+			 * <p>	*	4 * findAlignmentsInDirection for single cell
+			 * <p>	*	with possible_als_found=number of calls for addAllValidAlignments
+			 * <p>	*	10N results from 3 directions * 3 stacked, +1 for vertical direction
 			 * @param stacked see `findAlignmentsInDireciton` (to init to 0)
 			 */
 			protected void findAlignments(final MovePair cell, final byte player,
@@ -828,10 +872,10 @@ public class BoardBitDb extends BoardBit {
 			}
 			
 			/**
-			 * Find all alignments for a player.
-			 * <p>
-			 * Complexity: O(iterations O(findAlignmentsInDirection)) = O(6 N 2N) =
-			 * 	<p>		= O(12 N**2)
+			 * <p>	Find all alignments for a player.
+			 * <p>	Complexity (all):	O( 12N**2 )
+			 * <p>	*	6N * findAlignmentsInDirection
+			 * <p>	*	number of rows scanned covers other costs
 			 * @param attacker
 			 * @param max_tier
 			 */
@@ -850,15 +894,19 @@ public class BoardBitDb extends BoardBit {
 				}
 			}
 
+			/**
+			 * Complexity: O(1)
+			 * @param idx
+			 * @return
+			 */
 			private int alignmentsByDirSize(int idx) {
 				if(idx == 0) return M;
 				else if(idx == 1 || idx == 3) return M + N - 1;
 				else return N;
 			}
 			/**
-			 * Index for alignments_by_direction.
-			 * <p>
-			 * Complexity: O(1)
+			 * <p>	Index for alignments_by_direction.
+			 * <p>	Complexity: O(1)
 			 * @return the index where, in alignments_by_direction, is contained position in direction dir
 			 */
 			protected int getIndex_for_alignmentsByDir(MovePair dir, MovePair position) {
@@ -869,10 +917,10 @@ public class BoardBitDb extends BoardBit {
 			}
 
 			/**
-			 * Complexity: 
-			 * -	one call: O(1)
-			 * -	single iteration: M, N, M+N-1, M+N-1 for each direction (col, row, diag, anti-diag)
-			 * -	all directions: O(M + N + M+N-1 + M+N-1) = O(3(M+N)) = O(6N)
+			 * <p>	Complexity: 
+			 * <p>	-	one call: O(1)
+			 * <p>	-	single iteration:	M, N, M+N-1, M+N-1 for each direction (col, row, diag, anti-diag)
+			 * <p>	-	all directions:		O(6N)
 			 * @param start
 			 * @param dir_index
 			 * @return
@@ -907,7 +955,8 @@ public class BoardBitDb extends BoardBit {
 
 
 			/**
-			 * Complexity: O(4), where 4 is the max number of cells in an appliedThreat
+			 * <p>	Complexity: O(1)
+			 * <p>	-	Complexity (worst): O(4), threat.related are only a few
 			 * @param athreat
 			 * @param attacker
 			 * @return true if the AppliedThreat is compatible with this board, and useful, i.e. adds at least one attacker's threat.
@@ -929,45 +978,44 @@ public class BoardBitDb extends BoardBit {
 			}
 
 			/**
-			 * Complexity: worst: O(iterations + markedThreats.length AVG(O(Opeartors.applied)) )
-			 * <p>	= O(6N + markedThreats.length AVG(O(Opeartors.applied)) AVG(O(Opeartors.applied)) )
-			 * <p>	= O(6N + X markedThreats.length )	// worst-case
+			 * <p>	Complexity (best):	O(1),			if no als
+			 * <p>	Complexity (worst):	O( 6N + als_n * X )
+			 * <p>	*	N for structure size, als_n for alignments n, X as worst applied()
 			 */
 			public ThreatsByRank getApplicableOperators(int max_tier) {
 
 				byte defender		= Auxiliary.opponent(attacker);
 				ThreatsByRank res	= new ThreatsByRank();
 
-				if(alignments_n > 0) {
-					for(AlignmentsList alignments_by_row : alignments_by_dir) {
-						if(alignments_by_row == null)
+				if(alignments_n == 0)
+					return res;
+			
+				for(AlignmentsRows alignments_by_row : alignments_by_dir) {
+					if(alignments_by_row == null)
+						continue;
+
+					for(BiList_ThreatPos alignments_in_line : alignments_by_row) {
+						if(alignments_in_line == null)
 							continue;
-
-						for(BiList_ThreatPos alignments_in_line : alignments_by_row) {
-							if(alignments_in_line == null)
-								continue;
+							
+						BiNode<ThreatPosition> alignment = alignments_in_line.getFirst(attacker);
+						if(alignment != null && Operators.tier_from_code(alignment.item.type) <= max_tier) {
+							do {
+								ThreatCells cell_threat_operator = Operators.applied(this, alignment.item, attacker, defender);
 								
-							BiNode<ThreatPosition> alignment = alignments_in_line.getFirst(attacker);
-							if(alignment != null && Operators.tier_from_code(alignment.item.type) <= max_tier) {
-								do {
-									ThreatCells cell_threat_operator = Operators.applied(this, alignment.item, attacker, defender);
-									
-									if(cell_threat_operator != null) res.add(cell_threat_operator);
-									alignment = alignment.next;
+								if(cell_threat_operator != null) res.add(cell_threat_operator);
+								alignment = alignment.next;
 
-								} while(alignment != null);
-							}
+							} while(alignment != null);
 						}
 					}
 				}
-
 				return res;
 			}
 
 			/**
-			 * Complexity: O(findAllAlignments + iterations + markedThreats.length)
-			 * <p>	= O(12 N**2 + 6N + markedThreats.length)
-			 * <p>	= O(12 N**2)
+			 * <p>	Complexity: O( 12N**2 )
+			 * <p>	*	capped by findAllAlignments
 			 */
 			public int[] getThreatCounts(byte player) {
 
@@ -976,32 +1024,32 @@ public class BoardBitDb extends BoardBit {
 				
 				int[] threats_by_col = new int[N];
 
-				if(alignments_n > 0) {
-					for(int d = 0; d < DIR_ABS_N; d++) {
-						if(alignments_by_dir[d] == null)
-							continue;
+				if(alignments_n == 0)
+					return threats_by_col;
+					
+				for(int d = 0; d < DIR_ABS_N; d++) {
+					if(alignments_by_dir[d] == null)
+						continue;
 
-						for(BiList_ThreatPos alignments_in_line : alignments_by_dir[d]) {
-							if(alignments_in_line == null)
-								continue;
+					for(BiList_ThreatPos alignments_in_line : alignments_by_dir[d]) {
+						if(alignments_in_line == null)
+							continue;
+						
+						BiNode<ThreatPosition> p = alignments_in_line.getFirst(player);
+						while(p != null) {
+							// if in same col
+							if(p.item.start.j == p.item.end.j)
+								threats_by_col[p.item.start.j] += (p.item.start.getDistanceAbs(p.item.end) + 1) * Operators.indexInTier(p.item.type);
 							
-							BiNode<ThreatPosition> p = alignments_in_line.getFirst(player);
-							while(p != null) {
-								// if in same col
-								if(p.item.start.j == p.item.end.j)
-									threats_by_col[p.item.start.j] += (p.item.start.getDistanceAbs(p.item.end) + 1) * Operators.indexInTier(p.item.type);
-								
-								else {
-									for(int j = p.item.start.j; j <= p.item.end.j; j++)
-										threats_by_col[j] += Operators.indexInTier(p.item.type);
-								}
-		
-								p = p.next;
+							else {
+								for(int j = p.item.start.j; j <= p.item.end.j; j++)
+									threats_by_col[j] += Operators.indexInTier(p.item.type);
 							}
+	
+							p = p.next;
 						}
 					}
 				}
-		
 				return threats_by_col;
 			}
 
@@ -1012,9 +1060,13 @@ public class BoardBitDb extends BoardBit {
 
 	//#region GET
 	
+		/**
+		 * Complexity: O(1)
+		 */
 		public void setAttacker(byte player) {
 			this.attacker = player;
 		}
+		
 		/**
 		 * Complexity: O(N)
 		 */
@@ -1023,6 +1075,7 @@ public class BoardBitDb extends BoardBit {
 			for(int j = 0; j < N; j++) MC_n += free[j];
 			return MC_n;
 		}
+
 		/**
 		 * Complexity: O(1)
 		 */
@@ -1033,20 +1086,20 @@ public class BoardBitDb extends BoardBit {
 	//#region SET
 
 		/**
-		 * Helper, for adding an alignment to the structures.
-		 * <p>
-		 * Complexity: O(1)
+		 * <p>	Helper, for adding an alignment to the structures.
+		 * <p>	Complexity (best):	O(1)
+		 * <p>	Complexity (worst):	O(2N), if has to create an AlignmentsRows
 		 */
 		protected void addAlignment(ThreatPosition alignment, int dir_index, byte player) {
 			if(alignments_by_dir[dir_index] == null)
-				alignments_by_dir[dir_index] = new AlignmentsList(alignmentsByDirSize(dir_index));
+				alignments_by_dir[dir_index] = new AlignmentsRows(alignmentsByDirSize(dir_index));
 			alignments_by_dir[dir_index].add(player, getIndex_for_alignmentsByDir(DIRECTIONS[dir_index], threat_start), alignment);
 			alignments_n++;
 		}
+
 		/**
-		 * Helper, for adding an alignment to the structures.
-		 * <p>
-		 * Complexity: O(1)
+		 * <p>	Helper, for adding an alignment to the structures.
+		 * <p>	Complexity: O(1)
 		 */
 		protected void removeAlignmentNode(BiList_ThreatPos alignments_in_line, BiNode<ThreatPosition> node, byte player) {
 			alignments_in_line.remove(player, node);
@@ -1058,19 +1111,31 @@ public class BoardBitDb extends BoardBit {
 	//#region TT
 
 		/**
-		 * Get entry from TT.
+		 * <p>	Get entry from TTdag.
+		 * <p>	Complexity: O(1 + alpha)
 		 * @return entry
 		 */
 		public TTElementBool getEntry() {
 			return TT.get(TTElementBool.setKey(key, hash));
 		}
+
+		/**
+		 * <p>	Add entry to TTdag.
+		 * <p>	Complexity: O(1)
+		 * @param node
+		 */
 		public void addEntry(TTElementBool node) {
 			TT.insert(hash, node);
-			TT.count++;
+			//TT.count++;
 		}
+
+		/**
+		 * <p>	Remove entry from TTdag.
+		 * <p>	Complexity: O(1 + alpha)
+		 */
 		public void removeEntry() {
 			TT.remove(TTElementBool.setKey(key, hash));
-			TT.count--;
+			//TT.count--;
 		}
 	
 	//#endregion TT

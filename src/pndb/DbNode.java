@@ -19,6 +19,9 @@ public class DbNode {
 
 
 
+	/**
+	 * Complexity: O(1)
+	 */
 	public DbNode() {
 		board = null;
 	}
@@ -34,7 +37,8 @@ public class DbNode {
 	}
 
 	/**
-	 * Complexity: O(3M + 10N + B.marked_threats.length) = O(13N + B.marked_threats.length)
+	 * <p>	Complexity: O(6N)
+	 * <p>	-	O(10N), if M > 64
 	 */
 	public static DbNode copy(BoardBitDb board, boolean is_combination, byte max_tier, boolean copy_threats) {
 		return new DbNode(board.getCopy(copy_threats), is_combination, max_tier);
@@ -44,8 +48,9 @@ public class DbNode {
 	//#region DB
 
 		/*
-		 * Check if a combination with node is valid, i.e. if they're not in conflict and both have a marked cell the other doesn't.
-		 * Complexity: O(N)
+		 * <p>	Check if a combination with node is valid, i.e. if they're not in conflict and both have a marked cell the other doesn't.
+		 * <p>	Complexity: O(N)
+		 * <p>	-	O(2N), if M > 64
 		 */
 		public BoardsRelation validCombinationWith(DbNode node) {
 
@@ -69,13 +74,14 @@ public class DbNode {
 	public DbNode getSibling() {return sibling; }
 
 	/**
-	 * Complexity: O(children_n)
+	 * Complexity: O(children_n),		ususally only a few
 	 * @param child
 	 */
 	public void addChild(DbNode child) {
 		if(first_child == null) first_child = child;
 		else first_child.addSibling(child);
 	}
+
 	public void addSibling(DbNode sibling) {
 		if(sibling == this) return;
 		else if(this.sibling == null) this.sibling = sibling;

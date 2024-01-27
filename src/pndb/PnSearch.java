@@ -75,6 +75,7 @@ import pndb.tt.TTElementProved.KeyDepth;
  * <p>	5.	db: use also a permanent tt
  * <p>	6.	Heuristic: update parent's children with iterated related squares (explained in thesis)
  * <p>	7.	(nocel) no BoardBitDb.alignments_by_cell.
+ * <p>	8.	getCombined: only copy if there are als
  * 
  */
 public class PnSearch implements CXPlayer {
@@ -241,48 +242,15 @@ public class PnSearch implements CXPlayer {
 	//#region PN-SEARCH
 
 		/**
-		 * iterative loop for visit.
-		 * Complexity: 
-		 * 		one iteration:
-		 * 			O( (h + 4X) + (2DbSearch + 2N**2 + (17+4X)N) + (Nh) )
-		 * 			= O( 2DbSearch + (N+1)h + 2N**2 + (17+8X)N )
-		 * 			= O( 2DbSearch + 2N**2 + Nh + 17N + 8XN ), with M similar to N
-		 * 
-		 * 		full tree:
-		 * 			N*O(2Db+2N**2+N+17N+8XN) + N**2*O(2Db+2N**2+2N+17N+8XN) + ...
-		 * 			... + N**N*O(2Db+2N**2+NN+17N+8XN) + ...
-		 * 			... + N**(N*M)*O(2Db+2N**2+NMN+17N+8XN)
-		 * 
-		 * 			= (N+N**2+..+N**(NM)) * (it)			+ (N*N + N**2*2N + N**3*3N +..+ N**(NM)*NMN)
-		 * 			= ( (N**(NM+1) - N) / (N-1) ) * (it)	+ (N**2 + 2N**3 + 3N**4 +..+ N**(N**2)*N**3)
-		 * 			= (N**NM) * (it)						+ ( (N**(N**2+3) - N**2) / (N - 1) )
-		 * 			= (N**(N**2)) * (it)					+ (N**(N**2+2))
-		 * 
-		 * 			= (N**(N**2)) * (2DbSearch + 2N**2 + 17N + 8XN) + (N**(N**2+2))
-		 * 			= (N**(N**2)) * (2DbSearch + 2N**2 + 17N + 8XN) + (N**(N**2+2))
-		 * 
-		 * 			assuming a quite broad development of the tree (or, anyway, you consider an avg h).
-		 * 
-		 * 		H=max depth reached:
-		 * 			= (N + N**2 +..+ N**H) * (it)		+ (N**2 + 2N**3 + 3N**4 +..+ N**(H+1)*HN)
-		 * 			= ( (N**(H+1) - N) / (N-1) ) * (it)	+ ( (N**(H+1+1+1) - N**2) / (N - 1) )
-		 * 			= O(N**H) * (it)					+ O(N**(H+2))
-		 * 			= O(N**H) * (2DbSearch + 2N**2 + 17N + 8XN)					+ O(N**(H+2))
-		 * 			= O(N**H * 2DbSearch + 2N**(H+2) + 17N**(H+1) + N**(H+1)8X)	+ O(N**H)
-		 * 			= O(N**H * 2DbSearch + 2N**(H+2) + N**(H+2) + N**(H+2))		+ O(N**H) 	-- note(1)
-		 * 			= O(N**H * 2DbSearch + 4N**(H+2))	+ O(N**H)
-		 * 			= O(N**H * 2DbSearch + 4N**(H+2))
-		 * 
-		 * 			assuming all moves at each depth are developed, which is not true at all.
-		 * 			assuming H << N (otherwise, you would have to add 1 to exponent).
-		 * 			actually: updateAncestors doesn't always go to top, so it must cost less.
-		 * 			note(1): 8X is probably similar to N, and 17 too (sometimes), so we can round it all, also
-		 * 				considering some other overhead from constants, and round al to O(N**(NH+2)), which is absorbed
-		 * 				by the other O(N**(NH+2)) anyway.
-		 * 
-		 * ---
-		 * 			Notes: N*M is the max depth, N**h is the number of children at depth h.
-		 * 			it = O(iteration) - Nh = O(2DbSearch + 2N**2 + 17N + 8XN);
+		 * <p>	Iterative loop for visit.
+		 * <p>	
+		 * <p>	Complexity (iteration): O( 12N**2 + 2DB )
+		 * <p>	*	probably, usually only capped by db (see below)
+		 * <p>
+		 * <p>	Complexity (iteration): O( 12N**2 + 2DB + 3Nn )
+		 * <p>	*	capped by develop and updateAncestors
+		 * <p>	*	n number of nodes changed in updateAncestors (proved or in dag)
+		 * <p>	* 	probably, n=h usually (not many parents for each node)
 		 * @return
 		 */
 		private void visit() {
@@ -307,12 +275,11 @@ public class PnSearch implements CXPlayer {
 		}
 
 		/**
-		 * Evaluate a node without using the tree.
-		 * This will look at the board's state or use dbSearch.
-		 * 
-		 * Complexity:
-		 * 	-	endgame: O(1)
-		 * 	-	else: O(DbSearch)
+		 * <p>	Evaluate a node without using the tree.
+		 * <p>	This will look at the board's state or use dbSearch.
+		 * <p>	
+		 * <p>	Complexity (best):	O(1),							game ended
+		 * <p>	Complexity (worst):	O( N * applied_threats_n**3 ),	db
 		 * @param node tree's node to eval
 		 * @return true if evaluated the node, i.e. it's an ended state or db found a win sequence.
 		 */
@@ -327,9 +294,9 @@ public class PnSearch implements CXPlayer {
 		}
 
 		/**
-		 * Evaluate `node` according to a DbSearch.
-		 * 
-		 * Complexity: O(DbSearch)
+		 * <p>	Evaluate `node` according to a DbSearch.
+		 * <p>
+		 * <p>	Complexity: O( N * applied_threats_n**3 )
 		 * @param node tree's node to eval
 		 * @return true if found a win.
 		 */
@@ -345,11 +312,11 @@ public class PnSearch implements CXPlayer {
 		}
 
 		/**
-		 * set proof and disproof; update node.mostProving; in case insert in TTwon.
-		 * Complexity: 
-		 * 	-	case proved: O(1)
-		 * 	-	case expanded: O(2N)
-		 * 	-	else: O(1)
+		 * <p>	set proof and disproof; update node.mostProving; in case insert in TTwon.
+		 * <p>	Complexity: 
+		 * <p>		-	case proved: O(1)
+		 * <p>		-	case expanded: O(2N(alpha + 1))
+		 * <p>		-	else: O(1)
 		 * @param node
 		 * @param offset offset for initProofAndDisproofNumbers, in case of `node` open and not expanded.
 		 */
@@ -372,9 +339,9 @@ public class PnSearch implements CXPlayer {
 		}
 
 		/**
-		 * Select the most proving node.
-		 * 
-		 * Complexity: O(h + 4X), where h is the length of the path calling_node-most_proving_descndant
+		 * <p>	Select the most proving node.
+		 * <p>	
+		 * <p>	Complexity: O(h * 4X), where h is the length of the path calling_node-most_proving_descendant
 		 * @param node
 		 * @param marked_stack
 		 * @return the most proving node
@@ -390,10 +357,10 @@ public class PnSearch implements CXPlayer {
 		}
 
 		/**
-		 * Develop a node, i.e. generate its children for the tree.
-		 * 
-		 * Complexity: 
-		 * 		for alpha: O(2DbSearch + 13N**2)
+		 * <p>	Develop a node, i.e. generate its children for the tree.
+		 * <p>
+		 * <p>	Complexity (best):	O( 1 ),				game ended
+		 * <p>	Complexity (worst):	O( 12N**2 + 2DB ),	2 dbsearch
 		 * @param node
 		 */
 		private void developNode(TTPnNode node) {
@@ -404,12 +371,10 @@ public class PnSearch implements CXPlayer {
 
 		
 		/**
-		 * Generate all node's children.
-		 * 
-		 * Complexity: O(DbSearch + getThreatCounts + children_generation + sorting + shuffle )
-		 *	<p>	= O(DbSearch + 12N**2 + N 4X + N**2 + N )
-		 *	<p>	= O(DbSearch + 13N**2)
-		 *	<p>		note: setProofAndDisproofNumbers can't go in expanded case from here, so it's O(1)
+		 * <p>	Generate all node's children.
+		 * <p>
+		 * <p>	Complexity: O( 12N**2 + N * applied_threats_n**3 )
+		 * <p>	*	capped by db and getThreatCounts
 		 * @param node
 		 */
 		public void generateAllChildren(TTPnNode node) {
@@ -529,10 +494,8 @@ public class PnSearch implements CXPlayer {
 		}
 
 		/**
-		 * Complexity:
-		 * 		worst: O(2Nh)
-		 * 			note: setProofAndDisproofNumbers always is called in expanded case, in intermediate nodes.
-		 * 		avg: O(Nh) ?
+		 * <p>	Complexity:	O(3N n)
+		 * <p>	*	n number of nodes changed (proved or in dag)
 		 * @param node
 		 * @param game_state init to `board.game_state`
 		 * @param most_proving true if it's the most_proving node, i.e. only first it
@@ -587,7 +550,8 @@ public class PnSearch implements CXPlayer {
 		}
 
 		/**
-		 * Complexity: O(h)
+		 * <p>	Complexity: O(h)
+		 * <p>	*	h depth of the path root-most_proving
 		 * @param depth where to reset to
 		 * @param marked_stack
 		 */
@@ -598,9 +562,11 @@ public class PnSearch implements CXPlayer {
 		}
 
 		/**
-		 * Remove from the dag an isolated tree, rooted at the position of `board`,
-		 * i.e. remove the root and all its descendants if they only had one parent (also in this same tree).
-		 * 
+		 * <p>	Remove from the dag an isolated tree, rooted at the position of `board`,
+		 * <p>	i.e. remove the root and all its descendants if they only had one parent (also in this same tree).
+		 * <p>
+		 * <p>	Complexity: O(n),
+		 * <p>	*	n number of nodes in the sub-tree
 		 * @param board current board
 		 * @param depth current depth
 		 * @param isroot true for the tree root
@@ -610,9 +576,9 @@ public class PnSearch implements CXPlayer {
 			TTPnNode node = board.getEntry(COL_NULL, depth);
 			
 			if (isroot || ( node != null && !node.hasParents() )) {
-
+				
 				if(node != null)	// root could also be proved (actually is always, for the current use of this function)
-					board.removeEntry(depth);
+				board.removeEntry(depth);
 				
 				for(int j = 0; j < BoardBit.N; j++) {
 					if(board.freeCol(j)) {
@@ -625,8 +591,10 @@ public class PnSearch implements CXPlayer {
 		}
 		
 		/**
-		 * Call pruneTree for each board in `boards`.
-		 * 
+		 * <p>	Call pruneTree for each board in `boards`.
+		 * <p>
+		 * <p>	Complexity: O(n),
+		 * <p>	*	n number of nodes in the sub-tree
 		 * @param boards boards to prune
 		 */
 		private void pruneTrees(LinkedList<BoardBitPn> boards) {
@@ -648,9 +616,8 @@ public class PnSearch implements CXPlayer {
 	//#region AUXILIARY
 
 		/**
-		 * Init proof numbers to offset + current level in game tree.
-		 * <p>
-		 * Complexity: O(1)
+		 * <p>	Init proof numbers to offset + current level in game tree.
+		 * <p>	Complexity: O(1)
 		 * @param node
 		 */
 		protected void initProofAndDisproofNumbers(TTPnNode node, int offset) {
@@ -660,12 +627,15 @@ public class PnSearch implements CXPlayer {
 		}
 
 		/**
-		 * Check all proved children, to find the best and deeepst/least deep path.
-		 * Assume that the node is not in an ended game state (so there are or can be children).
+		 * <p>	Check all proved children, to find the best and deeepst/least deep path.
+		 * <p>	Assume that the node is not in an ended game state (so there are or can be children).
+		 * <p>
+		 * <p>	Complexity: O(N(alpha + 1))
+		 * <p>	Complexity (avg): O(N)
 		 * @param entry
 		 */
 		private void updateProved(TTElementProved entry) {
-
+			
 			for(int j = 0; j < BoardBit.N; j++) {
 				if(board.freeCol(j)) {
 					TTElementProved child = board.getEntryProved(j, entry.depth_cur);
@@ -675,17 +645,18 @@ public class PnSearch implements CXPlayer {
 				}
 			}
 		}
+		
 		/**
-		 * 
+		 * Complexity: O(1)
 		 * @param parent
 		 * @param test
 		 * @return true if test is better than parent's values.
 		 */
 		private boolean isBetterChild(TTElementProved parent, TTElementProved test) {
-
+			
 			return test != null &&
-				(parent.col() == COL_NULL || ( getCurrentPlayersWin() != parent.won() && getCurrentPlayersWin() == test.won() )	// set anyway
-				|| parent.won() == test.won() && ( test.depth_reachable < parent.depth_reachable == (parent.won() == getCurrentPlayersWin()) )	// set if deeper (if losing), or less deep (if winning)
+			(parent.col() == COL_NULL || ( getCurrentPlayersWin() != parent.won() && getCurrentPlayersWin() == test.won() )	// set anyway
+			|| parent.won() == test.won() && ( test.depth_reachable < parent.depth_reachable == (parent.won() == getCurrentPlayersWin()) )	// set if deeper (if losing), or less deep (if winning)
 			);
 		}
 		
@@ -693,6 +664,12 @@ public class PnSearch implements CXPlayer {
 			return node.depth - root.depth;
 		}
 
+		/**
+		 * Complexity: O(N(alpha + 1))
+		 * @param child
+		 * @param depth
+		 * @return
+		 */
 		private int getColFromEntryProved(TTElementProved child, int depth) {
 			for(int j = 0; j < BoardBit.N; j++) {
 				if(board.freeCol(j) && board.getEntryProved(j, depth) == child)
@@ -727,6 +704,7 @@ public class PnSearch implements CXPlayer {
 			return freeMemory < runtime.maxMemory() * (5 / 100);
 		}
 
+		@SuppressWarnings("unused")
 		private String debugVisit(String log) {
 			return "log: time = " + (System.currentTimeMillis() - timer_start) + "\tmems = " + runtime.maxMemory() + "\t" + runtime.totalMemory() + "\t" + runtime.freeMemory() + "\t" + Auxiliary.freeMemory(runtime) + "\n";
 		}

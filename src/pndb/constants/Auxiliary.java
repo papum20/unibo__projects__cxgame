@@ -103,20 +103,28 @@ public class Auxiliary {
 		}
 
 		/**
-		 * Complexity: O(3 length)
+		 * Complexity: O(3 (start - end))
 		 * @param <T> any array element type
 		 * @param v array to shuffle
 		 * @param start included
 		 * @param end excluded
 		 */
 		public static <T> void shuffleArrayRange(T[] v, int start, int end) {
-
+			
 			LinkedList<T> shuffler = new LinkedList<T>();
 			for(int i = start; i < end; i++) shuffler.add(v[i]);
 			Collections.shuffle(shuffler);
 			for(int i = start; i < end; i++) v[i] = shuffler.pop();
-
+			
 		}
+		
+		/**
+		 * Complexity: O(3 (start - end))
+		 * @param <T> any array element type
+		 * @param v array to shuffle
+		 * @param start included
+		 * @param end excluded
+		 */
 		public static void shuffleArrayRangeByte(byte[] v, int start, int end) {
 
 			LinkedList<Integer> shuffler = new LinkedList<Integer>();

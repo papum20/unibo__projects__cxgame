@@ -275,6 +275,7 @@ public class Operators {
 	}
 
 	/**
+	 * Complexity: O43)
 	 * 
 	 * @param board
 	 * @param op
@@ -284,31 +285,17 @@ public class Operators {
 	 */
 	public static ThreatCells applied(final BoardBitDb board, ThreatPosition op, byte attacker, byte defender) {
 
-		// debug
-		String s = "nomake";
-		
-		try {
-			ThreatCells res = APPLIERS[tier_from_code(op.type)].get((int)(op.type)).getThreatCells(board, op);
-			// for vertical direction, only allow the first move as attacker's
-			if(res != null && op.start.getDirection(op.end).equals(MovePair.DIRECTIONS[MovePair.DIR_IDX_VERTICAL])) {
-				res.uses[0] = USE.ATK;
-				for(int i = 1; i < res.uses.length; i++)
-					res.uses[i] = USE.DEF;
-			}
-			if(res != null && op.stacked > 0){
-
-				// debug
-				s="makestacked";
-
-				return makeStacked(res, op.last_stacked, op.stacked);
-			}
-			else return res;
-		} catch(Exception e) {
-			board.print();
-			board.printAlignments();
-			System.out.println(s + "\n\n"+op + " ... " + attacker);
-			throw e;
+		ThreatCells res = APPLIERS[tier_from_code(op.type)].get((int)(op.type)).getThreatCells(board, op);
+		// for vertical direction, only allow the first move as attacker's
+		if(res != null && op.start.getDirection(op.end).equals(MovePair.DIRECTIONS[MovePair.DIR_IDX_VERTICAL])) {
+			res.uses[0] = USE.ATK;
+			for(int i = 1; i < res.uses.length; i++)
+				res.uses[i] = USE.DEF;
 		}
+		if(res != null && op.stacked > 0)
+			return makeStacked(res, op.last_stacked, op.stacked);
+		else 
+			return res;
 	}
 
 	/**
@@ -324,6 +311,8 @@ public class Operators {
 	 * 			but this module will check it anyway so we can avoid wasting time thinking about it
 	 * <p>	3.	stacked = 1, missing 2: without the stacked, you would have 1 attacking and 1 defending move; here,
 	 * 			maybe the correct choice is to put both those moves as defensive
+	 * 
+	 * <p>	Complexity: O(3)
 	 * 
 	 * @param stacked >= 1 (= 1 or 2)
 	 */
@@ -379,11 +368,15 @@ public class Operators {
 					this.mnout	= (short)mnout;
 				}
 
+				/**
+				 * Complexity: O(1)
+				 */
 				public boolean isCompatible(int X, int lined, int marks, int holes) {
 					return lined >= X + this.line && marks == X + this.mark && holes == this.in;
 				}
 
 				/**
+				 * Complexity: O(1)
 				 * @param X
 				 * @param lined
 				 * @param marks
@@ -430,14 +423,21 @@ public class Operators {
 
 			public static class ThreatsByRank extends ArrayList<LinkedList<ThreatCells>> {
 
+				/**
+				 * Complexity: O(1)
+				 */
 				public ThreatsByRank() {
 					super(TIER_N);
 					for(int i = 0; i < TIER_N; i++) add(i, null);
 				}
+
+				/**
+				 * Complexity: O(1)
+				 */
 				public void add(ThreatCells threat) {
 					int tier = tier_from_code(threat.type);
 					if(get(tier) == null) set(tier, new LinkedList<ThreatCells>());
-					get(tier).add(threat);
+					get(tier).addFirst(threat);
 				}
 			}
 

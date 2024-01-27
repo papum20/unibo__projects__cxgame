@@ -6,6 +6,9 @@ import pndb.tt.TranspositionTable.Element.Key;
 
 
 
+/**
+ * Complexities and methods docstrings are the same for TT.Element.
+ */
 public class TTElementProved extends Element<TTElementProved, KeyDepth> {
 
 	public static class KeyDepth extends Key {
@@ -37,15 +40,13 @@ public class TTElementProved extends Element<TTElementProved, KeyDepth> {
 	private static final int MASK2_BITS = TABLE_SIZE + Integer.SIZE;
 	private static final int MASK_IDX	= 4194303;		//2**22-1 = 22 ones
 
+	@SuppressWarnings("unused")	// just for clarity
 	private static final byte	BIT_WON		= 7,
 								MASK_WON	= -0x80,
 								MASK_COL	= 0x7f;
 
 	public static final byte COL_NULL = MASK_COL;
 
-	/**
-	 * Complexity: O(1)
-	 */
 	public TTElementProved() {
 
 	}
@@ -61,20 +62,10 @@ public class TTElementProved extends Element<TTElementProved, KeyDepth> {
 		this.val = (byte)((won ? MASK_WON : 0) | (col & MASK_COL));
 	}
 
-	/**
-	 * Complexity: O(n), with n length of the list
-	 * @param e
-	 */
-	protected void listAppend(TTElementProved e) {
-		if(next == null) next = e;
-		else next.listAppend(e);
+	protected void listAdd(TTElementProved e) {
+		if(next != null) e.next = next;
+		next = e;
 	}
-	/**
-	 * Returns the element if cmp==this or a next element in the list (assuming the index is the same)
-	 * Complexity: O(n), with n length of the list
-	 * @param cmp
-	 * @return
-	 */
 	protected TTElementProved listGet(KeyDepth k) {
 		if (compareKey(k)) return this;
 		else if(next == null) return null;

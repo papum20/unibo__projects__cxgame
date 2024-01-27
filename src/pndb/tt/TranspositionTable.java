@@ -18,7 +18,7 @@ public class TranspositionTable<E extends TranspositionTable.Element<E,K>, K ext
 
 
 	/**
-	 * Complexity: O(M*N*PLAYERS_N + size + M*N*PLAYERS_N) = O(2MN + 2**16 + 2MN) = O(4MN + 2**16)
+	 * Complexity: O(2MN + 2**TABLE_SIZE)
 	 * @param M
 	 * @param N
 	 */
@@ -28,6 +28,11 @@ public class TranspositionTable<E extends TranspositionTable.Element<E,K>, K ext
 		// count = 0;
 	}
 	
+	/**
+	 * Complexity: O(4MN)
+	 * @param M
+	 * @param N
+	 */
 	public static void initMovesHashes(int M, int N) {
 		
 		Random random = new Random();
@@ -57,30 +62,29 @@ public class TranspositionTable<E extends TranspositionTable.Element<E,K>, K ext
 	}
 
 	/**
-	 * Complexity: O(n), with n length of the list
+	 * <p>	Add as head.
+	 * <p>	Complexity: O(1)
 	 * @param key
 	 */
 	public void insert(long key, E e) {
 		int index = e.calculateIndex(key);
-		if(table[index] == null)
-			table[index] = e;
-		else
-			table[index].listAppend(e);
+		if(table[index] != null) e.next = table[index];
+		table[index] = e;
 	}
 
 	/**
-	 * Remove element entry.
- 	 * Complexity: O(n), with n length of the list
+	 * <p>	Remove element entry.
+	 * <p>	Complexity: O(1 + alpha)
 	 * @param key
 	 */
-	  public void remove(K k) {
+	public void remove(K k) {
 		E e = table[k.index];
 		if(e != null && e.listRemove(k) == e)
-			table[k.index] = e.next;
+		table[k.index] = e.next;
 	}
-
+	
 	/**
-	 * Complexity: O(n), with n length of the list
+	 * Complexity: O(1 + alpha)
 	 * @param key
 	 * @return the element if found, else null
 	 */
@@ -125,16 +129,32 @@ public class TranspositionTable<E extends TranspositionTable.Element<E,K>, K ext
 		}
 
 
+		/**
+		 * Complexity: O(1)
+		 */
 		public Element() {
 
 		}
 
 		/**
-		 * Complexity: O(n), with n length of the list
+		 * <p>	Add as own next.
+		 * <p>	Complexity: O(1)
 		 * @param e
 		 */
-		protected abstract void listAppend(S e);
+		protected abstract void listAdd(S e);
+		
+		/**
+		 * Complexity: O(alpha + 1)
+		 * @param k
+		 * @return
+		 */
 		protected abstract S listGet(K k);
+		
+		/**
+		 * Complexity: O(alpha + 1)
+		 * @param k
+		 * @return
+		 */
 		protected Element<S,K> listRemove(K k) {
 			if(compareKey(k))
 				return this;
@@ -152,7 +172,19 @@ public class TranspositionTable<E extends TranspositionTable.Element<E,K>, K ext
 		// public static abstract S[] getTable();
 		// public static Key calculateKey(long key);
 		// public static Key setKey(Key k, long key);
+
+		/**
+		 * Complexity: O(1)
+		 * @param key
+		 * @return
+		 */
 		public abstract int calculateIndex(long key);
+
+		/**
+		 * Complexity: O(1)
+		 * @param k
+		 * @return
+		 */
 		protected abstract boolean compareKey(K k);
 
 	}
