@@ -1,4 +1,4 @@
-package pndb;
+package pndbtime;
 
 import java.util.LinkedList;
 import java.util.ListIterator;
@@ -6,13 +6,13 @@ import java.util.ListIterator;
 import connectx.CXBoard;
 import connectx.CXCell;
 import connectx.CXPlayer;
-import pndb.constants.Auxiliary;
-import pndb.constants.CellState;
-import pndb.constants.GameState;
-import pndb.structs.DbSearchResult;
-import pndb.tt.TTElementProved;
-import pndb.tt.TranspositionTable;
-import pndb.tt.TTElementProved.KeyDepth;
+import pndbtime.constants.Auxiliary;
+import pndbtime.constants.CellState;
+import pndbtime.constants.GameState;
+import pndbtime.structs.DbSearchResult;
+import pndbtime.tt.TTElementProved;
+import pndbtime.tt.TranspositionTable;
+import pndbtime.tt.TTElementProved.KeyDepth;
 
 
 
