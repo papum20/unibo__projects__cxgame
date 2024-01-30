@@ -118,7 +118,8 @@ public class PnSearch implements CXPlayer {
 	public PnSearch() {}
 	
 	/**
-	 * Complexity: O(5N + 4MN + 2**16 + (5MN + 3M+4N + 2**16) ) = O(9MN + 3M+9N + 2**17)
+	 * <p>	Complexity: O(2**17)
+	 * <p>	*	capped by initialization of TT
 	 */
 	@Override
 	public void initPlayer(int M, int N, int X, boolean first, int timeout_in_secs) {
@@ -173,7 +174,7 @@ public class PnSearch implements CXPlayer {
 			// debug
 			String str	= "---\n" + playerName() + "\n"
 						+ "Opponent: " + ((B.getLastMove() == null) ? null : B.getLastMove().j) + "\n"
-						+ "root hash:" + board.hash + "\tdepth " + root.depth
+						+ "root hash:" + board.hash + "\tdepth " + root.depth + "\n"
 			//			+ board.printString(0)
 			;
 			System.out.println(str);
@@ -215,6 +216,7 @@ public class PnSearch implements CXPlayer {
 			//	+ board.printString(0) + root.debugString(root) + "\n"
 			//	+ "time,mem before return: " + (System.currentTimeMillis() - timer_start) + " " + Auxiliary.freeMemory(runtime) + "\n"
 			;
+			if(PRINT_ON) System.out.println(str);
 			
 			return move;
 			
@@ -227,7 +229,7 @@ public class PnSearch implements CXPlayer {
 				if(board.freeCol(j)) available_moves[available_moves_n++] = j;
 
 			new_move = available_moves[(int)(Math.random() * available_moves_n)];
-			System.out.println("There was an error. My move is: " + new_move);
+			if(PRINT_ON) System.out.println("There was an error. My move is: " + new_move);
 			return new_move;
 		}
 
@@ -245,26 +247,30 @@ public class PnSearch implements CXPlayer {
 		 * <p>	Iterative loop for visit.
 		 * <p>	
 		 * <p>	Complexity (iteration): O( 12N**2 + 2DB )
-		 * <p>	*	probably, usually only capped by db (see below)
 		 * <p>
 		 * <p>	Complexity (iteration): O( 12N**2 + 2DB + 3Nn )
 		 * <p>	*	capped by develop and updateAncestors
 		 * <p>	*	n number of nodes changed in updateAncestors (proved or in dag)
 		 * <p>	* 	probably, n=h usually (not many parents for each node)
+		 * <p>	*	so, probably, usually only capped by db
 		 * @return
 		 */
 		private void visit() {
 
+			// debug
+			// int loops_n = 0, depth_max = 0;
+			
 			LinkedList<Integer> marked_stack		= new LinkedList<Integer>();
 			LinkedList<BoardBitPn> boards_to_prune	= new LinkedList<BoardBitPn>();
 
-			/* enhancement: keep track of current node (next to develop), instead of 
-			* looking for it at each iteration, restarting from root.
-			*/
 			TTPnNode most_proving_node;
 			while(!root.isProved() && !isTimeEnded()) {
 
 				most_proving_node = selectMostProving(root, marked_stack);
+
+				// loops_n++;
+				// if(selectMostProving != most_proving_node && most_proving_node.depth > depth_max) depth_max = most_proving_node.depth;
+				
 				developNode(most_proving_node);
 				updateAncestorsWhileChanged(most_proving_node.depth, boards_to_prune, null, true);
 
@@ -272,6 +278,7 @@ public class PnSearch implements CXPlayer {
 				pruneTrees(boards_to_prune);
 			}
 
+			// if(PRINT_ON) System.out.println("loops_n =\t" + loops_n + "\tdepth_max =\t" + depth_max + "\tdepth_rel_max =\r" + (depth_max - root.depth) + "\n
 		}
 
 		/**
