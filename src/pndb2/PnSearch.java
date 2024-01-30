@@ -176,7 +176,7 @@ public class PnSearch implements CXPlayer {
 						+ "root hash:" + board.hash + "\tdepth " + root.depth
 						+ board.printString(0)
 			;
-			System.out.println(str);
+			if(PRINT_ON) System.out.println(str);
 
 			// remove unreachable nodes from previous rounds
 			root.setTag((root.depth / 2) % 2);		// unique tag for each round
@@ -215,6 +215,7 @@ public class PnSearch implements CXPlayer {
 				+ board.printString(0) + root.debugString(root) + "\n"
 				+ "time,mem before return: " + (System.currentTimeMillis() - timer_start) + " " + Auxiliary.freeMemory(runtime) + "\n"
 			;
+			if(PRINT_ON) System.out.println(str);
 			
 			return move;
 			
@@ -255,6 +256,9 @@ public class PnSearch implements CXPlayer {
 		 */
 		private void visit() {
 
+			// debug
+			int loops_n = 0, depth_rel_max = 0;
+			
 			LinkedList<Integer> marked_stack		= new LinkedList<Integer>();
 			LinkedList<BoardBitPn> boards_to_prune	= new LinkedList<BoardBitPn>();
 
@@ -265,12 +269,22 @@ public class PnSearch implements CXPlayer {
 			while(!root.isProved() && !isTimeEnded()) {
 
 				most_proving_node = selectMostProving(root, marked_stack);
+
+				// debug
+				loops_n++;
+				if(most_proving_node != null && most_proving_node.depth > depth_rel_max)
+					depth_rel_max = most_proving_node.depth - root.depth;
+				
 				developNode(most_proving_node);
 				updateAncestorsWhileChanged(most_proving_node.depth, boards_to_prune, null, true);
 
 				resetBoard(marked_stack);
 				pruneTrees(boards_to_prune);
+
 			}
+
+			// debug
+			if(PRINT_ON) System.out.println("loops_n:\t" + loops_n + "\tdepth_rel_max:\t" + depth_rel_max + "\n");
 
 		}
 
