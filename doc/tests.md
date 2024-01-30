@@ -14,6 +14,8 @@ FORMAT:
 *	18	20	7	:	2	0	1	|	0	0
 ### pndb2	-	alpha
 *	9	9	5	:	2	0	0	|	0	1
+*	18	20	7	:	3	0	0	|	0	1
+	*	alpha lost quickly, is just broken
 ### pndb2	-	betha
 *	9	9	5	:	3	0	0	|	0	0
 ### pndb2	-	dnull

@@ -296,7 +296,8 @@ public class BoardBitDb extends BoardBit {
 
 		/**
 		 * <p>	Complexity (best):		O(4X),	if isWinningMove
-		 * <p>	Complexity (best):		O(16X),	if findAlignments
+		 * <p>	Complexity (best):		O(12X),	if findAlignments, and dir_excluded
+		 * <p>	Complexity (best):		O(40X),	if findAlignments
 		 * <p>	Complexity (worst/avg):	O(10N),	if findAlignments, and has to create all AlignmentsRows now
 		 * @param cell
 		 * @param max_tier
@@ -315,8 +316,8 @@ public class BoardBitDb extends BoardBit {
 		/**
 		 * <p>	Complexity (best):	O(4X),	if isWinningMove
 		 * <p>	Complexity (best):	O(16X),	if 1 cell
-		 * <p>	Complexity (best):	O(70X), if more cells
-		 * <p>	-	= O(4*16X + 6X)
+		 * <p>	Complexity (best):	O(4X * cells.len), if more cells
+		 * <p>	-	= O(4*16X)
 		 * <p>	Complexity (worst):	O(10N),	if has to create all AlignmentsRows now
 		 */
 		public void checkAlignments(MovePair[] cells, int max_tier) {
@@ -331,6 +332,7 @@ public class BoardBitDb extends BoardBit {
 					checkAlignments(cells[i], max_tier, dir_index);
 
 				if(game_state == GameState.OPEN) {
+					// loop useless, to remove, but should understand which 2 cells to use as direction, i.e. the borders
 					for(int i = 1; i < cells.length; i++)
 						findAlignmentsInDirection(cells[i], cells[i-1], cellState(cells[i]), dir_index, max_tier, true, null, 0);
 				}
@@ -392,7 +394,7 @@ public class BoardBitDb extends BoardBit {
 		/**
 		 * <p>	Only checks for alignments not included in the union of A's and B's alignments, i.e. those which involve at  least one cell only present in A and one only in B.
 		 * <p>	Complexity (best):	O( 6N ), 	if nothing added
-		 * <p>	Complexity:			O( 6N + added_threats_n * 3 * 16X )
+		 * <p>	Complexity:			O( 6N + added_threats_n * 3 * 40X )
 		 * <p>	*	getCopy + findAlignment for each added threat, assuming its len 3 (avg)
 		 * <p>	Complexity (worst): O(16N),		if has to create all AlignmentsRows now
 		 */
@@ -793,7 +795,7 @@ public class BoardBitDb extends BoardBit {
 
 			/**
 			 * <p>	Find all alignments involving at least one cell between the aligned first, second.
-			 * <p>	Also, if check1 and check2 != null, checks that the new threat involves at least one cell only present in 1, and one only in 2.
+			 * <p>	Stack operator is only used for vertical.
 			 * <p>	
 			 * <p>	1 -	the cells whose alignments will change are those at max distance K-1 from this;
 			 * <p>	2 -	considering the algorithm is correct, we assume they already have associated, if already
@@ -802,6 +804,7 @@ public class BoardBitDb extends BoardBit {
 			 * 			new alignments of K-MIN_SYM_LINE.
 			 * <p>	HOWEVER, this will be a future enhancement: for now, the function simply deletes and recreates all.  
 			 * <p>
+			 * <p>	(not considering stacked)
 			 * <p>	Complexity (best):	O( 2 * (second - first + 2X) ),		nothing found/either c1 or c2 advance
 			 * <p>	-	O(2N),	if whole row
 			 * <p>	-	O(4X),	if single cell
@@ -855,11 +858,11 @@ public class BoardBitDb extends BoardBit {
 			/**
 			 * <p>	Find alignments for a cell in all directions.
 			 * <p>	Complexity (approx):	O(10N),	if adds all AlignmentsRows now
-			 * <p>	Complexity (best):		O(16X)
+			 * <p>	Complexity (best):		O(40X)
 			 * <p>	Complexity (worst):		O( 10N + 18 * possible_als_found ),	if found als, and has to create AlignmentsRows
-			 * <p>	*	4 * findAlignmentsInDirection for single cell
+			 * <p>	*	4 * findAlignmentsInDirection for single cell, + stacked
 			 * <p>	*	with possible_als_found=number of calls for addAllValidAlignments
-			 * <p>	*	10N results from 3 directions * 3 stacked, +1 for vertical direction
+			 * <p>	*	10N results from 3 directions * 3 sotacked, +1 for vertical direction
 			 * @param stacked see `findAlignmentsInDireciton` (to init to 0)
 			 */
 			protected void findAlignments(final MovePair cell, final byte player,
