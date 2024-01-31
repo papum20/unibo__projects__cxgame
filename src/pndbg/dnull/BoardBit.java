@@ -139,7 +139,7 @@ public class BoardBit {
 	 * @return
 	 */
 	protected boolean isWinningMove(int i, int j) {
-		long	mask_ij = 1 << (i % BITSTRING_LEN);
+		long	mask_ij = (long)1 << (i % BITSTRING_LEN);
 		long	s		= (board[j][i / BITSTRING_LEN] & mask_ij)		>> (i % BITSTRING_LEN),
 				s_mask	= (board_mask[j][i / BITSTRING_LEN] & mask_ij)	>> (i % BITSTRING_LEN);
 		long mask = mask_ij;
@@ -154,10 +154,10 @@ public class BoardBit {
 			(board_mask[k][i / BITSTRING_LEN] & mask_ij)	== s_mask * mask_ij;
 			k--) n++; // backward check
 		for (k = j+1;
-			k < N &&
-			(board[k][i / BITSTRING_LEN] & mask_ij)			== s * mask_ij &&
-			(board_mask[k][i / BITSTRING_LEN] & mask_ij)	== s_mask * mask_ij;
-			k++) n++; // forward check
+		k < N &&
+		(board[k][i / BITSTRING_LEN] & mask_ij)			== s * mask_ij &&
+		(board_mask[k][i / BITSTRING_LEN] & mask_ij)	== s_mask * mask_ij;
+		k++) n++; // forward check
 		if (n >= X) return true;
 
 		// Vertical check

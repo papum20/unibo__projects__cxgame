@@ -88,8 +88,10 @@ public class BoardBitDb extends BoardBit {
 	protected int count = 0;
 	protected int found = 0;
 	protected static boolean DEBUG_ON		= false;
+	protected static boolean LOG_ON			= true;
 	protected static boolean DEBUG_PRINT	= false;
 	protected static FileWriter file;
+	protected static String log;
   
 
 
@@ -280,6 +282,7 @@ public class BoardBitDb extends BoardBit {
 		 */
 		protected void checkAlignments(MovePair cell, int max_tier, int dir_excluded, String caller) {
 
+			System.out.println("check:\t" + cell);
 			if(isWinningMove(cell.i, cell.j))
 				game_state = cell2GameState(cell.i, cell.j);
 			else {
@@ -358,10 +361,19 @@ public class BoardBitDb extends BoardBit {
 					break;
 					//used for dependency stage
 				case BTH:
+				String log2 = "threat:\t" + threat + "\n";
+				try {
+					log2 += printString(3);
 					res = getCopy(false);
 					res.markThreat(threat.related, atk);
 					res.addThreat(threat, atk, attacker);
+					log2 += res.printString(3);
 					if(check_threats) res.checkAlignments(threat.related[atk], max_tier, -1, "dep");
+				} catch (Exception e) {
+					log2 += res.printString(3);
+					System.out.println("log2\n" + log2 + "log2 end\n");
+					throw e;
+				}
 			}
 			return res;
 		}
@@ -574,8 +586,9 @@ public class BoardBitDb extends BoardBit {
 					AlignmentPattern alignment = Operators.alignmentPatterns(tier).get((int)threat_code);
 
 					// debug
-					if(DEBUG_ON) file.write("\t\t\t\t\tstart checking alignment = " + alignment + "\n");
-					if(DEBUG_PRINT) System.out.println("\t\t\t\t\tstart checking alignment = " + alignment + "\n");
+					if(DEBUG_ON) file.write("\t\tc1:\t" + c1 + "\tc2:\t" + c2 + "\tc3:\t" + c3 + "\tstart checking alignment = " + alignment + "\n");
+					if(LOG_ON) log += "\t\tc1:\t" + c1 + "\tc2:\t" + c2 + "\tc3:\t" + c3 + "\tstart checking alignment = " + alignment + "\n";
+					if(DEBUG_PRINT) System.out.println("\t\tc1:\t" + c1 + "\tc2:\t" + c2 + "\tc3:\t" + c3 + "\tstart checking alignment = " + alignment + "\n");
 
 					//if (inner alignment conditions)
 					if(alignment.isApplicableExactly(X, lined, marks, before, after)) {
@@ -595,6 +608,7 @@ public class BoardBitDb extends BoardBit {
 						// debug
 						found++;
 						if(DEBUG_ON) file.write("found threat: " + threat_start + "_( " + c1 + "->" + c2 + ") _" + threat_end + " : " + threat_pos + "before, after=" + before + " " + after + "\n");
+						if(LOG_ON) log += "found threat: " + threat_start + "_( " + c1 + "->" + c2 + ") _" + threat_end + " : " + threat_pos + "before, after=" + before + " " + after + "\n";
 						if(DEBUG_PRINT) System.out.println("found threat: " + threat_start + "_( " + c1 + "->" + c2 + ") _" + threat_end + " : " + threat_pos +  "before, after=" + before + " " + after + "\n");
 					}
 				}
@@ -800,18 +814,19 @@ public class BoardBitDb extends BoardBit {
 			protected void findAlignmentsInDirection(MovePair first, MovePair second, byte player, int dir_index, int max_tier, boolean only_valid, MovePair last_stacked, int stacked, String caller) {
 
 				try {
-
 					// debug
 					String filename = "debug/db2/" + player + "_" + caller + count + "_" + (int)(Math.random() * 99999) + "_.txt";
 					if(DEBUG_ON) {
 						file = new FileWriter(filename);
 						file.write(printString(0) + "\naddAlignments START, for player " + player + ", moves " + first + " " + second + " dir: " + DIRECTIONS[dir_index] + ", end_c1/c2:" + end_c1 + " " + end_c2 + ", onlyvalid:" + only_valid + ":\n");
 					}
+					if(LOG_ON) log = "first:\t" + first + "\tsecond:\t" + second + "\tdir:\t" + DIRECTIONS[dir_index] + "\tplayer:\t" + player + "\n";
 					if(DEBUG_PRINT) System.out.println(printString(0) + "\naddAlignments START, for player " + player + ", moves " + first + " " + second + " dir: " + DIRECTIONS[dir_index] + ", end_c1/c2:" + end_c1 + " " + end_c2 + ", onlyvalid:" + only_valid + ":\n");
 					count++;
 					found = 0;
+					try {
 
-					// swap first, second if not first->second in same direction as dir
+						// swap first, second if not first->second in same direction as dir
 					if(!DIRECTIONS[dir_index].equals( first.getDirection(second)) ) {
 						MovePair tmp = first;
 						first	= second;
@@ -824,39 +839,53 @@ public class BoardBitDb extends BoardBit {
 					// find furthest c1 back, from center
 					_findOccurrenceUntil(c1, c1.reset(first), DIRECTIONS[dir_index + DIR_ABS_N],
 						X + Operators.MAX_OUT_ONE_SIDE - 1, player, Auxiliary.opponent(player), false, false, only_valid, dir_index);
-					c2.reset(c1);
-					c3.reset(c1);
-
-					// debug
-					//System.out.println(c1 + "dir " + dir_index + " "  + DIRECTIONS[dir_index]);
-
-					_findAlignmentsInDirection(second,				// flip if direction inverted
+						c2.reset(c1);
+						c3.reset(c1);
+						
+						// debug
+						//System.out.println(c1 + "dir " + dir_index + " "  + DIRECTIONS[dir_index]);
+						
+						_findAlignmentsInDirection(second,				// flip if direction inverted
 						DIRECTIONS[dir_index], dir_index, player,
 						0, 0, 0, 0,
 						only_valid, max_tier, last_stacked, stacked);
+						
+						// debug
+						if(DEBUG_ON) {
+							file.write("addAlignments END;\n");
+							file.close();
+							if(found == 0) {
+								File todel = new File(filename);
+								todel.delete();
+							}
+						}
+						if(LOG_ON) log += "addAlignments END;\n";
 
-					// additional threat, for vertical dir
-					if(dir_index == DIR_IDX_VERTICAL && second.i >= free[second.j] && free[second.j] < M && game_state == GameState.OPEN && max_tier >= 2) {
-						MovePair new_stacked = new MovePair(free[second.j], second.j);
-						markCheck(new_stacked.j, player);
-						// exclude vertical, or would add non-existing alignments
+						// additional threat, for vertical dir
+						if(dir_index == DIR_IDX_VERTICAL && second.i >= free[second.j] && free[second.j] < M && game_state == GameState.OPEN && max_tier >= 2) {
+							MovePair new_stacked = new MovePair(free[second.j], second.j);
+							markCheck(new_stacked.j, player);
+							// exclude vertical, or would add non-existing alignments
 						findAlignments(new_stacked.getSum(DIRECTIONS[DIR_IDX_VERTICAL]), player, max_tier - 1, only_valid, new_stacked, stacked + 1, DIR_IDX_VERTICAL, caller);
 						unmark(new_stacked.j);
 					}
 
-					// debug
-					if(DEBUG_ON) {
-						file.write("addAlignments END;\n");
-						file.close();
-						if(found == 0) {
-							File todel = new File(filename);
-							todel.delete();
-						}
-					}
-				} catch (IOException e) {}
+				}
 				catch (Exception e) {
-					if(DEBUG_ON) try{file.write("\n\nERROR\n\n");file.close();} catch(IOException io) {}
+					if(DEBUG_ON) {
+						file.write("\n\nERROR\n\n");
+						file.close();
+						file = null;
+					}
+					if(LOG_ON) {
+						log += printString(1);
+						System.out.println("DB BOARD log - start:\n" + log + "DB BOARD log - end\n");
+					}
 					throw e;
+				}
+				}
+				catch (IOException e) {
+					System.out.println(e);
 				}
 				
 			}

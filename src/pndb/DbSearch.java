@@ -52,6 +52,9 @@ public class DbSearch {
 	}
 	
 
+	/**
+	 * Complexity: O(2**16)
+	 */
 	public void init(int M, int N, int X, boolean first) {
 		
 		MY_PLAYER	= CellState.P1;
@@ -66,7 +69,10 @@ public class DbSearch {
 	
 
 	/**
-	 * <p>	Complexity: O( N * applied_threats_n**3 )
+	 * <p>	Complexity: O( 11 (12N**2 + N*threats_n**2) )
+	 * <p>	*	depends on the (max) 11 visits, each using findAllAlignments() and visit()
+	 * <p>	*	also, threats_n is because usually threats number doesn't grow between loops
+	 * <p>	*	finally, note that, usually, only few stages are done (1-3)
 	 * @param B
 	 * @param root_pn
 	 * @param time_remaining
@@ -116,10 +122,8 @@ public class DbSearch {
 	//#region ALGORITHM
 
 		/**
-		 * <p>	Complexity (best): O( N * applied_threats_n**3 )
-		 * <p>	*	what counts is, each applied threat creates a new node (including those resulting later)
-		 * <p>	*	so depends on number of initial nodes, and those found in dependency and combination
-		 * <p>	*	(resulting from applied_threats_n for depStage, applied_threats_n**2 for combStage)
+		 * <p>	Complexity (best): O( N * currentDependency.length**2 for each stage )
+		 * <p>	*	capped by combinations, which are applied on all combinations of 2 nodes resulting from dependencyStage
 		 * <p>
 		 * <p>	-	Complexity (generical)(best):	O(dependencyStage + combinationStage),		no win found
 		 * <p>	-	Complexity (generical)(worst):	O(11(dependencyStage + combinationStage)),	additional defensive visits
@@ -226,7 +230,9 @@ public class DbSearch {
 		 * <p>
 		 * <p>	Complexity: same as findAllCombinationNodes() 
 		 * <p>
-		 * <p>	Complexity: O( (6N + added_threats_n * 3 * 16X) * combinations_created_n + N * lastDependency.length**2 )
+		 * <p>	Complexity: O( N * lastDependency.length**2 )
+		 * <p>	*	probably this is the only cap
+		 * <p>	Complexity (more complex): O( (6N + added_threats_n * 3 * 40X) * combinations_created_n + N * lastDependency.length**2 )
 		 * <p>		*	added_threats_n for new combination
 		 * <p>		*	lastDependency.length**2 for each combination
 		 * <p>	Complexity (worst): O(16N * combinations_created_n + N * lastDependency.length**2 ),	if has to create all AlignmentsRows now
@@ -254,9 +260,9 @@ public class DbSearch {
 		}
 
 		/**
-		 * <p>	Complexity (worst):				O( 6N (1 + applied_threats_n) * nodes_created_n )
+		 * <p>	Complexity (worst):				O( 6N (sum of all threats applied for each node) )
 		 * <p>	Complexity (iteration)(worst):	O( 6N (1 + applied_threats_n) )
-		 * <p>	Complexity (iteration)(best):	O(1),		if ended state
+		 * <p>	Complexity (iteration)(best):	O(1),		if ended state, or no alignments
 		 * <p>	*	all ignore visitGlobalDefense
 		 * @param lastDependency
 		 * @param node
@@ -332,10 +338,10 @@ public class DbSearch {
 		 * <p>	Note that checking foundWin() wouldn't work for defensive visits
 		 * <p>	(where of course you haven't found a win yet, but you are proving one, and a defense is not a win).
 		 * <p>
-		 * <p>	Complexity: O( (6N + added_threats_n * 3 * 16X) * combinations_created_n + N * lastDependency.length**2 )
-		 * <p>		*	added_threats_n for new combination
-		 * <p>		*	lastDependency.length**2 for each combination
-		 * <p>	Complexity (worst): O(16N * combinations_created_n + N * lastDependency.length**2 ),	if has to create all AlignmentsRows now
+		 * <p>	Complexity (iteration)(best):	O(N),		if combination not created
+		 * <p>	Complexity (iteration)(worst):	O( 7N + added_threats_n * 3 * 40X )
+		 * <p>		*	added_threats_n variable for each new combination
+		 * <p>	Complexity (worst): O(17N + added_threats_n * 3 * 16X ),	if has to create all AlignmentsRows now
 		 * @param partner fixed node for combination
 		 * @param node iterating node for combination
 		 * @param attacking
@@ -448,7 +454,7 @@ public class DbSearch {
 		 * <p>
 		 * <p>	Complexity:	same as BoardBitDb.getCombined
 		 * <p>	-	Complexity (best):	O( 6N ), 	if nothing added
-		 * <p>	-	Complexity:			O( 6N + added_threats_n * 3 * 16X )
+		 * <p>	-	Complexity:			O( 6N + added_threats_n * 3 * 40X )
 		 * <p>		*	getCopy + findAlignment for each added threat, assuming its len 3 (avg)
 		 * <p>	-	Complexity (worst): O(16N),		if has to create all AlignmentsRows now
 		 * 
