@@ -149,7 +149,16 @@ public class PnSearch implements CXPlayer {
 	}
 
 	/**
-	 * Complexity: O(4X + )
+	 * <p>	Complexity (worst): 	O( 2(created_n - created_n_last) + loops_n*276N**2 + (22N*threats_n**2 for each most_proving) + 3N*(created_n - created_n_last)*loops_n ) )
+	 * <p>	Complexity (better):	O( 2(created_n - created_n_last) + loops_n*276N**2 + (22N*threats_n**2 for each most_proving) + 3N*(created_n - created_n_last) ) )
+	 * <p>	*	def:	created_n is for the last turn; created_n_last for last but one; loops_n number of visit() loops;
+	 * <p>				threats_n number of appliable threats in each most_proving node
+	 * <p>	*	on average (e.g. assuming, incorrectly, all nodes for last move are removed),
+	 * <p>		gc (if linear) and tagTree+removeUnmarkedTree together each visits each node created in the last move (created_n - created_n_last).
+	 * <p>		[ the assumption also has the idea that if less nodes are removed now, more will be removed later ]
+	 * <p>	*	the remaining part is explained as the worst approximation for visit()
+	 * <p>	*	updateAncestors() visits each node between (created_n - created_n_last) and (created_n - created_n_last)*loops_n times (best and worst, impossible, cases).
+	 * <p>	*	the most_proving nodes are loops_n
 	 */
 	@Override
 	public int selectColumn(CXBoard B) {
@@ -246,13 +255,19 @@ public class PnSearch implements CXPlayer {
 		/**
 		 * <p>	Iterative loop for visit.
 		 * <p>	
-		 * <p>	Complexity (iteration): O( 12N**2 + 2DB )
+		 * <p>	Complexity:			O( loops_n*276N**2 + (22N*threats_n**2 for each most_proving) + 3Nn )
+		 * <p>	Complexity (worst): O( loops_n*276N**2 + (22N*threats_n**2 for each most_proving) + 3N*(created_n - created_n_last) )
+		 * <p>	*	using concrete data, we could estimate the worst approximation for updateAncestors using created_n (total)
+		 * <P>	*	while loops_n is the max times the developNode is executed (bc sometimes the game is ended and 1 or 2 DBs are not necessary)
 		 * <p>
-		 * <p>	Complexity (iteration): O( 12N**2 + 2DB + 3Nn )
+		 * <p>	Complexity (iteration):			O( 276N**2 + 22N*threats_n**2 + 3Nn )
+		 * <p>	Complexity (iteration)(best):	O( 3Nn ),								if most_proving ended game
+		 * <p>	Complexity (iteration)(best2):	O( 132N**2 + 11N*threats_n**2 + 3Nn ),	if most_proving proved with db
 		 * <p>	*	capped by develop and updateAncestors
+		 * <p>	*	threats_n number of appliable threats in most_proving
 		 * <p>	*	n number of nodes changed in updateAncestors (proved or in dag)
-		 * <p>	* 	probably, n=h usually (not many parents for each node)
-		 * <p>	*	so, probably, usually only capped by db
+		 * <p>	* 	probably, n not much higher than h usually (not many parents for each node, often only 1)
+		 * <p>	*	so, probably, usually an iteration is only capped by db, but the whole visit not
 		 * @return
 		 */
 		private void visit() {
@@ -285,8 +300,8 @@ public class PnSearch implements CXPlayer {
 		 * <p>	Evaluate a node without using the tree.
 		 * <p>	This will look at the board's state or use dbSearch.
 		 * <p>	
-		 * <p>	Complexity (best):	O(1),							game ended
-		 * <p>	Complexity (worst):	O( N * applied_threats_n**3 ),	db
+		 * <p>	Complexity (best):	O(1),								game ended
+		 * <p>	Complexity (worst):	O( 132N**2 + 11N*threats_n**2 ),	db
 		 * @param node tree's node to eval
 		 * @return true if evaluated the node, i.e. it's an ended state or db found a win sequence.
 		 */
@@ -303,7 +318,7 @@ public class PnSearch implements CXPlayer {
 		/**
 		 * <p>	Evaluate `node` according to a DbSearch.
 		 * <p>
-		 * <p>	Complexity: O( N * applied_threats_n**3 )
+		 * <p>	Complexity: O( 132N**2 + 11N*threats_n**2 )
 		 * @param node tree's node to eval
 		 * @return true if found a win.
 		 */
@@ -366,8 +381,8 @@ public class PnSearch implements CXPlayer {
 		/**
 		 * <p>	Develop a node, i.e. generate its children for the tree.
 		 * <p>
-		 * <p>	Complexity (best):	O( 1 ),				game ended
-		 * <p>	Complexity (worst):	O( 12N**2 + 2DB ),	2 dbsearch
+		 * <p>	Complexity (best):	O( 1 ),								game ended
+		 * <p>	Complexity (worst):	O( 276N**2 + 22N*threats_n**2 ),	2 dbsearch
 		 * @param node
 		 */
 		private void developNode(TTPnNode node) {
@@ -380,7 +395,8 @@ public class PnSearch implements CXPlayer {
 		/**
 		 * <p>	Generate all node's children.
 		 * <p>
-		 * <p>	Complexity: O( 12N**2 + N * applied_threats_n**3 )
+		 * <p>	Complexity (best):	O( 24N**2 + N*threats_n**2 )
+		 * <p>	Complexity (worst):	O( 144N**2 + 11N*threats_n**2 )
 		 * <p>	*	capped by db and getThreatCounts
 		 * @param node
 		 */
@@ -501,8 +517,10 @@ public class PnSearch implements CXPlayer {
 		}
 
 		/**
-		 * <p>	Complexity:	O(3N n)
+		 * <p>	Complexity (worst):	O(3N n)
 		 * <p>	*	n number of nodes changed (proved or in dag)
+		 * <p>	Complexity (iteration)(best):	O(1),	if proved or doesn't check parents
+		 * <p>	Complexity (iteration)(worst):	O(6N),	if expanded becomes proved
 		 * @param node
 		 * @param game_state init to `board.game_state`
 		 * @param most_proving true if it's the most_proving node, i.e. only first it
@@ -559,6 +577,7 @@ public class PnSearch implements CXPlayer {
 		/**
 		 * <p>	Complexity: O(h)
 		 * <p>	*	h depth of the path root-most_proving
+		 * <p>	*	with 9s, usually depth = 5-10
 		 * @param depth where to reset to
 		 * @param marked_stack
 		 */
@@ -572,8 +591,8 @@ public class PnSearch implements CXPlayer {
 		 * <p>	Remove from the dag an isolated tree, rooted at the position of `board`,
 		 * <p>	i.e. remove the root and all its descendants if they only had one parent (also in this same tree).
 		 * <p>
-		 * <p>	Complexity: O(n),
-		 * <p>	*	n number of nodes in the sub-tree
+		 * <p>	Complexity: O(tree.size),
+		 * <p>	*	number of nodes in the sub-tree
 		 * @param board current board
 		 * @param depth current depth
 		 * @param isroot true for the tree root
@@ -600,8 +619,8 @@ public class PnSearch implements CXPlayer {
 		/**
 		 * <p>	Call pruneTree for each board in `boards`.
 		 * <p>
-		 * <p>	Complexity: O(n),
-		 * <p>	*	n number of nodes in the sub-tree
+		 * <p>	Complexity: O( (intersection of trees for each node).size ),
+		 * <p>	*	total number of unique nodes in all sub-trees for all given nodes (one is not repeated)
 		 * @param boards boards to prune
 		 */
 		private void pruneTrees(LinkedList<BoardBitPn> boards) {

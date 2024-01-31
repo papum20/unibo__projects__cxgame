@@ -24,44 +24,44 @@ public class testerPn {
 		
 
 		String[] bb = {
-			"oooxoxxooooxooxoxxoxx.xx.x.xxx.x.xx.x....oxx..x...x....x..",
-			"xoxooxxooxxxoxxoooooxxoxooxoooooxooxooxoxxooxoo.oxo.o.oo..",
-			"xooxxxxxxxxxoxxooxxxooxxxxxxxoooxxxxxxxxxoxoxxxxxxxxxoxxxo",
-			"xoxxooooooooxxxxxxxxxoxxxxxxooxxxxoxxxxoooxxxxxxxxxoxxxxxo",
-			"xxxoxxoxxxxxxoxxoxxxxoxoxxoxoooooooxoxooxxxxxxxoxxxoxxoxxo",
-			"oxooxooxooxooooxxooxoooooooxxxxxxxxxoxoxxooooxooxoxoxxxxox",
-			"xxxoxoxxoxxooxoxxoxxoxoxoooooxxooooooxoxooxxxxooooooxxxoxo",
-			"xxoxxxxxoooxxxoxxxoxoxoxoooooxoxxxxxxooxoxxooooxoooooxxxxo",
-			"xxoxxxxxxxoooxxxxxxooxxxxxoxoxoxxxoxxxxxoxoxooxxoooooxxxxo",
-			"xxoxoxooooxxoxxoxxooxxoxxxoxxooooxooooooxooxxoxxxxoooxxxxo",
-			"xoxxxxxxxxooxxoxxxxxxxoxoxxooxoxxxoxxxxxxooxxxxxxooooxxoxo",
-			"xxoxxxxoooxxoxxoxxoxoxoxxxooxxxooxooooooxooxxxxxxxoooxxxxo",
-			"xxoxxxxxxxooxoxxxxxooxooxxoxoxxxxoxxxxxxxooxxxoxxoxxxoxxxo",
-			"xxooxxooooxxoxxoxxoxoooxxooxxxxoooooooooxoxxxxoxxxxooxxxoo",
-			"xxoxxoxxxxoooxxxoxxxoxoxooxxooxooooxxxxxooooxxooxoxxxxoxoo",
-			"oxxoxxxoooxxxxxxxxoxoxxxxooxxoxoxoooooooxxooxxooxoxooooxox",
-			"xxxxxooxxxoooxxoxoxxoxoxoxooooxoooxxxxxxoxoxxxoxxxxxxxoxox",
-			"xxxxxxxoooxxxxxxxooxoxoxxxoxxxooxoooooooxxoxoxxoooxooooxox",
-			"oxxxxxoxxxoooxxoxxxxoxoxoooxooxoxooxxxxxoxoxxxoooxxxxxoxoo",
-			"xxxxoxooooxxxxxxxooxxxoxoxooooxxxoooooooxxoxoooooooxxooxxo",
-			"xxxooxoxxxoooxxxxoxxoxoxooooooxoxxoxxxxxoxoxoooooxoxoxxooo",
-			"xoxxoxooooxxxxooxooxxxoxooooooxoxooooxooxxoxooooooooxxoooo",
-			"xxoxoxoxxxoooooxxoxooxoooooooxxoxooxxxxxoxoxoooooxoxoooooo",
-			"xxxxoxooooxxxooxxooxxooxooooooxooooooxooxoxxooooxoxoxxoooo",
-			"xxoxoxoxxxoooxooxoxooooxooxoooxoxooxxxxxoxoxooooxxxoooxoox",
-			"xxoooxoxooxxxooooooxooxoooooxxxoxooooxooxooooxooxxxoxxoxox",
-			"xxoxxoxoxxooooooxoooxxxxxoooooxoxoxxxxxxoxoxoxoxxoxoxxooox",
-			"xxoxoooxooxxxooxoooooxxxxooxxxooxoxoooooxxoooxxxooxooxooox",
-			"oxoxooooxxooooxoxxxxxxoxoxoxooooxoxoxoxxoxooxxxoooxoxxooox",
-			"oxoxoooxooxxoxooooooooxxxxoooooxxoxxoxooxxooooxoooxoooooxx",
-			"ooooooooxxooxoooooooooxxxxoooxoxxxxxoxxxoxooooooxoxoxxooxx",
-			"xxoxooooooxxooooooooxxoxxooooxoxxxxxxxooxxoxooxoxoxoxoooxx",
-			"xooxooooxxooxxoooooooxoooxoooxxxxxoxoxxxxxoxxxoooooxooooxo",
-			"xxooooooooxxooooooooooxxoxoooxxooxxxxoxooxxxxoxoooxxxoooox",
-			"xooooooooxooxoooooooxooxxxoooxooxooxooxooxoxooxoxooxxoxoox",
-			"xxxooxoxooxxoxooooooxxxxooxxxoxoxxxooxxxooxoxxooxxxxxooxxo",
-			"xooxxxxooxooxoooooooxxoooooxxxooxoooxooxxxxoooxoxooooxoxox",
-			"xoooooxoxxxxoooxooooooxoooooxooooxxoxxxoxxxoxxoxxoooooooox"
+			"..........................................................",
+			"..........................................................",
+			"..........................................................",
+			"..........................................................",
+			"x.........................................................",
+			"ox........................................................",
+			"ox..................x.....................................",
+			"xooo..........o.....x.....................................",
+			"oxxx..........x.....o.....................................",
+			"xoox..........x.....o.....................................",
+			"ooox..........x.....o.....................................",
+			"xxoo..........x.....o.o...................................",
+			"oxxxx.........x.....o.o...................................",
+			"xoxxx.........x.....o.o...................................",
+			"oooxx.........x.....o.x...................................",
+			"oxoxo.........x.....xoo...................................",
+			"xooxo.........x.....ooo...................................",
+			"xoxox.........x.....ooo...................................",
+			"xoxxx......x.xo....oooo...................................",
+			"xoxxo......x.xxo...oooo....o..............................",
+			"xooxx......x.xoo.o.oooo....o..............................",
+			"xooxx......x.ooooo.oooo....o....x.........................",
+			"ooxxx......xxxxoxo.oooo.o..x....x.......................x.",
+			"xooxx......oxxoxox.oooo.o..x....x.......................x.",
+			"xoxxx..x...oxxoooo.ooxoox..o....x.............x.........x.",
+			"xooxx..x...oxoooxx.oooxoo..o....x.............x.........x.",
+			"xoxxxx.x...oxxoooo.oxoooo..o....o...o.........o.......x.x.",
+			"xxoxxx.x...oxxoxoo.xoooooo.o....x..xx.........x......xx.o.",
+			"xoxoxo.o...oxooooo.ooooooo.oo...x..xx.........x......xx.o.",
+			"xoxooxxoxx.xxooooo.ooooxooooo...x..xx....x....x.....xxx.ox",
+			"xoxoxxxoxooxooxoooooooooooxoo...x..xx...xx....x...x.oxx.ox",
+			"xooxxoxooooxooxoooxooooxooooooo.x.xxxxo.xx....xx.xx.oox.xx",
+			"oxxxxoooooxxxoxoooxooooooxoooooxxxxxxxxxxxo.xoxx.xxxooo.xo",
+			"xxoxooooooxxxoxxooxooooooxooxoxoxxxoxxxxxxx.xxxo.xxooox.xo",
+			"oooxoxooooxxxoxxxooooxoooooxooooxxxoxxxxxxxxxxxo.xxxooo.xx",
+			"xoxxoxoxxooxoxxxxxoooxoxxooxooxoxxooxxoxoxxxxxxooxxxxxo.xx",
+			"ooooxxoxxxxoxooxxooxxxoxxooxoxxxoxooxooxoooooxxoxxoxoxoxxx",
+			"oxxxooxoxxooxooxoxxoxxxoxooxoxxxoxxxxxooxoxxxxxxoxxoxxxooo"
 		};
 
 		for(int i = 0; i< M; i++) {
@@ -76,10 +76,10 @@ public class testerPn {
 		}
 		
 		//last_board.markColumn(1);
-		last_board.markColumn(57);
+		last_board.markColumn(26);
 
 		// set the player to do next move(set in last_board)
-		pn.board.player = CellState.P2;
+		pn.board.player = CellState.P1;
 		
 		int res = pn.selectColumn(last_board);
 

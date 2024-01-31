@@ -3,11 +3,11 @@ package pndb.structures;
 import java.util.ArrayList;
 
 import pndb.structures.BiList.BiNode;
-import pndb.threats.ThreatPosition;
+import pndb.threats.Alignment;
 
 
 
-public class AlignmentsRows extends ArrayList<BiList_ThreatPos> {
+public class AlignmentsRows extends ArrayList<BiList_Alignments> {
 
 	/**
 	 * Complexity: O(size)
@@ -28,7 +28,7 @@ public class AlignmentsRows extends ArrayList<BiList_ThreatPos> {
 		int size = copy.size();
 		for(int i = 0; i < size; i++) {
 			if(copy.get(i) == null) add(null);
-			else add(new BiList_ThreatPos(copy.get(i)));
+			else add(new BiList_Alignments(copy.get(i)));
 		}
 	}
 
@@ -39,13 +39,13 @@ public class AlignmentsRows extends ArrayList<BiList_ThreatPos> {
 	 * @param f
 	 * @return
 	 */
-	public BiNode<ThreatPosition> add(byte player, int index, ThreatPosition f) {
-		BiList_ThreatPos list = get(index);
+	public BiNode<Alignment> add(byte player, int index, Alignment f) {
+		BiList_Alignments list = get(index);
 		if(list == null) {
-			list = new BiList_ThreatPos();
+			list = new BiList_Alignments();
 			set(index, list);
 		}
-		BiNode<ThreatPosition> res = list.add(player, f);
+		BiNode<Alignment> res = list.add(player, f);
 		return res;
 	}
 
@@ -55,7 +55,7 @@ public class AlignmentsRows extends ArrayList<BiList_ThreatPos> {
 	 * @param index
 	 * @param node
 	 */
-	public void remove(byte player, int index, BiNode<ThreatPosition> node) {
+	public void remove(byte player, int index, BiNode<Alignment> node) {
 		get(index).remove(player, node);
 	}
 
@@ -65,8 +65,8 @@ public class AlignmentsRows extends ArrayList<BiList_ThreatPos> {
 	 * @param index
 	 * @return
 	 */
-	public BiNode<ThreatPosition> getFirst(byte player, int index) {
-		BiNode<ThreatPosition> res = get(index).getFirst(player);
+	public BiNode<Alignment> getFirst(byte player, int index) {
+		BiNode<Alignment> res = get(index).getFirst(player);
 		return res;
 	}
 

@@ -62,6 +62,17 @@ public class testerPn {
 			"xxxooxoxooxxoxooooooxxxxooxxxoxoxxxooxxxooxoxxooxxxxxooxxo",
 			"xooxxxxooxooxoooooooxxoooooxxxooxoooxooxxxxoooxoxooooxoxox",
 			"xoooooxoxxxxoooxooooooxoooooxooooxxoxxxoxxxoxxoxxoooooooox"
+			//,
+			//".........8",
+			//".........7",
+			//".........6",
+			//".........5",
+			//"..oO.oo..4",
+			//"..xXXxx..3",
+			//"..xxxxx..2",
+			//"..xxoxx..1",
+			//"..xoxxx..0",
+			//"012345678 ",
 		};
 
 		for(int i = 0; i< M; i++) {

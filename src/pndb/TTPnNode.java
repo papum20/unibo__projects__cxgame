@@ -130,7 +130,9 @@ public class TTPnNode extends Element<TTPnNode, KeyDepth> {
 	/**
 	 * <p>	Copy this tag to all descendants.
 	 * <p>	Complexity: O(tree.size)
-	 * <p>	-	= O(N**(M*N-d) )
+	 * <p>	Complexity (worst): O(created_n)
+	 * <p>	*	created_n (for last turn) is worst approx for size (experimental)
+	 * <p>	-	= O(N**(M*N-d) ),	worst approx for size (formula)
 	 */
 	public void tagTree() {
 		for(int j = 0; j < BoardBit.N; j++) {
@@ -149,7 +151,9 @@ public class TTPnNode extends Element<TTPnNode, KeyDepth> {
 	/**
 	 * <p>	Remove descendants from dag if have tag!=tag.
 	 * <p>	Complexity: O(tree.size)
-	 * <p>	-	= O(N**(M*N-d) )
+	 * <p>	Complexity (worst): O(created_n - created_n_last)
+	 * <p>	*	difference created_n for last and last but 1 turns is worst approx for size (experimental)
+	 * <p>	-	= O(N**(M*N-d) ),	worst approx for size (formula)
 	 * @param tag not to unmark
 	 */
 	public void removeUnmarkedTree(int tag) {

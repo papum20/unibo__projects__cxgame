@@ -12,9 +12,9 @@ import java.util.HashMap;
 import java.util.LinkedList;
 
 import pndb.constants.MovePair;
-import pndb.threats.ThreatCells;
-import pndb.threats.ThreatPosition;
-import pndb.threats.ThreatCells.USE;
+import pndb.threats.Threat;
+import pndb.threats.Alignment;
+import pndb.threats.Threat.USE;
 
 
 
@@ -283,9 +283,9 @@ public class Operators {
 	 * @param defender
 	 * @return null for some useless operators (only used to check for alignments)
 	 */
-	public static ThreatCells applied(final BoardBitDb board, ThreatPosition op, byte attacker, byte defender) {
+	public static Threat applied(final BoardBitDb board, Alignment op, byte attacker, byte defender) {
 
-		ThreatCells res = APPLIERS[tier_from_code(op.type)].get((int)(op.type)).getThreatCells(board, op);
+		Threat res = APPLIERS[tier_from_code(op.type)].get((int)(op.type)).getThreatCells(board, op);
 		// for vertical direction, only allow the first move as attacker's
 		if(res != null && op.start.getDirection(op.end).equals(MovePair.DIRECTIONS[MovePair.DIR_IDX_VERTICAL])) {
 			res.uses[0] = USE.ATK;
@@ -316,22 +316,22 @@ public class Operators {
 	 * 
 	 * @param stacked >= 1 (= 1 or 2)
 	 */
-	public static ThreatCells makeStacked(ThreatCells threat, MovePair last_stacked, int stacked) {
-		ThreatCells res;
+	public static Threat makeStacked(Threat threat, MovePair last_stacked, int stacked) {
+		Threat res;
 
 		if(stacked == 1) {
 			if(tier_from_code(threat.type) == 2 && threat.related.length == 2) {
-				res = new ThreatCells(3, threat.type);
+				res = new Threat(3, threat.type);
 				res.set(new MovePair(last_stacked), 0, USE.ATK);
 				res.set(new MovePair(threat.related[0]), 1, USE.DEF);
 				res.set(new MovePair(threat.related[1]), 2, USE.DEF);
 			} else {	// tier == 1
-				res = new ThreatCells(2, threat.type);
+				res = new Threat(2, threat.type);
 				res.set(new MovePair(last_stacked), 0, USE.ATK);
 				res.set(new MovePair(last_stacked.i + 1, last_stacked.j), 1, USE.DEF);
 			}
 		} else {
-			res = new ThreatCells(1, threat.type);
+			res = new Threat(1, threat.type);
 			res.set(new MovePair(last_stacked.i - 1, last_stacked.j), 0, USE.ATK);
 		}
 
@@ -410,7 +410,7 @@ public class Operators {
 				so there are no problems with checking vertical alignments (which are never tier 3, because
 				they would need empty cells at the bottom)
 				*/
-				public ThreatCells getThreatCells(final BoardBitDb board, ThreatPosition pos);
+				public Threat getThreatCells(final BoardBitDb board, Alignment pos);
 			}
 
 			public static class AppliersMap extends HashMap<Integer, Applier> {
@@ -421,7 +421,7 @@ public class Operators {
 				}
 			}
 
-			public static class ThreatsByRank extends ArrayList<LinkedList<ThreatCells>> {
+			public static class ThreatsByRank extends ArrayList<LinkedList<Threat>> {
 
 				/**
 				 * Complexity: O(1)
@@ -434,9 +434,9 @@ public class Operators {
 				/**
 				 * Complexity: O(1)
 				 */
-				public void add(ThreatCells threat) {
+				public void add(Threat threat) {
 					int tier = tier_from_code(threat.type);
-					if(get(tier) == null) set(tier, new LinkedList<ThreatCells>());
+					if(get(tier) == null) set(tier, new LinkedList<Threat>());
 					get(tier).addFirst(threat);
 				}
 			}
@@ -449,7 +449,7 @@ public class Operators {
 				/**
 				 * Complexity: O(1)
 				 */
-				public ThreatCells getThreatCells(final BoardBitDb board, ThreatPosition pos) {
+				public Threat getThreatCells(final BoardBitDb board, Alignment pos) {
 					return null;
 				}
 			}
@@ -457,8 +457,8 @@ public class Operators {
 				/**
 				 * Complexity: O(1)
 				 */
-				public ThreatCells getThreatCells(final BoardBitDb board, ThreatPosition pos) {
-					ThreatCells res = new ThreatCells(1, pos.type);
+				public Threat getThreatCells(final BoardBitDb board, Alignment pos) {
+					Threat res = new Threat(1, pos.type);
 					if(board.cellFree(pos.start.i, pos.start.j))	res.set(pos.start, 0, USE.ATK);
 					else											res.set(pos.end, 0, USE.ATK);
 					return res;
@@ -468,8 +468,8 @@ public class Operators {
 				/**
 				 * Complexity: worst: O(X)
 				 */
-				public ThreatCells getThreatCells(final BoardBitDb board, ThreatPosition pos) {
-					ThreatCells res = new ThreatCells(1, pos.type);
+				public Threat getThreatCells(final BoardBitDb board, Alignment pos) {
+					Threat res = new Threat(1, pos.type);
 					MovePair dir	= pos.start.getDirection(pos.end);
 					MovePair it		= pos.start.getSum(dir);
 					//doesn't check termination condition ( && !it.equals(op.end)): assumes the operator is appliable
@@ -483,8 +483,8 @@ public class Operators {
 				/**
 				 * Complexity: O(1)
 				 */
-				public ThreatCells getThreatCells(final BoardBitDb board, ThreatPosition pos) {
-					ThreatCells res	= new ThreatCells(1, pos.type);
+				public Threat getThreatCells(final BoardBitDb board, Alignment pos) {
+					Threat res	= new Threat(1, pos.type);
 					MovePair dir	= pos.start.getDirection(pos.end);
 					MovePair cell	= pos.start.getSum(dir);
 					if(!board.cellFree(cell.i, cell.j)) cell.reset(pos.end).subtract(dir);
@@ -497,8 +497,8 @@ public class Operators {
 				/**
 				 * Complexity: worst: O(X)
 				 */
-				public ThreatCells getThreatCells(final BoardBitDb board, ThreatPosition pos) {
-					ThreatCells res = new ThreatCells(2, pos.type);
+				public Threat getThreatCells(final BoardBitDb board, Alignment pos) {
+					Threat res = new Threat(2, pos.type);
 					MovePair	it	= new MovePair(pos.start),
 								dir	= pos.start.getDirection(pos.end);
 					int idx = 0;
@@ -514,8 +514,8 @@ public class Operators {
 				/**
 				 * Complexity: worst: O(X)
 				 */
-				public ThreatCells getThreatCells(final BoardBitDb board, ThreatPosition pos) {
-					ThreatCells res = new ThreatCells(4, pos.type);
+				public Threat getThreatCells(final BoardBitDb board, Alignment pos) {
+					Threat res = new Threat(4, pos.type);
 					MovePair dir = pos.start.getDirection(pos.end);
 					MovePair it = pos.start.getSum(dir);
 					if (!board.cellFree(it.i, it.j)) {
@@ -540,8 +540,8 @@ public class Operators {
 				/**
 				 * Complexity: worst: O(X)
 				 */
-				public ThreatCells getThreatCells(final BoardBitDb board, ThreatPosition pos) {
-					ThreatCells res = new ThreatCells(4, pos.type);
+				public Threat getThreatCells(final BoardBitDb board, Alignment pos) {
+					Threat res = new Threat(4, pos.type);
 					MovePair	dir = pos.start.getDirection(pos.end),
 								it = new MovePair(pos.start);
 					res.set(pos.start, 0, USE.DEF);
@@ -559,8 +559,8 @@ public class Operators {
 				/**
 				 * Complexity: O(1)
 				 */
-				public ThreatCells getThreatCells(final BoardBitDb board, ThreatPosition pos) {
-					ThreatCells res = new ThreatCells(3, pos.type);
+				public Threat getThreatCells(final BoardBitDb board, Alignment pos) {
+					Threat res = new Threat(3, pos.type);
 					MovePair dir = pos.start.getDirection(pos.end);
 					res.set(pos.start.getSum(dir), 0, USE.DEF);
 					if (board.cellFree(pos.start.i + 2*dir.i, pos.start.j + 2*dir.j)) {
@@ -576,8 +576,8 @@ public class Operators {
 				/**
 				 * Complexity: worst: O(X)
 				 */
-				public ThreatCells getThreatCells(final BoardBitDb board, ThreatPosition pos) {
-					ThreatCells res = new ThreatCells(3, pos.type);
+				public Threat getThreatCells(final BoardBitDb board, Alignment pos) {
+					Threat res = new Threat(3, pos.type);
 					MovePair dir = pos.start.getDirection(pos.end);
 					MovePair it = pos.start.getSum(dir);
 					res.set(new MovePair(it), 0, USE.DEF);

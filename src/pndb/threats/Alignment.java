@@ -4,7 +4,7 @@ import pndb.constants.MovePair;
 
 
 
-public class ThreatPosition {
+public class Alignment {
 	
 	public final MovePair start;
 	public final MovePair end;
@@ -12,21 +12,21 @@ public class ThreatPosition {
 	public final MovePair last_stacked;
 	public final byte stacked;
 
-	public ThreatPosition() {
+	public Alignment() {
 		start	= null;
 		end		= null;
 		type	= '\0';
 		last_stacked = null;
 		stacked	= 0;
 	}
-	public ThreatPosition(MovePair start, MovePair end, byte type) {
+	public Alignment(MovePair start, MovePair end, byte type) {
 		this.start		= new MovePair(start);
 		this.end		= new MovePair(end);
 		this.type		= type;
 		this.last_stacked = null;
 		this.stacked	= 0;
 	}
-	public ThreatPosition(MovePair start, MovePair end, byte type, MovePair last_stacked, byte stacked) {
+	public Alignment(MovePair start, MovePair end, byte type, MovePair last_stacked, byte stacked) {
 		this.start		= new MovePair(start);
 		this.end		= new MovePair(end);
 		this.type		= type;

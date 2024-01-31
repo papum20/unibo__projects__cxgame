@@ -12,13 +12,13 @@ import pndb.constants.GameState;
 import pndb.constants.MovePair;
 import pndb.constants.Constants.BoardsRelation;
 import pndb.threats.ThreatApplied;
-import pndb.threats.ThreatCells;
-import pndb.threats.ThreatPosition;
-import pndb.threats.ThreatCells.USE;
+import pndb.threats.Threat;
+import pndb.threats.Alignment;
+import pndb.threats.Threat.USE;
 import pndb.tt.TTElementBool;
 import pndb.tt.TranspositionTable;
 import pndb.structures.AlignmentsRows;
-import pndb.structures.BiList_ThreatPos;
+import pndb.structures.BiList_Alignments;
 import pndb.structures.BiList.BiNode;
 
 
@@ -359,7 +359,7 @@ public class BoardBitDb extends BoardBit {
 		 * @return :	a new board resulting after developing this with such threat (dependency stage);
 		 * 				the new board only has alignment involving the newly marked cells
 		 */
-		public BoardBitDb getDependant(ThreatCells threat, int atk, USE use, int max_tier, boolean check_threats) {
+		public BoardBitDb getDependant(Threat threat, int atk, USE use, int max_tier, boolean check_threats) {
 			
 			BoardBitDb res = null;
 			
@@ -472,7 +472,7 @@ public class BoardBitDb extends BoardBit {
 		/**
 		 * Complexity: O(1)
 		 */
-		public void addThreat(ThreatCells threat, int atk, byte attacker) {
+		public void addThreat(Threat threat, int atk, byte attacker) {
 			ThreatApplied at = new ThreatApplied(threat, atk, attacker);
 			markedThreats.addLast(at);
 		}
@@ -512,10 +512,10 @@ public class BoardBitDb extends BoardBit {
 					if(alignments_by_dir[d] == null)
 						continue;
 
-					BiList_ThreatPos als_in_row = alignments_by_dir[d].get(getIndex_for_alignmentsByDir(DIRECTIONS[d], center));
+					BiList_Alignments als_in_row = alignments_by_dir[d].get(getIndex_for_alignmentsByDir(DIRECTIONS[d], center));
 
 					if(als_in_row != null) {
-						BiNode<ThreatPosition>	al = als_in_row.getFirst(player),
+						BiNode<Alignment>	al = als_in_row.getFirst(player),
 												al_next;
 						
 						while(al != null) {
@@ -610,8 +610,8 @@ public class BoardBitDb extends BoardBit {
 						//add to structures
 						threat_start.resetToVector(c1, DIRECTIONS[dir_index], -before);
 						threat_end.resetToVector(c2, DIRECTIONS[dir_index], alignment.out - before);
-						ThreatPosition threat_pos = (last_stacked == null) ? new ThreatPosition(threat_start, threat_end, threat_code)
-							: new ThreatPosition(threat_start, threat_end, threat_code, last_stacked, (byte)stacked);
+						Alignment threat_pos = (last_stacked == null) ? new Alignment(threat_start, threat_end, threat_code)
+							: new Alignment(threat_start, threat_end, threat_code, last_stacked, (byte)stacked);
 						addAlignment(threat_pos, dir_index, player);
 					}
 				}
@@ -997,14 +997,14 @@ public class BoardBitDb extends BoardBit {
 					if(alignments_by_row == null)
 						continue;
 
-					for(BiList_ThreatPos alignments_in_line : alignments_by_row) {
+					for(BiList_Alignments alignments_in_line : alignments_by_row) {
 						if(alignments_in_line == null)
 							continue;
 							
-						BiNode<ThreatPosition> alignment = alignments_in_line.getFirst(attacker);
+						BiNode<Alignment> alignment = alignments_in_line.getFirst(attacker);
 						if(alignment != null && Operators.tier_from_code(alignment.item.type) <= max_tier) {
 							do {
-								ThreatCells cell_threat_operator = Operators.applied(this, alignment.item, attacker, defender);
+								Threat cell_threat_operator = Operators.applied(this, alignment.item, attacker, defender);
 								
 								if(cell_threat_operator != null) res.add(cell_threat_operator);
 								alignment = alignment.next;
@@ -1034,11 +1034,11 @@ public class BoardBitDb extends BoardBit {
 					if(alignments_by_dir[d] == null)
 						continue;
 
-					for(BiList_ThreatPos alignments_in_line : alignments_by_dir[d]) {
+					for(BiList_Alignments alignments_in_line : alignments_by_dir[d]) {
 						if(alignments_in_line == null)
 							continue;
 						
-						BiNode<ThreatPosition> p = alignments_in_line.getFirst(player);
+						BiNode<Alignment> p = alignments_in_line.getFirst(player);
 						while(p != null) {
 							// if in same col
 							if(p.item.start.j == p.item.end.j)
@@ -1093,7 +1093,7 @@ public class BoardBitDb extends BoardBit {
 		 * <p>	Complexity (best):	O(1)
 		 * <p>	Complexity (worst):	O(2N), if has to create an AlignmentsRows
 		 */
-		protected void addAlignment(ThreatPosition alignment, int dir_index, byte player) {
+		protected void addAlignment(Alignment alignment, int dir_index, byte player) {
 			if(alignments_by_dir[dir_index] == null)
 				alignments_by_dir[dir_index] = new AlignmentsRows(alignmentsByDirSize(dir_index));
 			alignments_by_dir[dir_index].add(player, getIndex_for_alignmentsByDir(DIRECTIONS[dir_index], threat_start), alignment);
@@ -1104,7 +1104,7 @@ public class BoardBitDb extends BoardBit {
 		 * <p>	Helper, for adding an alignment to the structures.
 		 * <p>	Complexity: O(1)
 		 */
-		protected void removeAlignmentNode(BiList_ThreatPos alignments_in_line, BiNode<ThreatPosition> node, byte player) {
+		protected void removeAlignmentNode(BiList_Alignments alignments_in_line, BiNode<Alignment> node, byte player) {
 			alignments_in_line.remove(player, node);
 			alignments_n--;
 		}
@@ -1171,7 +1171,7 @@ public class BoardBitDb extends BoardBit {
 
 						if(alignments_by_dir[d].get(i) != null) {
 							res += indent + "index " + i + "\n\n";
-							for(BiNode<ThreatPosition> p = alignments_by_dir[d].getFirst(player, i);
+							for(BiNode<Alignment> p = alignments_by_dir[d].getFirst(player, i);
 								p != null; p = p.next
 							) {
 								res += indent + p.item + "\n\n";

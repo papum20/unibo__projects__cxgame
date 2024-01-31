@@ -4,7 +4,7 @@ import pndb.constants.MovePair;
 
 
 
-public class ThreatCells {
+public class Threat {
 
 	public static enum USE {
 		ATK,
@@ -20,7 +20,7 @@ public class ThreatCells {
 	
 	
 	
-	public ThreatCells(int related, byte type) {
+	public Threat(int related, byte type) {
 		this.related = new MovePair[related];
 		uses = new USE[related];
 		this.type = type;

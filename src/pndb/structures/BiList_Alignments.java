@@ -2,28 +2,28 @@ package pndb.structures;
 
 import pndb.constants.CellState;
 import pndb.structures.BiList.BiNode;
-import pndb.threats.ThreatPosition;
+import pndb.threats.Alignment;
 
 
 
-public class BiList_ThreatPos {
+public class BiList_Alignments {
 
-	private BiList<ThreatPosition> p1;
-	private BiList<ThreatPosition> p2;
+	private BiList<Alignment> p1;
+	private BiList<Alignment> p2;
 
 
 
-	public BiList_ThreatPos() {
-		p1 = new BiList<ThreatPosition>();
-		p2 = new BiList<ThreatPosition>();
+	public BiList_Alignments() {
+		p1 = new BiList<Alignment>();
+		p2 = new BiList<Alignment>();
 	}
 	/**
 	 * WARNING: doesn't create new instances of each OperatorPosition, just uses the same
 	 * Complexity: O(2 * list_length)
 	 */
-	public BiList_ThreatPos(BiList_ThreatPos copy) {
-		p1 = new BiList<ThreatPosition>();
-		p2 = new BiList<ThreatPosition>();
+	public BiList_Alignments(BiList_Alignments copy) {
+		p1 = new BiList<Alignment>();
+		p2 = new BiList<Alignment>();
 		copy(p1, copy.p1.getFirst());
 		copy(p2, copy.p2.getFirst());
 	}
@@ -33,7 +33,7 @@ public class BiList_ThreatPos {
 	 * @param dest
 	 * @param from_node
 	 */
-	private void copy(BiList<ThreatPosition> dest, BiNode<ThreatPosition> from_node) {
+	private void copy(BiList<Alignment> dest, BiNode<Alignment> from_node) {
 		if(from_node != null) {
 			copy(dest, from_node.next);
 			dest.addFirst(from_node.item);
@@ -47,9 +47,9 @@ public class BiList_ThreatPos {
 	 * @param f
 	 * @return
 	 */
-	public BiNode<ThreatPosition> add(byte player, ThreatPosition f) {
-		BiList<ThreatPosition> list = (player == CellState.P1) ? p1 : p2;
-		BiNode<ThreatPosition> res = list.addFirst(f);
+	public BiNode<Alignment> add(byte player, Alignment f) {
+		BiList<Alignment> list = (player == CellState.P1) ? p1 : p2;
+		BiNode<Alignment> res = list.addFirst(f);
 		return res;
 	}
 
@@ -58,8 +58,8 @@ public class BiList_ThreatPos {
 	 * @param player
 	 * @param node
 	 */
-	public void remove(byte player, BiNode<ThreatPosition> node) {
-		BiList<ThreatPosition> list = (player == CellState.P1) ? p1 : p2;
+	public void remove(byte player, BiNode<Alignment> node) {
+		BiList<Alignment> list = (player == CellState.P1) ? p1 : p2;
 		list.remove(node);
 	}
 
@@ -77,7 +77,7 @@ public class BiList_ThreatPos {
 	 * @param player
 	 * @return
 	 */
-	public BiNode<ThreatPosition> getFirst(byte player) {
+	public BiNode<Alignment> getFirst(byte player) {
 		return (player == CellState.P1) ? p1.getFirst() : p2.getFirst();
 	}
 

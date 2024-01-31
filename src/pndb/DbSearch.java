@@ -11,8 +11,8 @@ import pndb.constants.MovePair;
 import pndb.constants.Constants.BoardsRelation;
 import pndb.structs.DbSearchResult;
 import pndb.threats.ThreatApplied;
-import pndb.threats.ThreatCells;
-import pndb.threats.ThreatCells.USE;
+import pndb.threats.Threat;
+import pndb.threats.Threat.USE;
 import pndb.tt.TTElementBool;
 import pndb.tt.TranspositionTable;
 import pndb.tt.TranspositionTable.Element.Key;
@@ -281,10 +281,10 @@ public class DbSearch {
 				//LinkedList<CXCell[]> applicableOperators = getApplicableOperators(node, MAX_CHILDREN, my_attacker);
 				ThreatsByRank applicableOperators = node.board.getApplicableOperators(max_tier);
 
-				for(LinkedList<ThreatCells> tier : applicableOperators) {
+				for(LinkedList<Threat> tier : applicableOperators) {
 					if(tier != null)
 					{
-						for(ThreatCells threat : tier) {
+						for(Threat threat : tier) {
 
 							int atk_index = 0;
 							//stops either after checking all threats, or if found a win/defense (for defended it is just any possible winning sequence)
@@ -437,7 +437,7 @@ public class DbSearch {
 		 * <p>		*	capped by getCopy+checkAlignments
 		 * <p>
 		 */
-		protected DbNode addDependentChild(DbNode node, ThreatCells threat, int atk, LinkedList<DbNode> lastDependency) {
+		protected DbNode addDependentChild(DbNode node, Threat threat, int atk, LinkedList<DbNode> lastDependency) {
 			
 			BoardBitDb new_board	= node.board.getDependant(threat, atk, USE.BTH, node.getMaxTier(), true);
 			DbNode newChild 		= new DbNode(new_board, false, node.getMaxTier());
