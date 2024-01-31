@@ -88,7 +88,7 @@ public class BoardBitDb extends BoardBit {
 	protected int count = 0;
 	protected int found = 0;
 	protected static boolean DEBUG_ON		= false;
-	protected static boolean LOG_ON			= true;
+	protected static boolean LOG_ON			= false;
 	protected static boolean DEBUG_PRINT	= false;
 	protected static FileWriter file;
 	protected static String log;
@@ -282,7 +282,6 @@ public class BoardBitDb extends BoardBit {
 		 */
 		protected void checkAlignments(MovePair cell, int max_tier, int dir_excluded, String caller) {
 
-			System.out.println("check:\t" + cell);
 			if(isWinningMove(cell.i, cell.j))
 				game_state = cell2GameState(cell.i, cell.j);
 			else {
@@ -361,19 +360,10 @@ public class BoardBitDb extends BoardBit {
 					break;
 					//used for dependency stage
 				case BTH:
-				String log2 = "threat:\t" + threat + "\n";
-				try {
-					log2 += printString(3);
-					res = getCopy(false);
-					res.markThreat(threat.related, atk);
-					res.addThreat(threat, atk, attacker);
-					log2 += res.printString(3);
-					if(check_threats) res.checkAlignments(threat.related[atk], max_tier, -1, "dep");
-				} catch (Exception e) {
-					log2 += res.printString(3);
-					System.out.println("log2\n" + log2 + "log2 end\n");
-					throw e;
-				}
+				res = getCopy(false);
+				res.markThreat(threat.related, atk);
+				res.addThreat(threat, atk, attacker);
+				if(check_threats) res.checkAlignments(threat.related[atk], max_tier, -1, "dep");
 			}
 			return res;
 		}
