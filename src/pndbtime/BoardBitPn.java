@@ -123,7 +123,7 @@ public class BoardBitPn extends BoardBit {
 		 */
 		public void addEntry(TTPnNode node) {
 			TTdag.insert(hash, node);
-			//TTdag.count++;
+			TTdag.count++;
 		}
 
 		/**
@@ -132,7 +132,7 @@ public class BoardBitPn extends BoardBit {
 		 */
 		public void removeEntry(int depth) {
 			TTdag.remove(TTPnNode.setKey(key_dag, hash, depth));
-			//TTdag.count--;
+			TTdag.count--;
 		}
 
 		/**
@@ -155,7 +155,7 @@ public class BoardBitPn extends BoardBit {
 		 */
 		public void addEntryProved(TTElementProved node) {
 			TTproved.insert(hash, node);
-			//TTproved.count++;
+			TTproved.count++;
 		}
 	
 	//#endregion TT

@@ -145,7 +145,7 @@ public class BoardBit {
 	 * @return
 	 */
 	protected boolean isWinningMove(int i, int j) {
-		long	mask_ij = 1 << (i % BITSTRING_LEN);
+		long	mask_ij = (long)1 << (i % BITSTRING_LEN);
 		long	s		= (board[j][i / BITSTRING_LEN] & mask_ij)		>> (i % BITSTRING_LEN),
 		s_mask	= (board_mask[j][i / BITSTRING_LEN] & mask_ij)	>> (i % BITSTRING_LEN);
 		long mask = mask_ij;

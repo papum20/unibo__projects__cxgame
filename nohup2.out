@@ -1,0 +1,40 @@
+mkdir: cannot create directory ‘debug/match/final’: File exists
+Player 2 (pndb alpha) interrupted due to exception
+ java.util.concurrent.ExecutionException: java.lang.NullPointerException: Cannot read the array length because "<local2>" is null
+Player 2 (pndb alpha) eventually stopped: round closed
+Player 2 (PnDb dnull) interrupted due to exception
+ java.util.concurrent.ExecutionException: java.lang.ArrayIndexOutOfBoundsException: Index -1 out of bounds for length 4
+Player 2 (PnDb dnull) eventually stopped: round closed
+Player 2 (PnDb dnull) interrupted due to exception
+ java.util.concurrent.ExecutionException: java.lang.ArrayIndexOutOfBoundsException
+Player 2 (PnDb dnull) eventually stopped: round closed
+Player 1 (PnDb delta) interrupted due to exception
+ java.util.concurrent.ExecutionException: java.lang.ArrayIndexOutOfBoundsException: Index 127 out of bounds for length 58
+Player 1 (PnDb delta) eventually stopped: round closed
+./scripts/testcases_final.sh: line 79: IR}/pndb2_xcono_385812.txt: No such file or directory
+Player 2 (PnDb dnull) interrupted due to exception
+ java.util.concurrent.ExecutionException: java.lang.ArrayIndexOutOfBoundsException: Index 127 out of bounds for length 47
+Player 2 (PnDb dnull) eventually stopped: round closed
+Player 2 (PnDb dnull) interrupted due to exception
+ java.util.concurrent.ExecutionException: java.lang.ArrayIndexOutOfBoundsException
+Player 2 (PnDb dnull) eventually stopped: round closed
+Player 2 (PnDb dnull) interrupted due to exception
+ java.util.concurrent.ExecutionException: java.lang.ArrayIndexOutOfBoundsException: Index 127 out of bounds for length 47
+Player 2 (PnDb dnull) eventually stopped: round closed
+Player 2 (PnDb dnull) interrupted due to exception
+ java.util.concurrent.ExecutionException: java.lang.ArrayIndexOutOfBoundsException
+Player 2 (PnDb dnull) eventually stopped: round closed
+Player 2 (PnDb dnull) interrupted due to exception
+ java.util.concurrent.ExecutionException: java.lang.ArrayIndexOutOfBoundsException: Index 127 out of bounds for length 100
+Player 2 (PnDb dnull) eventually stopped: round closed
+Player 2 (PnDb dnull) interrupted due to exception
+ java.util.concurrent.ExecutionException: java.lang.ArrayIndexOutOfBoundsException
+Player 2 (PnDb dnull) eventually stopped: round closed
+Player 2 (PnDb dnull) interrupted due to exception
+ java.util.concurrent.ExecutionException: java.lang.ArrayIndexOutOfBoundsException: Index 127 out of bounds for length 100
+Player 2 (PnDb dnull) eventually stopped: round closed
+Player 2 (PnDb dnull) interrupted due to exception
+ java.util.concurrent.ExecutionException: java.lang.ArrayIndexOutOfBoundsException
+Player 2 (PnDb dnull) eventually stopped: round closed
+mkdir: cannot create directory ‘debug/match/final’: File exists
+mkdir: cannot create directory ‘debug/match/final/0’: File exists

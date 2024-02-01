@@ -72,6 +72,7 @@ cat scripts/testcases_final.sh >> ${OUTDIR}/pndb2_betha_18207.txt
 ./ltest 38 58 12		pndb2.PnSearch pndbg.dnull.PnSearch				-r 3 > ${OUTDIR}/pndb2_dnull_385812.txt
 cat scripts/testcases_final.sh >> ${OUTDIR}/pndb2_dnull_385812.txt
 
+# fixed isWinningMove here
 ./ltest 38 58 12		pndbg.delta.PnSearch pndbg.dnull.PnSearch		-r 3 > ${OUTDIR}/delta_dnull_385812.txt
 cat scripts/testcases_final.sh >> ${OUTDIR}/delta_dnull_385812.txt
 

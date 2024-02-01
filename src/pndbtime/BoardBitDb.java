@@ -88,7 +88,6 @@ public class BoardBitDb extends BoardBit {
 								threat_end		= new MovePair();
 	
 	// Debug
-	protected int count = 0;
 	protected int found = 0;
 	protected static boolean DEBUG_ON		= false;
 	protected static boolean DEBUG_PRINT	= false;
@@ -195,9 +194,6 @@ public class BoardBitDb extends BoardBit {
 		}
 
 		free_n = B.free_n;
-
-		// debug
-		count = B.count;
 	}
 	
 
@@ -1126,7 +1122,7 @@ public class BoardBitDb extends BoardBit {
 		 */
 		public void addEntry(TTElementBool node) {
 			TT.insert(hash, node);
-			//TT.count++;
+			TT.count++;
 		}
 
 		/**
@@ -1135,7 +1131,7 @@ public class BoardBitDb extends BoardBit {
 		 */
 		public void removeEntry() {
 			TT.remove(TTElementBool.setKey(key, hash));
-			//TT.count--;
+			TT.count--;
 		}
 	
 	//#endregion TT

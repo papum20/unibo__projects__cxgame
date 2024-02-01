@@ -109,7 +109,7 @@ public class PnSearch implements CXPlayer {
 	protected BoardBitPn	lastIt_board;
 
 	// debug
-	// private int created_n;
+	private int created_n;
 	private boolean PRINT_ON = true;
 
 	
@@ -136,10 +136,10 @@ public class PnSearch implements CXPlayer {
 		dbSearch = new DbSearch();		
 		dbSearch.init(M, N, X, first);
 
-		timer_duration = (timeout_in_secs - 1) * 900;// * 1000 - 100;
+		timer_duration = (timeout_in_secs - 1) * 1000 - 100;
 		runtime = Runtime.getRuntime();
 		lastIt_board = new BoardBitPn(first ? MY_PLAYER : YOUR_PLAYER);
-		// created_n = 0;
+		created_n = 0;
 
 		PROOF_OFFSET_NO_IMPLICIT_THREAT	= N + 1;
 		PROOF_OFFSET_NO_LINE			= N * 2 + 1;
@@ -167,14 +167,14 @@ public class PnSearch implements CXPlayer {
 			if(root == null) {
 				root = new TTPnNode(board.hash, (short)MC.length, (MC.length / 2) % 2 );
 				root.setProofAndDisproof(1, 1);
-				// created_n++;
+				created_n++;
 			}
 
 			// debug
 			String str	= "---\n" + playerName() + "\n"
 						+ "Opponent: " + ((B.getLastMove() == null) ? null : B.getLastMove().j) + "\n"
 						+ "root hash:" + board.hash + "\tdepth " + root.depth
-			//			+ board.printString(0)
+						+ board.printString(0)
 			;
 			System.out.println(str);
 
@@ -210,7 +210,7 @@ public class PnSearch implements CXPlayer {
 			
 			// debug
 			str	= ( (root_eval == null) ? "root eval null" : ("root eval: " + root_eval.col() + " "+root_eval.won()+" " +root_eval.depth_reachable) ) + "\n"
-			//	+ "dag_n = " + BoardBitPn.TTdag.count + "\tproved_n = " + BoardBitPn.TTproved.count + "\tcreated_n = " + created_n + "\n"
+				+ "dag_n = " + BoardBitPn.TTdag.count + "\tproved_n = " + BoardBitPn.TTproved.count + "\tcreated_n = " + created_n + "\n"
 				+ "My move: " + move + "\n"
 			//	+ board.printString(0) + root.debugString(root) + "\n"
 			//	+ "time,mem before return: " + (System.currentTimeMillis() - timer_start) + " " + Auxiliary.freeMemory(runtime) + "\n"
@@ -485,7 +485,7 @@ public class PnSearch implements CXPlayer {
 					 * otherwise, use current_child, so its an incremental number also respecting the random shuffle.
 					 */
 					setProofAndDisproofNumbers(child, (threats[j] == 0) ? PROOF_OFFSET_NO_LINE : (current_child) );
-					// created_n++;
+					created_n++;
 				}
 
 				board.unmark(j);
