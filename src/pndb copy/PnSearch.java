@@ -284,7 +284,7 @@ public class PnSearch implements CXPlayer {
 				most_proving_node = selectMostProving(root, marked_stack);
 
 				// loops_n++;
-				// if(most_proving_node != null && most_proving_node.depth > depth_max) depth_max = most_proving_node.depth;
+				// if(selectMostProving != most_proving_node && most_proving_node.depth > depth_max) depth_max = most_proving_node.depth;
 				
 				developNode(most_proving_node);
 				updateAncestorsWhileChanged(most_proving_node.depth, boards_to_prune, null, true);
@@ -293,7 +293,7 @@ public class PnSearch implements CXPlayer {
 				pruneTrees(boards_to_prune);
 			}
 
-			// if(PRINT_ON) System.out.println("loops_n =\t" + loops_n + "\tdepth_max =\t" + depth_max + "\tdepth_rel_max =\r" + (depth_max - root.depth) + "\n");
+			// if(PRINT_ON) System.out.println("loops_n =\t" + loops_n + "\tdepth_max =\t" + depth_max + "\tdepth_rel_max =\r" + (depth_max - root.depth) + "\n
 		}
 
 		/**
@@ -604,7 +604,7 @@ public class PnSearch implements CXPlayer {
 			if (isroot || ( node != null && !node.hasParents() )) {
 				
 				if(node != null)	// root could also be proved (actually is always, for the current use of this function)
-					board.removeEntry(depth);
+				board.removeEntry(depth);
 				
 				for(int j = 0; j < BoardBit.N; j++) {
 					if(board.freeCol(j)) {

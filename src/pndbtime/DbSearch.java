@@ -1,21 +1,21 @@
-package pndb;
+package pndbtime;
 
 import java.util.LinkedList;
 import java.util.ListIterator;
 
-import pndb.Operators.ThreatsByRank;
-import pndb.constants.Auxiliary;
-import pndb.constants.CellState;
-import pndb.constants.GameState;
-import pndb.constants.MovePair;
-import pndb.constants.Constants.BoardsRelation;
-import pndb.structs.DbSearchResult;
-import pndb.threats.ThreatApplied;
-import pndb.threats.Threat;
-import pndb.threats.Threat.USE;
-import pndb.tt.TTElementBool;
-import pndb.tt.TranspositionTable;
-import pndb.tt.TranspositionTable.Element.Key;
+import pndbtime.Operators.ThreatsByRank;
+import pndbtime.constants.Auxiliary;
+import pndbtime.constants.CellState;
+import pndbtime.constants.GameState;
+import pndbtime.constants.MovePair;
+import pndbtime.constants.Constants.BoardsRelation;
+import pndbtime.structs.DbSearchResult;
+import pndbtime.threats.ThreatApplied;
+import pndbtime.threats.Threat;
+import pndbtime.threats.Threat.USE;
+import pndbtime.tt.TTElementBool;
+import pndbtime.tt.TranspositionTable;
+import pndbtime.tt.TranspositionTable.Element.Key;
 
 
 

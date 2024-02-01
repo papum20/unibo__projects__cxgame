@@ -39,7 +39,7 @@ public class DbSearch {
 	// time / memory
 	protected long timer_start;						//turn start (milliseconds)
 	protected long timer_duration;					//time (millisecs) at which to stop timer
-	private static final float TIMER_RATIO = 1f;	// see isTimeEnded() implementation
+	private static final float TIMER_RATIO = 0.9f;	// see isTimeEnded() implementation
 
 	// VARIABLES FOR A DB-SEARCH EXECUTION
 	protected int found_win_sequences;

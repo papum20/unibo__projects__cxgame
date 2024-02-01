@@ -80,7 +80,7 @@ public class TranspositionTable<E extends TranspositionTable.Element<E,K>, K ext
 	public void remove(K k) {
 		E e = table[k.index];
 		if(e != null && e.listRemove(k) == e)
-			table[k.index] = e.next;
+		table[k.index] = e.next;
 	}
 	
 	/**

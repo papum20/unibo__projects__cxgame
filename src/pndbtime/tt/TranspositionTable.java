@@ -1,8 +1,8 @@
-package pndb.tt;
+package pndbtime.tt;
 
 import java.util.Random;
 
-import pndb.tt.TranspositionTable.Element.Key;
+import pndbtime.tt.TranspositionTable.Element.Key;
 
 
 
@@ -13,7 +13,7 @@ public class TranspositionTable<E extends TranspositionTable.Element<E,K>, K ext
 
 	private static final int PLAYERS_N = 2;
 
-	// public int count;	// debug
+	public int count;	// debug
 
 
 
@@ -25,7 +25,7 @@ public class TranspositionTable<E extends TranspositionTable.Element<E,K>, K ext
 	public TranspositionTable(E[] table) {
 
 		this.table = table;
-		// count = 0;
+		count = 0;
 	}
 	
 	/**

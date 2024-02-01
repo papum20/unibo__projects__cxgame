@@ -1,4 +1,4 @@
-package pndb;
+package pndbtime;
 
 import java.util.LinkedList;
 import java.util.ListIterator;
@@ -6,13 +6,13 @@ import java.util.ListIterator;
 import connectx.CXBoard;
 import connectx.CXCell;
 import connectx.CXPlayer;
-import pndb.constants.Auxiliary;
-import pndb.constants.CellState;
-import pndb.constants.GameState;
-import pndb.structs.DbSearchResult;
-import pndb.tt.TTElementProved;
-import pndb.tt.TranspositionTable;
-import pndb.tt.TTElementProved.KeyDepth;
+import pndbtime.constants.Auxiliary;
+import pndbtime.constants.CellState;
+import pndbtime.constants.GameState;
+import pndbtime.structs.DbSearchResult;
+import pndbtime.tt.TTElementProved;
+import pndbtime.tt.TranspositionTable;
+import pndbtime.tt.TTElementProved.KeyDepth;
 
 
 
@@ -109,7 +109,7 @@ public class PnSearch implements CXPlayer {
 	protected BoardBitPn	lastIt_board;
 
 	// debug
-	// private int created_n;
+	private int created_n;
 	private boolean PRINT_ON = true;
 
 	
@@ -140,7 +140,7 @@ public class PnSearch implements CXPlayer {
 		timer_duration = timeout_in_secs * 1000 - 100;
 		runtime = Runtime.getRuntime();
 		lastIt_board = new BoardBitPn(first ? MY_PLAYER : YOUR_PLAYER);
-		// created_n = 0;
+		created_n = 0;
 
 		PROOF_OFFSET_NO_IMPLICIT_THREAT	= N + 1;
 		PROOF_OFFSET_NO_LINE			= N * 2 + 1;
@@ -177,14 +177,14 @@ public class PnSearch implements CXPlayer {
 			if(root == null) {
 				root = new TTPnNode(board.hash, (short)MC.length, (MC.length / 2) % 2 );
 				root.setProofAndDisproof(1, 1);
-				// created_n++;
+				created_n++;
 			}
 
 			// debug
 			String str	= "---\n" + playerName() + "\n"
 						+ "Opponent: " + ((B.getLastMove() == null) ? null : B.getLastMove().j) + "\n"
 						+ "root hash:" + board.hash + "\tdepth " + root.depth + "\n"
-			//			+ board.printString(0)
+						+ board.printString(0)
 			;
 			System.out.println(str);
 
@@ -220,10 +220,10 @@ public class PnSearch implements CXPlayer {
 			
 			// debug
 			str	= ( (root_eval == null) ? "root eval null" : ("root eval: " + root_eval.col() + " "+root_eval.won()+" " +root_eval.depth_reachable) ) + "\n"
-			//	+ "dag_n = " + BoardBitPn.TTdag.count + "\tproved_n = " + BoardBitPn.TTproved.count + "\tcreated_n = " + created_n + "\n")
+				+ "dag_n = " + BoardBitPn.TTdag.count + "\tproved_n = " + BoardBitPn.TTproved.count + "\tcreated_n = " + created_n + "\n"
 				+ "My move: " + move + "\n"
 			//	+ board.printString(0) + root.debugString(root) + "\n"
-			//	+ "time,mem before return: " + (System.currentTimeMillis() - timer_start) + " " + Auxiliary.freeMemory(runtime) + "\n"
+				+ "time,mem before return: " + (System.currentTimeMillis() - timer_start) + " " + Auxiliary.freeMemory(runtime) + "\n"
 			;
 			if(PRINT_ON) System.out.println(str);
 			
@@ -273,7 +273,7 @@ public class PnSearch implements CXPlayer {
 		private void visit() {
 
 			// debug
-			// int loops_n = 0, depth_max = 0;
+			int loops_n = 0, depth_max = 0;
 			
 			LinkedList<Integer> marked_stack		= new LinkedList<Integer>();
 			LinkedList<BoardBitPn> boards_to_prune	= new LinkedList<BoardBitPn>();
@@ -283,8 +283,8 @@ public class PnSearch implements CXPlayer {
 
 				most_proving_node = selectMostProving(root, marked_stack);
 
-				// loops_n++;
-				// if(most_proving_node != null && most_proving_node.depth > depth_max) depth_max = most_proving_node.depth;
+				loops_n++;
+				if(most_proving_node != null && most_proving_node.depth > depth_max) depth_max = most_proving_node.depth;
 				
 				developNode(most_proving_node);
 				updateAncestorsWhileChanged(most_proving_node.depth, boards_to_prune, null, true);
@@ -293,7 +293,7 @@ public class PnSearch implements CXPlayer {
 				pruneTrees(boards_to_prune);
 			}
 
-			// if(PRINT_ON) System.out.println("loops_n =\t" + loops_n + "\tdepth_max =\t" + depth_max + "\tdepth_rel_max =\r" + (depth_max - root.depth) + "\n");
+			if(PRINT_ON) System.out.println("loops_n =\t" + loops_n + "\tdepth_max =\t" + depth_max + "\tdepth_rel_max =\r" + (depth_max - root.depth) + "\n");
 		}
 
 		/**
@@ -508,7 +508,7 @@ public class PnSearch implements CXPlayer {
 					 * otherwise, use current_child, so its an incremental number also respecting the random shuffle.
 					 */
 					setProofAndDisproofNumbers(child, (threats[j] == 0) ? PROOF_OFFSET_NO_LINE : (current_child) );
-					// created_n++;
+					created_n++;
 				}
 
 				board.unmark(j);
