@@ -1,0 +1,5432 @@
+
+-_-
+START GAME
+-_-
+
+---
+PnDb2
+Opponent: null
+root hash:0	depth 0.........
+.........
+.........
+.........
+.........
+.........
+.........
+.........
+.........
+
+
+0
+0
+0
+0
+0
+0
+0
+0
+Good Job LXX keep it up buddy
+---
+PnDb2
+Opponent: 4
+root hash:-7971408443616983225	depth 2.........
+.........
+.........
+.........
+.........
+.........
+.........
+....o....
+....x....
+
+
+0
+0
+0
+0
+0
+0
+Good Job LXX keep it up buddy
+---
+PnDb2
+Opponent: 0
+root hash:6584546803247016913	depth 4.........
+.........
+.........
+.........
+.........
+.........
+.........
+....o....
+o..xx....
+
+
+6
+6
+6
+6
+-1
+---
+PnDb2
+Opponent: 6
+root hash:-5748706330950656384	depth 6.........
+.........
+.........
+.........
+.........
+.........
+.........
+....o....
+o..xxxo..
+
+
+LXC Lose Avoided
+0
+0
+0
+0
+0
+0
+0
+0
+Good Job LXX keep it up buddy
+---
+PnDb2
+Opponent: 2
+root hash:4983359142073419196	depth 8.........
+.........
+.........
+.........
+.........
+.........
+.........
+....o....
+oxoxxxo..
+
+
+0
+0
+0
+0
+0
+0
+0
+0
+Good Job LXX keep it up buddy
+---
+PnDb2
+Opponent: 0
+root hash:-8280998554886916520	depth 10.........
+.........
+.........
+.........
+.........
+.........
+.........
+o..xo....
+oxoxxxo..
+
+
+0
+0
+0
+0
+0
+0
+0
+4
+Good Job LXX keep it up buddy
+---
+PnDb2
+Opponent: 4
+root hash:189078170126375293	depth 12.........
+.........
+.........
+.........
+.........
+.........
+...xo....
+o..xo....
+oxoxxxo..
+
+
+LXC Lose Avoided
+0
+3
+0
+0
+0
+0
+0
+0
+Good Job LXX keep it up buddy
+---
+PnDb2
+Opponent: 3
+root hash:7830651713980787377	depth 14.........
+.........
+.........
+.........
+...o.....
+...x.....
+...xo....
+o..xo....
+oxoxxxo..
+
+
+0
+3
+0
+0
+0
+0
+0
+0
+Good Job LXX keep it up buddy
+---
+PnDb2
+Opponent: 0
+root hash:-3140143957964196632	depth 16.........
+.........
+.........
+.........
+...o.....
+...xx....
+o..xo....
+o..xo....
+oxoxxxo..
+
+
+0
+3
+0
+0
+0
+3
+0
+0
+Good Job LXX keep it up buddy
+---
+PnDb2
+Opponent: 0
+root hash:969131041134119517	depth 18.........
+.........
+.........
+.........
+o..o.....
+x..xx....
+o..xo....
+o..xo....
+oxoxxxo..
+
+
+4
+3
+4
+4
+4
+3
+4
+4
+Good Job LXX keep it up buddy
+---
+PnDb2
+Opponent: 4
+root hash:-222163595202045282	depth 20.........
+.........
+.........
+.........
+o..oo....
+x..xx....
+o..xo....
+o..xo....
+oxoxxxox.
+
+
+4
+3
+4
+4
+4
+3
+4
+4
+Good Job LXX keep it up buddy
+---
+PnDb2
+Opponent: 4
+root hash:-4364536616276189944	depth 22.........
+.........
+.........
+....o....
+o..oo....
+x..xx....
+o..xo....
+o..xo..x.
+oxoxxxox.
+
+
+5
+7
+5
+5
+5
+5
+5
+Good Job LXX keep it up buddy
+---
+PnDb2
+Opponent: 5
+root hash:7526426390204809927	depth 24.........
+.........
+.........
+....o....
+o..oo....
+x..xx....
+o..xo..x.
+o..xoo.x.
+oxoxxxox.
+
+
+LXC Lose Avoided
+5
+5
+5
+5
+5
+5
+5
+5
+Good Job LXX keep it up buddy
+---
+PnDb2
+Opponent: 7
+root hash:-6257329246928014527	depth 26.........
+.........
+.........
+....o....
+o..oo..o.
+x..xx..x.
+o..xo..x.
+o..xoo.x.
+oxoxxxox.
+
+
+5
+3
+5
+5
+5
+5
+5
+Good Job LXX keep it up buddy
+---
+PnDb2
+Opponent: 5
+root hash:5683629733588970043	depth 28.........
+.........
+.........
+....o....
+o..oo..o.
+x..xxo.x.
+o..xox.x.
+o..xoo.x.
+oxoxxxox.
+
+
+LXC Lose Avoided
+5
+5
+5
+5
+5
+5
+5
+5
+Good Job LXX keep it up buddy
+---
+PnDb2
+Opponent: 5
+root hash:5584254465612977113	depth 30.........
+.........
+.........
+....o....
+o..ooo.o.
+x..xxo.x.
+o..xox.x.
+o.xxoo.x.
+oxoxxxox.
+
+
+3
+3
+3
+3
+3
+3
+3
+3
+Good Job LXX keep it up buddy
+---
+PnDb2
+Opponent: 3
+root hash:2973938902399123076	depth 32.........
+.........
+....x....
+...oo....
+o..ooo.o.
+x..xxo.x.
+o..xox.x.
+o.xxoo.x.
+oxoxxxox.
+
+
+3
+3
+3
+3
+3
+3
+3
+3
+Good Job LXX keep it up buddy
+---
+PnDb2
+Opponent: 3
+root hash:-5905338704383506430	depth 34.........
+...o.....
+...xx....
+...oo....
+o..ooo.o.
+x..xxo.x.
+o..xox.x.
+o.xxoo.x.
+oxoxxxox.
+
+
+6
+7
+6
+6
+6
+6
+6
+6
+Good Job LXX keep it up buddy
+---
+PnDb2
+Opponent: 6
+root hash:-2575403315180225841	depth 36...x.....
+...o.....
+...xx....
+...oo....
+o..ooo.o.
+x..xxo.x.
+o..xox.x.
+o.xxooox.
+oxoxxxox.
+
+
+8
+8
+8
+8
+8
+8
+8
+8
+Good Job LXX keep it up buddy
+---
+PnDb2
+Opponent: 8
+root hash:730062418967152890	depth 38...x.....
+...o.....
+...xx....
+...oo..x.
+o..ooo.o.
+x..xxo.x.
+o..xox.x.
+o.xxooox.
+oxoxxxoxo
+
+
+8
+8
+8
+8
+8
+8
+8
+8
+8
+Good Job LXX keep it up buddy
+---
+PnDb2
+Opponent: 8
+root hash:-1511871410002424534	depth 40...x.....
+...o.....
+...xx....
+...oox.x.
+o..ooo.o.
+x..xxo.x.
+o..xox.x.
+o.xxoooxo
+oxoxxxoxo
+
+
+6
+6
+6
+6
+6
+6
+6
+6
+6
+Good Job LXX keep it up buddy
+---
+PnDb2
+Opponent: 6
+root hash:5233453443072433871	depth 42...x.....
+...o.....
+...xx....
+...oox.x.
+o..ooo.o.
+x..xxo.x.
+o..xoxoxx
+o.xxoooxo
+oxoxxxoxo
+
+
+2
+2
+2
+2
+2
+2
+2
+2
+2
+2
+Good Job LXX keep it up buddy
+---
+PnDb2
+Opponent: 2
+root hash:262808850501040107	depth 44...x.....
+...o.....
+...xx....
+...oox.x.
+o..ooo.o.
+x..xxo.xx
+o.oxoxoxx
+o.xxoooxo
+oxoxxxoxo
+
+
+7
+7
+7
+7
+7
+7
+7
+7
+-1
+---
+PnDb2
+Opponent: 7
+root hash:6204503138118455520	depth 46...x.....
+...o.....
+...xx..o.
+...oox.x.
+o..ooo.ox
+x..xxo.xx
+o.oxoxoxx
+o.xxoooxo
+oxoxxxoxo
+
+
+LXC Lose Avoided
+6
+6
+6
+6
+6
+6
+6
+6
+6
+Good Job LXX keep it up buddy
+---
+PnDb2
+Opponent: 8
+root hash:-4791902322286091882	depth 48...x.....
+...o.....
+...xx..oo
+...oox.xx
+o..ooo.ox
+x..xxo.xx
+o.oxoxoxx
+o.xxoooxo
+oxoxxxoxo
+
+
+1
+1
+1
+1
+1
+1
+1
+1
+1
+Good Job LXX keep it up buddy
+---
+PnDb2
+Opponent: 1
+root hash:-1549301418721432014	depth 50...x.....
+...o.....
+...xx..oo
+...oox.xx
+o..ooo.ox
+x.xxxo.xx
+o.oxoxoxx
+ooxxoooxo
+oxoxxxoxo
+
+
+7
+7
+7
+7
+7
+7
+7
+Good Job LXX keep it up buddy
+---
+PnDb2
+Opponent: 7
+root hash:-6045810324263471307	depth 52...x.....
+...ox..o.
+...xx..oo
+...oox.xx
+o..ooo.ox
+x.xxxo.xx
+o.oxoxoxx
+ooxxoooxo
+oxoxxxoxo
+
+
+7
+7
+7
+7
+7
+7
+7
+7
+Good Job LXX keep it up buddy
+---
+PnDb2
+Opponent: 7
+root hash:-8191311390152292676	depth 54...x...o.
+...ox..o.
+...xx..oo
+x..oox.xx
+o..ooo.ox
+x.xxxo.xx
+o.oxoxoxx
+ooxxoooxo
+oxoxxxoxo
+
+
+8
+0
+8
+8
+8
+8
+8
+8
+8
+8
+Good Job LXX keep it up buddy
+---
+PnDb2
+Opponent: 8
+root hash:-3848811051240385704	depth 56...xx..o.
+...ox..oo
+...xx..oo
+x..oox.xx
+o..ooo.ox
+x.xxxo.xx
+o.oxoxoxx
+ooxxoooxo
+oxoxxxoxo
+
+
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+-1
+-1
+-1
+-1
+-1
+-1
+Failed Completely
+---
+PnDb2
+Opponent: 5
+root hash:6296176461090019465	depth 58...xx..ox
+...ox..oo
+...xxo.oo
+x..oox.xx
+o..ooo.ox
+x.xxxo.xx
+o.oxoxoxx
+ooxxoooxo
+oxoxxxoxo
+
+
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+-1
+-1
+-1
+-1
+-1
+-1
+-1
+-1
+Failed Completely
+---
+PnDb2
+Opponent: 1
+root hash:-7425121002359001506	depth 60...xx..ox
+...oxx.oo
+...xxo.oo
+x..oox.xx
+o..ooo.ox
+x.xxxo.xx
+oooxoxoxx
+ooxxoooxo
+oxoxxxoxo
+
+
+
+-_-
+START GAME
+-_-
+
+---
+PnDb2
+Opponent: null
+root hash:0	depth 0.........
+.........
+.........
+.........
+.........
+.........
+.........
+.........
+.........
+
+
+0
+0
+0
+0
+0
+0
+0
+0
+Good Job LXX keep it up buddy
+---
+PnDb2
+Opponent: 4
+root hash:401479043197272730	depth 2.........
+.........
+.........
+.........
+.........
+.........
+.........
+....o....
+....x....
+
+
+0
+0
+0
+0
+0
+0
+-1
+---
+PnDb2
+Opponent: 0
+root hash:5257247026315756965	depth 4.........
+.........
+.........
+.........
+.........
+.........
+.........
+....o....
+o...xx...
+
+
+2
+2
+2
+2
+2
+2
+-1
+---
+PnDb2
+Opponent: 2
+root hash:6775553731367505380	depth 6.........
+.........
+.........
+.........
+.........
+.........
+.........
+....o....
+o.oxxx...
+
+
+LXC Lose Avoided
+0
+0
+0
+0
+0
+0
+0
+0
+Good Job LXX keep it up buddy
+---
+PnDb2
+Opponent: 6
+root hash:2077946081800476682	depth 8.........
+.........
+.........
+.........
+.........
+.........
+.........
+....o....
+o.oxxxox.
+
+
+0
+0
+0
+0
+0
+0
+0
+4
+Good Job LXX keep it up buddy
+---
+PnDb2
+Opponent: 4
+root hash:-4838676404601261828	depth 10.........
+.........
+.........
+.........
+.........
+.........
+....o....
+...xo....
+o.oxxxox.
+
+
+0
+0
+0
+0
+0
+4
+0
+Good Job LXX keep it up buddy
+---
+PnDb2
+Opponent: 0
+root hash:-7941148786769553949	depth 12.........
+.........
+.........
+.........
+.........
+.........
+...xo....
+o..xo....
+o.oxxxox.
+
+
+LXC Lose Avoided
+0
+3
+0
+0
+0
+0
+0
+0
+Good Job LXX keep it up buddy
+---
+PnDb2
+Opponent: 3
+root hash:8482205928805140503	depth 14.........
+.........
+.........
+.........
+...o.....
+...x.....
+...xo....
+o..xo....
+o.oxxxox.
+
+
+4
+3
+4
+4
+4
+4
+4
+Good Job LXX keep it up buddy
+---
+PnDb2
+Opponent: 4
+root hash:5616509837883228742	depth 16.........
+.........
+.........
+.........
+...oo....
+...xx....
+...xo....
+o..xo....
+o.oxxxox.
+
+
+4
+3
+4
+4
+4
+4
+4
+4
+Good Job LXX keep it up buddy
+---
+PnDb2
+Opponent: 4
+root hash:3692925659765063796	depth 18.........
+.........
+.........
+....o....
+...oo....
+...xx....
+x..xo....
+o..xo....
+o.oxxxox.
+
+
+4
+3
+4
+3
+4
+4
+4
+4
+Good Job LXX keep it up buddy
+---
+PnDb2
+Opponent: 4
+root hash:116287640364905488	depth 20.........
+.........
+....o....
+....o....
+...oo....
+...xx....
+x..xo....
+o..xo..x.
+o.oxxxox.
+
+
+4
+3
+4
+7
+4
+2
+4
+4
+Good Job LXX keep it up buddy
+---
+PnDb2
+Opponent: 4
+root hash:87885508311932224	depth 22....o....
+....x....
+....o....
+....o....
+...oo....
+...xx....
+x..xo....
+o..xo..x.
+o.oxxxox.
+
+
+2
+3
+2
+7
+2
+7
+2
+2
+Good Job LXX keep it up buddy
+---
+PnDb2
+Opponent: 2
+root hash:5938836226455638572	depth 24....o....
+....x....
+....o....
+....o....
+...oo....
+...xx....
+x..xo..x.
+o.oxo..x.
+o.oxxxox.
+
+
+LXC Lose Avoided
+2
+3
+2
+2
+2
+2
+2
+2
+Good Job LXX keep it up buddy
+---
+PnDb2
+Opponent: 7
+root hash:5329429902015976711	depth 26....o....
+....x....
+....o....
+....o....
+...oo..o.
+...xx..x.
+x..xo..x.
+o.oxo..x.
+o.oxxxox.
+
+
+2
+3
+2
+2
+2
+2
+2
+2
+-1
+---
+PnDb2
+Opponent: 2
+root hash:-740125283156253994	depth 28....o....
+....x....
+....o....
+....o....
+...oo..o.
+..oxx..x.
+x.xxo..x.
+o.oxo..x.
+o.oxxxox.
+
+
+7
+7
+7
+7
+7
+7
+7
+7
+Good Job LXX keep it up buddy
+---
+PnDb2
+Opponent: 7
+root hash:1488444694497825116	depth 30....o....
+....x....
+....o....
+....o..o.
+...oo..o.
+..oxx..x.
+x.xxo..x.
+o.oxox.x.
+o.oxxxox.
+
+
+7
+5
+7
+3
+7
+7
+7
+Good Job LXX keep it up buddy
+---
+PnDb2
+Opponent: 7
+root hash:5368860272658166254	depth 32....o....
+....x....
+....o..o.
+....o..o.
+...oo..o.
+..oxx..x.
+x.xxox.x.
+o.oxox.x.
+o.oxxxox.
+
+
+LXC Lose Avoided
+7
+3
+7
+7
+7
+7
+7
+7
+7
+Good Job LXX keep it up buddy
+---
+PnDb2
+Opponent: 5
+root hash:5732770207654179122	depth 34....o....
+....x....
+....o..o.
+....o..o.
+...ooo.o.
+..oxxx.x.
+x.xxox.x.
+o.oxox.x.
+o.oxxxox.
+
+
+7
+3
+7
+7
+7
+7
+7
+7
+7
+7
+Good Job LXX keep it up buddy
+---
+PnDb2
+Opponent: 7
+root hash:-4610226512681718097	depth 36....o....
+....x..o.
+....o..o.
+....o..o.
+...ooo.o.
+..oxxx.x.
+x.xxox.x.
+o.oxox.x.
+o.oxxxoxx
+
+
+6
+5
+6
+5
+6
+1
+6
+6
+6
+6
+-1
+---
+PnDb2
+Opponent: 6
+root hash:-512775331004502752	depth 38....o..x.
+....x..o.
+....o..o.
+....o..o.
+...ooo.o.
+..oxxx.x.
+x.xxox.x.
+o.oxoxox.
+o.oxxxoxx
+
+
+1
+5
+1
+1
+1
+5
+1
+1
+1
+1
+1
+Good Job LXX keep it up buddy
+---
+PnDb2
+Opponent: 1
+root hash:-6247082340718943440	depth 40....o..x.
+....x..o.
+....o..o.
+....o..o.
+...ooo.o.
+..oxxx.x.
+x.xxox.x.
+o.oxoxoxx
+oooxxxoxx
+
+
+1
+1
+1
+1
+1
+5
+1
+5
+Good Job LXX keep it up buddy
+---
+PnDb2
+Opponent: 5
+root hash:5984546421925090655	depth 42....o..x.
+....x..o.
+....o..o.
+....oo.o.
+...ooo.o.
+..oxxx.x.
+x.xxox.xx
+o.oxoxoxx
+oooxxxoxx
+
+
+LXC Lose Avoided
+5
+1
+5
+5
+5
+5
+5
+5
+1
+1
+Good Job LXX keep it up buddy
+---
+PnDb2
+Opponent: 8
+root hash:5968978727868236625	depth 44....o..x.
+....x..o.
+....o..o.
+....oo.o.
+...ooo.oo
+..oxxx.xx
+x.xxox.xx
+o.oxoxoxx
+oooxxxoxx
+
+
+1
+1
+1
+1
+1
+1
+1
+Good Job LXX keep it up buddy
+---
+PnDb2
+Opponent: 1
+root hash:-6623983090839551279	depth 46....o..x.
+....x..o.
+....o..o.
+....oo.o.
+..xooo.oo
+..oxxx.xx
+x.xxox.xx
+oooxoxoxx
+oooxxxoxx
+
+
+1
+8
+1
+1
+1
+1
+1
+Good Job LXX keep it up buddy
+---
+PnDb2
+Opponent: 1
+root hash:-6885191778564608188	depth 48....o..x.
+....x..o.
+....o..o.
+....oo.o.
+..xooo.oo
+.ooxxx.xx
+xxxxox.xx
+oooxoxoxx
+oooxxxoxx
+
+
+1
+5
+1
+1
+1
+1
+1
+Good Job LXX keep it up buddy
+---
+PnDb2
+Opponent: 1
+root hash:-3503973293022425681	depth 50....o..x.
+....x..o.
+....o..o.
+..x.oo.o.
+.oxooo.oo
+.ooxxx.xx
+xxxxox.xx
+oooxoxoxx
+oooxxxoxx
+
+
+5
+5
+5
+8
+5
+5
+-1
+---
+PnDb2
+Opponent: 5
+root hash:-7674336769792166797	depth 52....o..x.
+....x..o.
+..x.oo.o.
+..x.oo.o.
+.oxooo.oo
+.ooxxx.xx
+xxxxox.xx
+oooxoxoxx
+oooxxxoxx
+
+
+LXC Lose Avoided
+5
+1
+5
+5
+5
+5
+5
+5
+5
+5
+5
+5
+Good Job LXX keep it up buddy
+---
+PnDb2
+Opponent: 2
+root hash:216758663542396497	depth 54..o.o..x.
+..x.x..o.
+..x.oo.o.
+..x.oo.o.
+.oxooo.oo
+.ooxxx.xx
+xxxxox.xx
+oooxoxoxx
+oooxxxoxx
+
+
+8
+8
+8
+8
+8
+8
+8
+8
+8
+Good Job LXX keep it up buddy
+---
+PnDb2
+Opponent: 8
+root hash:-7572945214600348448	depth 56..o.o..x.
+..x.xx.o.
+..x.oo.o.
+..x.oo.oo
+.oxooo.oo
+.ooxxx.xx
+xxxxox.xx
+oooxoxoxx
+oooxxxoxx
+
+
+8
+0
+8
+8
+8
+8
+8
+8
+8
+8
+Good Job LXX keep it up buddy
+---
+PnDb2
+Opponent: 8
+root hash:-8022685484820590495	depth 58..o.o..x.
+..x.xx.oo
+..x.oo.ox
+..x.oo.oo
+.oxooo.oo
+.ooxxx.xx
+xxxxox.xx
+oooxoxoxx
+oooxxxoxx
+
+
+0
+3
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+Good Job LXX keep it up buddy
+---
+PnDb2
+Opponent: 0
+root hash:-7630553539395480037	depth 60..o.o..xx
+..x.xx.oo
+..x.oo.ox
+..x.oo.oo
+.oxooo.oo
+oooxxx.xx
+xxxxox.xx
+oooxoxoxx
+oooxxxoxx
+
+
+3
+3
+3
+0
+3
+3
+3
+3
+3
+3
+3
+3
+3
+3
+3
+3
+3
+3
+Good Job LXX keep it up buddy
+---
+PnDb2
+Opponent: 3
+root hash:-5023177484671297755	depth 62..o.ox.xx
+..x.xx.oo
+..x.oo.ox
+..xooo.oo
+.oxooo.oo
+oooxxx.xx
+xxxxox.xx
+oooxoxoxx
+oooxxxoxx
+
+
+3
+3
+3
+3
+3
+3
+3
+3
+3
+3
+3
+3
+3
+3
+3
+3
+Good Job LXX keep it up buddy
+---
+PnDb2
+Opponent: 3
+root hash:5223311996154304740	depth 64..o.ox.xx
+..xoxx.oo
+..xxoo.ox
+..xooo.oo
+.oxooo.oo
+oooxxx.xx
+xxxxox.xx
+oooxoxoxx
+oooxxxoxx
+
+
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+Good Job LXX keep it up buddy
+---
+PnDb2
+Opponent: 0
+root hash:8706684083143233644	depth 66..oxox.xx
+..xoxx.oo
+..xxoo.ox
+..xooo.oo
+ooxooo.oo
+oooxxx.xx
+xxxxox.xx
+oooxoxoxx
+oooxxxoxx
+
+
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+Good Job LXX keep it up buddy
+---
+PnDb2
+Opponent: 0
+root hash:1913770321128927895	depth 68..oxox.xx
+..xoxx.oo
+..xxoo.ox
+oxxooo.oo
+ooxooo.oo
+oooxxx.xx
+xxxxox.xx
+oooxoxoxx
+oooxxxoxx
+
+
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+Good Job LXX keep it up buddy
+---
+PnDb2
+Opponent: 0
+root hash:-4553716298992595088	depth 70..oxox.xx
+..xoxx.oo
+oxxxoo.ox
+oxxooo.oo
+ooxooo.oo
+oooxxx.xx
+xxxxox.xx
+oooxoxoxx
+oooxxxoxx
+
+
+0
+0
+0
+0
+0
+0
+0
+0
+Good Job LXX keep it up buddy
+---
+PnDb2
+Opponent: 0
+root hash:1688536279160774066	depth 72o.oxox.xx
+x.xoxx.oo
+oxxxoo.ox
+oxxooo.oo
+ooxooo.oo
+oooxxx.xx
+xxxxox.xx
+oooxoxoxx
+oooxxxoxx
+
+
+1
+1
+1
+1
+1
+1
+Good Job LXX keep it up buddy
+---
+PnDb2
+Opponent: 1
+root hash:-418921911744030556	depth 74oooxox.xx
+xxxoxx.oo
+oxxxoo.ox
+oxxooo.oo
+ooxooo.oo
+oooxxx.xx
+xxxxox.xx
+oooxoxoxx
+oooxxxoxx
+
+
+6
+6
+6
+6
+Good Job LXX keep it up buddy
+---
+PnDb2
+Opponent: 6
+root hash:8975486162445055640	depth 76oooxox.xx
+xxxoxx.oo
+oxxxoo.ox
+oxxooo.oo
+ooxooo.oo
+oooxxxoxx
+xxxxoxxxx
+oooxoxoxx
+oooxxxoxx
+
+
+LXC the best
+Good Job LXX keep it up buddy
+
+-_-
+START GAME
+-_-
+
+---
+PnDb2
+Opponent: null
+root hash:0	depth 0.........
+.........
+.........
+.........
+.........
+.........
+.........
+.........
+.........
+
+
+0
+0
+0
+0
+0
+0
+0
+0
+Good Job LXX keep it up buddy
+---
+PnDb2
+Opponent: 4
+root hash:866861239935552775	depth 2.........
+.........
+.........
+.........
+.........
+.........
+.........
+....o....
+....x....
+
+
+0
+0
+0
+0
+0
+0
+Good Job LXX keep it up buddy
+---
+PnDb2
+Opponent: 0
+root hash:4127575497492691827	depth 4.........
+.........
+.........
+.........
+.........
+.........
+.........
+....o....
+o...xx...
+
+
+2
+2
+2
+2
+2
+-1
+---
+PnDb2
+Opponent: 2
+root hash:2000434324242666428	depth 6.........
+.........
+.........
+.........
+.........
+.........
+.........
+....o....
+o.oxxx...
+
+
+LXC Lose Avoided
+0
+0
+0
+0
+0
+0
+0
+0
+Good Job LXX keep it up buddy
+---
+PnDb2
+Opponent: 7
+root hash:-8886090333975512670	depth 8.........
+.........
+.........
+.........
+.........
+.........
+.........
+....o....
+o.oxxxxo.
+
+
+0
+0
+0
+0
+0
+0
+0
+0
+Good Job LXX keep it up buddy
+---
+PnDb2
+Opponent: 0
+root hash:-323439140388962972	depth 10.........
+.........
+.........
+.........
+.........
+.........
+.........
+o...ox...
+o.oxxxxo.
+
+
+0
+0
+0
+0
+0
+0
+0
+5
+Good Job LXX keep it up buddy
+---
+PnDb2
+Opponent: 5
+root hash:-7500569705312474519	depth 12.........
+.........
+.........
+.........
+.........
+.....o...
+.....x...
+o...ox...
+o.oxxxxo.
+
+
+0
+0
+0
+5
+0
+5
+0
+0
+Good Job LXX keep it up buddy
+---
+PnDb2
+Opponent: 0
+root hash:8575010282451008865	depth 14.........
+.........
+.........
+.........
+.........
+.....o...
+o....x...
+o.x.ox...
+o.oxxxxo.
+
+
+0
+0
+0
+5
+0
+5
+0
+0
+Good Job LXX keep it up buddy
+---
+PnDb2
+Opponent: 0
+root hash:-6829136418861145488	depth 16.........
+.........
+.........
+.........
+o........
+x....o...
+o....x...
+o.x.ox...
+o.oxxxxo.
+
+
+5
+0
+5
+5
+5
+5
+5
+-1
+---
+PnDb2
+Opponent: 5
+root hash:5187885072599649707	depth 18.........
+.........
+.........
+.........
+o....o...
+x....o...
+o...xx...
+o.x.ox...
+o.oxxxxo.
+
+
+5
+5
+5
+5
+5
+5
+5
+5
+Good Job LXX keep it up buddy
+---
+PnDb2
+Opponent: 5
+root hash:-4754714063499952232	depth 20.........
+.........
+.........
+.....o...
+o....o...
+x....o...
+o.x.xx...
+o.x.ox...
+o.oxxxxo.
+
+
+5
+0
+5
+8
+5
+5
+5
+-1
+---
+PnDb2
+Opponent: 5
+root hash:-1079588754679679757	depth 22.........
+.....o...
+.....x...
+.....o...
+o....o...
+x....o...
+o.x.xx...
+o.x.ox...
+o.oxxxxo.
+
+
+5
+5
+5
+2
+5
+2
+5
+-1
+---
+PnDb2
+Opponent: 5
+root hash:1237371263763563139	depth 24.....o...
+.....o...
+.....x...
+.....o...
+o....o...
+x.x..o...
+o.x.xx...
+o.x.ox...
+o.oxxxxo.
+
+
+LXC Lose Avoided
+8
+8
+8
+8
+8
+8
+8
+8
+Good Job LXX keep it up buddy
+---
+PnDb2
+Opponent: 2
+root hash:2420413951472123984	depth 26.....o...
+.....o...
+.....x...
+..o..o...
+o.x..o...
+x.x..o...
+o.x.xx...
+o.x.ox...
+o.oxxxxo.
+
+
+8
+2
+8
+2
+8
+0
+8
+Good Job LXX keep it up buddy
+---
+PnDb2
+Opponent: 8
+root hash:-3229004859975606018	depth 28.....o...
+.....o...
+.....x...
+..o..o...
+o.x..o...
+x.x..o...
+o.x.xx...
+o.xxox...
+o.oxxxxoo
+
+
+8
+2
+8
+2
+8
+2
+8
+Good Job LXX keep it up buddy
+---
+PnDb2
+Opponent: 8
+root hash:-6160621218390724697	depth 30.....o...
+.....o...
+.....x...
+..o..o...
+o.x..o...
+x.x..o...
+o.x.xx...
+o.xxox..o
+oxoxxxxoo
+
+
+8
+2
+8
+2
+8
+2
+8
+Good Job LXX keep it up buddy
+---
+PnDb2
+Opponent: 8
+root hash:7674704338752946227	depth 32.....o...
+.....o...
+.....x...
+..o..o...
+o.x..o...
+x.x..o...
+o.x.xx..o
+o.xxox.xo
+oxoxxxxoo
+
+
+2
+2
+2
+2
+2
+2
+2
+2
+Good Job LXX keep it up buddy
+---
+PnDb2
+Opponent: 2
+root hash:5699414103189170416	depth 34.....o...
+.....o...
+..o..x...
+..o..o...
+o.x..o...
+x.x..o..x
+o.x.xx..o
+o.xxox.xo
+oxoxxxxoo
+
+
+7
+0
+7
+0
+7
+7
+7
+7
+Good Job LXX keep it up buddy
+---
+PnDb2
+Opponent: 7
+root hash:-3624259631179414157	depth 36.....o...
+.....o...
+..o..x...
+..o..o...
+o.x..o...
+x.x..o.ox
+o.x.xx.xo
+o.xxox.xo
+oxoxxxxoo
+
+
+7
+0
+7
+0
+7
+0
+7
+0
+Good Job LXX keep it up buddy
+---
+PnDb2
+Opponent: 0
+root hash:-141105654437610876	depth 38.....o...
+.....o...
+..o..x...
+o.o..o...
+o.x..o..x
+x.x..o.ox
+o.x.xx.xo
+o.xxox.xo
+oxoxxxxoo
+
+
+7
+7
+7
+7
+7
+7
+7
+7
+Good Job LXX keep it up buddy
+---
+PnDb2
+Opponent: 7
+root hash:1581436845306201940	depth 40.....o...
+.....o...
+..o..x...
+o.o..o..x
+o.x..o.ox
+x.x..o.ox
+o.x.xx.xo
+o.xxox.xo
+oxoxxxxoo
+
+
+LXC Lose Avoided
+3
+3
+3
+3
+3
+3
+3
+3
+3
+Good Job LXX keep it up buddy
+---
+PnDb2
+Opponent: 8
+root hash:-4312910579261533874	depth 42.....o...
+.....o..o
+..o..x..x
+o.o..o..x
+o.x..o.ox
+x.x..o.ox
+o.x.xx.xo
+o.xxox.xo
+oxoxxxxoo
+
+
+7
+7
+7
+7
+7
+7
+7
+Good Job LXX keep it up buddy
+---
+PnDb2
+Opponent: 7
+root hash:1554265378412827018	depth 44.....o...
+.....o..o
+..o..x..x
+o.o..o.ox
+o.x..o.ox
+x.x.xo.ox
+o.x.xx.xo
+o.xxox.xo
+oxoxxxxoo
+
+
+7
+7
+7
+7
+7
+7
+7
+Good Job LXX keep it up buddy
+---
+PnDb2
+Opponent: 7
+root hash:217740195058781824	depth 46.....o...
+.....o.oo
+..o..x.xx
+o.o..o.ox
+o.x..o.ox
+x.x.xo.ox
+o.x.xx.xo
+o.xxox.xo
+oxoxxxxoo
+
+
+7
+7
+7
+7
+7
+4
+7
+Good Job LXX keep it up buddy
+---
+PnDb2
+Opponent: 7
+root hash:2827855921127495395	depth 48.....o.o.
+..x..o.oo
+..o..x.xx
+o.o..o.ox
+o.x..o.ox
+x.x.xo.ox
+o.x.xx.xo
+o.xxox.xo
+oxoxxxxoo
+
+
+4
+0
+4
+4
+4
+4
+4
+4
+-1
+---
+PnDb2
+Opponent: 4
+root hash:7822481789227004730	depth 50.....o.ox
+..x..o.oo
+..o..x.xx
+o.o..o.ox
+o.x.oo.ox
+x.x.xo.ox
+o.x.xx.xo
+o.xxox.xo
+oxoxxxxoo
+
+
+4
+4
+4
+4
+4
+4
+4
+4
+4
+-1
+---
+PnDb2
+Opponent: 4
+root hash:-5105383208017618185	depth 52..x..o.ox
+..x..o.oo
+..o..x.xx
+o.o.oo.ox
+o.x.oo.ox
+x.x.xo.ox
+o.x.xx.xo
+o.xxox.xo
+oxoxxxxoo
+
+
+4
+4
+4
+4
+4
+4
+4
+4
+4
+4
+-1
+---
+PnDb2
+Opponent: 4
+root hash:4524013298677547050	depth 54..x..o.ox
+..x..o.oo
+x.o.ox.xx
+o.o.oo.ox
+o.x.oo.ox
+x.x.xo.ox
+o.x.xx.xo
+o.xxox.xo
+oxoxxxxoo
+
+
+4
+4
+4
+4
+4
+4
+4
+4
+-1
+-1
+-1
+-1
+-1
+-1
+-1
+Failed Completely
+---
+PnDb2
+Opponent: 3
+root hash:-2582835784781958491	depth 56..x..o.ox
+..x.xo.oo
+x.o.ox.xx
+o.o.oo.ox
+o.x.oo.ox
+x.x.xo.ox
+o.xoxx.xo
+o.xxox.xo
+oxoxxxxoo
+
+
+
+-_-
+START GAME
+-_-
+
+---
+PnDb2
+Opponent: null
+root hash:0	depth 0.........
+.........
+.........
+.........
+.........
+.........
+.........
+.........
+.........
+
+
+0
+0
+0
+0
+0
+0
+0
+0
+Good Job LXX keep it up buddy
+---
+PnDb2
+Opponent: 4
+root hash:2103528918616343278	depth 2.........
+.........
+.........
+.........
+.........
+.........
+.........
+....o....
+....x....
+
+
+0
+0
+0
+0
+0
+0
+-1
+---
+PnDb2
+Opponent: 0
+root hash:7168176394762602602	depth 4.........
+.........
+.........
+.........
+.........
+.........
+.........
+....o....
+o..xx....
+
+
+2
+2
+2
+2
+-1
+---
+PnDb2
+Opponent: 2
+root hash:2369552016380543836	depth 6.........
+.........
+.........
+.........
+.........
+.........
+.........
+....o....
+o.oxxx...
+
+
+LXC Lose Avoided
+0
+0
+0
+0
+0
+0
+0
+0
+Good Job LXX keep it up buddy
+---
+PnDb2
+Opponent: 6
+root hash:7291662511830141481	depth 8.........
+.........
+.........
+.........
+.........
+.........
+.........
+....o....
+o.oxxxox.
+
+
+0
+0
+0
+0
+0
+0
+0
+0
+Good Job LXX keep it up buddy
+---
+PnDb2
+Opponent: 0
+root hash:-6483367702077051453	depth 10.........
+.........
+.........
+.........
+.........
+.........
+.........
+o...ox...
+o.oxxxox.
+
+
+0
+0
+0
+0
+0
+0
+0
+-1
+---
+PnDb2
+Opponent: 0
+root hash:-3286683435583571518	depth 12.........
+.........
+.........
+.........
+.........
+.........
+o....x...
+o...ox...
+o.oxxxox.
+
+
+LXC Lose Avoided
+0
+5
+0
+0
+0
+0
+0
+-1
+---
+PnDb2
+Opponent: 5
+root hash:-4090421377119905625	depth 14.........
+.........
+.........
+.........
+.....o...
+.....x...
+o....x...
+o...ox...
+o.oxxxox.
+
+
+0
+5
+0
+0
+0
+0
+0
+-1
+---
+PnDb2
+Opponent: 0
+root hash:5139036328380129980	depth 16.........
+.........
+.........
+.........
+o....o...
+x....x...
+o....x...
+o...ox...
+o.oxxxox.
+
+
+7
+5
+7
+3
+7
+7
+7
+Good Job LXX keep it up buddy
+---
+PnDb2
+Opponent: 7
+root hash:1137267315438822237	depth 18.........
+.........
+.........
+.........
+o....o...
+x....x...
+o....x...
+o..xox.o.
+o.oxxxox.
+
+
+7
+7
+7
+3
+7
+5
+7
+Good Job LXX keep it up buddy
+---
+PnDb2
+Opponent: 7
+root hash:-188673246731590103	depth 20.........
+.........
+.........
+.........
+o....o...
+x....x...
+o..x.x.o.
+o..xox.o.
+o.oxxxox.
+
+
+LXC Lose Avoided
+7
+5
+7
+7
+7
+7
+7
+7
+Good Job LXX keep it up buddy
+---
+PnDb2
+Opponent: 3
+root hash:-689142779115872132	depth 22.........
+.........
+.........
+.........
+o..o.o...
+x..x.x...
+o..x.x.o.
+o..xox.o.
+o.oxxxox.
+
+
+7
+5
+7
+7
+7
+7
+7
+7
+Good Job LXX keep it up buddy
+---
+PnDb2
+Opponent: 7
+root hash:4281243179246244520	depth 24.........
+.........
+.........
+.........
+o..o.o.o.
+x..x.x.x.
+o..x.x.o.
+o..xox.o.
+o.oxxxox.
+
+
+7
+7
+7
+7
+7
+7
+7
+Good Job LXX keep it up buddy
+---
+PnDb2
+Opponent: 7
+root hash:-2135014955479504835	depth 26.........
+.........
+.........
+.......o.
+o..o.o.o.
+x..x.x.x.
+o..x.x.o.
+o..xoxxo.
+o.oxxxox.
+
+
+7
+8
+7
+7
+7
+7
+7
+Good Job LXX keep it up buddy
+---
+PnDb2
+Opponent: 7
+root hash:1618029918321300344	depth 28.........
+.........
+.......o.
+.......o.
+o..o.o.o.
+x..x.x.x.
+o..x.xxo.
+o..xoxxo.
+o.oxxxox.
+
+
+8
+5
+8
+5
+8
+5
+Good Job LXX keep it up buddy
+---
+PnDb2
+Opponent: 5
+root hash:89463945775138255	depth 30.........
+.........
+.......o.
+.....o.o.
+o..o.o.o.
+x..x.xxx.
+o..x.xxo.
+o..xoxxo.
+o.oxxxox.
+
+
+LXC Lose Avoided
+8
+8
+8
+8
+8
+8
+8
+8
+Good Job LXX keep it up buddy
+---
+PnDb2
+Opponent: 6
+root hash:718866279991233325	depth 32.........
+.........
+.......o.
+.....ooo.
+o..o.oxo.
+x..x.xxx.
+o..x.xxo.
+o..xoxxo.
+o.oxxxox.
+
+
+2
+2
+2
+2
+2
+2
+Good Job LXX keep it up buddy
+---
+PnDb2
+Opponent: 2
+root hash:3252843235840094092	depth 34.........
+.........
+.......o.
+.....ooo.
+o..o.oxo.
+x..x.xxx.
+o.ox.xxo.
+o.xxoxxo.
+o.oxxxox.
+
+
+1
+5
+1
+1
+1
+1
+1
+1
+Good Job LXX keep it up buddy
+---
+PnDb2
+Opponent: 1
+root hash:5827307973790286428	depth 36.........
+.......x.
+.......o.
+.....ooo.
+o..o.oxo.
+x..x.xxx.
+o.ox.xxo.
+o.xxoxxo.
+oooxxxox.
+
+
+5
+5
+5
+5
+5
+5
+5
+5
+5
+Good Job LXX keep it up buddy
+---
+PnDb2
+Opponent: 5
+root hash:-2356735905404677235	depth 38.......x.
+.......x.
+.....o.o.
+.....ooo.
+o..o.oxo.
+x..x.xxx.
+o.ox.xxo.
+o.xxoxxo.
+oooxxxox.
+
+
+5
+6
+5
+3
+5
+5
+5
+5
+Good Job LXX keep it up buddy
+---
+PnDb2
+Opponent: 5
+root hash:3430692611547681982	depth 40.....o.x.
+.....x.x.
+.....o.o.
+.....ooo.
+o..o.oxo.
+x..x.xxx.
+o.ox.xxo.
+o.xxoxxo.
+oooxxxox.
+
+
+1
+3
+1
+1
+1
+1
+1
+1
+1
+1
+Good Job LXX keep it up buddy
+---
+PnDb2
+Opponent: 1
+root hash:2273612080709371669	depth 42.....o.x.
+.....x.x.
+.....o.o.
+...x.ooo.
+o..o.oxo.
+x..x.xxx.
+o.ox.xxo.
+ooxxoxxo.
+oooxxxox.
+
+
+3
+3
+3
+3
+3
+3
+3
+3
+3
+3
+Good Job LXX keep it up buddy
+---
+PnDb2
+Opponent: 3
+root hash:-5630304555543235636	depth 44.....o.x.
+.....x.x.
+...o.o.o.
+...x.ooo.
+o..o.oxo.
+x..x.xxx.
+oxox.xxo.
+ooxxoxxo.
+oooxxxox.
+
+
+3
+2
+3
+2
+3
+3
+3
+3
+3
+-1
+---
+PnDb2
+Opponent: 3
+root hash:5201783643001479643	depth 46.....o.x.
+...o.x.x.
+...o.o.o.
+...x.ooo.
+o..o.oxo.
+xx.x.xxx.
+oxox.xxo.
+ooxxoxxo.
+oooxxxox.
+
+
+3
+6
+3
+6
+3
+3
+3
+3
+3
+Good Job LXX keep it up buddy
+---
+PnDb2
+Opponent: 3
+root hash:6468560969563152433	depth 48...o.o.x.
+...o.x.x.
+...o.o.o.
+...x.ooo.
+ox.o.oxo.
+xx.x.xxx.
+oxox.xxo.
+ooxxoxxo.
+oooxxxox.
+
+
+LXC Lose Avoided
+2
+2
+2
+2
+2
+2
+2
+2
+2
+2
+2
+Good Job LXX keep it up buddy
+---
+PnDb2
+Opponent: 1
+root hash:4808058446394361286	depth 50...o.o.x.
+...o.x.x.
+.o.o.o.o.
+.x.x.ooo.
+ox.o.oxo.
+xx.x.xxx.
+oxox.xxo.
+ooxxoxxo.
+oooxxxox.
+
+
+2
+2
+2
+2
+2
+2
+2
+2
+-1
+---
+PnDb2
+Opponent: 2
+root hash:8951327725073773408	depth 52...o.o.x.
+...o.x.x.
+.o.o.o.o.
+.x.x.ooo.
+oxoo.oxo.
+xxxx.xxx.
+oxox.xxo.
+ooxxoxxo.
+oooxxxox.
+
+
+6
+6
+6
+6
+6
+6
+6
+6
+Good Job LXX keep it up buddy
+---
+PnDb2
+Opponent: 6
+root hash:3933575945593806274	depth 54...o.o.x.
+...o.x.x.
+.o.o.ooo.
+xx.x.ooo.
+oxoo.oxo.
+xxxx.xxx.
+oxox.xxo.
+ooxxoxxo.
+oooxxxox.
+
+
+LXC Lose Avoided
+6
+6
+6
+6
+8
+6
+6
+6
+6
+6
+6
+6
+Good Job LXX keep it up buddy
+---
+PnDb2
+Opponent: 4
+root hash:3141825895977428909	depth 56...o.o.x.
+...o.x.x.
+.o.o.ooo.
+xx.x.ooo.
+oxoo.oxo.
+xxxxoxxx.
+oxoxxxxo.
+ooxxoxxo.
+oooxxxox.
+
+
+2
+2
+2
+2
+2
+2
+2
+-1
+---
+PnDb2
+Opponent: 2
+root hash:-3143381401676934065	depth 58...o.o.x.
+...o.x.x.
+.ooo.ooo.
+xxxx.ooo.
+oxoo.oxo.
+xxxxoxxx.
+oxoxxxxo.
+ooxxoxxo.
+oooxxxox.
+
+
+6
+6
+6
+6
+6
+6
+6
+6
+6
+Good Job LXX keep it up buddy
+---
+PnDb2
+Opponent: 6
+root hash:-5241487681469039366	depth 60...o.o.x.
+...o.xox.
+.ooo.ooo.
+xxxx.ooo.
+oxoo.oxo.
+xxxxoxxx.
+oxoxxxxo.
+ooxxoxxo.
+oooxxxoxx
+
+
+8
+8
+8
+8
+8
+8
+8
+8
+2
+2
+8
+8
+Good Job LXX keep it up buddy
+---
+PnDb2
+Opponent: 8
+root hash:-2049767227371353568	depth 62...o.o.x.
+...o.xox.
+.ooo.ooo.
+xxxx.ooo.
+oxoo.oxo.
+xxxxoxxx.
+oxoxxxxoo
+ooxxoxxox
+oooxxxoxx
+
+
+LXC Lose Avoided
+8
+8
+8
+8
+8
+8
+8
+8
+0
+0
+8
+8
+8
+8
+8
+8
+Good Job LXX keep it up buddy
+---
+PnDb2
+Opponent: 8
+root hash:4547520145865342018	depth 64...o.o.x.
+...o.xox.
+.ooo.ooo.
+xxxx.ooo.
+oxoo.oxoo
+xxxxoxxxx
+oxoxxxxoo
+ooxxoxxox
+oooxxxoxx
+
+
+8
+8
+8
+8
+8
+8
+8
+8
+8
+8
+8
+8
+8
+8
+Good Job LXX keep it up buddy
+---
+PnDb2
+Opponent: 8
+root hash:377452616761332502	depth 66...o.o.x.
+...o.xox.
+.ooo.oooo
+xxxx.ooox
+oxoo.oxoo
+xxxxoxxxx
+oxoxxxxoo
+ooxxoxxox
+oooxxxoxx
+
+
+8
+8
+8
+8
+8
+8
+8
+2
+2
+8
+8
+8
+Good Job LXX keep it up buddy
+---
+PnDb2
+Opponent: 8
+root hash:1057661050792881660	depth 68...o.o.xo
+...o.xoxx
+.ooo.oooo
+xxxx.ooox
+oxoo.oxoo
+xxxxoxxxx
+oxoxxxxoo
+ooxxoxxox
+oooxxxoxx
+
+
+0
+0
+0
+0
+0
+2
+2
+0
+0
+0
+Good Job LXX keep it up buddy
+---
+PnDb2
+Opponent: 0
+root hash:1938179989995034272	depth 70...o.oxxo
+...o.xoxx
+oooo.oooo
+xxxx.ooox
+oxoo.oxoo
+xxxxoxxxx
+oxoxxxxoo
+ooxxoxxox
+oooxxxoxx
+
+
+0
+0
+0
+0
+0
+0
+0
+0
+Good Job LXX keep it up buddy
+---
+PnDb2
+Opponent: 0
+root hash:6296514330497753248	depth 72...o.oxxo
+o.xo.xoxx
+oooo.oooo
+xxxx.ooox
+oxoo.oxoo
+xxxxoxxxx
+oxoxxxxoo
+ooxxoxxox
+oooxxxoxx
+
+
+0
+0
+0
+0
+0
+0
+Good Job LXX keep it up buddy
+---
+PnDb2
+Opponent: 0
+root hash:3482948160438238098	depth 74o.xo.oxxo
+o.xo.xoxx
+oooo.oooo
+xxxx.ooox
+oxoo.oxoo
+xxxxoxxxx
+oxoxxxxoo
+ooxxoxxox
+oooxxxoxx
+
+
+1
+1
+1
+1
+Good Job LXX keep it up buddy
+---
+PnDb2
+Opponent: 1
+root hash:1789994624100957309	depth 76ooxo.oxxo
+oxxo.xoxx
+oooo.oooo
+xxxx.ooox
+oxoo.oxoo
+xxxxoxxxx
+oxoxxxxoo
+ooxxoxxox
+oooxxxoxx
+
+
+4
+4
+Good Job LXX keep it up buddy
+---
+PnDb2
+Opponent: 4
+root hash:-1211695181821338570	depth 78ooxo.oxxo
+oxxo.xoxx
+oooo.oooo
+xxxxoooox
+oxooxoxoo
+xxxxoxxxx
+oxoxxxxoo
+ooxxoxxox
+oooxxxoxx
+
+
+
+-_-
+START GAME
+-_-
+
+---
+PnDb2
+Opponent: null
+root hash:0	depth 0.........
+.........
+.........
+.........
+.........
+.........
+.........
+.........
+.........
+
+
+0
+0
+0
+0
+0
+0
+0
+0
+Good Job LXX keep it up buddy
+---
+PnDb2
+Opponent: 4
+root hash:3879985113358837400	depth 2.........
+.........
+.........
+.........
+.........
+.........
+.........
+....o....
+....x....
+
+
+0
+0
+0
+0
+0
+0
+-1
+---
+PnDb2
+Opponent: 0
+root hash:565687058978377991	depth 4.........
+.........
+.........
+.........
+.........
+.........
+.........
+....o....
+o..xx....
+
+
+2
+2
+2
+2
+2
+2
+-1
+---
+PnDb2
+Opponent: 2
+root hash:-1288477086675975030	depth 6.........
+.........
+.........
+.........
+.........
+.........
+.........
+....o....
+o.oxxx...
+
+
+LXC Lose Avoided
+7
+7
+7
+7
+7
+7
+7
+7
+Good Job LXX keep it up buddy
+---
+PnDb2
+Opponent: 6
+root hash:-4157342119158776147	depth 8.........
+.........
+.........
+.........
+.........
+.........
+.........
+....o....
+o.oxxxox.
+
+
+7
+7
+7
+7
+7
+7
+7
+Good Job LXX keep it up buddy
+---
+PnDb2
+Opponent: 7
+root hash:-4162900465457100366	depth 10.........
+.........
+.........
+.........
+.........
+.........
+.........
+....ox.o.
+o.oxxxox.
+
+
+7
+7
+7
+7
+7
+7
+Good Job LXX keep it up buddy
+---
+PnDb2
+Opponent: 7
+root hash:6677320170940499069	depth 12.........
+.........
+.........
+.........
+.........
+.........
+.....x.o.
+....ox.o.
+o.oxxxox.
+
+
+LXC Lose Avoided
+7
+5
+7
+7
+7
+7
+7
+-1
+---
+PnDb2
+Opponent: 5
+root hash:-3666078433832074971	depth 14.........
+.........
+.........
+.........
+.....o...
+.....x...
+.....x.o.
+....ox.o.
+o.oxxxox.
+
+
+7
+5
+7
+0
+7
+7
+Good Job LXX keep it up buddy
+---
+PnDb2
+Opponent: 7
+root hash:5695371855656312100	depth 16.........
+.........
+.........
+.........
+.....o.o.
+.....x.x.
+.....x.o.
+....ox.o.
+o.oxxxox.
+
+
+7
+5
+7
+3
+7
+7
+Good Job LXX keep it up buddy
+---
+PnDb2
+Opponent: 7
+root hash:3751312356118242497	depth 18.........
+.........
+.........
+.......o.
+.....o.o.
+.....x.x.
+.....x.o.
+...xox.o.
+o.oxxxox.
+
+
+7
+3
+7
+6
+7
+Good Job LXX keep it up buddy
+---
+PnDb2
+Opponent: 7
+root hash:6580436902620303090	depth 20.........
+.........
+.......o.
+.......o.
+.....o.o.
+.....x.x.
+...x.x.o.
+...xox.o.
+o.oxxxox.
+
+
+LXC Lose Avoided
+0
+0
+0
+0
+0
+0
+0
+0
+Good Job LXX keep it up buddy
+---
+PnDb2
+Opponent: 3
+root hash:1540880487787912167	depth 22.........
+.........
+.......o.
+.......o.
+...o.o.o.
+...x.x.x.
+...x.x.o.
+...xox.o.
+o.oxxxox.
+
+
+0
+5
+0
+0
+0
+0
+Good Job LXX keep it up buddy
+---
+PnDb2
+Opponent: 0
+root hash:-4971725656656619105	depth 24.........
+.......x.
+.......o.
+.......o.
+...o.o.o.
+...x.x.x.
+...x.x.o.
+o..xox.o.
+o.oxxxox.
+
+
+0
+5
+0
+0
+0
+0
+0
+0
+Good Job LXX keep it up buddy
+---
+PnDb2
+Opponent: 0
+root hash:4016418842562540009	depth 26.........
+.......x.
+.......o.
+.......o.
+...o.o.o.
+...x.x.x.
+o..xxx.o.
+o..xox.o.
+o.oxxxox.
+
+
+0
+5
+0
+0
+0
+0
+0
+-1
+---
+PnDb2
+Opponent: 0
+root hash:4663217474510606959	depth 28.........
+.......x.
+.......o.
+.......o.
+o..o.o.o.
+x..x.x.x.
+o..xxx.o.
+o..xox.o.
+o.oxxxox.
+
+
+6
+5
+6
+2
+6
+2
+6
+-1
+---
+PnDb2
+Opponent: 6
+root hash:-6679380419149546310	depth 30.........
+.......x.
+.......o.
+.......o.
+o..o.o.o.
+x..x.x.x.
+o..xxx.o.
+o.xxoxoo.
+o.oxxxox.
+
+
+2
+2
+2
+2
+2
+2
+2
+-1
+---
+PnDb2
+Opponent: 2
+root hash:2538020636952684254	depth 32.........
+.......x.
+.......o.
+.......o.
+o..o.o.o.
+x..xxx.x.
+o.oxxx.o.
+o.xxoxoo.
+o.oxxxox.
+
+
+4
+4
+4
+3
+4
+Good Job LXX keep it up buddy
+---
+PnDb2
+Opponent: 4
+root hash:-2009208569255414853	depth 34.........
+.......x.
+.......o.
+.......o.
+o..ooo.o.
+x..xxx.x.
+o.oxxx.o.
+o.xxoxoo.
+o.oxxxoxx
+
+
+4
+5
+4
+3
+4
+Good Job LXX keep it up buddy
+---
+PnDb2
+Opponent: 4
+root hash:5607853779429974155	depth 36.........
+.......x.
+.......o.
+....o..o.
+o..ooo.o.
+x..xxx.x.
+o.oxxx.o.
+o.xxoxoox
+o.oxxxoxx
+
+
+4
+4
+4
+4
+4
+2
+Good Job LXX keep it up buddy
+---
+PnDb2
+Opponent: 2
+root hash:2740070057825423431	depth 38.........
+.......x.
+.......o.
+....o..o.
+o..ooo.o.
+x.oxxx.x.
+o.oxxx.ox
+o.xxoxoox
+o.oxxxoxx
+
+
+LXC Lose Avoided
+2
+2
+2
+2
+2
+2
+2
+2
+Good Job LXX keep it up buddy
+---
+PnDb2
+Opponent: 8
+root hash:-8831254913576626951	depth 40.........
+.......x.
+.......o.
+....o..o.
+o..ooo.oo
+x.oxxx.xx
+o.oxxx.ox
+o.xxoxoox
+o.oxxxoxx
+
+
+2
+2
+2
+2
+5
+-1
+---
+PnDb2
+Opponent: 5
+root hash:-8355747533161903648	depth 42.........
+.......x.
+....x..o.
+....oo.o.
+o..ooo.oo
+x.oxxx.xx
+o.oxxx.ox
+o.xxoxoox
+o.oxxxoxx
+
+
+2
+2
+2
+2
+2
+2
+Good Job LXX keep it up buddy
+---
+PnDb2
+Opponent: 2
+root hash:4222217509923357317	depth 44.......x.
+.......x.
+....x..o.
+....oo.o.
+o.oooo.oo
+x.oxxx.xx
+o.oxxx.ox
+o.xxoxoox
+o.oxxxoxx
+
+
+4
+4
+4
+4
+4
+4
+Good Job LXX keep it up buddy
+---
+PnDb2
+Opponent: 4
+root hash:-8084301444734105783	depth 46.......x.
+....o..x.
+....x..o.
+..x.oo.o.
+o.oooo.oo
+x.oxxx.xx
+o.oxxx.ox
+o.xxoxoox
+o.oxxxoxx
+
+
+4
+8
+4
+4
+4
+4
+-1
+---
+PnDb2
+Opponent: 4
+root hash:3120874559067767122	depth 48....o..x.
+....o..x.
+....x..o.
+x.x.oo.o.
+o.oooo.oo
+x.oxxx.xx
+o.oxxx.ox
+o.xxoxoox
+o.oxxxoxx
+
+
+8
+8
+8
+8
+8
+8
+8
+Good Job LXX keep it up buddy
+---
+PnDb2
+Opponent: 8
+root hash:-4032280628373886315	depth 50....o..x.
+....o..x.
+x...x..o.
+x.x.oo.oo
+o.oooo.oo
+x.oxxx.xx
+o.oxxx.ox
+o.xxoxoox
+o.oxxxoxx
+
+
+8
+8
+8
+8
+8
+8
+8
+Good Job LXX keep it up buddy
+---
+PnDb2
+Opponent: 8
+root hash:-8262870022898764815	depth 52....o..x.
+....o..x.
+x...xx.oo
+x.x.oo.oo
+o.oooo.oo
+x.oxxx.xx
+o.oxxx.ox
+o.xxoxoox
+o.oxxxoxx
+
+
+1
+1
+1
+1
+1
+1
+1
+1
+1
+Good Job LXX keep it up buddy
+---
+PnDb2
+Opponent: 1
+root hash:346392405711435064	depth 54....o..x.
+....o..xx
+x...xx.oo
+x.x.oo.oo
+o.oooo.oo
+x.oxxx.xx
+o.oxxx.ox
+o.xxoxoox
+oooxxxoxx
+
+
+1
+1
+1
+1
+1
+1
+1
+1
+1
+5
+5
+Good Job LXX keep it up buddy
+---
+PnDb2
+Opponent: 5
+root hash:-3558557799578255271	depth 56....oo.x.
+....ox.xx
+x...xx.oo
+x.x.oo.oo
+o.oooo.oo
+x.oxxx.xx
+o.oxxx.ox
+o.xxoxoox
+oooxxxoxx
+
+
+3
+3
+3
+3
+3
+3
+3
+3
+3
+3
+3
+3
+3
+3
+3
+Good Job LXX keep it up buddy
+---
+PnDb2
+Opponent: 3
+root hash:-973666038758349203	depth 58....oo.x.
+....ox.xx
+x..oxx.oo
+x.xxoo.oo
+o.oooo.oo
+x.oxxx.xx
+o.oxxx.ox
+o.xxoxoox
+oooxxxoxx
+
+
+3
+3
+3
+3
+3
+3
+3
+3
+3
+3
+3
+3
+3
+3
+3
+3
+3
+3
+3
+3
+Good Job LXX keep it up buddy
+---
+PnDb2
+Opponent: 3
+root hash:176228784134597482	depth 60....oo.xx
+...oox.xx
+x..oxx.oo
+x.xxoo.oo
+o.oooo.oo
+x.oxxx.xx
+o.oxxx.ox
+o.xxoxoox
+oooxxxoxx
+
+
+3
+3
+3
+3
+3
+3
+3
+3
+3
+3
+3
+3
+3
+3
+3
+3
+3
+3
+Good Job LXX keep it up buddy
+---
+PnDb2
+Opponent: 3
+root hash:8075443702126507637	depth 62...ooo.xx
+...oox.xx
+x.xoxx.oo
+x.xxoo.oo
+o.oooo.oo
+x.oxxx.xx
+o.oxxx.ox
+o.xxoxoox
+oooxxxoxx
+
+
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+Good Job LXX keep it up buddy
+---
+PnDb2
+Opponent: 0
+root hash:-3526078547692388536	depth 64...ooo.xx
+o.xoox.xx
+x.xoxx.oo
+x.xxoo.oo
+o.oooo.oo
+x.oxxx.xx
+o.oxxx.ox
+o.xxoxoox
+oooxxxoxx
+
+
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+Good Job LXX keep it up buddy
+---
+PnDb2
+Opponent: 0
+root hash:255783564471354671	depth 66o.xooo.xx
+o.xoox.xx
+x.xoxx.oo
+x.xxoo.oo
+o.oooo.oo
+x.oxxx.xx
+o.oxxx.ox
+o.xxoxoox
+oooxxxoxx
+
+
+LXC Lose Avoided
+
+-_-
+START GAME
+-_-
+
+---
+PnDb2
+Opponent: null
+root hash:0	depth 0.........
+.........
+.........
+.........
+.........
+.........
+.........
+.........
+.........
+
+
+0
+0
+0
+0
+0
+0
+0
+0
+Good Job LXX keep it up buddy
+---
+PnDb2
+Opponent: 4
+root hash:5847200786531610458	depth 2.........
+.........
+.........
+.........
+.........
+.........
+.........
+....o....
+....x....
+
+
+0
+0
+0
+0
+0
+0
+-1
+---
+PnDb2
+Opponent: 0
+root hash:-3435058423768198335	depth 4.........
+.........
+.........
+.........
+.........
+.........
+.........
+....o....
+o..xx....
+
+
+6
+6
+6
+6
+6
+6
+Good Job LXX keep it up buddy
+---
+PnDb2
+Opponent: 6
+root hash:-1064541053467058417	depth 6.........
+.........
+.........
+.........
+.........
+.........
+.........
+....o....
+o..xxxo..
+
+
+LXC Lose Avoided
+0
+0
+0
+0
+0
+0
+0
+0
+Good Job LXX keep it up buddy
+---
+PnDb2
+Opponent: 1
+root hash:4589330518224431928	depth 8.........
+.........
+.........
+.........
+.........
+.........
+.........
+....o....
+ooxxxxo..
+
+
+0
+0
+0
+0
+0
+0
+0
+-1
+---
+PnDb2
+Opponent: 0
+root hash:832386932741478329	depth 10.........
+.........
+.........
+.........
+.........
+.........
+.........
+o..xo....
+ooxxxxo..
+
+
+0
+0
+0
+0
+0
+0
+Good Job LXX keep it up buddy
+---
+PnDb2
+Opponent: 0
+root hash:-8317605391548633795	depth 12.........
+.........
+.........
+.........
+.........
+.........
+o..x.....
+o..xo....
+ooxxxxo..
+
+
+LXC Lose Avoided
+0
+3
+0
+0
+0
+0
+0
+-1
+---
+PnDb2
+Opponent: 3
+root hash:-8285421406985785877	depth 14.........
+.........
+.........
+.........
+...o.....
+...x.....
+o..x.....
+o..xo....
+ooxxxxo..
+
+
+8
+3
+8
+8
+8
+8
+Good Job LXX keep it up buddy
+---
+PnDb2
+Opponent: 8
+root hash:6215861246866557402	depth 16.........
+.........
+.........
+.........
+...o.....
+x..x.....
+o..x.....
+o..xo....
+ooxxxxo.o
+
+
+8
+3
+8
+8
+8
+8
+Good Job LXX keep it up buddy
+---
+PnDb2
+Opponent: 8
+root hash:-5394510743929096860	depth 18.........
+.........
+.........
+.........
+...o.....
+x..x.....
+o..xx....
+o..xo...o
+ooxxxxo.o
+
+
+8
+3
+8
+2
+8
+8
+Good Job LXX keep it up buddy
+---
+PnDb2
+Opponent: 8
+root hash:-3828725689397568874	depth 20.........
+.........
+.........
+.........
+...o.....
+x..x.....
+o..xx...o
+o.xxo...o
+ooxxxxo.o
+
+
+6
+3
+6
+2
+6
+8
+Good Job LXX keep it up buddy
+---
+PnDb2
+Opponent: 8
+root hash:-985363867476326434	depth 22.........
+.........
+.........
+.........
+...o....o
+x..x....x
+o..xx...o
+o.xxo...o
+ooxxxxo.o
+
+
+6
+6
+6
+2
+6
+8
+6
+Good Job LXX keep it up buddy
+---
+PnDb2
+Opponent: 6
+root hash:-4496749118474985920	depth 24.........
+.........
+.........
+.........
+...o....o
+x..x....x
+o.xxx...o
+o.xxo.o.o
+ooxxxxo.o
+
+
+LXC Lose Avoided
+6
+3
+6
+6
+6
+6
+6
+6
+Good Job LXX keep it up buddy
+---
+PnDb2
+Opponent: 2
+root hash:8430101950853880615	depth 26.........
+.........
+.........
+.........
+..oo....o
+x.xx....x
+o.xxx...o
+o.xxo.o.o
+ooxxxxo.o
+
+
+1
+3
+1
+3
+6
+6
+-1
+-1
+Failed Completely
+---
+PnDb2
+Opponent: 4
+root hash:6705848196012099006	depth 28.........
+.........
+.........
+.........
+..ooo...o
+x.xxx...x
+o.xxx...o
+o.xxo.o.o
+ooxxxxo.o
+
+
+6
+6
+-1
+-1
+-1
+-1
+-1
+-1
+Failed Completely
+---
+PnDb2
+Opponent: 1
+root hash:280085488044573822	depth 30.........
+.........
+.........
+.........
+..ooo...o
+x.xxx...x
+o.xxx.x.o
+ooxxo.o.o
+ooxxxxo.o
+
+
+LXC Lose Avoided
+2
+8
+2
+2
+2
+2
+2
+2
+Good Job LXX keep it up buddy
+---
+PnDb2
+Opponent: 5
+root hash:5615696513030082780	depth 32.........
+.........
+.........
+.........
+..ooo...o
+x.xxx...x
+o.xxxox.o
+ooxxoxo.o
+ooxxxxo.o
+
+
+LXC Lose Avoided
+2
+8
+2
+2
+2
+2
+2
+2
+Good Job LXX keep it up buddy
+---
+PnDb2
+Opponent: 6
+root hash:-4817497743229793972	depth 34.........
+.........
+.........
+.........
+..ooo...o
+x.xxxxo.x
+o.xxxox.o
+ooxxoxo.o
+ooxxxxo.o
+
+
+
+-_-
+START GAME
+-_-
+
+---
+PnDb2
+Opponent: null
+root hash:0	depth 0.........
+.........
+.........
+.........
+.........
+.........
+.........
+.........
+.........
+
+
+0
+0
+0
+0
+0
+0
+0
+0
+Good Job LXX keep it up buddy
+---
+PnDb2
+Opponent: 4
+root hash:-4325153945122668045	depth 2.........
+.........
+.........
+.........
+.........
+.........
+.........
+....o....
+....x....
+
+
+0
+0
+0
+0
+0
+0
+-1
+---
+PnDb2
+Opponent: 0
+root hash:2055402805569402437	depth 4.........
+.........
+.........
+.........
+.........
+.........
+.........
+....o....
+o...xx...
+
+
+7
+7
+7
+7
+7
+Good Job LXX keep it up buddy
+---
+PnDb2
+Opponent: 7
+root hash:6627486956637350787	depth 6.........
+.........
+.........
+.........
+.........
+.........
+.........
+....o....
+o...xxxo.
+
+
+LXC Lose Avoided
+0
+0
+0
+0
+0
+0
+0
+0
+Good Job LXX keep it up buddy
+---
+PnDb2
+Opponent: 2
+root hash:-3022542941684278498	depth 8.........
+.........
+.........
+.........
+.........
+.........
+.........
+....o....
+o.oxxxxo.
+
+
+0
+0
+0
+0
+0
+0
+0
+0
+Good Job LXX keep it up buddy
+---
+PnDb2
+Opponent: 0
+root hash:3869334982470690538	depth 10.........
+.........
+.........
+.........
+.........
+.........
+.........
+o...ox...
+o.oxxxxo.
+
+
+0
+0
+0
+0
+0
+0
+0
+Good Job LXX keep it up buddy
+---
+PnDb2
+Opponent: 0
+root hash:2950058209979389331	depth 12.........
+.........
+.........
+.........
+.........
+.........
+o....x...
+o...ox...
+o.oxxxxo.
+
+
+LXC Lose Avoided
+0
+5
+0
+0
+0
+0
+0
+-1
+---
+PnDb2
+Opponent: 5
+root hash:4873880396310897920	depth 14.........
+.........
+.........
+.........
+.....o...
+.....x...
+o....x...
+o...ox...
+o.oxxxxo.
+
+
+2
+5
+2
+2
+2
+2
+2
+-1
+---
+PnDb2
+Opponent: 2
+root hash:-1421195129231314566	depth 16.........
+.........
+.........
+.........
+.....o...
+x....x...
+o....x...
+o.o.ox...
+o.oxxxxo.
+
+
+2
+5
+2
+5
+2
+1
+2
+-1
+---
+PnDb2
+Opponent: 2
+root hash:-3631673144316853242	depth 18.........
+.........
+.........
+.........
+.....o...
+x....x...
+o.o..x...
+o.oxox...
+o.oxxxxo.
+
+
+2
+2
+2
+5
+2
+2
+2
+Good Job LXX keep it up buddy
+---
+PnDb2
+Opponent: 2
+root hash:3684351572460342872	depth 20.........
+.........
+.........
+.........
+.....o...
+x.o..x...
+o.ox.x...
+o.oxox...
+o.oxxxxo.
+
+
+3
+3
+3
+3
+3
+3
+-1
+---
+PnDb2
+Opponent: 3
+root hash:-767377066296687374	depth 22.........
+.........
+.........
+.........
+..x..o...
+x.oo.x...
+o.ox.x...
+o.oxox...
+o.oxxxxo.
+
+
+2
+2
+2
+2
+2
+2
+2
+Good Job LXX keep it up buddy
+---
+PnDb2
+Opponent: 2
+root hash:6796817602664179090	depth 24.........
+.........
+.........
+..o......
+..x..o...
+x.oo.x...
+o.ox.x...
+o.oxoxx..
+o.oxxxxo.
+
+
+1
+6
+1
+5
+1
+7
+Good Job LXX keep it up buddy
+---
+PnDb2
+Opponent: 7
+root hash:6694302681290359441	depth 26.........
+.........
+.........
+..o......
+..x..o...
+x.oo.x...
+o.ox.xx..
+o.oxoxxo.
+o.oxxxxo.
+
+
+LXC Lose Avoided
+1
+1
+1
+1
+1
+1
+1
+-1
+---
+PnDb2
+Opponent: 4
+root hash:7463048994960262727	depth 28.........
+.........
+.........
+..o......
+..x..o...
+x.oo.x...
+o.oxoxxx.
+o.oxoxxo.
+o.oxxxxo.
+
+
+LXC Lose Avoided
+1
+1
+1
+1
+1
+1
+1
+-1
+---
+PnDb2
+Opponent: 6
+root hash:8553636358223537495	depth 30.........
+.........
+.........
+..o......
+..x..oo..
+x.oo.xx..
+o.oxoxxx.
+o.oxoxxo.
+o.oxxxxo.
+
+
+7
+6
+7
+7
+7
+7
+7
+7
+Good Job LXX keep it up buddy
+---
+PnDb2
+Opponent: 7
+root hash:7366065640493197070	depth 32.........
+.........
+..x......
+..o......
+..x..oo..
+x.oo.xxo.
+o.oxoxxx.
+o.oxoxxo.
+o.oxxxxo.
+
+
+7
+3
+7
+7
+7
+7
+7
+7
+Good Job LXX keep it up buddy
+---
+PnDb2
+Opponent: 7
+root hash:-2916891917394380879	depth 34.........
+.........
+..x......
+..o......
+..xx.ooo.
+x.oo.xxo.
+o.oxoxxx.
+o.oxoxxo.
+o.oxxxxo.
+
+
+3
+3
+3
+3
+3
+3
+3
+-1
+---
+PnDb2
+Opponent: 3
+root hash:4745914710482631080	depth 36.........
+.........
+..xo.....
+..ox.....
+..xx.ooo.
+x.oo.xxo.
+o.oxoxxx.
+o.oxoxxo.
+o.oxxxxo.
+
+
+6
+6
+6
+6
+6
+6
+6
+6
+Good Job LXX keep it up buddy
+---
+PnDb2
+Opponent: 6
+root hash:-2479420866233213895	depth 38.........
+.........
+..xo.....
+..ox..ox.
+..xx.ooo.
+x.oo.xxo.
+o.oxoxxx.
+o.oxoxxo.
+o.oxxxxo.
+
+
+6
+6
+6
+6
+6
+6
+6
+6
+Good Job LXX keep it up buddy
+---
+PnDb2
+Opponent: 6
+root hash:-2630326702994845103	depth 40.........
+......o..
+..xo..x..
+..ox..ox.
+..xx.ooo.
+x.oo.xxo.
+o.oxoxxx.
+o.oxoxxo.
+o.oxxxxo.
+
+
+3
+3
+3
+3
+3
+3
+3
+3
+3
+Good Job LXX keep it up buddy
+---
+PnDb2
+Opponent: 3
+root hash:-578343278843113780	depth 42......x..
+...o..o..
+..xo..x..
+..ox..ox.
+..xx.ooo.
+x.oo.xxo.
+o.oxoxxx.
+o.oxoxxo.
+o.oxxxxo.
+
+
+3
+3
+3
+3
+3
+3
+3
+3
+3
+-1
+---
+PnDb2
+Opponent: 3
+root hash:-7876695545612519414	depth 44...o..x..
+...o..o..
+..xo..x..
+..ox.xox.
+..xx.ooo.
+x.oo.xxo.
+o.oxoxxx.
+o.oxoxxo.
+o.oxxxxo.
+
+
+5
+5
+5
+5
+5
+5
+5
+5
+5
+-1
+---
+PnDb2
+Opponent: 5
+root hash:5638625584711149371	depth 46...o..x..
+...o..o..
+..xo.oxx.
+..ox.xox.
+..xx.ooo.
+x.oo.xxo.
+o.oxoxxx.
+o.oxoxxo.
+o.oxxxxo.
+
+
+5
+5
+5
+5
+5
+8
+5
+8
+5
+8
+Good Job LXX keep it up buddy
+---
+PnDb2
+Opponent: 8
+root hash:3888691685163001402	depth 48...o..x..
+...o.xo..
+..xo.oxx.
+..ox.xox.
+..xx.ooo.
+x.oo.xxo.
+o.oxoxxx.
+o.oxoxxo.
+o.oxxxxoo
+
+
+8
+8
+8
+8
+8
+8
+8
+8
+8
+8
+8
+Good Job LXX keep it up buddy
+---
+PnDb2
+Opponent: 8
+root hash:-2798153959040555450	depth 50...o..x..
+...o.xo..
+..xo.oxx.
+..ox.xox.
+x.xx.ooo.
+x.oo.xxo.
+o.oxoxxx.
+o.oxoxxoo
+o.oxxxxoo
+
+
+8
+8
+8
+8
+8
+8
+8
+8
+8
+8
+8
+Good Job LXX keep it up buddy
+---
+PnDb2
+Opponent: 8
+root hash:3806126462909821931	depth 52...o..x..
+...o.xo..
+..xo.oxx.
+x.ox.xox.
+x.xx.ooo.
+x.oo.xxo.
+o.oxoxxxo
+o.oxoxxoo
+o.oxxxxoo
+
+
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+-1
+---
+PnDb2
+Opponent: 0
+root hash:294007000680263595	depth 54...o..x..
+o..o.xo..
+x.xo.oxx.
+x.ox.xox.
+x.xx.ooo.
+x.oo.xxo.
+o.oxoxxxo
+o.oxoxxoo
+o.oxxxxoo
+
+
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+Good Job LXX keep it up buddy
+---
+PnDb2
+Opponent: 1
+root hash:-7542113785979224488	depth 56x..o..x..
+o..o.xo..
+x.xo.oxx.
+x.ox.xox.
+x.xx.ooo.
+x.oo.xxo.
+o.oxoxxxo
+o.oxoxxoo
+oooxxxxoo
+
+
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+Good Job LXX keep it up buddy
+---
+PnDb2
+Opponent: 1
+root hash:-673244722530238685	depth 58x..o.xx..
+o..o.xo..
+x.xo.oxx.
+x.ox.xox.
+x.xx.ooo.
+x.oo.xxo.
+o.oxoxxxo
+oooxoxxoo
+oooxxxxoo
+
+
+1
+1
+1
+1
+1
+1
+1
+1
+1
+Good Job LXX keep it up buddy
+---
+PnDb2
+Opponent: 1
+root hash:5007539837607824740	depth 60x..o.xx..
+o..o.xo..
+x.xo.oxx.
+x.ox.xox.
+x.xx.ooo.
+x.oo.xxox
+oooxoxxxo
+oooxoxxoo
+oooxxxxoo
+
+
+1
+1
+1
+1
+1
+1
+1
+1
+1
+Good Job LXX keep it up buddy
+---
+PnDb2
+Opponent: 1
+root hash:2043102060057818331	depth 62x..o.xx..
+o..o.xo..
+x.xo.oxx.
+x.ox.xox.
+xoxx.ooo.
+xxoo.xxox
+oooxoxxxo
+oooxoxxoo
+oooxxxxoo
+
+
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+Good Job LXX keep it up buddy
+---
+PnDb2
+Opponent: 1
+root hash:991862180020330084	depth 64x..o.xx..
+o..o.xo..
+xoxo.oxx.
+xxox.xox.
+xoxx.ooo.
+xxoo.xxox
+oooxoxxxo
+oooxoxxoo
+oooxxxxoo
+
+
+1
+1
+1
+1
+1
+1
+1
+1
+-1
+-1
+-1
+-1
+-1
+-1
+Failed Completely
+---
+PnDb2
+Opponent: 1
+root hash:-1495409685547408508	depth 66xo.o.xx..
+ox.o.xo..
+xoxo.oxx.
+xxox.xox.
+xoxx.ooo.
+xxoo.xxox
+oooxoxxxo
+oooxoxxoo
+oooxxxxoo
+
+
+8
+8
+8
+8
+8
+8
+-1
+-1
+-1
+-1
+-1
+-1
+Failed Completely
+---
+PnDb2
+Opponent: 2
+root hash:-834680331328193313	depth 68xooo.xx..
+oxxo.xo..
+xoxo.oxx.
+xxox.xox.
+xoxx.ooo.
+xxoo.xxox
+oooxoxxxo
+oooxoxxoo
+oooxxxxoo
+
+
+8
+8
+8
+8
+-1
+-1
+-1
+-1
+-1
+-1
+Failed Completely
+---
+PnDb2
+Opponent: 8
+root hash:-2922914748363750255	depth 70xooo.xx..
+oxxo.xox.
+xoxo.oxx.
+xxox.xox.
+xoxx.oooo
+xxoo.xxox
+oooxoxxxo
+oooxoxxoo
+oooxxxxoo
+
+
+8
+8
+-1
+-1
+-1
+-1
+-1
+-1
+Failed Completely
+---
+PnDb2
+Opponent: 4
+root hash:286533409353409551	depth 72xooo.xxx.
+oxxo.xox.
+xoxo.oxx.
+xxox.xox.
+xoxx.oooo
+xxoooxxox
+oooxoxxxo
+oooxoxxoo
+oooxxxxoo
+
+
+PnDb2 Score: 12 Won: 4 Lost: 3 Draw: 0 Error: 0
+MARG Score: 9 Won: 3 Lost: 4 Draw: 0 Error: 0
+#!/bin/bash
+
+if [[ $# < 1 ]]
+then
+	echo "missing args"
+	exit 1
+fi
+
+
+_OUTDIR="debug/match/final"
+OUTDIR="${_OUTDIR}/$1"
+TESTS="7"
+
+mkdir ${_OUTDIR}
+mkdir ${OUTDIR}
+
+./lcompile
+
+
+# pndb2 dnull: 9,9,5*7 - 18,20,7*7 - 38,58,12*3 - 70,47,11*2 - 100,100,30*2
+# delta dnull: 9,9,5*7 - 18,20,7*7 - 38,58,12*3 - 70,47,11*2 - 100,100,30*2
+# pndb2 xcono: 9,9,5*7 - 18,20,7*7 - 38,58,12*3 - 70,47,11*2 - 100,100,30*2
+
+# pndb pndb2: 9,9,5*3 - 18,20,7*3
+# pndb pndbtime: 18,20,7*3
+# pndb2 alpha: 9,9,5*3 - 18,20,7*3
+# pndb2 betha: 9,9,5*3 - 18,20,7*3
+
+
+
+./ltest 9 9 5		pndb2.PnSearch pndbg.dnull.PnSearch				-r 7 > ${OUTDIR}/pndb2_dnull_995.txt
+cat scripts/testcases_final.sh >> ${OUTDIR}/pndb2_dnull_995.txt
+
+./ltest 9 9 5		pndbg.delta.PnSearch pndbg.dnull.PnSearch		-r 7 > ${OUTDIR}/delta_dnull_995.txt
+cat scripts/testcases_final.sh >> ${OUTDIR}/delta_dnull_995.txt
+
+./ltest 9 9 5		pndb2.PnSearch LXCONO.LXMARGIN.LXMARGIN			-r 7 > ${OUTDIR}/pndb2_xcono_995.txt
+cat scripts/testcases_final.sh >> ${OUTDIR}/pndb2_xcono_995.txt
+
+./ltest 9 9 5		pndb.PnSearch pndb2.PnSearch					-r 3 > ${OUTDIR}/pndb_pndb2_995.txt
+cat scripts/testcases_final.sh >> ${OUTDIR}/pndb_pndb2_995.txt
+
+./ltest 9 9 5		pndb2.PnSearch pndbg.alpha.Player				-r 3 > ${OUTDIR}/pndb2_alpha_995.txt
+cat scripts/testcases_final.sh >> ${OUTDIR}/pndb2_alpha_995.txt
+
+./ltest 9 9 5		pndb2.PnSearch pndbg.betha.Player				-r 3 > ${OUTDIR}/pndb2_betha_995.txt
+cat scripts/testcases_final.sh >> ${OUTDIR}/pndb2_betha_995.txt
+
+
+./ltest 18 20 7		pndb2.PnSearch pndbg.dnull.PnSearch				-r 7 > ${OUTDIR}/pndb2_dnull_18207.txt
+cat scripts/testcases_final.sh >> ${OUTDIR}/pndb2_dnull_18207.txt
+
+./ltest 18 20 7		pndbg.delta.PnSearch pndbg.dnull.PnSearch		-r 7 > ${OUTDIR}/delta_dnull_18207.txt
+cat scripts/testcases_final.sh >> ${OUTDIR}/delta_dnull_18207.txt
+
+./ltest 18 20 7		pndb2.PnSearch LXCONO.LXMARGIN.LXMARGIN			-r 7 > ${OUTDIR}/pndb2_xcono_18207.txt
+cat scripts/testcases_final.sh >> ${OUTDIR}/pndb2_xcono_18207.txt
+
+./ltest 18 20 7		pndb.PnSearch pndb2.PnSearch					-r 3 > ${OUTDIR}/pndb_pndb2_18207.txt
+cat scripts/testcases_final.sh >> ${OUTDIR}/pndb_pndb2_18207.txt
+
+./ltest 18 20 7		pndb.PnSearch pndbtime.PnSearch					-r 3 > ${OUTDIR}/pndb_pndbtime_18207.txt
+cat scripts/testcases_final.sh >> ${OUTDIR}/pndb_pndbtime_18207.txt
+
+./ltest 18 20 7		pndb2.PnSearch pndbg.alpha.Player				-r 3 > ${OUTDIR}/pndb2_alpha_18207.txt
+cat scripts/testcases_final.sh >> ${OUTDIR}/pndb2_alpha_18207.txt
+
+./ltest 18 20 7		pndb2.PnSearch pndbg.betha.Player				-r 3 > ${OUTDIR}/pndb2_betha_18207.txt
+cat scripts/testcases_final.sh >> ${OUTDIR}/pndb2_betha_18207.txt
+
+
+./ltest 38 58 12		pndb2.PnSearch pndbg.dnull.PnSearch				-r 3 > ${OUTDIR}/pndb2_dnull_385812.txt
+cat scripts/testcases_final.sh >> ${OUTDIR}/pndb2_dnull_385812.txt
+
+./ltest 38 58 12		pndbg.delta.PnSearch pndbg.dnull.PnSearch		-r 3 > ${OUTDIR}/delta_dnull_385812.txt
+cat scripts/testcases_final.sh >> ${OUTDIR}/delta_dnull_385812.txt
+
+./ltest 38 58 12		pndb2.PnSearch LXCONO.LXMARGIN.LXMARGIN			-r 3 > ${OUTDIR}/pndb2_xcono_385812.txt
+cat scripts/testcases_final.sh >> ${OUTDIR}/pndb2_xcono_385812.txt
+
+
+./ltest 70 47 11		pndb2.PnSearch pndbg.dnull.PnSearch				-r 2 > ${OUTDIR}/pndb2_dnull_704711.txt
+cat scripts/testcases_final.sh >> ${OUTDIR}/pndb2_dnull_704711.txt
+
+./ltest 70 47 11		pndbg.delta.PnSearch pndbg.dnull.PnSearch		-r 2 > ${OUTDIR}/delta_dnull_704711.txt
+cat scripts/testcases_final.sh >> ${OUTDIR}/delta_dnull_704711.txt
+
+./ltest 70 47 11		pndb2.PnSearch LXCONO.LXMARGIN.LXMARGIN			-r 2 > ${OUTDIR}/pndb2_xcono_704711.txt
+cat scripts/testcases_final.sh >> ${OUTDIR}/pndb2_xcono_704711.txt
+
+
+./ltest 100 100 30		pndb2.PnSearch pndbg.dnull.PnSearch				-r 2 > ${OUTDIR}/pndb2_dnull_10010030.txt
+cat scripts/testcases_final.sh >> ${OUTDIR}/pndb2_dnull_10010030.txt
+
+./ltest 100 100 30		pndbg.delta.PnSearch pndbg.dnull.PnSearch		-r 2 > ${OUTDIR}/delta_dnull_10010030.txt
+cat scripts/testcases_final.sh >> ${OUTDIR}/delta_dnull_10010030.txt
+
+./ltest 100 100 30		pndb2.PnSearch LXCONO.LXMARGIN.LXMARGIN			-r 2 > ${OUTDIR}/pndb2_xcono_10010030.txt
+cat scripts/testcases_final.sh >> ${OUTDIR}/pndb2_xcono_10010030.txt
+
+
+
