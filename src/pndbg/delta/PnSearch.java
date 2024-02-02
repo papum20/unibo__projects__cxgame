@@ -136,7 +136,7 @@ public class PnSearch implements CXPlayer {
 		dbSearch = new DbSearch();		
 		dbSearch.init(M, N, X, first);
 
-		timer_duration = (timeout_in_secs - 1) * 1000;
+		timer_duration = (timeout_in_secs - 1) * 1000 - 100;
 		runtime = Runtime.getRuntime();
 		lastIt_board = new BoardBitPn(first ? MY_PLAYER : YOUR_PLAYER);
 		created_n = 0;
