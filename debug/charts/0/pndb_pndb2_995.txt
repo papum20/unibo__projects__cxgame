@@ -1,0 +1,2158 @@
+
+-_-
+START GAME
+-_-
+
+
+-_-
+START GAME
+-_-
+
+---
+PnDb
+Opponent: null
+root hash:0	depth 0
+---
+PnDb2
+Opponent: 4
+root hash:-5619599819288469186	depth 1.........
+.........
+.........
+.........
+.........
+.........
+.........
+.........
+....o....
+
+
+---
+PnDb
+Opponent: 5
+root hash:5666328262827600010	depth 2
+---
+PnDb2
+Opponent: 4
+root hash:4286611448075988055	depth 3.........
+.........
+.........
+.........
+.........
+.........
+.........
+....o....
+....ox...
+
+
+---
+PnDb
+Opponent: 4
+root hash:-8623350744254092563	depth 4
+---
+PnDb2
+Opponent: 3
+root hash:-7412963009200977293	depth 5.........
+.........
+.........
+.........
+.........
+.........
+....x....
+....o....
+...oox...
+
+
+---
+PnDb
+Opponent: 2
+root hash:-6865163010413302499	depth 6
+---
+PnDb2
+Opponent: 3
+root hash:6122066751602900661	depth 7.........
+.........
+.........
+.........
+.........
+.........
+....x....
+...oo....
+..xoox...
+
+
+---
+PnDb
+Opponent: 3
+root hash:-7480439471049488593	depth 8
+---
+PnDb2
+Opponent: 5
+root hash:-5069881091067979475	depth 9.........
+.........
+.........
+.........
+.........
+.........
+...xx....
+...ooo...
+..xoox...
+
+
+---
+PnDb
+Opponent: 2
+root hash:2500973439288903151	depth 10
+---
+PnDb2
+Opponent: 3
+root hash:3378245232001181426	depth 11.........
+.........
+.........
+.........
+.........
+...o.....
+...xx....
+..xooo...
+..xoox...
+
+
+---
+PnDb
+Opponent: 2
+root hash:6317393187837790002	depth 12
+---
+PnDb2
+Opponent: 2
+root hash:6613253141336547968	depth 13.........
+.........
+.........
+.........
+.........
+..oo.....
+..xxx....
+..xooo...
+..xoox...
+
+
+---
+PnDb
+Opponent: 5
+root hash:532897371162079880	depth 14
+---
+PnDb2
+Opponent: 4
+root hash:-882975741768038179	depth 15.........
+.........
+.........
+.........
+.........
+..ooo....
+..xxxx...
+..xooo...
+..xoox...
+
+
+---
+PnDb
+Opponent: 1
+root hash:-8635046469281105668	depth 16
+---
+PnDb2
+Opponent: 5
+root hash:-4156809897373156700	depth 17.........
+.........
+.........
+.........
+.........
+..oooo...
+..xxxx...
+..xooo...
+.xxoox...
+
+
+---
+PnDb
+Opponent: 0
+root hash:-2654980663934731369	depth 18
+---
+PnDb2
+Opponent: 7
+root hash:-4444693407412892773	depth 19.........
+.........
+.........
+.........
+.........
+..oooo...
+..xxxx...
+..xooo...
+xxxoox.o.
+
+
+---
+PnDb
+Opponent: 7
+root hash:-5071176789350249537	depth 20
+---
+PnDb2
+Opponent: 4
+root hash:3492971280421477431	depth 21.........
+.........
+.........
+.........
+....o....
+..oooo...
+..xxxx...
+..xooo.x.
+xxxoox.o.
+
+
+---
+PnDb
+Opponent: 6
+root hash:-8773702912096320953	depth 22
+---
+PnDb2
+Opponent: 4
+root hash:-2928863400713026163	depth 23.........
+.........
+.........
+....o....
+....o....
+..oooo...
+..xxxx...
+..xooo.x.
+xxxooxxo.
+
+
+---
+PnDb
+Opponent: 4
+root hash:1364596586129648593	depth 24
+---
+PnDb2
+Opponent: 3
+root hash:-8658013755600751559	depth 25.........
+.........
+....x....
+....o....
+...oo....
+..oooo...
+..xxxx...
+..xooo.x.
+xxxooxxo.
+
+
+---
+PnDb
+Opponent: 7
+root hash:-7398129122124726647	depth 26
+---
+PnDb2
+Opponent: 3
+root hash:-2676352251852687545	depth 27.........
+.........
+....x....
+...oo....
+...oo....
+..oooo...
+..xxxx.x.
+..xooo.x.
+xxxooxxo.
+
+
+---
+PnDb
+Opponent: 3
+root hash:3501722387867609077	depth 28
+---
+PnDb2
+Opponent: 2
+root hash:-3206090673281132505	depth 29.........
+.........
+...xx....
+...oo....
+..ooo....
+..oooo...
+..xxxx.x.
+..xooo.x.
+xxxooxxo.
+
+
+---
+PnDb
+Opponent: 7
+root hash:-8973209235596001447	depth 30
+---
+PnDb2
+Opponent: 7
+root hash:-5066253870315503899	depth 31.........
+.........
+...xx....
+...oo....
+..ooo..o.
+..oooo.x.
+..xxxx.x.
+..xooo.x.
+xxxooxxo.
+
+
+---
+PnDb
+Opponent: 0
+root hash:-8125218744947636619	depth 32
+---
+PnDb2
+Opponent: 2
+root hash:-8343996324382513380	depth 33.........
+.........
+...xx....
+..ooo....
+..ooo..o.
+..oooo.x.
+..xxxx.x.
+x.xooo.x.
+xxxooxxo.
+
+
+---
+PnDb
+Opponent: 2
+root hash:-1016414165612471863	depth 34
+---
+PnDb2
+Opponent: 0
+root hash:3063962004771600004	depth 35.........
+.........
+..xxx....
+..ooo....
+..ooo..o.
+..oooo.x.
+o.xxxx.x.
+x.xooo.x.
+xxxooxxo.
+
+
+---
+PnDb
+Opponent: 3
+root hash:5294972589809993966	depth 36
+---
+PnDb2
+Opponent: 5
+root hash:-5791217372851019235	depth 37.........
+...x.....
+..xxx....
+..ooo....
+..oooo.o.
+..oooo.x.
+o.xxxx.x.
+x.xooo.x.
+xxxooxxo.
+
+
+---
+PnDb
+Opponent: 5
+root hash:596954624863254751	depth 38
+---
+PnDb2
+Opponent: 0
+root hash:-269627866989493885	depth 39.........
+...x.....
+..xxx....
+..ooox...
+..oooo.o.
+o.oooo.x.
+o.xxxx.x.
+x.xooo.x.
+xxxooxxo.
+
+
+---
+PnDb
+Opponent: 4
+root hash:4184814138365350785	depth 40
+---
+PnDb2
+Opponent: 0
+root hash:8669648392893469161	depth 41.........
+...xx....
+..xxx....
+..ooox...
+o.oooo.o.
+o.oooo.x.
+o.xxxx.x.
+x.xooo.x.
+xxxooxxo.
+
+
+---
+PnDb
+Opponent: 0
+root hash:6268961240374049792	depth 42
+---
+PnDb2
+Opponent: 4
+root hash:-5371775689896834553	depth 43....o....
+...xx....
+..xxx....
+x.ooox...
+o.oooo.o.
+o.oooo.x.
+o.xxxx.x.
+x.xooo.x.
+xxxooxxo.
+
+
+---
+PnDb
+Opponent: 3
+root hash:5850341231261822675	depth 44
+---
+PnDb2
+Opponent: 7
+root hash:7501969676874324815	depth 45...xo....
+...xx....
+..xxx....
+x.ooox.o.
+o.oooo.o.
+o.oooo.x.
+o.xxxx.x.
+x.xooo.x.
+xxxooxxo.
+
+
+---
+PnDb
+Opponent: 7
+root hash:3759541636246552542	depth 46
+---
+PnDb2
+Opponent: 5
+root hash:8453420862391642286	depth 47...xo....
+...xx....
+..xxxo.x.
+x.ooox.o.
+o.oooo.o.
+o.oooo.x.
+o.xxxx.x.
+x.xooo.x.
+xxxooxxo.
+
+
+---
+PnDb
+Opponent: 8
+root hash:1728891627182582981	depth 48
+---
+PnDb2
+Opponent: 0
+root hash:7486699039953051581	depth 49...xo....
+...xx....
+o.xxxo.x.
+x.ooox.o.
+o.oooo.o.
+o.oooo.x.
+o.xxxx.x.
+x.xooo.x.
+xxxooxxox
+
+
+---
+PnDb
+Opponent: 8
+root hash:-5824229492262956395	depth 50
+---
+PnDb2
+Opponent: 8
+root hash:-2795016074443192800	depth 51...xo....
+...xx....
+o.xxxo.x.
+x.ooox.o.
+o.oooo.o.
+o.oooo.x.
+o.xxxx.xo
+x.xooo.xx
+xxxooxxox
+
+
+---
+PnDb
+Opponent: 8
+root hash:-851017662392012707	depth 52
+---
+PnDb2
+Opponent: 8
+root hash:-1736968017255588600	depth 53...xo....
+...xx....
+o.xxxo.x.
+x.ooox.o.
+o.oooo.oo
+o.oooo.xx
+o.xxxx.xo
+x.xooo.xx
+xxxooxxox
+
+
+---
+PnDb
+Opponent: 8
+root hash:-5546542329971591761	depth 54
+---
+PnDb2
+Opponent: 8
+root hash:-9144671749005256693	depth 55...xo....
+...xx....
+o.xxxo.xo
+x.ooox.ox
+o.oooo.oo
+o.oooo.xx
+o.xxxx.xo
+x.xooo.xx
+xxxooxxox
+
+
+---
+PnDb
+Opponent: 8
+root hash:-3076224500111453125	depth 56
+---
+PnDb2
+Opponent: 8
+root hash:1116530553229734726	depth 57...xo...o
+...xx...x
+o.xxxo.xo
+x.ooox.ox
+o.oooo.oo
+o.oooo.xx
+o.xxxx.xo
+x.xooo.xx
+xxxooxxox
+
+
+---
+PnDb
+Opponent: 7
+root hash:9126718992912624449	depth 58
+---
+PnDb2
+Opponent: 7
+root hash:7031390208360186048	depth 59...xo..oo
+...xx..xx
+o.xxxo.xo
+x.ooox.ox
+o.oooo.oo
+o.oooo.xx
+o.xxxx.xo
+x.xooo.xx
+xxxooxxox
+
+
+---
+PnDb
+Opponent: 5
+root hash:-817817424409532909	depth 60
+---
+PnDb2
+Opponent: 5
+root hash:565827186871766460	depth 61...xoo.oo
+...xxx.xx
+o.xxxo.xo
+x.ooox.ox
+o.oooo.oo
+o.oooo.xx
+o.xxxx.xo
+x.xooo.xx
+xxxooxxox
+
+
+---
+PnDb
+Opponent: 2
+root hash:-9136119002667714892	depth 62
+---
+PnDb2
+Opponent: 2
+root hash:1177730148623022244	depth 63..oxoo.oo
+..xxxx.xx
+o.xxxo.xo
+x.ooox.ox
+o.oooo.oo
+o.oooo.xx
+o.xxxx.xo
+x.xooo.xx
+xxxooxxox
+
+
+---
+PnDb
+Opponent: 0
+root hash:3375379146162369910	depth 64
+---
+PnDb2
+Opponent: 0
+root hash:8569374086038771051	depth 65o.oxoo.oo
+x.xxxx.xx
+o.xxxo.xo
+x.ooox.ox
+o.oooo.oo
+o.oooo.xx
+o.xxxx.xo
+x.xooo.xx
+xxxooxxox
+
+
+---
+PnDb
+Opponent: 6
+root hash:-4629257284365187087	depth 66
+---
+PnDb2
+Opponent: 6
+root hash:-5288085562172505648	depth 67o.oxoo.oo
+x.xxxx.xx
+o.xxxo.xo
+x.ooox.ox
+o.oooo.oo
+o.oooo.xx
+o.xxxxoxo
+x.xoooxxx
+xxxooxxox
+
+
+---
+PnDb
+Opponent: 6
+root hash:-7611468512410828035	depth 68
+
+-_-
+START GAME
+-_-
+
+
+-_-
+START GAME
+-_-
+
+---
+PnDb
+Opponent: null
+root hash:0	depth 0
+---
+PnDb2
+Opponent: 4
+root hash:-878454301758928909	depth 1.........
+.........
+.........
+.........
+.........
+.........
+.........
+.........
+....o....
+
+
+---
+PnDb
+Opponent: 5
+root hash:5060492748571665511	depth 2
+---
+PnDb2
+Opponent: 4
+root hash:7595887596463389723	depth 3.........
+.........
+.........
+.........
+.........
+.........
+.........
+....o....
+....ox...
+
+
+---
+PnDb
+Opponent: 4
+root hash:1151200191780045163	depth 4
+---
+PnDb2
+Opponent: 1
+root hash:-3666629885822922978	depth 5.........
+.........
+.........
+.........
+.........
+.........
+....x....
+....o....
+.o..ox...
+
+
+---
+PnDb
+Opponent: 3
+root hash:-430500343180441467	depth 6
+---
+PnDb2
+Opponent: 3
+root hash:8065659498274239568	depth 7.........
+.........
+.........
+.........
+.........
+.........
+....x....
+...oo....
+.o.xox...
+
+
+---
+PnDb
+Opponent: 3
+root hash:1348103560940901500	depth 8
+---
+PnDb2
+Opponent: 5
+root hash:4959582144180228424	depth 9.........
+.........
+.........
+.........
+.........
+.........
+...xx....
+...ooo...
+.o.xox...
+
+
+---
+PnDb
+Opponent: 1
+root hash:8160578838114408681	depth 10
+---
+PnDb2
+Opponent: 6
+root hash:7847213639578248	depth 11.........
+.........
+.........
+.........
+.........
+.........
+...xx....
+.x.ooo...
+.o.xoxo..
+
+
+---
+PnDb
+Opponent: 6
+root hash:8684478366698289806	depth 12
+---
+PnDb2
+Opponent: 6
+root hash:-7854666671911222989	depth 13.........
+.........
+.........
+.........
+.........
+.........
+...xx.o..
+.x.ooox..
+.o.xoxo..
+
+
+---
+PnDb
+Opponent: 4
+root hash:-9040217823622502170	depth 14
+---
+PnDb2
+Opponent: 4
+root hash:9021405188995011237	depth 15.........
+.........
+.........
+.........
+....o....
+....x....
+...xx.o..
+.x.ooox..
+.o.xoxo..
+
+
+---
+PnDb
+Opponent: 1
+root hash:-2564688978354192215	depth 16
+---
+PnDb2
+Opponent: 5
+root hash:-4247343000904686353	depth 17.........
+.........
+.........
+.........
+....o....
+....x....
+.x.xxoo..
+.x.ooox..
+.o.xoxo..
+
+
+---
+PnDb
+Opponent: 1
+root hash:542415315910931735	depth 18
+---
+PnDb2
+Opponent: 1
+root hash:4174107518659318352	depth 19.........
+.........
+.........
+.........
+.o..o....
+.x..x....
+.x.xxoo..
+.x.ooox..
+.o.xoxo..
+
+
+---
+PnDb
+Opponent: 5
+root hash:-4698969471307158296	depth 20
+---
+PnDb2
+Opponent: 1
+root hash:2242035719378135773	depth 21.........
+.........
+.........
+.o.......
+.o..o....
+.x..xx...
+.x.xxoo..
+.x.ooox..
+.o.xoxo..
+
+
+---
+PnDb
+Opponent: 0
+root hash:-3783126601713412450	depth 22
+---
+PnDb2
+Opponent: 1
+root hash:-4139319912249304143	depth 23.........
+.........
+.o.......
+.o.......
+.o..o....
+.x..xx...
+.x.xxoo..
+.x.ooox..
+xo.xoxo..
+
+
+---
+PnDb
+Opponent: 1
+root hash:4802218656204173759	depth 24
+---
+PnDb2
+Opponent: 4
+root hash:-7883041564389849273	depth 25.........
+.x.......
+.o.......
+.o..o....
+.o..o....
+.x..xx...
+.x.xxoo..
+.x.ooox..
+xo.xoxo..
+
+
+---
+PnDb
+Opponent: 2
+root hash:-3423376186803105822	depth 26
+---
+PnDb2
+Opponent: 4
+root hash:-789766145542967688	depth 27.........
+.x.......
+.o..o....
+.o..o....
+.o..o....
+.x..xx...
+.x.xxoo..
+.x.ooox..
+xoxxoxo..
+
+
+---
+PnDb
+Opponent: 4
+root hash:2280972911436673586	depth 28
+---
+PnDb2
+Opponent: 3
+root hash:1453475394548776372	depth 29.........
+.x..x....
+.o..o....
+.o..o....
+.o..o....
+.x.oxx...
+.x.xxoo..
+.x.ooox..
+xoxxoxo..
+
+
+---
+PnDb
+Opponent: 2
+root hash:957417250455802685	depth 30
+---
+PnDb2
+Opponent: 2
+root hash:6337863335399745175	depth 31.........
+.x..x....
+.o..o....
+.o..o....
+.o..o....
+.x.oxx...
+.xoxxoo..
+.xxooox..
+xoxxoxo..
+
+
+---
+PnDb
+Opponent: 5
+root hash:-8453037480005862456	depth 32
+---
+PnDb2
+Opponent: 3
+root hash:208007902698954513	depth 33.........
+.x..x....
+.o..o....
+.o..o....
+.o.oox...
+.x.oxx...
+.xoxxoo..
+.xxooox..
+xoxxoxo..
+
+
+---
+PnDb
+Opponent: 5
+root hash:-8541307012132323460	depth 34
+---
+PnDb2
+Opponent: 5
+root hash:1630919156428463194	depth 35.........
+.x..x....
+.o..oo...
+.o..ox...
+.o.oox...
+.x.oxx...
+.xoxxoo..
+.xxooox..
+xoxxoxo..
+
+
+---
+PnDb
+Opponent: 6
+root hash:-5734732395334456037	depth 36
+---
+PnDb2
+Opponent: 3
+root hash:4615228261831546789	depth 37.........
+.x..x....
+.o..oo...
+.o.oox...
+.o.oox...
+.x.oxxx..
+.xoxxoo..
+.xxooox..
+xoxxoxo..
+
+
+---
+PnDb
+Opponent: 3
+root hash:5795073897698849339	depth 38
+---
+PnDb2
+Opponent: 2
+root hash:587616715894907064	depth 39.........
+.x..x....
+.o.xoo...
+.o.oox...
+.o.oox...
+.xooxxx..
+.xoxxoo..
+.xxooox..
+xoxxoxo..
+
+
+---
+PnDb
+Opponent: 2
+root hash:6617832852894172519	depth 40
+---
+PnDb2
+Opponent: 7
+root hash:-7927576932851708002	depth 41.........
+.x..x....
+.o.xoo...
+.o.oox...
+.oxoox...
+.xooxxx..
+.xoxxoo..
+.xxooox..
+xoxxoxoo.
+
+
+---
+PnDb
+Opponent: 0
+root hash:-3416770544027335920	depth 42
+---
+PnDb2
+Opponent: 0
+root hash:-179467175557067597	depth 43.........
+.x..x....
+.o.xoo...
+.o.oox...
+.oxoox...
+.xooxxx..
+oxoxxoo..
+xxxooox..
+xoxxoxoo.
+
+
+---
+PnDb
+Opponent: 2
+root hash:-3527487008854099759	depth 44
+---
+PnDb2
+Opponent: 3
+root hash:2611044813103544405	depth 45.........
+.x.ox....
+.o.xoo...
+.oxoox...
+.oxoox...
+.xooxxx..
+oxoxxoo..
+xxxooox..
+xoxxoxoo.
+
+
+---
+PnDb
+Opponent: 2
+root hash:6755665409273904338	depth 46
+---
+PnDb2
+Opponent: 2
+root hash:2925144378581371186	depth 47.........
+.xoox....
+.oxxoo...
+.oxoox...
+.oxoox...
+.xooxxx..
+oxoxxoo..
+xxxooox..
+xoxxoxoo.
+
+
+---
+PnDb
+Opponent: 5
+root hash:5807244798110460615	depth 48
+---
+PnDb2
+Opponent: 7
+root hash:1649839670871984403	depth 49.........
+.xooxx...
+.oxxoo...
+.oxoox...
+.oxoox...
+.xooxxx..
+oxoxxoo..
+xxxoooxo.
+xoxxoxoo.
+
+
+---
+PnDb
+Opponent: 7
+root hash:-3528818231230289127	depth 50
+---
+PnDb2
+Opponent: 0
+root hash:-4281105321378529083	depth 51.........
+.xooxx...
+.oxxoo...
+.oxoox...
+.oxoox...
+oxooxxx..
+oxoxxoox.
+xxxoooxo.
+xoxxoxoo.
+
+
+---
+PnDb
+Opponent: 0
+root hash:2003077686613772479	depth 52
+---
+PnDb2
+Opponent: 0
+root hash:-2223661224852209268	depth 53.........
+.xooxx...
+.oxxoo...
+ooxoox...
+xoxoox...
+oxooxxx..
+oxoxxoox.
+xxxoooxo.
+xoxxoxoo.
+
+
+---
+PnDb
+Opponent: 7
+root hash:-3388482871283192442	depth 54
+---
+PnDb2
+Opponent: 0
+root hash:1577286294224271025	depth 55.........
+.xooxx...
+ooxxoo...
+ooxoox...
+xoxoox...
+oxooxxxx.
+oxoxxoox.
+xxxoooxo.
+xoxxoxoo.
+
+
+---
+PnDb
+Opponent: 7
+root hash:-2153958891916814516	depth 56
+---
+PnDb2
+Opponent: 7
+root hash:-7744085747769153452	depth 57.........
+.xooxx...
+ooxxoo...
+ooxoox.o.
+xoxoox.x.
+oxooxxxx.
+oxoxxoox.
+xxxoooxo.
+xoxxoxoo.
+
+
+---
+PnDb
+Opponent: 2
+root hash:-8348937513516507539	depth 58
+---
+PnDb2
+Opponent: 8
+root hash:8448747406297838129	depth 59..x......
+.xooxx...
+ooxxoo...
+ooxoox.o.
+xoxoox.x.
+oxooxxxx.
+oxoxxoox.
+xxxoooxo.
+xoxxoxooo
+
+
+---
+PnDb
+Opponent: 8
+root hash:8979181407420012540	depth 60
+---
+PnDb2
+Opponent: 7
+root hash:8998793464156410728	depth 61..x......
+.xooxx...
+ooxxoo.o.
+ooxoox.o.
+xoxoox.x.
+oxooxxxx.
+oxoxxoox.
+xxxoooxox
+xoxxoxooo
+
+
+---
+PnDb
+Opponent: 7
+root hash:-3157927614426982320	depth 62
+---
+PnDb2
+Opponent: 7
+root hash:388582378323419638	depth 63..x....o.
+.xooxx.x.
+ooxxoo.o.
+ooxoox.o.
+xoxoox.x.
+oxooxxxx.
+oxoxxoox.
+xxxoooxox
+xoxxoxooo
+
+
+---
+PnDb
+Opponent: 1
+root hash:-5234627350737242943	depth 64
+---
+PnDb2
+Opponent: 5
+root hash:-2661273526476708374	depth 65.xx..o.o.
+.xooxx.x.
+ooxxoo.o.
+ooxoox.o.
+xoxoox.x.
+oxooxxxx.
+oxoxxoox.
+xxxoooxox
+xoxxoxooo
+
+
+---
+PnDb
+Opponent: 0
+root hash:-4604353314708802154	depth 66
+---
+PnDb2
+Opponent: 4
+root hash:4282356208631847875	depth 67.xx.oo.o.
+xxooxx.x.
+ooxxoo.o.
+ooxoox.o.
+xoxoox.x.
+oxooxxxx.
+oxoxxoox.
+xxxoooxox
+xoxxoxooo
+
+
+---
+PnDb
+Opponent: 3
+root hash:-5070168523338988749	depth 68
+---
+PnDb2
+Opponent: 0
+root hash:-744128978091121220	depth 69oxxxoo.o.
+xxooxx.x.
+ooxxoo.o.
+ooxoox.o.
+xoxoox.x.
+oxooxxxx.
+oxoxxoox.
+xxxoooxox
+xoxxoxooo
+
+
+---
+PnDb
+Opponent: 8
+root hash:-7848753969995831219	depth 70
+---
+PnDb2
+Opponent: 8
+root hash:3688795680523340515	depth 71oxxxoo.o.
+xxooxx.x.
+ooxxoo.o.
+ooxoox.o.
+xoxoox.x.
+oxooxxxxo
+oxoxxooxx
+xxxoooxox
+xoxxoxooo
+
+
+---
+PnDb
+Opponent: 8
+root hash:3252706201485033856	depth 72
+---
+PnDb2
+Opponent: 8
+root hash:-3669273312287612088	depth 73oxxxoo.o.
+xxooxx.x.
+ooxxoo.o.
+ooxoox.oo
+xoxoox.xx
+oxooxxxxo
+oxoxxooxx
+xxxoooxox
+xoxxoxooo
+
+
+---
+PnDb
+Opponent: 8
+root hash:-3513160517502897271	depth 74
+---
+PnDb2
+Opponent: 8
+root hash:1458308056933004833	depth 75oxxxoo.o.
+xxooxx.xo
+ooxxoo.ox
+ooxoox.oo
+xoxoox.xx
+oxooxxxxo
+oxoxxooxx
+xxxoooxox
+xoxxoxooo
+
+
+---
+PnDb
+Opponent: 8
+root hash:955301546211283552	depth 76
+---
+PnDb2
+Opponent: 6
+root hash:784083997839361500	depth 77oxxxoo.ox
+xxooxx.xo
+ooxxoo.ox
+ooxoox.oo
+xoxooxoxx
+oxooxxxxo
+oxoxxooxx
+xxxoooxox
+xoxxoxooo
+
+
+
+-_-
+START GAME
+-_-
+
+
+-_-
+START GAME
+-_-
+
+---
+PnDb
+Opponent: null
+root hash:0	depth 0
+---
+PnDb2
+Opponent: 4
+root hash:-989060111733652635	depth 1.........
+.........
+.........
+.........
+.........
+.........
+.........
+.........
+....o....
+
+
+---
+PnDb
+Opponent: 3
+root hash:-8755964809913510297	depth 2
+---
+PnDb2
+Opponent: 4
+root hash:-4071454877328963446	depth 3.........
+.........
+.........
+.........
+.........
+.........
+.........
+....o....
+...xo....
+
+
+---
+PnDb
+Opponent: 4
+root hash:2521480300741111278	depth 4
+---
+PnDb2
+Opponent: 7
+root hash:-8489249445242087594	depth 5.........
+.........
+.........
+.........
+.........
+.........
+....x....
+....o....
+...xo..o.
+
+
+---
+PnDb
+Opponent: 5
+root hash:-2547870006283611276	depth 6
+---
+PnDb2
+Opponent: 5
+root hash:-3632373815500255647	depth 7.........
+.........
+.........
+.........
+.........
+.........
+....x....
+....oo...
+...xox.o.
+
+
+---
+PnDb
+Opponent: 3
+root hash:-6982296003121981974	depth 8
+---
+PnDb2
+Opponent: 7
+root hash:1854250491753411470	depth 9.........
+.........
+.........
+.........
+.........
+.........
+....x....
+...xoo.o.
+...xox.o.
+
+
+---
+PnDb
+Opponent: 3
+root hash:3156480859799917816	depth 10
+---
+PnDb2
+Opponent: 3
+root hash:1178536575530881247	depth 11.........
+.........
+.........
+.........
+.........
+...o.....
+...xx....
+...xoo.o.
+...xox.o.
+
+
+---
+PnDb
+Opponent: 7
+root hash:3269954448958806605	depth 12
+---
+PnDb2
+Opponent: 8
+root hash:2675611390558009641	depth 13.........
+.........
+.........
+.........
+.........
+...o.....
+...xx..x.
+...xoo.o.
+...xox.oo
+
+
+---
+PnDb
+Opponent: 5
+root hash:8038309359161278113	depth 14
+---
+PnDb2
+Opponent: 8
+root hash:4369321265845690938	depth 15.........
+.........
+.........
+.........
+.........
+...o.....
+...xxx.x.
+...xoo.oo
+...xox.oo
+
+
+---
+PnDb
+Opponent: 5
+root hash:1030421519225526097	depth 16
+---
+PnDb2
+Opponent: 8
+root hash:-4723531759129312385	depth 17.........
+.........
+.........
+.........
+.........
+...o.x...
+...xxx.xo
+...xoo.oo
+...xox.oo
+
+
+---
+PnDb
+Opponent: 5
+root hash:1107183274153410268	depth 18
+---
+PnDb2
+Opponent: 8
+root hash:-3601847330604728190	depth 19.........
+.........
+.........
+.........
+.....x...
+...o.x..o
+...xxx.xo
+...xoo.oo
+...xox.oo
+
+
+---
+PnDb
+Opponent: 8
+root hash:5254391983809584135	depth 20
+---
+PnDb2
+Opponent: 5
+root hash:7574779765559922622	depth 21.........
+.........
+.........
+.....o...
+.....x..x
+...o.x..o
+...xxx.xo
+...xoo.oo
+...xox.oo
+
+
+---
+PnDb
+Opponent: 1
+root hash:7996987599492512221	depth 22
+---
+PnDb2
+Opponent: 4
+root hash:-3835916300274491291	depth 23.........
+.........
+.........
+.....o...
+.....x..x
+...oox..o
+...xxx.xo
+...xoo.oo
+.x.xox.oo
+
+
+---
+PnDb
+Opponent: 1
+root hash:-2579385577464811820	depth 24
+---
+PnDb2
+Opponent: 1
+root hash:-6446340973406786894	depth 25.........
+.........
+.........
+.....o...
+.....x..x
+...oox..o
+.o.xxx.xo
+.x.xoo.oo
+.x.xox.oo
+
+
+---
+PnDb
+Opponent: 8
+root hash:-7864628882560288384	depth 26
+---
+PnDb2
+Opponent: 1
+root hash:-1747116342326365508	depth 27.........
+.........
+.........
+.....o..x
+.....x..x
+.o.oox..o
+.o.xxx.xo
+.x.xoo.oo
+.x.xox.oo
+
+
+---
+PnDb
+Opponent: 8
+root hash:7357328789447734563	depth 28
+---
+PnDb2
+Opponent: 8
+root hash:-7025269437651433257	depth 29.........
+........o
+........x
+.....o..x
+.....x..x
+.o.oox..o
+.o.xxx.xo
+.x.xoo.oo
+.x.xox.oo
+
+
+---
+PnDb
+Opponent: 2
+root hash:-6544349067700239885	depth 30
+---
+PnDb2
+Opponent: 1
+root hash:3782674051124906168	depth 31.........
+........o
+........x
+.....o..x
+.o...x..x
+.o.oox..o
+.o.xxx.xo
+.x.xoo.oo
+.xxxox.oo
+
+
+---
+PnDb
+Opponent: 1
+root hash:-2894433559420792995	depth 32
+---
+PnDb2
+Opponent: 8
+root hash:-4850205638607028354	depth 33........o
+........o
+........x
+.x...o..x
+.o...x..x
+.o.oox..o
+.o.xxx.xo
+.x.xoo.oo
+.xxxox.oo
+
+
+---
+PnDb
+Opponent: 0
+root hash:-6914156856411641003	depth 34
+---
+PnDb2
+Opponent: 1
+root hash:290636128161584731	depth 35........o
+........o
+.o......x
+.x...o..x
+.o...x..x
+.o.oox..o
+.o.xxx.xo
+.x.xoo.oo
+xxxxox.oo
+
+
+---
+PnDb
+Opponent: 0
+root hash:3404164509178080420	depth 36
+---
+PnDb2
+Opponent: 0
+root hash:4745327261175300366	depth 37........o
+........o
+.o......x
+.x...o..x
+.o...x..x
+.o.oox..o
+oo.xxx.xo
+xx.xoo.oo
+xxxxox.oo
+
+
+---
+PnDb
+Opponent: 0
+root hash:6733811559853224643	depth 38
+---
+PnDb2
+Opponent: 4
+root hash:-7311968943100132998	depth 39........o
+........o
+.o......x
+.x...o..x
+.o..ox..x
+xo.oox..o
+oo.xxx.xo
+xx.xoo.oo
+xxxxox.oo
+
+
+---
+PnDb
+Opponent: 0
+root hash:-2114532687236825464	depth 40
+---
+PnDb2
+Opponent: 4
+root hash:1283868127595646345	depth 41........o
+........o
+.o......x
+.x..oo..x
+xo..ox..x
+xo.oox..o
+oo.xxx.xo
+xx.xoo.oo
+xxxxox.oo
+
+
+---
+PnDb
+Opponent: 4
+root hash:7247910155195030532	depth 42
+---
+PnDb2
+Opponent: 3
+root hash:2903644948111517043	depth 43........o
+........o
+.o..x...x
+.x..oo..x
+xo.oox..x
+xo.oox..o
+oo.xxx.xo
+xx.xoo.oo
+xxxxox.oo
+
+
+---
+PnDb
+Opponent: 0
+root hash:5058792369354619239	depth 44
+---
+PnDb2
+Opponent: 0
+root hash:3427652337085097699	depth 45........o
+........o
+oo..x...x
+xx..oo..x
+xo.oox..x
+xo.oox..o
+oo.xxx.xo
+xx.xoo.oo
+xxxxox.oo
+
+
+---
+PnDb
+Opponent: 5
+root hash:4678506301417277094	depth 46
+---
+PnDb2
+Opponent: 3
+root hash:282095999456589906	depth 47........o
+........o
+oo..xx..x
+xx.ooo..x
+xo.oox..x
+xo.oox..o
+oo.xxx.xo
+xx.xoo.oo
+xxxxox.oo
+
+
+---
+PnDb
+Opponent: 3
+root hash:2389608217034737528	depth 48
+---
+PnDb2
+Opponent: 2
+root hash:7855098056685439061	depth 49........o
+........o
+oo.xxx..x
+xx.ooo..x
+xo.oox..x
+xo.oox..o
+oo.xxx.xo
+xxoxoo.oo
+xxxxox.oo
+
+
+---
+PnDb
+Opponent: 7
+root hash:-1058409850573364242	depth 50
+---
+PnDb2
+Opponent: 2
+root hash:7080003451898588809	depth 51........o
+........o
+oo.xxx..x
+xx.ooo..x
+xo.oox..x
+xo.oox.xo
+oooxxx.xo
+xxoxoo.oo
+xxxxox.oo
+
+
+---
+PnDb
+Opponent: 7
+root hash:206179649944590160	depth 52
+---
+PnDb2
+Opponent: 7
+root hash:-2490330578376620219	depth 53........o
+........o
+oo.xxx..x
+xx.ooo.ox
+xo.oox.xx
+xo.oox.xo
+oooxxx.xo
+xxoxoo.oo
+xxxxox.oo
+
+
+---
+PnDb
+Opponent: 1
+root hash:8024529086865148962	depth 54
+---
+PnDb2
+Opponent: 2
+root hash:-6133556983972569763	depth 55........o
+.x......o
+oo.xxx..x
+xx.ooo.ox
+xo.oox.xx
+xoooox.xo
+oooxxx.xo
+xxoxoo.oo
+xxxxox.oo
+
+
+---
+PnDb
+Opponent: 0
+root hash:-1192238764323279417	depth 56
+---
+PnDb2
+Opponent: 2
+root hash:568291718917072694	depth 57........o
+xx......o
+oo.xxx..x
+xx.ooo.ox
+xoooox.xx
+xoooox.xo
+oooxxx.xo
+xxoxoo.oo
+xxxxox.oo
+
+
+---
+PnDb
+Opponent: 2
+root hash:6026911381087767763	depth 58
+---
+PnDb2
+Opponent: 1
+root hash:5424877514960218055	depth 59.o......o
+xx......o
+oo.xxx..x
+xxxooo.ox
+xoooox.xx
+xoooox.xo
+oooxxx.xo
+xxoxoo.oo
+xxxxox.oo
+
+
+---
+PnDb
+Opponent: 7
+root hash:7139755663242430979	depth 60
+---
+PnDb2
+Opponent: 0
+root hash:-7680064192155150899	depth 61oo......o
+xx......o
+oo.xxx.xx
+xxxooo.ox
+xoooox.xx
+xoooox.xo
+oooxxx.xo
+xxoxoo.oo
+xxxxox.oo
+
+
+---
+PnDb
+Opponent: 7
+root hash:5165026082117768904	depth 62
+---
+PnDb2
+Opponent: 4
+root hash:6653434721964761082	depth 63oo......o
+xx..o..xo
+oo.xxx.xx
+xxxooo.ox
+xoooox.xx
+xoooox.xo
+oooxxx.xo
+xxoxoo.oo
+xxxxox.oo
+
+
+---
+PnDb
+Opponent: 7
+root hash:-4892983607058441586	depth 64
+---
+PnDb2
+Opponent: 4
+root hash:5453804675561490706	depth 65oo..o..xo
+xx..o..xo
+oo.xxx.xx
+xxxooo.ox
+xoooox.xx
+xoooox.xo
+oooxxx.xo
+xxoxoo.oo
+xxxxox.oo
+
+
+---
+PnDb
+Opponent: 5
+root hash:6597500821303919322	depth 66
+---
+PnDb2
+Opponent: 5
+root hash:3501301032233810051	depth 67oo..oo.xo
+xx..ox.xo
+oo.xxx.xx
+xxxooo.ox
+xoooox.xx
+xoooox.xo
+oooxxx.xo
+xxoxoo.oo
+xxxxox.oo
+
+
+---
+PnDb
+Opponent: 3
+root hash:7869696545024465364	depth 68
+---
+PnDb2
+Opponent: 3
+root hash:-4808507275990946573	depth 69oo.ooo.xo
+xx.xox.xo
+oo.xxx.xx
+xxxooo.ox
+xoooox.xx
+xoooox.xo
+oooxxx.xo
+xxoxoo.oo
+xxxxox.oo
+
+
+---
+PnDb
+Opponent: 2
+root hash:1729757066190685831	depth 70
+---
+PnDb2
+Opponent: 2
+root hash:-2852666458522914139	depth 71oo.ooo.xo
+xxoxox.xo
+ooxxxx.xx
+xxxooo.ox
+xoooox.xx
+xoooox.xo
+oooxxx.xo
+xxoxoo.oo
+xxxxox.oo
+
+
+---
+PnDb
+Opponent: 2
+root hash:962096994707529395	depth 72
+---
+PnDb2
+Opponent: 6
+root hash:-9138894424019909452	depth 73ooxooo.xo
+xxoxox.xo
+ooxxxx.xx
+xxxooo.ox
+xoooox.xx
+xoooox.xo
+oooxxx.xo
+xxoxoo.oo
+xxxxoxooo
+
+
+---
+PnDb
+Opponent: 6
+root hash:2147636608943344531	depth 74
+---
+PnDb2
+Opponent: 6
+root hash:-7901544285174625398	depth 75ooxooo.xo
+xxoxox.xo
+ooxxxx.xx
+xxxooo.ox
+xoooox.xx
+xoooox.xo
+oooxxxoxo
+xxoxooxoo
+xxxxoxooo
+
+
+---
+PnDb
+Opponent: 6
+root hash:-9076159484834451670	depth 76
+---
+PnDb2
+Opponent: 6
+root hash:4220054482154047504	depth 77ooxooo.xo
+xxoxox.xo
+ooxxxx.xx
+xxxooo.ox
+xooooxoxx
+xooooxxxo
+oooxxxoxo
+xxoxooxoo
+xxxxoxooo
+
+
+---
+PnDb
+Opponent: 6
+root hash:-541779905366056640	depth 78
+PnDb Score: 6 Won: 2 Lost: 1 Draw: 0 Error: 0
+PnDb2 Score: 3 Won: 1 Lost: 2 Draw: 0 Error: 0
+#!/bin/bash
+
+if [[ $# < 1 ]]
+then
+	echo "missing args"
+	exit 1
+fi
+
+
+_OUTDIR="debug/match/final"
+OUTDIR="${_OUTDIR}/$1"
+TESTS="7"
+
+mkdir ${_OUTDIR}
+mkdir ${OUTDIR}
+
+./lcompile
+
+
+# pndb2 dnull: 9,9,5*7 - 18,20,7*7 - 38,58,12*3 - 70,47,11*2 - 100,100,30*2
+# delta dnull: 9,9,5*7 - 18,20,7*7 - 38,58,12*3 - 70,47,11*2 - 100,100,30*2
+# pndb2 xcono: 9,9,5*7 - 18,20,7*7 - 38,58,12*3 - 70,47,11*2 - 100,100,30*2
+
+# pndb pndb2: 9,9,5*3 - 18,20,7*3
+# pndb pndbtime: 18,20,7*3
+# pndb2 alpha: 9,9,5*3 - 18,20,7*3
+# pndb2 betha: 9,9,5*3 - 18,20,7*3
+
+
+
+./ltest 9 9 5		pndb2.PnSearch pndbg.dnull.PnSearch				-r 7 > ${OUTDIR}/pndb2_dnull_995.txt
+cat scripts/testcases_final.sh >> ${OUTDIR}/pndb2_dnull_995.txt
+
+./ltest 9 9 5		pndbg.delta.PnSearch pndbg.dnull.PnSearch		-r 7 > ${OUTDIR}/delta_dnull_995.txt
+cat scripts/testcases_final.sh >> ${OUTDIR}/delta_dnull_995.txt
+
+./ltest 9 9 5		pndb2.PnSearch LXCONO.LXMARGIN.LXMARGIN			-r 7 > ${OUTDIR}/pndb2_xcono_995.txt
+cat scripts/testcases_final.sh >> ${OUTDIR}/pndb2_xcono_995.txt
+
+./ltest 9 9 5		pndb.PnSearch pndb2.PnSearch					-r 3 > ${OUTDIR}/pndb_pndb2_995.txt
+cat scripts/testcases_final.sh >> ${OUTDIR}/pndb_pndb2_995.txt
+
+./ltest 9 9 5		pndb2.PnSearch pndbg.alpha.Player				-r 3 > ${OUTDIR}/pndb2_alpha_995.txt
+cat scripts/testcases_final.sh >> ${OUTDIR}/pndb2_alpha_995.txt
+
+./ltest 9 9 5		pndb2.PnSearch pndbg.betha.Player				-r 3 > ${OUTDIR}/pndb2_betha_995.txt
+cat scripts/testcases_final.sh >> ${OUTDIR}/pndb2_betha_995.txt
+
+
+./ltest 18 20 7		pndb2.PnSearch pndbg.dnull.PnSearch				-r 7 > ${OUTDIR}/pndb2_dnull_18207.txt
+cat scripts/testcases_final.sh >> ${OUTDIR}/pndb2_dnull_18207.txt
+
+./ltest 18 20 7		pndbg.delta.PnSearch pndbg.dnull.PnSearch		-r 7 > ${OUTDIR}/delta_dnull_18207.txt
+cat scripts/testcases_final.sh >> ${OUTDIR}/delta_dnull_18207.txt
+
+./ltest 18 20 7		pndb2.PnSearch LXCONO.LXMARGIN.LXMARGIN			-r 7 > ${OUTDIR}/pndb2_xcono_18207.txt
+cat scripts/testcases_final.sh >> ${OUTDIR}/pndb2_xcono_18207.txt
+
+./ltest 18 20 7		pndb.PnSearch pndb2.PnSearch					-r 3 > ${OUTDIR}/pndb_pndb2_18207.txt
+cat scripts/testcases_final.sh >> ${OUTDIR}/pndb_pndb2_18207.txt
+
+./ltest 18 20 7		pndb.PnSearch pndbtime.PnSearch					-r 3 > ${OUTDIR}/pndb_pndbtime_18207.txt
+cat scripts/testcases_final.sh >> ${OUTDIR}/pndb_pndbtime_18207.txt
+
+./ltest 18 20 7		pndb2.PnSearch pndbg.alpha.Player				-r 3 > ${OUTDIR}/pndb2_alpha_18207.txt
+cat scripts/testcases_final.sh >> ${OUTDIR}/pndb2_alpha_18207.txt
+
+./ltest 18 20 7		pndb2.PnSearch pndbg.betha.Player				-r 3 > ${OUTDIR}/pndb2_betha_18207.txt
+cat scripts/testcases_final.sh >> ${OUTDIR}/pndb2_betha_18207.txt
+
+
+./ltest 38 58 12		pndb2.PnSearch pndbg.dnull.PnSearch				-r 3 > ${OUTDIR}/pndb2_dnull_385812.txt
+cat scripts/testcases_final.sh >> ${OUTDIR}/pndb2_dnull_385812.txt
+
+./ltest 38 58 12		pndbg.delta.PnSearch pndbg.dnull.PnSearch		-r 3 > ${OUTDIR}/delta_dnull_385812.txt
+cat scripts/testcases_final.sh >> ${OUTDIR}/delta_dnull_385812.txt
+
+./ltest 38 58 12		pndb2.PnSearch LXCONO.LXMARGIN.LXMARGIN			-r 3 > ${OUTDIR}/pndb2_xcono_385812.txt
+cat scripts/testcases_final.sh >> ${OUTDIR}/pndb2_xcono_385812.txt
+
+
+./ltest 70 47 11		pndb2.PnSearch pndbg.dnull.PnSearch				-r 2 > ${OUTDIR}/pndb2_dnull_704711.txt
+cat scripts/testcases_final.sh >> ${OUTDIR}/pndb2_dnull_704711.txt
+
+./ltest 70 47 11		pndbg.delta.PnSearch pndbg.dnull.PnSearch		-r 2 > ${OUTDIR}/delta_dnull_704711.txt
+cat scripts/testcases_final.sh >> ${OUTDIR}/delta_dnull_704711.txt
+
+./ltest 70 47 11		pndb2.PnSearch LXCONO.LXMARGIN.LXMARGIN			-r 2 > ${OUTDIR}/pndb2_xcono_704711.txt
+cat scripts/testcases_final.sh >> ${OUTDIR}/pndb2_xcono_704711.txt
+
+
+./ltest 100 100 30		pndb2.PnSearch pndbg.dnull.PnSearch				-r 2 > ${OUTDIR}/pndb2_dnull_10010030.txt
+cat scripts/testcases_final.sh >> ${OUTDIR}/pndb2_dnull_10010030.txt
+
+./ltest 100 100 30		pndbg.delta.PnSearch pndbg.dnull.PnSearch		-r 2 > ${OUTDIR}/delta_dnull_10010030.txt
+cat scripts/testcases_final.sh >> ${OUTDIR}/delta_dnull_10010030.txt
+
+./ltest 100 100 30		pndb2.PnSearch LXCONO.LXMARGIN.LXMARGIN			-r 2 > ${OUTDIR}/pndb2_xcono_10010030.txt
+cat scripts/testcases_final.sh >> ${OUTDIR}/pndb2_xcono_10010030.txt
+
+
+

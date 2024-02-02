@@ -213,7 +213,7 @@ public class PnSearch implements CXPlayer {
 				+ "dag_n = " + BoardBitPn.TTdag.count + "\tproved_n = " + BoardBitPn.TTproved.count + "\tcreated_n = " + created_n + "\n"
 				+ "My move: " + move + "\n"
 			//	+ board.printString(0) + root.debugString(root) + "\n"
-			//	+ "time,mem before return: " + (System.currentTimeMillis() - timer_start) + " " + Auxiliary.freeMemory(runtime) + "\n"
+				+ "time,mem before return: " + (System.currentTimeMillis() - timer_start) + " " + Auxiliary.freeMemory(runtime) + "\n"
 			;
 			
 			return move;

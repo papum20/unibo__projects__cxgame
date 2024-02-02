@@ -10,12 +10,13 @@ out/*
 *.class
 
 #DEBUG
-debug/*/*
+debug/*
+!debug/charts/
 nohup.out
 #myjava*
 
 #TRASH
 jv
 
-#nohup??
+# ??
 .nfs*

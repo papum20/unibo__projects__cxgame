@@ -1,0 +1,4226 @@
+
+-_-
+START GAME
+-_-
+
+
+-_-
+START GAME
+-_-
+
+---
+PnDb
+Opponent: null
+root hash:0	depth 0
+---
+PnDb
+Opponent: 0
+root hash:-6705554237707052708	depth 1
+---
+PnDb
+Opponent: 0
+root hash:-1515332007765892706	depth 2
+---
+PnDb
+Opponent: 6
+root hash:8872240302159454755	depth 3
+---
+PnDb
+Opponent: 7
+root hash:1537770337111335178	depth 4
+---
+PnDb
+Opponent: 1
+root hash:6006579876542908528	depth 5
+---
+PnDb
+Opponent: 0
+root hash:1652280140909326680	depth 6
+---
+PnDb
+Opponent: 0
+root hash:-6751136121578710495	depth 7
+---
+PnDb
+Opponent: 8
+root hash:-3921267349936229656	depth 8
+---
+PnDb
+Opponent: 1
+root hash:7424595009202019870	depth 9
+---
+PnDb
+Opponent: 1
+root hash:-824857282385012324	depth 10
+---
+PnDb
+Opponent: 0
+root hash:-2422199765810511543	depth 11
+---
+PnDb
+Opponent: 0
+root hash:-1136778304941244220	depth 12
+---
+PnDb
+Opponent: 1
+root hash:-1705931942101618743	depth 13
+---
+PnDb
+Opponent: 1
+root hash:998201234142438563	depth 14
+---
+PnDb
+Opponent: 0
+root hash:8528422445772710037	depth 15
+---
+PnDb
+Opponent: 2
+root hash:1865902032707132761	depth 16
+---
+PnDb
+Opponent: 1
+root hash:3211286604742030710	depth 17
+---
+PnDb
+Opponent: 1
+root hash:-7279701397192535891	depth 18
+---
+PnDb
+Opponent: 3
+root hash:-2425505474447300220	depth 19
+---
+PnDb
+Opponent: 3
+root hash:-3509930335470337632	depth 20
+---
+PnDb
+Opponent: 0
+root hash:2500936847593772152	depth 21
+---
+PnDb
+Opponent: 1
+root hash:3376900232552066844	depth 22
+---
+PnDb
+Opponent: 1
+root hash:3895413875028914770	depth 23
+---
+PnDb
+Opponent: 0
+root hash:7853332036204624256	depth 24
+---
+PnDb
+Opponent: 0
+root hash:-5717032393030077134	depth 25
+---
+PnDb
+Opponent: 1
+root hash:1566253349454039534	depth 26
+---
+PnDb
+Opponent: 1
+root hash:-8767895438420846227	depth 27
+---
+PnDb
+Opponent: 0
+root hash:8772301909502366920	depth 28
+---
+PnDb
+Opponent: 2
+root hash:-2274042343693273580	depth 29
+---
+PnDb
+Opponent: 1
+root hash:2023967489280427403	depth 30
+---
+PnDb
+Opponent: 0
+root hash:-5375250048534160793	depth 31
+---
+PnDb
+Opponent: 0
+root hash:7079432089998544883	depth 32
+---
+PnDb
+Opponent: 6
+root hash:-4915447005416667618	depth 33
+---
+PnDb
+Opponent: 2
+root hash:-281304538913728913	depth 34
+---
+PnDb
+Opponent: 0
+root hash:2640886565974904354	depth 35
+---
+PnDb
+Opponent: 0
+root hash:-2757931998207392426	depth 36
+---
+PnDb
+Opponent: 8
+root hash:-2969745957460170084	depth 37
+---
+PnDb
+Opponent: 1
+root hash:-3543338398616216837	depth 38
+---
+PnDb
+Opponent: 0
+root hash:4548743567733489230	depth 39
+---
+PnDb
+Opponent: 3
+root hash:-2756758328517020577	depth 40
+---
+PnDb
+Opponent: 7
+root hash:3361671088670652536	depth 41
+---
+PnDb
+Opponent: 6
+root hash:-7265839821632611954	depth 42
+---
+PnDb
+Opponent: 5
+root hash:-1584732536571122605	depth 43
+---
+PnDb
+Opponent: 5
+root hash:3556874084419601557	depth 44
+---
+PnDb
+Opponent: 0
+root hash:-1210326452606260912	depth 45
+---
+PnDb
+Opponent: 0
+root hash:-7301303126612351974	depth 46
+---
+PnDb
+Opponent: 8
+root hash:3614740944252193383	depth 47
+---
+PnDb
+Opponent: 8
+root hash:4466662848723069617	depth 48
+---
+PnDb
+Opponent: 2
+root hash:4397546435963470931	depth 49
+---
+PnDb
+Opponent: 7
+root hash:-8352394807541379852	depth 50
+---
+PnDb
+Opponent: 6
+root hash:-6097326435783501628	depth 51
+---
+PnDb
+Opponent: 3
+root hash:-4761030788775817280	depth 52
+---
+PnDb
+Opponent: 1
+root hash:4025980335098905323	depth 53
+---
+PnDb
+Opponent: 1
+root hash:-4682475603236738696	depth 54
+---
+PnDb
+Opponent: 7
+root hash:-8610018437798219896	depth 55
+---
+PnDb
+Opponent: 8
+root hash:1670644755243553896	depth 56
+---
+PnDb
+Opponent: 5
+root hash:-5273433289706781515	depth 57
+---
+PnDb
+Opponent: 8
+root hash:4718503512327391503	depth 58
+---
+PnDb
+Opponent: 6
+root hash:6834027268128886398	depth 59
+---
+PnDb
+Opponent: 5
+root hash:-4054686336110432092	depth 60
+---
+PnDb
+Opponent: 1
+root hash:-4006870777192574181	depth 61
+---
+PnDb
+Opponent: 3
+root hash:-4756973507499790098	depth 62
+---
+PnDb
+Opponent: 4
+root hash:5429459080694717525	depth 63
+---
+PnDb
+Opponent: 3
+root hash:-5819403033701381680	depth 64
+---
+PnDb
+Opponent: 3
+root hash:-2493908291703954872	depth 65
+---
+PnDb
+Opponent: 19
+root hash:-2486469472173807568	depth 66
+---
+PnDb
+Opponent: 9
+root hash:4958818230770805026	depth 67
+---
+PnDb
+Opponent: 5
+root hash:6353186790822801663	depth 68
+---
+PnDb
+Opponent: 2
+root hash:-7898058137198649033	depth 69
+---
+PnDb
+Opponent: 4
+root hash:-2591230589002534544	depth 70
+---
+PnDb
+Opponent: 4
+root hash:-4886001583085838532	depth 71
+---
+PnDb
+Opponent: 19
+root hash:7017197311232625931	depth 72
+---
+PnDb
+Opponent: 7
+root hash:2274505509055556303	depth 73
+---
+PnDb
+Opponent: 4
+root hash:506561009396889518	depth 74
+---
+PnDb
+Opponent: 4
+root hash:5586460979231281191	depth 75
+---
+PnDb
+Opponent: 1
+root hash:8039155712340204944	depth 76
+---
+PnDb
+Opponent: 1
+root hash:-3348304086265924869	depth 77
+---
+PnDb
+Opponent: 6
+root hash:-4130158209461047679	depth 78
+---
+PnDb
+Opponent: 2
+root hash:8511827119803109362	depth 79
+---
+PnDb
+Opponent: 2
+root hash:7712914433393972152	depth 80
+---
+PnDb
+Opponent: 2
+root hash:6755080840836362724	depth 81
+---
+PnDb
+Opponent: 3
+root hash:-5240716135350115551	depth 82
+---
+PnDb
+Opponent: 4
+root hash:2591109016862947066	depth 83
+---
+PnDb
+Opponent: 4
+root hash:-3098686492532964081	depth 84
+---
+PnDb
+Opponent: 5
+root hash:-612647090288843856	depth 85
+---
+PnDb
+Opponent: 4
+root hash:8164003120128706702	depth 86
+---
+PnDb
+Opponent: 2
+root hash:-1915584927823927119	depth 87
+---
+PnDb
+Opponent: 3
+root hash:3805394631616363886	depth 88
+---
+PnDb
+Opponent: 10
+root hash:-7609102372127178438	depth 89
+---
+PnDb
+Opponent: 3
+root hash:-2011271286330890022	depth 90
+---
+PnDb
+Opponent: 10
+root hash:8640364491810144737	depth 91
+---
+PnDb
+Opponent: 7
+root hash:2785716898668450860	depth 92
+---
+PnDb
+Opponent: 8
+root hash:823261701024426876	depth 93
+---
+PnDb
+Opponent: 7
+root hash:3503462079509362602	depth 94
+---
+PnDb
+Opponent: 9
+root hash:-378904632420247889	depth 95
+---
+PnDb
+Opponent: 6
+root hash:2726420159165153370	depth 96
+---
+PnDb
+Opponent: 8
+root hash:-5152730234465607771	depth 97
+---
+PnDb
+Opponent: 3
+root hash:-6015271927353453593	depth 98
+---
+PnDb
+Opponent: 3
+root hash:3608898495161261474	depth 99
+---
+PnDb
+Opponent: 4
+root hash:-5750792782146134157	depth 100
+---
+PnDb
+Opponent: 6
+root hash:-1974365534477740847	depth 101
+---
+PnDb
+Opponent: 5
+root hash:-2398264577084991904	depth 102
+---
+PnDb
+Opponent: 3
+root hash:-3542944024372253237	depth 103
+---
+PnDb
+Opponent: 5
+root hash:-6865549251251913413	depth 104
+---
+PnDb
+Opponent: 6
+root hash:9132372030953975226	depth 105
+---
+PnDb
+Opponent: 4
+root hash:1667065409380448788	depth 106
+---
+PnDb
+Opponent: 6
+root hash:6972756795907304657	depth 107
+---
+PnDb
+Opponent: 4
+root hash:4665313438375203876	depth 108
+---
+PnDb
+Opponent: 4
+root hash:1341797133099183992	depth 109
+---
+PnDb
+Opponent: 2
+root hash:6574225643592921376	depth 110
+---
+PnDb
+Opponent: 2
+root hash:2676417245751471789	depth 111
+---
+PnDb
+Opponent: 11
+root hash:-7004450195736776910	depth 112
+---
+PnDb
+Opponent: 11
+root hash:-1945786404295894945	depth 113
+---
+PnDb
+Opponent: 9
+root hash:-2759740777850010695	depth 114
+---
+PnDb
+Opponent: 9
+root hash:-6200444383813185453	depth 115
+---
+PnDb
+Opponent: 2
+root hash:-5939618368156613970	depth 116
+---
+PnDb
+Opponent: 12
+root hash:-5654496413621167845	depth 117
+---
+PnDb
+Opponent: 12
+root hash:1116564253296913518	depth 118
+---
+PnDb
+Opponent: 15
+root hash:3555570380390346542	depth 119
+---
+PnDb
+Opponent: 2
+root hash:6524022324878480945	depth 120
+---
+PnDb
+Opponent: 2
+root hash:-5545727699207525517	depth 121
+---
+PnDb
+Opponent: 8
+root hash:6186897383092810705	depth 122
+---
+PnDb
+Opponent: 3
+root hash:-2167506517321498501	depth 123
+---
+PnDb
+Opponent: 3
+root hash:4789262782379390511	depth 124
+---
+PnDb
+Opponent: 6
+root hash:-2932662164632206537	depth 125
+---
+PnDb
+Opponent: 6
+root hash:6099400997881930793	depth 126
+---
+PnDb
+Opponent: 4
+root hash:-5824194834016683122	depth 127
+---
+PnDb
+Opponent: 6
+root hash:5848821570131989704	depth 128
+---
+PnDb
+Opponent: 4
+root hash:8867087306091460753	depth 129
+---
+PnDb
+Opponent: 6
+root hash:7212511274053856585	depth 130
+---
+PnDb
+Opponent: 2
+root hash:-9218203149288478364	depth 131
+---
+PnDb
+Opponent: 2
+root hash:6773114418319886778	depth 132
+---
+PnDb
+Opponent: 15
+root hash:-2977255811065128322	depth 133
+---
+PnDb
+Opponent: 3
+root hash:-8231835449197925624	depth 134
+---
+PnDb
+Opponent: 4
+root hash:7185611636420541117	depth 135
+---
+PnDb
+Opponent: 5
+root hash:-6419536180313542023	depth 136
+---
+PnDb
+Opponent: 4
+root hash:1087084279987316801	depth 137
+---
+PnDb
+Opponent: 4
+root hash:6208725612119329563	depth 138
+---
+PnDb
+Opponent: 5
+root hash:-5469273758714000445	depth 139
+---
+PnDb
+Opponent: 4
+root hash:-6014900665129935952	depth 140
+---
+PnDb
+Opponent: 5
+root hash:629885895810918098	depth 141
+---
+PnDb
+Opponent: 5
+root hash:2161231112734313826	depth 142
+---
+PnDb
+Opponent: 3
+root hash:-3148597339190706475	depth 143
+---
+PnDb
+Opponent: 3
+root hash:-2560586509683394037	depth 144
+---
+PnDb
+Opponent: 2
+root hash:1554107658707406192	depth 145
+---
+PnDb
+Opponent: 2
+root hash:-1775655665630475864	depth 146
+---
+PnDb
+Opponent: 7
+root hash:-4893552363349927089	depth 147
+---
+PnDb
+Opponent: 7
+root hash:-7969828109321970006	depth 148
+---
+PnDb
+Opponent: 6
+root hash:1459582792628309227	depth 149
+---
+PnDb
+Opponent: 11
+root hash:4091970253178859524	depth 150
+---
+PnDb
+Opponent: 6
+root hash:-2932896174126910921	depth 151
+---
+PnDb
+Opponent: 9
+root hash:4825617654473420211	depth 152
+---
+PnDb
+Opponent: 19
+root hash:8681854469323326574	depth 153
+---
+PnDb
+Opponent: 13
+root hash:9111689744316447478	depth 154
+---
+PnDb
+Opponent: 9
+root hash:1374748223233310452	depth 155
+---
+PnDb
+Opponent: 6
+root hash:2086942509549164678	depth 156
+---
+PnDb
+Opponent: 11
+root hash:575811296405296749	depth 157
+---
+PnDb
+Opponent: 6
+root hash:8197237017634869270	depth 158
+---
+PnDb
+Opponent: 5
+root hash:-4012764484530932486	depth 159
+---
+PnDb
+Opponent: 5
+root hash:-7539658738751130575	depth 160
+---
+PnDb
+Opponent: 8
+root hash:-113454517562926702	depth 161
+---
+PnDb
+Opponent: 8
+root hash:-1341474208055537896	depth 162
+---
+PnDb
+Opponent: 11
+root hash:-5900044836635306671	depth 163
+---
+PnDb
+Opponent: 11
+root hash:7170582826102959854	depth 164
+---
+PnDb
+Opponent: 11
+root hash:1645844867746830544	depth 165
+---
+PnDb
+Opponent: 9
+root hash:4796381042510655484	depth 166
+---
+PnDb
+Opponent: 9
+root hash:-6611226419904582589	depth 167
+---
+PnDb
+Opponent: 15
+root hash:-4953726026818091454	depth 168
+---
+PnDb
+Opponent: 11
+root hash:5238447353950295499	depth 169
+---
+PnDb
+Opponent: 7
+root hash:931006655582129312	depth 170
+---
+PnDb
+Opponent: 12
+root hash:6016451239191315700	depth 171
+---
+PnDb
+Opponent: 7
+root hash:6839756570805985377	depth 172
+---
+PnDb
+Opponent: 8
+root hash:-5405132245969741676	depth 173
+---
+PnDb
+Opponent: 17
+root hash:-3300116403592640934	depth 174
+---
+PnDb
+Opponent: 12
+root hash:-937693464168923830	depth 175
+---
+PnDb
+Opponent: 5
+root hash:-8347433285461540320	depth 176
+---
+PnDb
+Opponent: 13
+root hash:-4746430882872050288	depth 177
+---
+PnDb
+Opponent: 15
+root hash:9041357623387498822	depth 178
+---
+PnDb
+Opponent: 12
+root hash:8046611045288181709	depth 179
+---
+PnDb
+Opponent: 8
+root hash:4703823386995540419	depth 180
+---
+PnDb
+Opponent: 5
+root hash:3102049238294802492	depth 181
+---
+PnDb
+Opponent: 13
+root hash:-2064475386608796623	depth 182
+---
+PnDb
+Opponent: 15
+root hash:15970098577514956	depth 183
+---
+PnDb
+Opponent: 17
+root hash:-537968907089801320	depth 184
+---
+PnDb
+Opponent: 15
+root hash:-8542386118088305056	depth 185
+---
+PnDb
+Opponent: 8
+root hash:6239886590177519444	depth 186
+---
+PnDb
+Opponent: 8
+root hash:-8948796398488312484	depth 187
+---
+PnDb
+Opponent: 19
+root hash:495134086135296502	depth 188
+---
+PnDb
+Opponent: 7
+root hash:-8024053864043794574	depth 189
+---
+PnDb
+Opponent: 18
+root hash:-4220379185491275580	depth 190
+---
+PnDb
+Opponent: 7
+root hash:8120748216031714153	depth 191
+---
+PnDb
+Opponent: 12
+root hash:-3200786717128202219	depth 192
+---
+PnDb
+Opponent: 7
+root hash:1151149908791925586	depth 193
+---
+PnDb
+Opponent: 14
+root hash:-4294621444835340485	depth 194
+---
+PnDb
+Opponent: 7
+root hash:-7246601820532018065	depth 195
+---
+PnDb
+Opponent: 12
+root hash:-1605590068976493077	depth 196
+---
+PnDb
+Opponent: 7
+root hash:508711063188940909	depth 197
+---
+PnDb
+Opponent: 7
+root hash:6504163962855629519	depth 198
+---
+PnDb
+Opponent: 7
+root hash:-8135090772536981967	depth 199
+---
+PnDb
+Opponent: 8
+root hash:-7475555356475957261	depth 200
+---
+PnDb
+Opponent: 11
+root hash:6380361029851697815	depth 201
+---
+PnDb
+Opponent: 17
+root hash:-1965942637795802787	depth 202
+---
+PnDb
+Opponent: 13
+root hash:6742454565138878107	depth 203
+---
+PnDb
+Opponent: 12
+root hash:-5920899206769680521	depth 204
+---
+PnDb
+Opponent: 5
+root hash:-7519360951473417099	depth 205
+---
+PnDb
+Opponent: 18
+root hash:-8526259433109337926	depth 206
+---
+PnDb
+Opponent: 12
+root hash:6086214184188716702	depth 207
+---
+PnDb
+Opponent: 16
+root hash:7480597877917914878	depth 208
+---
+PnDb
+Opponent: 9
+root hash:6630919177988700075	depth 209
+---
+PnDb
+Opponent: 8
+root hash:-1193999175711019132	depth 210
+---
+PnDb
+Opponent: 11
+root hash:574813866326674153	depth 211
+---
+PnDb
+Opponent: 13
+root hash:6759673972610734386	depth 212
+---
+PnDb
+Opponent: 8
+root hash:3489019708919575579	depth 213
+---
+PnDb
+Opponent: 18
+root hash:1136118961892671731	depth 214
+---
+PnDb
+Opponent: 11
+root hash:-4515273742681338877	depth 215
+---
+PnDb
+Opponent: 13
+root hash:-4040516037184834717	depth 216
+---
+PnDb
+Opponent: 11
+root hash:-7916134522994618441	depth 217
+---
+PnDb
+Opponent: 11
+root hash:-263349086254288100	depth 218
+---
+PnDb
+Opponent: 5
+root hash:444532015911607164	depth 219
+---
+PnDb
+Opponent: 10
+root hash:7168409705449632813	depth 220
+---
+PnDb
+Opponent: 10
+root hash:1363509283229854918	depth 221
+---
+PnDb
+Opponent: 10
+root hash:5886474288455180770	depth 222
+---
+PnDb
+Opponent: 10
+root hash:-3784269654048995106	depth 223
+---
+PnDb
+Opponent: 17
+root hash:-949406080271712137	depth 224
+---
+PnDb
+Opponent: 17
+root hash:6482970679196174271	depth 225
+---
+PnDb
+Opponent: 18
+root hash:-630576714718482304	depth 226
+---
+PnDb
+Opponent: 19
+root hash:4443273316549437571	depth 227
+---
+PnDb
+Opponent: 18
+root hash:-3710846976081153890	depth 228
+---
+PnDb
+Opponent: 18
+root hash:-3812483684146199112	depth 229
+---
+PnDb
+Opponent: 18
+root hash:3146746919857868572	depth 230
+---
+PnDb
+Opponent: 10
+root hash:2190404411798963924	depth 231
+---
+PnDb
+Opponent: 14
+root hash:7460098330651120790	depth 232
+---
+PnDb
+Opponent: 13
+root hash:-9060149506673399557	depth 233
+---
+PnDb
+Opponent: 19
+root hash:-9045199814262195860	depth 234
+---
+PnDb
+Opponent: 14
+root hash:3264234236044694698	depth 235
+---
+PnDb
+Opponent: 14
+root hash:2899674171994652160	depth 236
+---
+PnDb
+Opponent: 14
+root hash:-728948663375000029	depth 237
+---
+PnDb
+Opponent: 10
+root hash:-9121736779479913513	depth 238
+---
+PnDb
+Opponent: 16
+root hash:-7606776145166341018	depth 239
+---
+PnDb
+Opponent: 9
+root hash:7265641798498297188	depth 240
+---
+PnDb
+Opponent: 19
+root hash:538040796355702909	depth 241
+---
+PnDb
+Opponent: 19
+root hash:-6550561316963863660	depth 242
+---
+PnDb
+Opponent: 10
+root hash:-6584100680319138830	depth 243
+---
+PnDb
+Opponent: 10
+root hash:2004045663230193575	depth 244
+---
+PnDb
+Opponent: 9
+root hash:2985959449666858896	depth 245
+---
+PnDb
+Opponent: 9
+root hash:5003653692416184017	depth 246
+---
+PnDb
+Opponent: 17
+root hash:4908416806877609424	depth 247
+---
+PnDb
+Opponent: 9
+root hash:-3514514758305714279	depth 248
+---
+PnDb
+Opponent: 15
+root hash:-2631107216519190647	depth 249
+---
+PnDb
+Opponent: 14
+root hash:-8664151708435868901	depth 250
+---
+PnDb
+Opponent: 18
+root hash:-1793786784657207908	depth 251
+---
+PnDb
+Opponent: 10
+root hash:-649158445157326143	depth 252
+---
+PnDb
+Opponent: 13
+root hash:8645509982806150182	depth 253
+---
+PnDb
+Opponent: 18
+root hash:106523614115106030	depth 254
+---
+PnDb
+Opponent: 19
+root hash:-9103163639039440054	depth 255
+---
+PnDb
+Opponent: 10
+root hash:8705865556188345592	depth 256
+---
+PnDb
+Opponent: 14
+root hash:7927400727762764488	depth 257
+---
+PnDb
+Opponent: 11
+root hash:-4537589236961760092	depth 258
+---
+PnDb
+Opponent: 10
+root hash:1167542492455013022	depth 259
+---
+PnDb
+Opponent: 9
+root hash:6419960823677676056	depth 260
+---
+PnDb
+Opponent: 9
+root hash:6580163315828189886	depth 261
+---
+PnDb
+Opponent: 11
+root hash:-7267000566185121752	depth 262
+---
+PnDb
+Opponent: 19
+root hash:5091461491326808469	depth 263
+---
+PnDb
+Opponent: 11
+root hash:-2986478777764452404	depth 264
+---
+PnDb
+Opponent: 18
+root hash:145987544619727139	depth 265
+---
+PnDb
+Opponent: 18
+root hash:7205483891026089508	depth 266
+---
+PnDb
+Opponent: 19
+root hash:1285984283765235242	depth 267
+---
+PnDb
+Opponent: 11
+root hash:5121057831363430296	depth 268
+---
+PnDb
+Opponent: 18
+root hash:-8151516634188453595	depth 269
+---
+PnDb
+Opponent: 9
+root hash:-7486386199870430785	depth 270
+---
+PnDb
+Opponent: 9
+root hash:-7036244969867910861	depth 271
+---
+PnDb
+Opponent: 18
+root hash:6780301514717243094	depth 272
+---
+PnDb
+Opponent: 19
+root hash:7870282108488516271	depth 273
+---
+PnDb
+Opponent: 15
+root hash:8671408499604552400	depth 274
+---
+PnDb
+Opponent: 19
+root hash:-4403212551211615697	depth 275
+---
+PnDb
+Opponent: 19
+root hash:7273262703317988744	depth 276
+---
+PnDb
+Opponent: 14
+root hash:-936388515008869134	depth 277
+---
+PnDb
+Opponent: 14
+root hash:-95472026162541335	depth 278
+---
+PnDb
+Opponent: 9
+root hash:-4054772777764377122	depth 279
+---
+PnDb
+Opponent: 13
+root hash:-5677507374767437185	depth 280
+---
+PnDb
+Opponent: 11
+root hash:4448215219104055129	depth 281
+---
+PnDb
+Opponent: 10
+root hash:1481937979826853367	depth 282
+---
+PnDb
+Opponent: 19
+root hash:5843468461740836465	depth 283
+---
+PnDb
+Opponent: 10
+root hash:-2860327394341846884	depth 284
+---
+PnDb
+Opponent: 10
+root hash:-5298325494598096255	depth 285
+---
+PnDb
+Opponent: 10
+root hash:-5366544798218384036	depth 286
+---
+PnDb
+Opponent: 10
+root hash:3574978302533014797	depth 287
+---
+PnDb
+Opponent: 14
+root hash:-2760416365076067144	depth 288
+---
+PnDb
+Opponent: 17
+root hash:-7429323342775258509	depth 289
+---
+PnDb
+Opponent: 12
+root hash:-8181447177778913750	depth 290
+---
+PnDb
+Opponent: 17
+root hash:5360863357829924102	depth 291
+---
+PnDb
+Opponent: 14
+root hash:-4151521050816415464	depth 292
+---
+PnDb
+Opponent: 17
+root hash:7922653324705671947	depth 293
+---
+PnDb
+Opponent: 17
+root hash:-4769751763769854687	depth 294
+---
+PnDb
+Opponent: 14
+root hash:-7816714420985653903	depth 295
+---
+PnDb
+Opponent: 14
+root hash:7494481609281454941	depth 296
+---
+PnDb
+Opponent: 14
+root hash:5629888010170902044	depth 297
+---
+PnDb
+Opponent: 12
+root hash:-1875757505872122812	depth 298
+---
+PnDb
+Opponent: 17
+root hash:4844011247172892374	depth 299
+---
+PnDb
+Opponent: 18
+root hash:7260764945100881324	depth 300
+---
+PnDb
+Opponent: 19
+root hash:458269970927560320	depth 301
+---
+PnDb
+Opponent: 17
+root hash:5374032180910973183	depth 302
+---
+PnDb
+Opponent: 17
+root hash:-5419514242955501030	depth 303
+---
+PnDb
+Opponent: 12
+root hash:7435596708166799190	depth 304
+---
+PnDb
+Opponent: 15
+root hash:596930812413413517	depth 305
+---
+PnDb
+Opponent: 12
+root hash:3131640367091433391	depth 306
+---
+PnDb
+Opponent: 17
+root hash:-2038226196287823557	depth 307
+---
+PnDb
+Opponent: 12
+root hash:5114720700850793365	depth 308
+---
+PnDb
+Opponent: 12
+root hash:4461733805928265746	depth 309
+---
+PnDb
+Opponent: 13
+root hash:6144268868981526852	depth 310
+---
+PnDb
+Opponent: 19
+root hash:-6081091082594172964	depth 311
+---
+PnDb
+Opponent: 12
+root hash:-7005292002828765492	depth 312
+---
+PnDb
+Opponent: 19
+root hash:-5708789412905949424	depth 313
+---
+PnDb
+Opponent: 14
+root hash:5420492269884104938	depth 314
+---
+PnDb
+Opponent: 16
+root hash:-844015980810167386	depth 315
+---
+PnDb
+Opponent: 15
+root hash:4070834477952496918	depth 316
+---
+PnDb
+Opponent: 16
+root hash:7262343613272438960	depth 317
+---
+PnDb
+Opponent: 15
+root hash:-6777037282370508271	depth 318
+---
+PnDb
+Opponent: 16
+root hash:-784387951413456277	depth 319
+---
+PnDb
+Opponent: 14
+root hash:-2034054067290008521	depth 320
+---
+PnDb
+Opponent: 18
+root hash:-6156408927945607371	depth 321
+---
+PnDb
+Opponent: 12
+root hash:-1541017194563193246	depth 322
+---
+PnDb
+Opponent: 12
+root hash:-6653804371256234346	depth 323
+---
+PnDb
+Opponent: 15
+root hash:7710062879591552119	depth 324
+---
+PnDb
+Opponent: 15
+root hash:-5864073258435283246	depth 325
+---
+PnDb
+Opponent: 17
+root hash:-1127230350384549209	depth 326
+---
+PnDb
+Opponent: 17
+root hash:-1766392282496031124	depth 327
+---
+PnDb
+Opponent: 15
+root hash:-4044438110381887418	depth 328
+---
+PnDb
+Opponent: 16
+root hash:-8404486945756601149	depth 329
+---
+PnDb
+Opponent: 16
+root hash:-1855612809619962668	depth 330
+---
+PnDb
+Opponent: 16
+root hash:471144949853856008	depth 331
+---
+PnDb
+Opponent: 15
+root hash:1476169378169761713	depth 332
+---
+PnDb
+Opponent: 18
+root hash:-8426817603522169882	depth 333
+---
+PnDb
+Opponent: 14
+root hash:2047672341538896212	depth 334
+---
+PnDb
+Opponent: 18
+root hash:-3225939586052734988	depth 335
+---
+PnDb
+Opponent: 18
+root hash:-90371101441729195	depth 336
+---
+PnDb
+Opponent: 17
+root hash:-4517144030084536247	depth 337
+---
+PnDb
+Opponent: 17
+root hash:6096869866374256334	depth 338
+---
+PnDb
+Opponent: 16
+root hash:-6582683189957187299	depth 339
+---
+PnDb
+Opponent: 16
+root hash:3271015299003594352	depth 340
+---
+PnDb
+Opponent: 16
+root hash:2771361385142692884	depth 341
+---
+PnDb
+Opponent: 15
+root hash:-7137204961218792964	depth 342
+---
+PnDb
+Opponent: 16
+root hash:-1924964100749212253	depth 343
+---
+PnDb
+Opponent: 15
+root hash:-7020428452769731437	depth 344
+---
+PnDb
+Opponent: 16
+root hash:3259210480799289591	depth 345
+---
+PnDb
+Opponent: 15
+root hash:8197932261867005042	depth 346
+---
+PnDb
+Opponent: 16
+root hash:-5454358303059116519	depth 347
+---
+PnDb
+Opponent: 14
+root hash:-20968797788769324	depth 348
+---
+PnDb
+Opponent: 16
+root hash:2243334744375176687	depth 349
+---
+PnDb
+Opponent: 16
+root hash:-8931092399610897460	depth 350
+---
+PnDb
+Opponent: 16
+root hash:6613720437658150715	depth 351
+---
+PnDb
+Opponent: 16
+root hash:1711668041273072638	depth 352
+---
+PnDb
+Opponent: 13
+root hash:-8684643317762579697	depth 353
+
+-_-
+START GAME
+-_-
+
+
+-_-
+START GAME
+-_-
+
+---
+PnDb
+Opponent: null
+root hash:0	depth 0
+---
+PnDb
+Opponent: 0
+root hash:7545518573500997945	depth 1
+---
+PnDb
+Opponent: 0
+root hash:4821023941228636124	depth 2
+---
+PnDb
+Opponent: 12
+root hash:-1796754745361448385	depth 3
+---
+PnDb
+Opponent: 19
+root hash:9129382536878811565	depth 4
+---
+PnDb
+Opponent: 2
+root hash:24544280694826844	depth 5
+---
+PnDb
+Opponent: 0
+root hash:7863311428313666992	depth 6
+---
+PnDb
+Opponent: 6
+root hash:-3188907165300782479	depth 7
+---
+PnDb
+Opponent: 1
+root hash:1454328646262997014	depth 8
+---
+PnDb
+Opponent: 1
+root hash:6770110096420408339	depth 9
+---
+PnDb
+Opponent: 5
+root hash:-2174925329952021246	depth 10
+---
+PnDb
+Opponent: 0
+root hash:6279573162310262817	depth 11
+---
+PnDb
+Opponent: 1
+root hash:-3864832780916528136	depth 12
+---
+PnDb
+Opponent: 18
+root hash:-1630697792021263468	depth 13
+---
+PnDb
+Opponent: 0
+root hash:-5390802216835913649	depth 14
+---
+PnDb
+Opponent: 0
+root hash:-61797001090806849	depth 15
+---
+PnDb
+Opponent: 1
+root hash:3612760203649943671	depth 16
+---
+PnDb
+Opponent: 1
+root hash:-953023857962486987	depth 17
+---
+PnDb
+Opponent: 0
+root hash:594010036504909676	depth 18
+---
+PnDb
+Opponent: 0
+root hash:-6550309858881875727	depth 19
+---
+PnDb
+Opponent: 1
+root hash:-795598033352451828	depth 20
+---
+PnDb
+Opponent: 1
+root hash:-8417342199526590599	depth 21
+---
+PnDb
+Opponent: 3
+root hash:-2262623651070398018	depth 22
+---
+PnDb
+Opponent: 2
+root hash:772613769682484282	depth 23
+---
+PnDb
+Opponent: 4
+root hash:-2089166907552312195	depth 24
+---
+PnDb
+Opponent: 4
+root hash:-1771734179542399320	depth 25
+---
+PnDb
+Opponent: 19
+root hash:-1517667545619383676	depth 26
+---
+PnDb
+Opponent: 1
+root hash:5669250011628807286	depth 27
+---
+PnDb
+Opponent: 1
+root hash:-3542461228151008050	depth 28
+---
+PnDb
+Opponent: 0
+root hash:7400137424989013852	depth 29
+---
+PnDb
+Opponent: 0
+root hash:4759516573867389860	depth 30
+---
+PnDb
+Opponent: 2
+root hash:4027794621252871672	depth 31
+---
+PnDb
+Opponent: 2
+root hash:8143102621180310665	depth 32
+---
+PnDb
+Opponent: 0
+root hash:8781596516433691015	depth 33
+---
+PnDb
+Opponent: 0
+root hash:11358488045403874	depth 34
+---
+PnDb
+Opponent: 1
+root hash:-826719147940908405	depth 35
+---
+PnDb
+Opponent: 1
+root hash:4038959259493470285	depth 36
+---
+PnDb
+Opponent: 1
+root hash:-4522970457854793159	depth 37
+---
+PnDb
+Opponent: 7
+root hash:1280380172128312057	depth 38
+---
+PnDb
+Opponent: 1
+root hash:-5423152489320812764	depth 39
+---
+PnDb
+Opponent: 0
+root hash:3436185696326237557	depth 40
+---
+PnDb
+Opponent: 2
+root hash:-342789355069698811	depth 41
+---
+PnDb
+Opponent: 0
+root hash:-4922856268023358038	depth 42
+---
+PnDb
+Opponent: 8
+root hash:-7052648758767222058	depth 43
+---
+PnDb
+Opponent: 4
+root hash:-1400627171293575615	depth 44
+---
+PnDb
+Opponent: 0
+root hash:-6297363144427238589	depth 45
+---
+PnDb
+Opponent: 0
+root hash:7534526533220458700	depth 46
+---
+PnDb
+Opponent: 1
+root hash:9135552586890548808	depth 47
+---
+PnDb
+Opponent: 19
+root hash:5779568444437197579	depth 48
+---
+PnDb
+Opponent: 2
+root hash:3761175641364773201	depth 49
+---
+PnDb
+Opponent: 2
+root hash:-3669044502525618790	depth 50
+---
+PnDb
+Opponent: 8
+root hash:6006627674275822132	depth 51
+---
+PnDb
+Opponent: 1
+root hash:2312741017017870674	depth 52
+---
+PnDb
+Opponent: 0
+root hash:-3539882971594869226	depth 53
+---
+PnDb
+Opponent: 0
+root hash:-937627659979001206	depth 54
+---
+PnDb
+Opponent: 5
+root hash:-1763067663103740876	depth 55
+---
+PnDb
+Opponent: 3
+root hash:-7575303698483538743	depth 56
+---
+PnDb
+Opponent: 8
+root hash:1638719923602404124	depth 57
+---
+PnDb
+Opponent: 6
+root hash:4018366067396746631	depth 58
+---
+PnDb
+Opponent: 4
+root hash:-2116996121126759003	depth 59
+---
+PnDb
+Opponent: 5
+root hash:9099583683908678165	depth 60
+---
+PnDb
+Opponent: 3
+root hash:-3660101215541899472	depth 61
+---
+PnDb
+Opponent: 3
+root hash:7960085047667937566	depth 62
+---
+PnDb
+Opponent: 3
+root hash:3121067208124143150	depth 63
+---
+PnDb
+Opponent: 2
+root hash:-3540976002967685362	depth 64
+---
+PnDb
+Opponent: 1
+root hash:-8847435436471473670	depth 65
+---
+PnDb
+Opponent: 3
+root hash:-3934360412981431878	depth 66
+---
+PnDb
+Opponent: 1
+root hash:-2944183049195412224	depth 67
+---
+PnDb
+Opponent: 1
+root hash:-4495964327849181488	depth 68
+---
+PnDb
+Opponent: 2
+root hash:-521548804757929140	depth 69
+---
+PnDb
+Opponent: 3
+root hash:8212760454949869663	depth 70
+---
+PnDb
+Opponent: 11
+root hash:-4599908779231607579	depth 71
+---
+PnDb
+Opponent: 19
+root hash:9121371846433469501	depth 72
+---
+PnDb
+Opponent: 13
+root hash:-5083804712198526788	depth 73
+---
+PnDb
+Opponent: 19
+root hash:2131389521215498580	depth 74
+---
+PnDb
+Opponent: 19
+root hash:8731459700780928616	depth 75
+---
+PnDb
+Opponent: 10
+root hash:-1042320306577000696	depth 76
+---
+PnDb
+Opponent: 2
+root hash:3777129287523852015	depth 77
+---
+PnDb
+Opponent: 2
+root hash:-2361142275322427872	depth 78
+---
+PnDb
+Opponent: 18
+root hash:5479176554013816686	depth 79
+---
+PnDb
+Opponent: 18
+root hash:6120358891399508085	depth 80
+---
+PnDb
+Opponent: 3
+root hash:-6386295780568662122	depth 81
+---
+PnDb
+Opponent: 4
+root hash:2130246831692024973	depth 82
+---
+PnDb
+Opponent: 2
+root hash:3876254500495305207	depth 83
+---
+PnDb
+Opponent: 3
+root hash:-1625743286580683179	depth 84
+---
+PnDb
+Opponent: 3
+root hash:4228235429675000161	depth 85
+---
+PnDb
+Opponent: 7
+root hash:-4538153034126574549	depth 86
+---
+PnDb
+Opponent: 4
+root hash:4779217013666690551	depth 87
+---
+PnDb
+Opponent: 2
+root hash:-8410883181778737353	depth 88
+---
+PnDb
+Opponent: 3
+root hash:-5796637248585894142	depth 89
+---
+PnDb
+Opponent: 3
+root hash:-3696245674866907162	depth 90
+---
+PnDb
+Opponent: 2
+root hash:-4255912977460287408	depth 91
+---
+PnDb
+Opponent: 2
+root hash:-238409817728194511	depth 92
+---
+PnDb
+Opponent: 3
+root hash:-3074246468514484295	depth 93
+---
+PnDb
+Opponent: 3
+root hash:4484915174240872326	depth 94
+---
+PnDb
+Opponent: 4
+root hash:-1503601100577338297	depth 95
+---
+PnDb
+Opponent: 4
+root hash:-571172821436599181	depth 96
+---
+PnDb
+Opponent: 3
+root hash:-7676577834170416190	depth 97
+---
+PnDb
+Opponent: 8
+root hash:6399606219992089191	depth 98
+---
+PnDb
+Opponent: 4
+root hash:8264059462409860937	depth 99
+---
+PnDb
+Opponent: 4
+root hash:6092562567204098271	depth 100
+---
+PnDb
+Opponent: 2
+root hash:-20343717865363112	depth 101
+---
+PnDb
+Opponent: 6
+root hash:1613511411710660361	depth 102
+---
+PnDb
+Opponent: 3
+root hash:-8831393773406138861	depth 103
+---
+PnDb
+Opponent: 3
+root hash:-6279252388624522455	depth 104
+---
+PnDb
+Opponent: 3
+root hash:3221719456369868292	depth 105
+---
+PnDb
+Opponent: 16
+root hash:-5904138929328851957	depth 106
+---
+PnDb
+Opponent: 6
+root hash:-5257979946486533629	depth 107
+---
+PnDb
+Opponent: 12
+root hash:-349735647949832118	depth 108
+---
+PnDb
+Opponent: 8
+root hash:1872319794259075724	depth 109
+---
+PnDb
+Opponent: 6
+root hash:-6408959541084172232	depth 110
+---
+PnDb
+Opponent: 5
+root hash:-7708006269175888804	depth 111
+---
+PnDb
+Opponent: 7
+root hash:1622991330313395307	depth 112
+---
+PnDb
+Opponent: 7
+root hash:6352094605501344595	depth 113
+---
+PnDb
+Opponent: 4
+root hash:2286601849961049626	depth 114
+---
+PnDb
+Opponent: 2
+root hash:-5576421216747928051	depth 115
+---
+PnDb
+Opponent: 2
+root hash:-4557639606755616763	depth 116
+---
+PnDb
+Opponent: 4
+root hash:-4816001801906412069	depth 117
+---
+PnDb
+Opponent: 5
+root hash:8359309177765054049	depth 118
+---
+PnDb
+Opponent: 5
+root hash:6878215046875270559	depth 119
+---
+PnDb
+Opponent: 5
+root hash:3979714232061445944	depth 120
+---
+PnDb
+Opponent: 19
+root hash:5521666752668084212	depth 121
+---
+PnDb
+Opponent: 11
+root hash:-1641822780319967868	depth 122
+---
+PnDb
+Opponent: 10
+root hash:2578371182321077765	depth 123
+---
+PnDb
+Opponent: 4
+root hash:7268031578663156296	depth 124
+---
+PnDb
+Opponent: 4
+root hash:505920610079414659	depth 125
+---
+PnDb
+Opponent: 19
+root hash:5259529927391650680	depth 126
+---
+PnDb
+Opponent: 5
+root hash:8327569308156318948	depth 127
+---
+PnDb
+Opponent: 4
+root hash:3916433886520985550	depth 128
+---
+PnDb
+Opponent: 4
+root hash:-5438399611785214774	depth 129
+---
+PnDb
+Opponent: 4
+root hash:-505915730759524961	depth 130
+---
+PnDb
+Opponent: 5
+root hash:-8757119575141642716	depth 131
+---
+PnDb
+Opponent: 8
+root hash:-7530361455071958647	depth 132
+---
+PnDb
+Opponent: 18
+root hash:-1490021958530986777	depth 133
+---
+PnDb
+Opponent: 5
+root hash:7667148798581329126	depth 134
+---
+PnDb
+Opponent: 17
+root hash:-8719647213573403021	depth 135
+---
+PnDb
+Opponent: 5
+root hash:-2450139385187451054	depth 136
+---
+PnDb
+Opponent: 5
+root hash:-7173903851068354968	depth 137
+---
+PnDb
+Opponent: 5
+root hash:-3501861055186402579	depth 138
+---
+PnDb
+Opponent: 5
+root hash:-8038330845709299019	depth 139
+---
+PnDb
+Opponent: 13
+root hash:-7572042325173354603	depth 140
+---
+PnDb
+Opponent: 7
+root hash:8858004666968512816	depth 141
+---
+PnDb
+Opponent: 18
+root hash:-6628871896535266138	depth 142
+---
+PnDb
+Opponent: 4
+root hash:-5237984263369772294	depth 143
+---
+PnDb
+Opponent: 6
+root hash:5188023298110693668	depth 144
+---
+PnDb
+Opponent: 11
+root hash:9110657704382195005	depth 145
+---
+PnDb
+Opponent: 8
+root hash:-1497509715742133313	depth 146
+---
+PnDb
+Opponent: 7
+root hash:140414626616661535	depth 147
+---
+PnDb
+Opponent: 17
+root hash:-400528890820969081	depth 148
+---
+PnDb
+Opponent: 5
+root hash:-1268069827562458480	depth 149
+---
+PnDb
+Opponent: 16
+root hash:6433397278028739521	depth 150
+---
+PnDb
+Opponent: 15
+root hash:-2421524970585227114	depth 151
+---
+PnDb
+Opponent: 14
+root hash:7514011737128465688	depth 152
+---
+PnDb
+Opponent: 14
+root hash:745118909088120755	depth 153
+---
+PnDb
+Opponent: 5
+root hash:1133802377429879305	depth 154
+---
+PnDb
+Opponent: 5
+root hash:5117387014501537876	depth 155
+---
+PnDb
+Opponent: 17
+root hash:-7806247272753577063	depth 156
+---
+PnDb
+Opponent: 5
+root hash:-5023999293774113479	depth 157
+---
+PnDb
+Opponent: 10
+root hash:2689547197877250387	depth 158
+---
+PnDb
+Opponent: 13
+root hash:2676564958488804288	depth 159
+---
+PnDb
+Opponent: 10
+root hash:-8947161094263437377	depth 160
+---
+PnDb
+Opponent: 12
+root hash:-693225135995693821	depth 161
+---
+PnDb
+Opponent: 7
+root hash:1610396166128992031	depth 162
+---
+PnDb
+Opponent: 13
+root hash:4164609772251351894	depth 163
+---
+PnDb
+Opponent: 13
+root hash:6628126671174318625	depth 164
+---
+PnDb
+Opponent: 9
+root hash:-641171534899054976	depth 165
+---
+PnDb
+Opponent: 7
+root hash:1110521925587591353	depth 166
+---
+PnDb
+Opponent: 9
+root hash:-8547420634648887399	depth 167
+---
+PnDb
+Opponent: 6
+root hash:1878907716410187475	depth 168
+---
+PnDb
+Opponent: 8
+root hash:-3010353374111707206	depth 169
+---
+PnDb
+Opponent: 7
+root hash:-1797248625177803471	depth 170
+---
+PnDb
+Opponent: 7
+root hash:7977464693985939265	depth 171
+---
+PnDb
+Opponent: 10
+root hash:-6850763305134941768	depth 172
+---
+PnDb
+Opponent: 18
+root hash:-3758215333897921264	depth 173
+---
+PnDb
+Opponent: 6
+root hash:7235488833912082143	depth 174
+---
+PnDb
+Opponent: 6
+root hash:5795615326598364012	depth 175
+---
+PnDb
+Opponent: 10
+root hash:-2067634335834103677	depth 176
+---
+PnDb
+Opponent: 10
+root hash:-7551758333245227035	depth 177
+---
+PnDb
+Opponent: 11
+root hash:-6188769794565569906	depth 178
+---
+PnDb
+Opponent: 7
+root hash:-8769197487624896296	depth 179
+---
+PnDb
+Opponent: 6
+root hash:3327369897910696804	depth 180
+---
+PnDb
+Opponent: 7
+root hash:-3609141174463533661	depth 181
+---
+PnDb
+Opponent: 6
+root hash:3208847248529108803	depth 182
+---
+PnDb
+Opponent: 16
+root hash:-7952713446760282287	depth 183
+---
+PnDb
+Opponent: 11
+root hash:-1293987136251849776	depth 184
+---
+PnDb
+Opponent: 8
+root hash:-4189998800383351050	depth 185
+---
+PnDb
+Opponent: 16
+root hash:-6731955354227560484	depth 186
+---
+PnDb
+Opponent: 8
+root hash:-1948970272204286803	depth 187
+---
+PnDb
+Opponent: 8
+root hash:-2127517405841705144	depth 188
+---
+PnDb
+Opponent: 6
+root hash:-407783743103559303	depth 189
+---
+PnDb
+Opponent: 8
+root hash:4648809372330126995	depth 190
+---
+PnDb
+Opponent: 11
+root hash:-5456980225224816446	depth 191
+---
+PnDb
+Opponent: 7
+root hash:-4307184466338101893	depth 192
+---
+PnDb
+Opponent: 11
+root hash:7303286117181302013	depth 193
+---
+PnDb
+Opponent: 6
+root hash:-1964465821434193118	depth 194
+---
+PnDb
+Opponent: 8
+root hash:8667765429927353246	depth 195
+---
+PnDb
+Opponent: 9
+root hash:-4998119835303721088	depth 196
+---
+PnDb
+Opponent: 11
+root hash:8977907375689732425	depth 197
+---
+PnDb
+Opponent: 8
+root hash:3537878081182889801	depth 198
+---
+PnDb
+Opponent: 7
+root hash:3066060818408353642	depth 199
+---
+PnDb
+Opponent: 9
+root hash:8527744708309684704	depth 200
+---
+PnDb
+Opponent: 9
+root hash:-3581805188996979164	depth 201
+---
+PnDb
+Opponent: 16
+root hash:581895963876287598	depth 202
+---
+PnDb
+Opponent: 9
+root hash:140393772811421988	depth 203
+---
+PnDb
+Opponent: 6
+root hash:-3273287651175224700	depth 204
+---
+PnDb
+Opponent: 6
+root hash:5160011698310124326	depth 205
+---
+PnDb
+Opponent: 12
+root hash:-8452199741279646284	depth 206
+---
+PnDb
+Opponent: 12
+root hash:-57299700251550784	depth 207
+---
+PnDb
+Opponent: 14
+root hash:2518276975174605759	depth 208
+---
+PnDb
+Opponent: 10
+root hash:3457204654436938529	depth 209
+---
+PnDb
+Opponent: 12
+root hash:8010609408229391852	depth 210
+---
+PnDb
+Opponent: 12
+root hash:-4332195460548340548	depth 211
+---
+PnDb
+Opponent: 18
+root hash:-7970146913864552675	depth 212
+---
+PnDb
+Opponent: 14
+root hash:3908334618916019265	depth 213
+---
+PnDb
+Opponent: 15
+root hash:2498433703782391339	depth 214
+---
+PnDb
+Opponent: 16
+root hash:-66625567637548003	depth 215
+---
+PnDb
+Opponent: 14
+root hash:7940726745612237969	depth 216
+---
+PnDb
+Opponent: 13
+root hash:3509360301838930297	depth 217
+---
+PnDb
+Opponent: 17
+root hash:-6780547275022372387	depth 218
+---
+PnDb
+Opponent: 17
+root hash:-2787335566885555664	depth 219
+---
+PnDb
+Opponent: 17
+root hash:2579399613868688736	depth 220
+---
+PnDb
+Opponent: 18
+root hash:-7648896427163620573	depth 221
+---
+PnDb
+Opponent: 13
+root hash:-1251131939251903434	depth 222
+---
+PnDb
+Opponent: 17
+root hash:341892201962808044	depth 223
+---
+PnDb
+Opponent: 7
+root hash:9118353571000265593	depth 224
+---
+PnDb
+Opponent: 19
+root hash:-6452122583754918230	depth 225
+---
+PnDb
+Opponent: 8
+root hash:-665617042804952064	depth 226
+---
+PnDb
+Opponent: 18
+root hash:6161634590654542974	depth 227
+---
+PnDb
+Opponent: 16
+root hash:2512810533971950235	depth 228
+---
+PnDb
+Opponent: 6
+root hash:5405201468312669618	depth 229
+---
+PnDb
+Opponent: 11
+root hash:2847903009409364989	depth 230
+---
+PnDb
+Opponent: 16
+root hash:5681517941677225671	depth 231
+---
+PnDb
+Opponent: 8
+root hash:8947188365630161005	depth 232
+---
+PnDb
+Opponent: 17
+root hash:-9138210984621018499	depth 233
+---
+PnDb
+Opponent: 12
+root hash:-4936614676967934472	depth 234
+---
+PnDb
+Opponent: 14
+root hash:-3574866679388605311	depth 235
+---
+PnDb
+Opponent: 6
+root hash:2204475345344771173	depth 236
+---
+PnDb
+Opponent: 12
+root hash:-7051175961358749187	depth 237
+---
+PnDb
+Opponent: 16
+root hash:1084517517812333081	depth 238
+---
+PnDb
+Opponent: 10
+root hash:-1368553433118130701	depth 239
+---
+PnDb
+Opponent: 17
+root hash:-1716726410765937202	depth 240
+---
+PnDb
+Opponent: 13
+root hash:-2381401439728170098	depth 241
+---
+PnDb
+Opponent: 6
+root hash:-2950175680279125320	depth 242
+---
+PnDb
+Opponent: 8
+root hash:-4847648867331217002	depth 243
+---
+PnDb
+Opponent: 17
+root hash:2372397720489556099	depth 244
+---
+PnDb
+Opponent: 8
+root hash:3013025845259580615	depth 245
+---
+PnDb
+Opponent: 11
+root hash:-287559216173510449	depth 246
+---
+PnDb
+Opponent: 9
+root hash:7844856164871358392	depth 247
+---
+PnDb
+Opponent: 9
+root hash:-8880168874215948751	depth 248
+---
+PnDb
+Opponent: 12
+root hash:781372822865970192	depth 249
+---
+PnDb
+Opponent: 16
+root hash:-8374330730872830818	depth 250
+---
+PnDb
+Opponent: 11
+root hash:-3640904489657506130	depth 251
+---
+PnDb
+Opponent: 10
+root hash:-7265860929189635597	depth 252
+---
+PnDb
+Opponent: 16
+root hash:3966543045884864604	depth 253
+---
+PnDb
+Opponent: 9
+root hash:6054825543728230642	depth 254
+---
+PnDb
+Opponent: 13
+root hash:4599383213697935566	depth 255
+---
+PnDb
+Opponent: 13
+root hash:3074082075828123175	depth 256
+---
+PnDb
+Opponent: 10
+root hash:2747646059323344378	depth 257
+---
+PnDb
+Opponent: 17
+root hash:7308812753830568744	depth 258
+---
+PnDb
+Opponent: 12
+root hash:-4459794749318547606	depth 259
+---
+PnDb
+Opponent: 18
+root hash:655705269901819994	depth 260
+---
+PnDb
+Opponent: 17
+root hash:3005775346818524126	depth 261
+---
+PnDb
+Opponent: 18
+root hash:4391158785804807588	depth 262
+---
+PnDb
+Opponent: 17
+root hash:9123208532751476924	depth 263
+---
+PnDb
+Opponent: 19
+root hash:-7048972920503745735	depth 264
+---
+PnDb
+Opponent: 16
+root hash:2661786446348152704	depth 265
+---
+PnDb
+Opponent: 13
+root hash:-3966055933444397537	depth 266
+---
+PnDb
+Opponent: 18
+root hash:1698828077445143036	depth 267
+---
+PnDb
+Opponent: 19
+root hash:8459603271753923950	depth 268
+---
+PnDb
+Opponent: 10
+root hash:6771119729632402410	depth 269
+---
+PnDb
+Opponent: 13
+root hash:8231259458045790226	depth 270
+---
+PnDb
+Opponent: 10
+root hash:3735494975097197563	depth 271
+---
+PnDb
+Opponent: 16
+root hash:497836899814392870	depth 272
+---
+PnDb
+Opponent: 18
+root hash:1149443546963461838	depth 273
+---
+PnDb
+Opponent: 16
+root hash:-7802020050385421319	depth 274
+---
+PnDb
+Opponent: 16
+root hash:-5185279723243350861	depth 275
+---
+PnDb
+Opponent: 19
+root hash:8261013684779686409	depth 276
+---
+PnDb
+Opponent: 10
+root hash:7552469730739155937	depth 277
+---
+PnDb
+Opponent: 13
+root hash:-6998830692027186768	depth 278
+---
+PnDb
+Opponent: 10
+root hash:-467106234934093619	depth 279
+---
+PnDb
+Opponent: 10
+root hash:4661994640785211707	depth 280
+---
+PnDb
+Opponent: 14
+root hash:5811168369415349463	depth 281
+---
+PnDb
+Opponent: 13
+root hash:6686130115915689829	depth 282
+---
+PnDb
+Opponent: 13
+root hash:-5063481613605984989	depth 283
+---
+PnDb
+Opponent: 12
+root hash:-8923879075703477332	depth 284
+---
+PnDb
+Opponent: 11
+root hash:8187638788720330490	depth 285
+---
+PnDb
+Opponent: 16
+root hash:632541900461506988	depth 286
+---
+PnDb
+Opponent: 16
+root hash:-1472687210473137046	depth 287
+---
+PnDb
+Opponent: 16
+root hash:705372326911230547	depth 288
+---
+PnDb
+Opponent: 10
+root hash:-5810504234562255248	depth 289
+---
+PnDb
+Opponent: 14
+root hash:1204336094484758737	depth 290
+---
+PnDb
+Opponent: 10
+root hash:8638550284594656765	depth 291
+---
+PnDb
+Opponent: 9
+root hash:-6315582914033136833	depth 292
+---
+PnDb
+Opponent: 9
+root hash:4771989273232106534	depth 293
+---
+PnDb
+Opponent: 12
+root hash:3205339968784686019	depth 294
+---
+PnDb
+Opponent: 13
+root hash:2245115234777059134	depth 295
+---
+PnDb
+Opponent: 15
+root hash:-5773177816659290893	depth 296
+---
+PnDb
+Opponent: 15
+root hash:-3340882164953044996	depth 297
+---
+PnDb
+Opponent: 15
+root hash:1122005801983493095	depth 298
+---
+PnDb
+Opponent: 19
+root hash:2581538848924668843	depth 299
+---
+PnDb
+Opponent: 15
+root hash:-5582882099298914712	depth 300
+---
+PnDb
+Opponent: 19
+root hash:-6850459249381423639	depth 301
+---
+PnDb
+Opponent: 15
+root hash:6184882975930973173	depth 302
+---
+PnDb
+Opponent: 14
+root hash:6639911754215571070	depth 303
+---
+PnDb
+Opponent: 14
+root hash:-5866690075303970073	depth 304
+---
+PnDb
+Opponent: 7
+root hash:1905445049433407628	depth 305
+---
+PnDb
+Opponent: 7
+root hash:6860659407209832320	depth 306
+---
+PnDb
+Opponent: 19
+root hash:-8226018060808773007	depth 307
+---
+PnDb
+Opponent: 15
+root hash:1637220934419584179	depth 308
+---
+PnDb
+Opponent: 19
+root hash:4336493112677895395	depth 309
+
+-_-
+START GAME
+-_-
+
+
+-_-
+START GAME
+-_-
+
+---
+PnDb
+Opponent: null
+root hash:0	depth 0
+---
+PnDb
+Opponent: 0
+root hash:4338628212238990212	depth 1
+---
+PnDb
+Opponent: 0
+root hash:-4330476316670371856	depth 2
+---
+PnDb
+Opponent: 12
+root hash:-2487816750308091433	depth 3
+---
+PnDb
+Opponent: 19
+root hash:-4853771795068351223	depth 4
+---
+PnDb
+Opponent: 0
+root hash:-7878439123456158884	depth 5
+---
+PnDb
+Opponent: 0
+root hash:-4549507293314264385	depth 6
+---
+PnDb
+Opponent: 11
+root hash:-6118931960269083389	depth 7
+---
+PnDb
+Opponent: 1
+root hash:8003832448857960506	depth 8
+---
+PnDb
+Opponent: 11
+root hash:8162808199906318492	depth 9
+---
+PnDb
+Opponent: 19
+root hash:-5408937415009465521	depth 10
+---
+PnDb
+Opponent: 2
+root hash:7885423414666658359	depth 11
+---
+PnDb
+Opponent: 3
+root hash:-262550261712496163	depth 12
+---
+PnDb
+Opponent: 13
+root hash:4500728215101202035	depth 13
+---
+PnDb
+Opponent: 14
+root hash:5959764051160812466	depth 14
+---
+PnDb
+Opponent: 0
+root hash:4448510958646659364	depth 15
+---
+PnDb
+Opponent: 0
+root hash:1562970322948939849	depth 16
+---
+PnDb
+Opponent: 9
+root hash:-2452914625146741338	depth 17
+---
+PnDb
+Opponent: 8
+root hash:8963668053760028180	depth 18
+---
+PnDb
+Opponent: 1
+root hash:-2094999034320278899	depth 19
+---
+PnDb
+Opponent: 1
+root hash:1931749899114275321	depth 20
+---
+PnDb
+Opponent: 2
+root hash:1040402183114133870	depth 21
+---
+PnDb
+Opponent: 19
+root hash:5367604091967498988	depth 22
+---
+PnDb
+Opponent: 0
+root hash:-1927021832701103566	depth 23
+---
+PnDb
+Opponent: 0
+root hash:-9070470970319039570	depth 24
+---
+PnDb
+Opponent: 1
+root hash:3743657475525108181	depth 25
+---
+PnDb
+Opponent: 19
+root hash:241124568417445808	depth 26
+---
+PnDb
+Opponent: 1
+root hash:172383577270897418	depth 27
+---
+PnDb
+Opponent: 19
+root hash:-4056960408235166300	depth 28
+---
+PnDb
+Opponent: 19
+root hash:-8134121414251023328	depth 29
+---
+PnDb
+Opponent: 19
+root hash:-2286715634178007285	depth 30
+---
+PnDb
+Opponent: 4
+root hash:-1453625690620493573	depth 31
+---
+PnDb
+Opponent: 19
+root hash:-1388411723225811904	depth 32
+---
+PnDb
+Opponent: 19
+root hash:-5164308784940153851	depth 33
+---
+PnDb
+Opponent: 6
+root hash:7831310528074064671	depth 34
+---
+PnDb
+Opponent: 19
+root hash:2005571638860598349	depth 35
+---
+PnDb
+Opponent: 3
+root hash:8038886194342539449	depth 36
+---
+PnDb
+Opponent: 3
+root hash:-7788761959840194516	depth 37
+---
+PnDb
+Opponent: 4
+root hash:619785586031156645	depth 38
+---
+PnDb
+Opponent: 19
+root hash:3551526995776776053	depth 39
+---
+PnDb
+Opponent: 2
+root hash:3697201094852364888	depth 40
+---
+PnDb
+Opponent: 2
+root hash:-6556348230815882796	depth 41
+---
+PnDb
+Opponent: 8
+root hash:-1290960710905463542	depth 42
+---
+PnDb
+Opponent: 0
+root hash:2493091800424004191	depth 43
+---
+PnDb
+Opponent: 2
+root hash:8770107474700974609	depth 44
+---
+PnDb
+Opponent: 7
+root hash:-7799331379073845377	depth 45
+---
+PnDb
+Opponent: 19
+root hash:3559895717706600600	depth 46
+---
+PnDb
+Opponent: 1
+root hash:7203550300130812608	depth 47
+---
+PnDb
+Opponent: 1
+root hash:-4970841097706154135	depth 48
+---
+PnDb
+Opponent: 1
+root hash:3447520859234815907	depth 49
+---
+PnDb
+Opponent: 3
+root hash:-8658735798392341839	depth 50
+---
+PnDb
+Opponent: 3
+root hash:-3134988959703896858	depth 51
+---
+PnDb
+Opponent: 0
+root hash:3944903003016139976	depth 52
+---
+PnDb
+Opponent: 4
+root hash:7687343865871187113	depth 53
+---
+PnDb
+Opponent: 3
+root hash:3066708006103599252	depth 54
+---
+PnDb
+Opponent: 3
+root hash:-6309645776780847557	depth 55
+---
+PnDb
+Opponent: 0
+root hash:-5557534044201450791	depth 56
+---
+PnDb
+Opponent: 0
+root hash:318310169988210583	depth 57
+---
+PnDb
+Opponent: 3
+root hash:6350368397927575014	depth 58
+---
+PnDb
+Opponent: 3
+root hash:-6085250910334239657	depth 59
+---
+PnDb
+Opponent: 0
+root hash:6329409170319529756	depth 60
+---
+PnDb
+Opponent: 0
+root hash:2151597186004850020	depth 61
+---
+PnDb
+Opponent: 3
+root hash:-2400228651955916036	depth 62
+---
+PnDb
+Opponent: 3
+root hash:7099893304991623247	depth 63
+---
+PnDb
+Opponent: 0
+root hash:-6132891476489688890	depth 64
+---
+PnDb
+Opponent: 0
+root hash:1951715652998265157	depth 65
+---
+PnDb
+Opponent: 3
+root hash:1531254789243078519	depth 66
+---
+PnDb
+Opponent: 3
+root hash:9033079984215930279	depth 67
+---
+PnDb
+Opponent: 0
+root hash:3086004777086753799	depth 68
+---
+PnDb
+Opponent: 0
+root hash:-7673413492167831981	depth 69
+---
+PnDb
+Opponent: 3
+root hash:858721661699596357	depth 70
+---
+PnDb
+Opponent: 2
+root hash:6705006072367498753	depth 71
+---
+PnDb
+Opponent: 1
+root hash:3205971800666559689	depth 72
+---
+PnDb
+Opponent: 10
+root hash:-1076330678620889858	depth 73
+---
+PnDb
+Opponent: 8
+root hash:-1042533598758520860	depth 74
+---
+PnDb
+Opponent: 8
+root hash:-4358060694405019107	depth 75
+---
+PnDb
+Opponent: 4
+root hash:6666212144216447781	depth 76
+---
+PnDb
+Opponent: 5
+root hash:2877884180701899799	depth 77
+---
+PnDb
+Opponent: 1
+root hash:4935164202075398860	depth 78
+---
+PnDb
+Opponent: 2
+root hash:7285992352841477801	depth 79
+---
+PnDb
+Opponent: 2
+root hash:-4178821832396003108	depth 80
+---
+PnDb
+Opponent: 3
+root hash:-7921042283526274372	depth 81
+---
+PnDb
+Opponent: 3
+root hash:6275784863577199355	depth 82
+---
+PnDb
+Opponent: 1
+root hash:-188271161845949513	depth 83
+---
+PnDb
+Opponent: 4
+root hash:4742210321406224573	depth 84
+---
+PnDb
+Opponent: 1
+root hash:3791531493178387844	depth 85
+---
+PnDb
+Opponent: 2
+root hash:-8082197863519517375	depth 86
+---
+PnDb
+Opponent: 1
+root hash:-723338713419048745	depth 87
+---
+PnDb
+Opponent: 4
+root hash:-1986112416316566989	depth 88
+---
+PnDb
+Opponent: 2
+root hash:2921676793302547636	depth 89
+---
+PnDb
+Opponent: 1
+root hash:4475611624743039071	depth 90
+---
+PnDb
+Opponent: 1
+root hash:-971658411888158119	depth 91
+---
+PnDb
+Opponent: 4
+root hash:4496184433146381031	depth 92
+---
+PnDb
+Opponent: 4
+root hash:-4999445392655543095	depth 93
+---
+PnDb
+Opponent: 1
+root hash:-2295093175793255902	depth 94
+---
+PnDb
+Opponent: 3
+root hash:-8170242682707754448	depth 95
+---
+PnDb
+Opponent: 3
+root hash:-2029392724254156048	depth 96
+---
+PnDb
+Opponent: 11
+root hash:6821676857850015699	depth 97
+---
+PnDb
+Opponent: 14
+root hash:1690338296758698927	depth 98
+---
+PnDb
+Opponent: 12
+root hash:2883546455854298792	depth 99
+---
+PnDb
+Opponent: 2
+root hash:-592743428693388784	depth 100
+---
+PnDb
+Opponent: 2
+root hash:-1697964998546979931	depth 101
+---
+PnDb
+Opponent: 1
+root hash:-1476715070949296912	depth 102
+---
+PnDb
+Opponent: 1
+root hash:-409214768036424371	depth 103
+---
+PnDb
+Opponent: 13
+root hash:1468551697681824694	depth 104
+---
+PnDb
+Opponent: 10
+root hash:2217115048931658709	depth 105
+---
+PnDb
+Opponent: 4
+root hash:-3682440002423493535	depth 106
+---
+PnDb
+Opponent: 6
+root hash:-2461220783611261075	depth 107
+---
+PnDb
+Opponent: 4
+root hash:-7709630558867703784	depth 108
+---
+PnDb
+Opponent: 4
+root hash:-8935449590233593503	depth 109
+---
+PnDb
+Opponent: 19
+root hash:-4896164632766880325	depth 110
+---
+PnDb
+Opponent: 8
+root hash:-1536606498537376147	depth 111
+---
+PnDb
+Opponent: 8
+root hash:-8599944356984910734	depth 112
+---
+PnDb
+Opponent: 5
+root hash:1785610321804378711	depth 113
+---
+PnDb
+Opponent: 15
+root hash:-4585629499811504259	depth 114
+---
+PnDb
+Opponent: 2
+root hash:-5857304811873757834	depth 115
+---
+PnDb
+Opponent: 2
+root hash:-1671053282587853016	depth 116
+---
+PnDb
+Opponent: 13
+root hash:2224920373361849517	depth 117
+---
+PnDb
+Opponent: 19
+root hash:-8006241046310214839	depth 118
+---
+PnDb
+Opponent: 2
+root hash:1613146137621482760	depth 119
+---
+PnDb
+Opponent: 15
+root hash:6386640187483038625	depth 120
+---
+PnDb
+Opponent: 15
+root hash:5082911930343399984	depth 121
+---
+PnDb
+Opponent: 16
+root hash:5343367016846136897	depth 122
+---
+PnDb
+Opponent: 10
+root hash:-7733270705629331513	depth 123
+---
+PnDb
+Opponent: 14
+root hash:3845083035473271848	depth 124
+---
+PnDb
+Opponent: 2
+root hash:700991221501699997	depth 125
+---
+PnDb
+Opponent: 16
+root hash:-9129650666831299184	depth 126
+---
+PnDb
+Opponent: 10
+root hash:3465574835616453373	depth 127
+---
+PnDb
+Opponent: 2
+root hash:1468583960689904039	depth 128
+---
+PnDb
+Opponent: 10
+root hash:-2403702521258850410	depth 129
+---
+PnDb
+Opponent: 10
+root hash:4410577600394555313	depth 130
+---
+PnDb
+Opponent: 11
+root hash:8915195725672592678	depth 131
+---
+PnDb
+Opponent: 2
+root hash:-6676684247698071618	depth 132
+---
+PnDb
+Opponent: 11
+root hash:2337652741731697571	depth 133
+---
+PnDb
+Opponent: 11
+root hash:-8296398183359522480	depth 134
+---
+PnDb
+Opponent: 7
+root hash:681337651449506867	depth 135
+---
+PnDb
+Opponent: 18
+root hash:5716232346413264574	depth 136
+---
+PnDb
+Opponent: 12
+root hash:-8547490138048682240	depth 137
+---
+PnDb
+Opponent: 18
+root hash:-5750135180521492150	depth 138
+---
+PnDb
+Opponent: 13
+root hash:-5410056567667692859	depth 139
+---
+PnDb
+Opponent: 13
+root hash:-5104786076438889767	depth 140
+---
+PnDb
+Opponent: 12
+root hash:3128403499935473456	depth 141
+---
+PnDb
+Opponent: 13
+root hash:9092816133759815748	depth 142
+---
+PnDb
+Opponent: 14
+root hash:2277472282232155829	depth 143
+---
+PnDb
+Opponent: 4
+root hash:-478098906083641208	depth 144
+---
+PnDb
+Opponent: 9
+root hash:-301131896507304162	depth 145
+---
+PnDb
+Opponent: 17
+root hash:8790654409489519623	depth 146
+---
+PnDb
+Opponent: 17
+root hash:-393868394185436143	depth 147
+---
+PnDb
+Opponent: 19
+root hash:-4895278106275502894	depth 148
+---
+PnDb
+Opponent: 16
+root hash:-8570561808085189117	depth 149
+---
+PnDb
+Opponent: 16
+root hash:3331576721839009742	depth 150
+---
+PnDb
+Opponent: 16
+root hash:-7275227564182420757	depth 151
+---
+PnDb
+Opponent: 19
+root hash:7693821311868971361	depth 152
+---
+PnDb
+Opponent: 19
+root hash:-5347855331874299868	depth 153
+---
+PnDb
+Opponent: 19
+root hash:8911145953794940165	depth 154
+---
+PnDb
+Opponent: 12
+root hash:3494843247707839444	depth 155
+---
+PnDb
+Opponent: 12
+root hash:5700423085346581734	depth 156
+---
+PnDb
+Opponent: 16
+root hash:-7345815398148373092	depth 157
+---
+PnDb
+Opponent: 17
+root hash:5674895192705114466	depth 158
+---
+PnDb
+Opponent: 7
+root hash:4291503338233021372	depth 159
+---
+PnDb
+Opponent: 4
+root hash:4754610376566085729	depth 160
+---
+PnDb
+Opponent: 4
+root hash:6329162716609293702	depth 161
+---
+PnDb
+Opponent: 4
+root hash:4601295870790060936	depth 162
+---
+PnDb
+Opponent: 6
+root hash:-2558831173563349524	depth 163
+---
+PnDb
+Opponent: 5
+root hash:5266863374922558979	depth 164
+---
+PnDb
+Opponent: 7
+root hash:-3327350109361252122	depth 165
+---
+PnDb
+Opponent: 7
+root hash:1419502842679221024	depth 166
+---
+PnDb
+Opponent: 7
+root hash:7441741737809639008	depth 167
+---
+PnDb
+Opponent: 6
+root hash:7093431912722910570	depth 168
+---
+PnDb
+Opponent: 9
+root hash:-6277106747666451296	depth 169
+---
+PnDb
+Opponent: 9
+root hash:2679652412975568217	depth 170
+---
+PnDb
+Opponent: 6
+root hash:6630066840991528221	depth 171
+---
+PnDb
+Opponent: 9
+root hash:6044173368043007288	depth 172
+---
+PnDb
+Opponent: 10
+root hash:-7219569805169879851	depth 173
+---
+PnDb
+Opponent: 9
+root hash:-2927037841073970373	depth 174
+---
+PnDb
+Opponent: 9
+root hash:-6333533133721653520	depth 175
+---
+PnDb
+Opponent: 17
+root hash:7548564757495547638	depth 176
+---
+PnDb
+Opponent: 8
+root hash:8149162252158057465	depth 177
+---
+PnDb
+Opponent: 11
+root hash:-2935347155696392495	depth 178
+---
+PnDb
+Opponent: 5
+root hash:-4928773487082261155	depth 179
+---
+PnDb
+Opponent: 9
+root hash:327666919162412649	depth 180
+---
+PnDb
+Opponent: 4
+root hash:-5263000822667483071	depth 181
+---
+PnDb
+Opponent: 7
+root hash:6791886472701308172	depth 182
+---
+PnDb
+Opponent: 5
+root hash:6424268115217300750	depth 183
+---
+PnDb
+Opponent: 6
+root hash:5750870676091637488	depth 184
+---
+PnDb
+Opponent: 8
+root hash:-4698565123290997890	depth 185
+---
+PnDb
+Opponent: 7
+root hash:-4826789211506771373	depth 186
+---
+PnDb
+Opponent: 6
+root hash:1135663758747373835	depth 187
+---
+PnDb
+Opponent: 6
+root hash:-3616314303866250664	depth 188
+---
+PnDb
+Opponent: 6
+root hash:-8077150144827612941	depth 189
+---
+PnDb
+Opponent: 5
+root hash:3955287446114553610	depth 190
+---
+PnDb
+Opponent: 4
+root hash:63960755889930141	depth 191
+---
+PnDb
+Opponent: 5
+root hash:-1400130814047616433	depth 192
+---
+PnDb
+Opponent: 9
+root hash:-6061553281702462421	depth 193
+---
+PnDb
+Opponent: 16
+root hash:-3265756281129371454	depth 194
+---
+PnDb
+Opponent: 9
+root hash:5526254686891993827	depth 195
+---
+PnDb
+Opponent: 17
+root hash:1498075419087661269	depth 196
+---
+PnDb
+Opponent: 10
+root hash:5475372805112217053	depth 197
+---
+PnDb
+Opponent: 7
+root hash:5215061444891518275	depth 198
+---
+PnDb
+Opponent: 6
+root hash:7965235060238554660	depth 199
+---
+PnDb
+Opponent: 9
+root hash:-1724866838046489830	depth 200
+---
+PnDb
+Opponent: 4
+root hash:-7712052009319637608	depth 201
+---
+PnDb
+Opponent: 16
+root hash:5592861530720124587	depth 202
+---
+PnDb
+Opponent: 17
+root hash:-9084306491165640611	depth 203
+---
+PnDb
+Opponent: 6
+root hash:-2059734116740695417	depth 204
+---
+PnDb
+Opponent: 17
+root hash:-8756136095054497792	depth 205
+---
+PnDb
+Opponent: 14
+root hash:6070970882089920973	depth 206
+---
+PnDb
+Opponent: 14
+root hash:-2042003897186567206	depth 207
+---
+PnDb
+Opponent: 12
+root hash:8648809724203899821	depth 208
+---
+PnDb
+Opponent: 10
+root hash:6446144015563065995	depth 209
+---
+PnDb
+Opponent: 14
+root hash:-6634232928180802883	depth 210
+---
+PnDb
+Opponent: 10
+root hash:-8853305251628938485	depth 211
+---
+PnDb
+Opponent: 10
+root hash:-2790111645606574379	depth 212
+---
+PnDb
+Opponent: 7
+root hash:427212823859151760	depth 213
+---
+PnDb
+Opponent: 10
+root hash:8449875110546956631	depth 214
+---
+PnDb
+Opponent: 15
+root hash:-8045594603445363010	depth 215
+---
+PnDb
+Opponent: 15
+root hash:8301307656376368378	depth 216
+---
+PnDb
+Opponent: 7
+root hash:-1826881787070548208	depth 217
+---
+PnDb
+Opponent: 11
+root hash:-5262327706963338374	depth 218
+---
+PnDb
+Opponent: 5
+root hash:-4673640593501516016	depth 219
+---
+PnDb
+Opponent: 5
+root hash:1107228169985602017	depth 220
+---
+PnDb
+Opponent: 11
+root hash:2061258544314502981	depth 221
+---
+PnDb
+Opponent: 5
+root hash:9185351988038702820	depth 222
+---
+PnDb
+Opponent: 5
+root hash:-8999789251994152760	depth 223
+---
+PnDb
+Opponent: 7
+root hash:6174638258145205038	depth 224
+---
+PnDb
+Opponent: 6
+root hash:-2772571953612295222	depth 225
+---
+PnDb
+Opponent: 11
+root hash:5964212693249487721	depth 226
+---
+PnDb
+Opponent: 5
+root hash:7099147917296506321	depth 227
+---
+PnDb
+Opponent: 5
+root hash:8424548008185807275	depth 228
+---
+PnDb
+Opponent: 9
+root hash:919551511645938547	depth 229
+---
+PnDb
+Opponent: 6
+root hash:5799791635224616951	depth 230
+---
+PnDb
+Opponent: 5
+root hash:-6761548048479572545	depth 231
+---
+PnDb
+Opponent: 6
+root hash:-1243709158464574563	depth 232
+---
+PnDb
+Opponent: 5
+root hash:1625051572267903956	depth 233
+---
+PnDb
+Opponent: 11
+root hash:4220755785948244331	depth 234
+---
+PnDb
+Opponent: 7
+root hash:-8642456731459188524	depth 235
+---
+PnDb
+Opponent: 12
+root hash:-3316623698334627413	depth 236
+---
+PnDb
+Opponent: 7
+root hash:4055503097110102136	depth 237
+---
+PnDb
+Opponent: 17
+root hash:3450514600312832430	depth 238
+---
+PnDb
+Opponent: 10
+root hash:7629050371338427763	depth 239
+---
+PnDb
+Opponent: 17
+root hash:8221435928209990607	depth 240
+---
+PnDb
+Opponent: 7
+root hash:-3364853922499482157	depth 241
+---
+PnDb
+Opponent: 17
+root hash:2295613836883302601	depth 242
+---
+PnDb
+Opponent: 17
+root hash:8080327794610540862	depth 243
+---
+PnDb
+Opponent: 16
+root hash:-6388986856741316741	depth 244
+---
+PnDb
+Opponent: 17
+root hash:-1144131369946563959	depth 245
+---
+PnDb
+Opponent: 13
+root hash:2988733111159111375	depth 246
+---
+PnDb
+Opponent: 13
+root hash:-1633417057700579771	depth 247
+---
+PnDb
+Opponent: 13
+root hash:8103997855939881410	depth 248
+---
+PnDb
+Opponent: 6
+root hash:8331290347517636033	depth 249
+---
+PnDb
+Opponent: 8
+root hash:4305779470797182006	depth 250
+---
+PnDb
+Opponent: 8
+root hash:6294278811092538352	depth 251
+---
+PnDb
+Opponent: 6
+root hash:-1128037978556889211	depth 252
+---
+PnDb
+Opponent: 18
+root hash:-6847354033740938059	depth 253
+---
+PnDb
+Opponent: 8
+root hash:7429671533430297659	depth 254
+---
+PnDb
+Opponent: 13
+root hash:3101717716222438846	depth 255
+---
+PnDb
+Opponent: 17
+root hash:-7888120487298462229	depth 256
+---
+PnDb
+Opponent: 12
+root hash:-8669267658820247462	depth 257
+---
+PnDb
+Opponent: 13
+root hash:838368937817344097	depth 258
+---
+PnDb
+Opponent: 14
+root hash:-764804647914622940	depth 259
+---
+PnDb
+Opponent: 16
+root hash:-5621727411354188282	depth 260
+---
+PnDb
+Opponent: 12
+root hash:5064910148200994298	depth 261
+---
+PnDb
+Opponent: 16
+root hash:4555289963014224807	depth 262
+---
+PnDb
+Opponent: 5
+root hash:4174705321110896459	depth 263
+---
+PnDb
+Opponent: 18
+root hash:8509594797820446471	depth 264
+---
+PnDb
+Opponent: 16
+root hash:7758461516598787988	depth 265
+---
+PnDb
+Opponent: 18
+root hash:1362307666661842505	depth 266
+---
+PnDb
+Opponent: 7
+root hash:-2741833202693963037	depth 267
+---
+PnDb
+Opponent: 15
+root hash:3006719056303198352	depth 268
+---
+PnDb
+Opponent: 6
+root hash:7494721039725656929	depth 269
+---
+PnDb
+Opponent: 7
+root hash:247303729017209405	depth 270
+---
+PnDb
+Opponent: 11
+root hash:3184315770723367878	depth 271
+---
+PnDb
+Opponent: 10
+root hash:-6623489675181030052	depth 272
+---
+PnDb
+Opponent: 12
+root hash:-7491904490951858004	depth 273
+---
+PnDb
+Opponent: 12
+root hash:-82883777791592720	depth 274
+---
+PnDb
+Opponent: 9
+root hash:-3365783075859082827	depth 275
+---
+PnDb
+Opponent: 12
+root hash:1941117311174031005	depth 276
+---
+PnDb
+Opponent: 9
+root hash:1157824355627471	depth 277
+---
+PnDb
+Opponent: 9
+root hash:2303494367010253862	depth 278
+---
+PnDb
+Opponent: 8
+root hash:-7139910065115762906	depth 279
+---
+PnDb
+Opponent: 17
+root hash:-1944708072288168342	depth 280
+---
+PnDb
+Opponent: 14
+root hash:8917430389435743412	depth 281
+---
+PnDb
+Opponent: 6
+root hash:-5735166895724405844	depth 282
+---
+PnDb
+Opponent: 8
+root hash:1365315620139923417	depth 283
+---
+PnDb
+Opponent: 11
+root hash:2917931505301115535	depth 284
+---
+PnDb
+Opponent: 8
+root hash:-4374412967009109071	depth 285
+---
+PnDb
+Opponent: 8
+root hash:7635470983435487131	depth 286
+---
+PnDb
+Opponent: 8
+root hash:-1576438499842368926	depth 287
+---
+PnDb
+Opponent: 14
+root hash:-4429364523825987744	depth 288
+---
+PnDb
+Opponent: 5
+root hash:3586081248812503044	depth 289
+---
+PnDb
+Opponent: 17
+root hash:2902700488151428127	depth 290
+---
+PnDb
+Opponent: 12
+root hash:1861183134391610616	depth 291
+---
+PnDb
+Opponent: 18
+root hash:9007822383067962376	depth 292
+---
+PnDb
+Opponent: 18
+root hash:-8392340381186897218	depth 293
+---
+PnDb
+Opponent: 12
+root hash:-7027245870112342408	depth 294
+---
+PnDb
+Opponent: 9
+root hash:-6392861849066204621	depth 295
+---
+PnDb
+Opponent: 12
+root hash:1809244492558123006	depth 296
+---
+PnDb
+Opponent: 14
+root hash:-8253581740893776312	depth 297
+---
+PnDb
+Opponent: 13
+root hash:-5665119764695257364	depth 298
+---
+PnDb
+Opponent: 13
+root hash:-1620758031518556226	depth 299
+---
+PnDb
+Opponent: 9
+root hash:5048153174798171019	depth 300
+---
+PnDb
+Opponent: 17
+root hash:2352698835583119218	depth 301
+---
+PnDb
+Opponent: 16
+root hash:-4671808666909570559	depth 302
+---
+PnDb
+Opponent: 11
+root hash:-5215049002045761287	depth 303
+---
+PnDb
+Opponent: 14
+root hash:546267825017596757	depth 304
+---
+PnDb
+Opponent: 10
+root hash:-6796182341682848383	depth 305
+---
+PnDb
+Opponent: 10
+root hash:-681099756442492474	depth 306
+---
+PnDb
+Opponent: 16
+root hash:-3465914271682156222	depth 307
+---
+PnDb
+Opponent: 7
+root hash:-5411946617116787550	depth 308
+---
+PnDb
+Opponent: 14
+root hash:-6508047315720543058	depth 309
+---
+PnDb
+Opponent: 5
+root hash:-7328402041180098890	depth 310
+---
+PnDb
+Opponent: 16
+root hash:-1383160320219156399	depth 311
+---
+PnDb
+Opponent: 10
+root hash:5617464657651785680	depth 312
+---
+PnDb
+Opponent: 8
+root hash:-7700984337286818388	depth 313
+---
+PnDb
+Opponent: 8
+root hash:-2316327377382411374	depth 314
+---
+PnDb
+Opponent: 12
+root hash:-4201941679165251730	depth 315
+---
+PnDb
+Opponent: 12
+root hash:-2394703485824730394	depth 316
+---
+PnDb
+Opponent: 10
+root hash:-6962856835639795547	depth 317
+---
+PnDb
+Opponent: 9
+root hash:5222410997205066497	depth 318
+---
+PnDb
+Opponent: 16
+root hash:-3813516771506376192	depth 319
+---
+PnDb
+Opponent: 18
+root hash:4969417228364693332	depth 320
+---
+PnDb
+Opponent: 11
+root hash:-5199988793251395192	depth 321
+---
+PnDb
+Opponent: 18
+root hash:-6814374442137235159	depth 322
+---
+PnDb
+Opponent: 13
+root hash:-7509807965336668634	depth 323
+---
+PnDb
+Opponent: 18
+root hash:-7739056258321720651	depth 324
+---
+PnDb
+Opponent: 18
+root hash:-1248999608998824103	depth 325
+---
+PnDb
+Opponent: 13
+root hash:-1594033446277892268	depth 326
+---
+PnDb
+Opponent: 14
+root hash:-3371848584255395463	depth 327
+---
+PnDb
+Opponent: 13
+root hash:7525029642864983527	depth 328
+---
+PnDb
+Opponent: 14
+root hash:5162013169839997053	depth 329
+---
+PnDb
+Opponent: 11
+root hash:1131887358267155142	depth 330
+---
+PnDb
+Opponent: 13
+root hash:3580213834672044185	depth 331
+---
+PnDb
+Opponent: 18
+root hash:7658800655664510828	depth 332
+---
+PnDb
+Opponent: 11
+root hash:7044383163296634731	depth 333
+---
+PnDb
+Opponent: 18
+root hash:1836481631168995873	depth 334
+---
+PnDb
+Opponent: 16
+root hash:7857832559634444722	depth 335
+---
+PnDb
+Opponent: 18
+root hash:816955042648114642	depth 336
+---
+PnDb
+Opponent: 17
+root hash:-2557412150134760495	depth 337
+---
+PnDb
+Opponent: 16
+root hash:2614039309227616088	depth 338
+---
+PnDb
+Opponent: 13
+root hash:184812965236872321	depth 339
+---
+PnDb
+Opponent: 18
+root hash:-2690248625890894447	depth 340
+---
+PnDb
+Opponent: 11
+root hash:3739685138804268383	depth 341
+---
+PnDb
+Opponent: 18
+root hash:-2084599258607874140	depth 342
+---
+PnDb
+Opponent: 17
+root hash:-7618135627546533133	depth 343
+---
+PnDb
+Opponent: 18
+root hash:6042044362076052631	depth 344
+---
+PnDb
+Opponent: 18
+root hash:-6472322531192693731	depth 345
+---
+PnDb
+Opponent: 14
+root hash:-1930684524481309214	depth 346
+---
+PnDb
+Opponent: 14
+root hash:-231302755907628648	depth 347
+---
+PnDb
+Opponent: 14
+root hash:-701201283303369149	depth 348
+---
+PnDb
+Opponent: 15
+root hash:-2174214847003808022	depth 349
+---
+PnDb
+Opponent: 15
+root hash:6989825530700372930	depth 350
+---
+PnDb
+Opponent: 15
+root hash:1765447566438460565	depth 351
+---
+PnDb
+Opponent: 15
+root hash:-7237086060004646254	depth 352
+---
+PnDb
+Opponent: 15
+root hash:7631326503438916397	depth 353
+---
+PnDb
+Opponent: 15
+root hash:-341951980108933377	depth 354
+---
+PnDb
+Opponent: 15
+root hash:-414946143215972508	depth 355
+---
+PnDb
+Opponent: 15
+root hash:-2565319914755854441	depth 356
+---
+PnDb
+Opponent: 15
+root hash:-4269492845070148309	depth 357
+---
+PnDb
+Opponent: 15
+root hash:-7451989724771985755	depth 358
+PnDb Score: 3 Won: 1 Lost: 2 Draw: 0 Error: 0
+PnDb Score: 6 Won: 2 Lost: 1 Draw: 0 Error: 0
+#!/bin/bash
+
+if [[ $# < 1 ]]
+then
+	echo "missing args"
+	exit 1
+fi
+
+
+_OUTDIR="debug/match/final"
+OUTDIR="${_OUTDIR}/$1"
+TESTS="7"
+
+mkdir ${_OUTDIR}
+mkdir ${OUTDIR}
+
+./lcompile
+
+
+# pndb2 dnull: 9,9,5*7 - 18,20,7*7 - 38,58,12*3 - 70,47,11*2 - 100,100,30*2
+# delta dnull: 9,9,5*7 - 18,20,7*7 - 38,58,12*3 - 70,47,11*2 - 100,100,30*2
+# pndb2 xcono: 9,9,5*7 - 18,20,7*7 - 38,58,12*3 - 70,47,11*2 - 100,100,30*2
+
+# pndb pndb2: 9,9,5*3 - 18,20,7*3
+# pndb pndbtime: 18,20,7*3
+# pndb2 alpha: 9,9,5*3 - 18,20,7*3
+# pndb2 betha: 9,9,5*3 - 18,20,7*3
+
+
+
+./ltest 9 9 5		pndb2.PnSearch pndbg.dnull.PnSearch				-r 7 > ${OUTDIR}/pndb2_dnull_995.txt
+cat scripts/testcases_final.sh >> ${OUTDIR}/pndb2_dnull_995.txt
+
+./ltest 9 9 5		pndbg.delta.PnSearch pndbg.dnull.PnSearch		-r 7 > ${OUTDIR}/delta_dnull_995.txt
+cat scripts/testcases_final.sh >> ${OUTDIR}/delta_dnull_995.txt
+
+./ltest 9 9 5		pndb2.PnSearch LXCONO.LXMARGIN.LXMARGIN			-r 7 > ${OUTDIR}/pndb2_xcono_995.txt
+cat scripts/testcases_final.sh >> ${OUTDIR}/pndb2_xcono_995.txt
+
+./ltest 9 9 5		pndb.PnSearch pndb2.PnSearch					-r 3 > ${OUTDIR}/pndb_pndb2_995.txt
+cat scripts/testcases_final.sh >> ${OUTDIR}/pndb_pndb2_995.txt
+
+./ltest 9 9 5		pndb2.PnSearch pndbg.alpha.Player				-r 3 > ${OUTDIR}/pndb2_alpha_995.txt
+cat scripts/testcases_final.sh >> ${OUTDIR}/pndb2_alpha_995.txt
+
+./ltest 9 9 5		pndb2.PnSearch pndbg.betha.Player				-r 3 > ${OUTDIR}/pndb2_betha_995.txt
+cat scripts/testcases_final.sh >> ${OUTDIR}/pndb2_betha_995.txt
+
+
+./ltest 18 20 7		pndb2.PnSearch pndbg.dnull.PnSearch				-r 7 > ${OUTDIR}/pndb2_dnull_18207.txt
+cat scripts/testcases_final.sh >> ${OUTDIR}/pndb2_dnull_18207.txt
+
+./ltest 18 20 7		pndbg.delta.PnSearch pndbg.dnull.PnSearch		-r 7 > ${OUTDIR}/delta_dnull_18207.txt
+cat scripts/testcases_final.sh >> ${OUTDIR}/delta_dnull_18207.txt
+
+./ltest 18 20 7		pndb2.PnSearch LXCONO.LXMARGIN.LXMARGIN			-r 7 > ${OUTDIR}/pndb2_xcono_18207.txt
+cat scripts/testcases_final.sh >> ${OUTDIR}/pndb2_xcono_18207.txt
+
+./ltest 18 20 7		pndb.PnSearch pndb2.PnSearch					-r 3 > ${OUTDIR}/pndb_pndb2_18207.txt
+cat scripts/testcases_final.sh >> ${OUTDIR}/pndb_pndb2_18207.txt
+
+./ltest 18 20 7		pndb.PnSearch pndbtime.PnSearch					-r 3 > ${OUTDIR}/pndb_pndbtime_18207.txt
+cat scripts/testcases_final.sh >> ${OUTDIR}/pndb_pndbtime_18207.txt
+
+./ltest 18 20 7		pndb2.PnSearch pndbg.alpha.Player				-r 3 > ${OUTDIR}/pndb2_alpha_18207.txt
+cat scripts/testcases_final.sh >> ${OUTDIR}/pndb2_alpha_18207.txt
+
+./ltest 18 20 7		pndb2.PnSearch pndbg.betha.Player				-r 3 > ${OUTDIR}/pndb2_betha_18207.txt
+cat scripts/testcases_final.sh >> ${OUTDIR}/pndb2_betha_18207.txt
+
+
+./ltest 38 58 12		pndb2.PnSearch pndbg.dnull.PnSearch				-r 3 > ${OUTDIR}/pndb2_dnull_385812.txt
+cat scripts/testcases_final.sh >> ${OUTDIR}/pndb2_dnull_385812.txt
+
+./ltest 38 58 12		pndbg.delta.PnSearch pndbg.dnull.PnSearch		-r 3 > ${OUTDIR}/delta_dnull_385812.txt
+cat scripts/testcases_final.sh >> ${OUTDIR}/delta_dnull_385812.txt
+
+./ltest 38 58 12		pndb2.PnSearch LXCONO.LXMARGIN.LXMARGIN			-r 3 > ${OUTDIR}/pndb2_xcono_385812.txt
+cat scripts/testcases_final.sh >> ${OUTDIR}/pndb2_xcono_385812.txt
+
+
+./ltest 70 47 11		pndb2.PnSearch pndbg.dnull.PnSearch				-r 2 > ${OUTDIR}/pndb2_dnull_704711.txt
+cat scripts/testcases_final.sh >> ${OUTDIR}/pndb2_dnull_704711.txt
+
+./ltest 70 47 11		pndbg.delta.PnSearch pndbg.dnull.PnSearch		-r 2 > ${OUTDIR}/delta_dnull_704711.txt
+cat scripts/testcases_final.sh >> ${OUTDIR}/delta_dnull_704711.txt
+
+./ltest 70 47 11		pndb2.PnSearch LXCONO.LXMARGIN.LXMARGIN			-r 2 > ${OUTDIR}/pndb2_xcono_704711.txt
+cat scripts/testcases_final.sh >> ${OUTDIR}/pndb2_xcono_704711.txt
+
+
+./ltest 100 100 30		pndb2.PnSearch pndbg.dnull.PnSearch				-r 2 > ${OUTDIR}/pndb2_dnull_10010030.txt
+cat scripts/testcases_final.sh >> ${OUTDIR}/pndb2_dnull_10010030.txt
+
+./ltest 100 100 30		pndbg.delta.PnSearch pndbg.dnull.PnSearch		-r 2 > ${OUTDIR}/delta_dnull_10010030.txt
+cat scripts/testcases_final.sh >> ${OUTDIR}/delta_dnull_10010030.txt
+
+./ltest 100 100 30		pndb2.PnSearch LXCONO.LXMARGIN.LXMARGIN			-r 2 > ${OUTDIR}/pndb2_xcono_10010030.txt
+cat scripts/testcases_final.sh >> ${OUTDIR}/pndb2_xcono_10010030.txt
+
+
+
