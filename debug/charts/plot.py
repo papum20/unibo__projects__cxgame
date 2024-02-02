@@ -24,7 +24,7 @@ CONFIGS_MAX_TURNS = {
 def process_file(filename):
 	player_data = {}
 	current_player = None
-	turn_count = 0
+	turn_count = -1
 	max_turns = 0
 	game_started = False
 
@@ -34,19 +34,24 @@ def process_file(filename):
 		# Iterate through lines, handling multiple games, blank lines, and "Score" ending
 		i = 0
 		while i < len(lines):
+
+			# Skip blank lines 
+			while i < len(lines) and not lines[i].strip():
+				i += 1
+			if i == len(lines):
+				break
+
 			if lines[i].strip() == "-_-" and lines[i + 1].strip() == "START GAME" and lines[i + 2].strip() == "-_-":
 				if game_started:
 					# New game found, reset data for the previous game
 					player_data = {}
 					current_player = None
-					turn_count = 0
+					turn_count = -1
 				game_started = True  # Set game_started to True
 				max_turns = extract_max_turns(filename)
 
-			# Skip blank lines until finding a player name
+			# finding a player name
 			if game_started:
-				while i < len(lines) and not lines[i].strip():
-					i += 1
 				if i < len(lines) and lines[i].strip().startswith("PnDb"):
 					current_player = f'{extract_player_name(lines[i])}_{str(max_turns)}'
 
@@ -58,7 +63,7 @@ def process_file(filename):
 				elif "#!/bin/bash" in lines[i]:  # Check for any mention of "#!/bin/bash"
 					game_started = False  # End game processing
 				else:
-					extract_data(lines[i], player_data, current_player, turn_count, max_turns)
+					extract_data(lines[i], player_data, current_player, turn_count, max_turns, filename)
 
 			i += 1
 
@@ -89,10 +94,16 @@ def extract_player_name(line):
 			return player_names[name]
 	return None
 
-def extract_data(line, player_data, player, turn_count, max_turns):
+def extract_data(line, player_data, player, turn_count, max_turns, filename):
 	for label in ["loops_n", "n_loops", "depth_rel_max", "dag_n", "proved_n", "created_n"]:
 		match = re.search(rf"\b{label}\s*[=:]\s*(\d+)\b", line)
 		if match:
+
+			# skip corrupted data
+			print(label, filename)
+			if label == "depth_rel_max" and not '2/' in filename:
+				continue
+			
 			value = int(match.group(1))
 			#percentage = turn_count / (70*74)
 			percentage = turn_count / max_turns
@@ -151,7 +162,7 @@ def create_charts_by_max_turns(data):
 		plt.figure(figsize=(10, 6))
 		i = 1
 		for player, player_data in chart_data.items():
-			plt.subplot(1, 2, i)
+			plt.subplot(1, 3, i)
 			labels = [f'{player}-proved_n', f'{player}-created_n/10']
 			plt.stackplot(
 				[i for i in range(101)],
@@ -163,7 +174,7 @@ def create_charts_by_max_turns(data):
 			#	plt.plot(avgs.keys(), avgs.values(), label=player)
 			#elif player != "pndb": #pndb has corrupted values
 			#plt.plot(avgs.keys(), avgs.values(), label=player)
-			plt.plot([i for i in range(101)], player_data['dag_n'].values(), label=f'{player}-dag_n')
+			plt.semilogy([i for i in range(101)], player_data['dag_n'].values(), label=f'{player}-dag_n')
 			plt.legend()
 			i += 1
 		plt.xlabel("percentage of game completed turn/max_turns")
@@ -179,7 +190,8 @@ def main():
 			if filename.endswith(".txt"):
 				#print(os.path.join(root, filename))
 				file_data = process_file(os.path.join(root, filename))
-				#print(file_data)
+				print(os.path.join(root, filename))
+				print(file_data)
 				merge_data(data, file_data)
 				merge_data_half(data_half, file_data)
 

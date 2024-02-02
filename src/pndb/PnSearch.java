@@ -293,7 +293,7 @@ public class PnSearch implements CXPlayer {
 				pruneTrees(boards_to_prune);
 			}
 
-			// if(PRINT_ON) System.out.println("loops_n =\t" + loops_n + "\tdepth_max =\t" + depth_max + "\tdepth_rel_max =\r" + (depth_max - root.depth) + "\n");
+			// if(PRINT_ON) System.out.println("loops_n =\t" + loops_n + "\tdepth_max =\t" + depth_max + "\tdepth_rel_max =\t" + (depth_max - root.depth) + "\n");
 		}
 
 		/**

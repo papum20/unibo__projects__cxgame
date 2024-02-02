@@ -35,7 +35,7 @@ root hash:-5776298546764750298	depth 1
 ..........o.........
 
 
-loops_n =	116452	depth_max =	6	depth_rel_max =5
+loops_n =	116452	depth_max =	6	depth_rel_max = 5
 
 root eval null
 dag_n = 995938	proved_n = 0	created_n = 995938
@@ -74,7 +74,7 @@ o...................
 x.........o.........
 
 
-loops_n =	112507	depth_max =	8	depth_rel_max =5
+loops_n =	112507	depth_max =	8	depth_rel_max = 5
 
 root eval null
 dag_n = 1062788	proved_n = 0	created_n = 2001890
@@ -113,7 +113,7 @@ o...................
 xx........o.........
 
 
-loops_n =	113880	depth_max =	10	depth_rel_max =5
+loops_n =	113880	depth_max =	10	depth_rel_max = 5
 
 root eval null
 dag_n = 1123956	proved_n = 0	created_n = 3094971
@@ -152,7 +152,7 @@ o...................
 xx.....x..o.........
 
 
-loops_n =	109003	depth_max =	12	depth_rel_max =5
+loops_n =	109003	depth_max =	12	depth_rel_max = 5
 
 root eval null
 dag_n = 1084054	proved_n = 0	created_n = 4141322
@@ -191,7 +191,7 @@ o...................
 xxx....x..o.........
 
 
-loops_n =	98689	depth_max =	16	depth_rel_max =7
+loops_n =	98689	depth_max =	16	depth_rel_max = 7
 
 root eval null
 dag_n = 1071585	proved_n = 1890	created_n = 5175781
@@ -230,7 +230,7 @@ o...................
 xxx..o.x..o.........
 
 
-loops_n =	107070	depth_max =	16	depth_rel_max =5
+loops_n =	107070	depth_max =	16	depth_rel_max = 5
 
 root eval null
 dag_n = 1074388	proved_n = 1890	created_n = 6216556
@@ -268,7 +268,7 @@ o....o..............
 xxx..o.x..o........x
 
 
-loops_n =	90748	depth_max =	18	depth_rel_max =5
+loops_n =	90748	depth_max =	18	depth_rel_max = 5
 
 root eval null
 dag_n = 902300	proved_n = 1890	created_n = 7093001
@@ -306,7 +306,7 @@ o....o..............
 xxx..o.x..o........x
 
 
-loops_n =	97064	depth_max =	20	depth_rel_max =5
+loops_n =	97064	depth_max =	20	depth_rel_max = 5
 
 root eval null
 dag_n = 962858	proved_n = 1890	created_n = 8025661
@@ -344,7 +344,7 @@ o.x..o..............
 xxx..o.x..o........x
 
 
-loops_n =	95427	depth_max =	22	depth_rel_max =5
+loops_n =	95427	depth_max =	22	depth_rel_max = 5
 
 root eval null
 dag_n = 959998	proved_n = 1890	created_n = 8949256
@@ -383,7 +383,7 @@ o.x..o.............x
 xxx..o.x..o........x
 
 
-loops_n =	97317	depth_max =	26	depth_rel_max =7
+loops_n =	97317	depth_max =	26	depth_rel_max = 7
 
 root eval null
 dag_n = 945517	proved_n = 1895	created_n = 9872740
@@ -421,7 +421,7 @@ o.x..o.............x
 xxx..oox..o........x
 
 
-loops_n =	94387	depth_max =	26	depth_rel_max =5
+loops_n =	94387	depth_max =	26	depth_rel_max = 5
 
 root eval null
 dag_n = 947953	proved_n = 1895	created_n = 10780491
@@ -459,7 +459,7 @@ o.x..oo............x
 xxx..oox..o........x
 
 
-loops_n =	86235	depth_max =	30	depth_rel_max =7
+loops_n =	86235	depth_max =	30	depth_rel_max = 7
 
 root eval null
 dag_n = 905602	proved_n = 1958	created_n = 11669657
@@ -497,7 +497,7 @@ o.x..oo............x
 xxx..oox..o........x
 
 
-loops_n =	91910	depth_max =	30	depth_rel_max =5
+loops_n =	91910	depth_max =	30	depth_rel_max = 5
 
 root eval null
 dag_n = 985586	proved_n = 1958	created_n = 12618393
@@ -536,7 +536,7 @@ o.x..oox...........x
 xxx..oox..o........x
 
 
-loops_n =	88944	depth_max =	34	depth_rel_max =7
+loops_n =	88944	depth_max =	34	depth_rel_max = 7
 
 root eval null
 dag_n = 974665	proved_n = 3703	created_n = 13568197
@@ -574,7 +574,7 @@ o.x..oox..o........x
 xxx..oox..o..x.....x
 
 
-loops_n =	90734	depth_max =	36	depth_rel_max =7
+loops_n =	90734	depth_max =	36	depth_rel_max = 7
 
 root eval null
 dag_n = 974290	proved_n = 5418	created_n = 14533208
@@ -612,7 +612,7 @@ o.x..oox..o........x
 xxx..oox..o..x.....x
 
 
-loops_n =	91684	depth_max =	39	depth_rel_max =8
+loops_n =	91684	depth_max =	39	depth_rel_max = 8
 
 root eval null
 dag_n = 988165	proved_n = 7566	created_n = 15511295
@@ -651,7 +651,7 @@ o.x..oox..o........x
 xxxx.oox..o..x.....x
 
 
-loops_n =	84901	depth_max =	40	depth_rel_max =7
+loops_n =	84901	depth_max =	40	depth_rel_max = 7
 
 root eval null
 dag_n = 1026665	proved_n = 10657	created_n = 16525413
@@ -689,7 +689,7 @@ o.x..oox..o........x
 xxxx.oox..o..x.....x
 
 
-loops_n =	83417	depth_max =	43	depth_rel_max =8
+loops_n =	83417	depth_max =	43	depth_rel_max = 8
 
 root eval null
 dag_n = 928745	proved_n = 13024	created_n = 17443048
@@ -727,7 +727,7 @@ o.x..oox..o........x
 xxxx.oox..oo.x.....x
 
 
-loops_n =	79882	depth_max =	45	depth_rel_max =8
+loops_n =	79882	depth_max =	45	depth_rel_max = 8
 
 root eval null
 dag_n = 946791	proved_n = 15754	created_n = 18380397
@@ -765,7 +765,7 @@ o.x..oox..oo.......x
 xxxx.oox..oo.x.....x
 
 
-loops_n =	85980	depth_max =	47	depth_rel_max =8
+loops_n =	85980	depth_max =	47	depth_rel_max = 8
 
 root eval null
 dag_n = 885963	proved_n = 27090	created_n = 19253230
@@ -801,7 +801,7 @@ o.x..oox..oo.......x
 xxxx.oox..oo.x.....x
 
 
-loops_n =	87842	depth_max =	49	depth_rel_max =8
+loops_n =	87842	depth_max =	49	depth_rel_max = 8
 
 root eval null
 dag_n = 897108	proved_n = 46922	created_n = 20121405
@@ -837,7 +837,7 @@ o.x..oox..oo.......x
 xxxx.oox..oo.x.....x
 
 
-loops_n =	83700	depth_max =	52	depth_rel_max =9
+loops_n =	83700	depth_max =	52	depth_rel_max = 9
 
 root eval null
 dag_n = 791609	proved_n = 66664	created_n = 20916218
@@ -871,7 +871,7 @@ o.x..oox..oo.......x
 xxxx.oox..oo.x.....x
 
 
-loops_n =	80315	depth_max =	53	depth_rel_max =8
+loops_n =	80315	depth_max =	53	depth_rel_max = 8
 
 root eval null
 dag_n = 1064892	proved_n = 69887	created_n = 21844753
@@ -910,7 +910,7 @@ o.x..oox..oo.......x
 xxxx.oox..oo.x.....x
 
 
-loops_n =	76319	depth_max =	57	depth_rel_max =10
+loops_n =	76319	depth_max =	57	depth_rel_max = 10
 
 root eval null
 dag_n = 771927	proved_n = 80670	created_n = 22595303
@@ -948,7 +948,7 @@ o.x..oox..oo.......x
 xxxx.oox..oo.x.....x
 
 
-loops_n =	77310	depth_max =	58	depth_rel_max =9
+loops_n =	77310	depth_max =	58	depth_rel_max = 9
 
 root eval null
 dag_n = 962173	proved_n = 84411	created_n = 23413129
@@ -986,7 +986,7 @@ o.x..oox..oo.......x
 xxxx.oox..oo.x.....x
 
 
-loops_n =	77375	depth_max =	59	depth_rel_max =8
+loops_n =	77375	depth_max =	59	depth_rel_max = 8
 
 root eval null
 dag_n = 919105	proved_n = 94062	created_n = 24245679
@@ -1025,7 +1025,7 @@ o.x..oox..oo.......x
 xxxx.oox..oo.x.....x
 
 
-loops_n =	77757	depth_max =	60	depth_rel_max =7
+loops_n =	77757	depth_max =	60	depth_rel_max = 7
 
 root eval null
 dag_n = 898754	proved_n = 94816	created_n = 25036571
@@ -1063,7 +1063,7 @@ o.x..oox..oo.......x
 xxxx.oox..oo.x..o..x
 
 
-loops_n =	74980	depth_max =	60	depth_rel_max =5
+loops_n =	74980	depth_max =	60	depth_rel_max = 5
 
 root eval null
 dag_n = 801468	proved_n = 94816	created_n = 25800783
@@ -1101,7 +1101,7 @@ o.x..oox..oo....o..x
 xxxx.ooxx.oo.x..o..x
 
 
-loops_n =	77371	depth_max =	63	depth_rel_max =6
+loops_n =	77371	depth_max =	63	depth_rel_max = 6
 
 root eval null
 dag_n = 802167	proved_n = 94816	created_n = 26582746
@@ -1139,7 +1139,7 @@ o.x..oox..oo....o..x
 xxxx.ooxx.oo.x..o..x
 
 
-loops_n =	81349	depth_max =	66	depth_rel_max =7
+loops_n =	81349	depth_max =	66	depth_rel_max = 7
 
 root eval null
 dag_n = 885442	proved_n = 94821	created_n = 27441666
@@ -1177,7 +1177,7 @@ o.x..oox..oo....o..x
 xxxxxooxx.oo.x..o..x
 
 
-loops_n =	72703	depth_max =	67	depth_rel_max =6
+loops_n =	72703	depth_max =	67	depth_rel_max = 6
 
 root eval null
 dag_n = 761274	proved_n = 94821	created_n = 28180674
@@ -1215,7 +1215,7 @@ o.x..oox..oo....o..x
 xxxxxooxx.oo.x..o..x
 
 
-loops_n =	75125	depth_max =	70	depth_rel_max =7
+loops_n =	75125	depth_max =	70	depth_rel_max = 7
 
 root eval null
 dag_n = 792349	proved_n = 94844	created_n = 28957860
@@ -1253,7 +1253,7 @@ o.x.xoox..oo....o..x
 xxxxxooxx.oo.x..o..x
 
 
-loops_n =	75439	depth_max =	72	depth_rel_max =7
+loops_n =	75439	depth_max =	72	depth_rel_max = 7
 
 root eval null
 dag_n = 805946	proved_n = 94867	created_n = 29739994
@@ -1291,7 +1291,7 @@ o.x.xoox..oo....o..x
 xxxxxooxx.oo.x..o..x
 
 
-loops_n =	78226	depth_max =	74	depth_rel_max =7
+loops_n =	78226	depth_max =	74	depth_rel_max = 7
 
 root eval null
 dag_n = 842301	proved_n = 94872	created_n = 30560198
@@ -1329,7 +1329,7 @@ o.x.xoox..oo....o..x
 xxxxxooxx.oo.x..o..x
 
 
-loops_n =	76667	depth_max =	75	depth_rel_max =6
+loops_n =	76667	depth_max =	75	depth_rel_max = 6
 
 root eval null
 dag_n = 823012	proved_n = 94872	created_n = 31366739
@@ -1367,7 +1367,7 @@ o.x.xoox..oo....o..x
 xxxxxooxx.oo.x..o..x
 
 
-loops_n =	75367	depth_max =	77	depth_rel_max =6
+loops_n =	75367	depth_max =	77	depth_rel_max = 6
 
 root eval null
 dag_n = 812605	proved_n = 94872	created_n = 32156757
@@ -1404,7 +1404,7 @@ o.x.xoox..oo.o..o..x
 xxxxxooxx.oo.x..o..x
 
 
-loops_n =	75894	depth_max =	79	depth_rel_max =6
+loops_n =	75894	depth_max =	79	depth_rel_max = 6
 
 root eval null
 dag_n = 937958	proved_n = 95114	created_n = 33071944
@@ -1441,7 +1441,7 @@ oxx.xoox..oo.o..o..x
 xxxxxooxx.oo.x..o..x
 
 
-loops_n =	71820	depth_max =	81	depth_rel_max =6
+loops_n =	71820	depth_max =	81	depth_rel_max = 6
 
 root eval null
 dag_n = 889396	proved_n = 95156	created_n = 33942457
@@ -1478,7 +1478,7 @@ oxx.xoox..oo.o..o..x
 xxxxxooxx.oo.x..o..x
 
 
-loops_n =	75349	depth_max =	83	depth_rel_max =6
+loops_n =	75349	depth_max =	83	depth_rel_max = 6
 
 root eval null
 dag_n = 884368	proved_n = 95429	created_n = 34808292
@@ -1515,7 +1515,7 @@ oxx.xoox..oo.o..o..x
 xxxxxooxx.oo.x..o..x
 
 
-loops_n =	67133	depth_max =	86	depth_rel_max =7
+loops_n =	67133	depth_max =	86	depth_rel_max = 7
 
 root eval null
 dag_n = 778439	proved_n = 97479	created_n = 35568358
@@ -1552,7 +1552,7 @@ oxx.xoox..oo.o..o..x
 xxxxxooxx.oo.x..o..x
 
 
-loops_n =	70739	depth_max =	89	depth_rel_max =8
+loops_n =	70739	depth_max =	89	depth_rel_max = 8
 
 root eval null
 dag_n = 893181	proved_n = 103041	created_n = 36418912
@@ -1589,7 +1589,7 @@ oxx.xoox..oo.o..o..x
 xxxxxooxx.oo.x..o..x
 
 
-loops_n =	70626	depth_max =	93	depth_rel_max =10
+loops_n =	70626	depth_max =	93	depth_rel_max = 10
 
 root eval null
 dag_n = 774161	proved_n = 115045	created_n = 37161184
@@ -1627,7 +1627,7 @@ oxx.xoox..oo.o..o..x
 xxxxxooxx.oo.x..o..x
 
 
-loops_n =	67786	depth_max =	94	depth_rel_max =9
+loops_n =	67786	depth_max =	94	depth_rel_max = 9
 
 root eval null
 dag_n = 1324902	proved_n = 121107	created_n = 37867317
@@ -1664,7 +1664,7 @@ oxx.xoox..oo.o..o..x
 xxxxxooxx.oo.x..o..x
 
 
-loops_n =	81303	depth_max =	96	depth_rel_max =9
+loops_n =	81303	depth_max =	96	depth_rel_max = 9
 
 root eval null
 dag_n = 625872	proved_n = 154547	created_n = 38431480
@@ -1702,7 +1702,7 @@ oxx.xoox..oo.o..o..x
 xxxxxooxx.oo.x..o..x
 
 
-loops_n =	75408	depth_max =	96	depth_rel_max =7
+loops_n =	75408	depth_max =	96	depth_rel_max = 7
 
 root eval null
 dag_n = 942316	proved_n = 168012	created_n = 39166565
@@ -1739,7 +1739,7 @@ oxx.xoox..oo.o..o..x
 xxxxxooxx.oo.x..o..x
 
 
-loops_n =	68309	depth_max =	97	depth_rel_max =6
+loops_n =	68309	depth_max =	97	depth_rel_max = 6
 
 root eval null
 dag_n = 901318	proved_n = 168012	created_n = 40042025
@@ -1776,7 +1776,7 @@ oxxxxoox..oo.o..o..x
 xxxxxooxx.oo.x..o..x
 
 
-loops_n =	66736	depth_max =	99	depth_rel_max =6
+loops_n =	66736	depth_max =	99	depth_rel_max = 6
 
 root eval null
 dag_n = 897730	proved_n = 168012	created_n = 40920196
@@ -1813,7 +1813,7 @@ oxxxxoox..oo.o..o..x
 xxxxxooxx.oo.x..o..x
 
 
-loops_n =	68110	depth_max =	102	depth_rel_max =7
+loops_n =	68110	depth_max =	102	depth_rel_max = 7
 
 root eval null
 dag_n = 920303	proved_n = 168012	created_n = 41822718
@@ -1850,7 +1850,7 @@ oxxxxoox..oo.o..o..x
 xxxxxooxx.oo.x..o..x
 
 
-loops_n =	69884	depth_max =	104	depth_rel_max =7
+loops_n =	69884	depth_max =	104	depth_rel_max = 7
 
 root eval null
 dag_n = 912518	proved_n = 168501	created_n = 42716601
@@ -1887,7 +1887,7 @@ oxxxxoox..oo.o..o..x
 xxxxxooxx.oo.x..o..x
 
 
-loops_n =	69528	depth_max =	106	depth_rel_max =7
+loops_n =	69528	depth_max =	106	depth_rel_max = 7
 
 root eval null
 dag_n = 836872	proved_n = 174388	created_n = 43537947
@@ -1924,7 +1924,7 @@ oxxxxoox..oo.o..o..x
 xxxxxooxx.oo.x..o..x
 
 
-loops_n =	70569	depth_max =	108	depth_rel_max =7
+loops_n =	70569	depth_max =	108	depth_rel_max = 7
 
 root eval null
 dag_n = 860373	proved_n = 181272	created_n = 44375759
@@ -1961,7 +1961,7 @@ oxxxxoox..oo.o..o..x
 xxxxxooxxxoo.x..o..x
 
 
-loops_n =	72372	depth_max =	111	depth_rel_max =8
+loops_n =	72372	depth_max =	111	depth_rel_max = 8
 
 root eval null
 dag_n = 782100	proved_n = 194245	created_n = 45147854
@@ -1998,7 +1998,7 @@ oxxxxoox..oo.o..o..x
 xxxxxooxxxoo.x..oo.x
 
 
-loops_n =	68152	depth_max =	112	depth_rel_max =7
+loops_n =	68152	depth_max =	112	depth_rel_max = 7
 
 root eval null
 dag_n = 839706	proved_n = 199941	created_n = 45972909
@@ -2035,7 +2035,7 @@ oxxxxoox..oo.o..ox.x
 xxxxxooxxxoo.x..oo.x
 
 
-loops_n =	70111	depth_max =	114	depth_rel_max =7
+loops_n =	70111	depth_max =	114	depth_rel_max = 7
 
 root eval null
 dag_n = 835714	proved_n = 207992	created_n = 46791288
@@ -2072,7 +2072,7 @@ oxxxxoox..oo.o..ox.x
 xxxxxooxxxoo.x..oo.x
 
 
-loops_n =	70006	depth_max =	116	depth_rel_max =7
+loops_n =	70006	depth_max =	116	depth_rel_max = 7
 
 root eval null
 dag_n = 827601	proved_n = 216460	created_n = 47602341
@@ -2109,7 +2109,7 @@ oxxxxoox.ooo.o..ox.x
 xxxxxooxxxoo.x..oo.x
 
 
-loops_n =	67720	depth_max =	118	depth_rel_max =7
+loops_n =	67720	depth_max =	118	depth_rel_max = 7
 
 root eval null
 dag_n = 809849	proved_n = 226135	created_n = 48374453
@@ -2147,7 +2147,7 @@ oxxxxoox.ooo.o..ox.x
 xxxxxooxxxoo.x..oo.x
 
 
-loops_n =	67206	depth_max =	119	depth_rel_max =6
+loops_n =	67206	depth_max =	119	depth_rel_max = 6
 
 root eval null
 dag_n = 939625	proved_n = 226152	created_n = 49167908
@@ -2184,7 +2184,7 @@ oxxxxoox.ooo.o..ox.x
 xxxxxooxxxoo.xx.ooox
 
 
-loops_n =	66869	depth_max =	122	depth_rel_max =7
+loops_n =	66869	depth_max =	122	depth_rel_max = 7
 
 root eval null
 dag_n = 838438	proved_n = 228165	created_n = 49997847
@@ -2221,7 +2221,7 @@ oxxxxoox.ooo.o..oxox
 xxxxxooxxxoo.xx.ooox
 
 
-loops_n =	63869	depth_max =	125	depth_rel_max =8
+loops_n =	63869	depth_max =	125	depth_rel_max = 8
 
 root eval null
 dag_n = 826464	proved_n = 231460	created_n = 50814217
@@ -2258,7 +2258,7 @@ oxxxxoox.ooo.o..oxox
 xxxxxooxxxoo.xx.ooox
 
 
-loops_n =	63916	depth_max =	127	depth_rel_max =8
+loops_n =	63916	depth_max =	127	depth_rel_max = 8
 
 root eval null
 dag_n = 830475	proved_n = 234474	created_n = 51621263
@@ -2295,7 +2295,7 @@ oxxxxoox.ooo.o..oxox
 xxxxxooxxxoo.xx.ooox
 
 
-loops_n =	69236	depth_max =	129	depth_rel_max =8
+loops_n =	69236	depth_max =	129	depth_rel_max = 8
 
 root eval null
 dag_n = 675091	proved_n = 251753	created_n = 52298122
@@ -2332,7 +2332,7 @@ oxxxxoox.ooo.o..oxox
 xxxxxooxxxoo.xx.ooox
 
 
-loops_n =	74993	depth_max =	131	depth_rel_max =8
+loops_n =	74993	depth_max =	131	depth_rel_max = 8
 
 root eval null
 dag_n = 633465	proved_n = 277300	created_n = 52881672
@@ -2369,7 +2369,7 @@ oxxxxoox.ooo.o..oxox
 xxxxxooxxxoo.xx.ooox
 
 
-loops_n =	71897	depth_max =	134	depth_rel_max =9
+loops_n =	71897	depth_max =	134	depth_rel_max = 9
 
 root eval null
 dag_n = 690795	proved_n = 297785	created_n = 53556000
@@ -2407,7 +2407,7 @@ oxxxxoox.ooo.o..oxox
 xxxxxooxxxoo.xx.ooox
 
 
-loops_n =	63217	depth_max =	135	depth_rel_max =8
+loops_n =	63217	depth_max =	135	depth_rel_max = 8
 
 root eval null
 dag_n = 885749	proved_n = 298438	created_n = 54336780
@@ -2444,7 +2444,7 @@ oxxxxoox.ooo.ox.oxox
 xxxxxooxxxoo.xx.ooox
 
 
-loops_n =	66259	depth_max =	135	depth_rel_max =6
+loops_n =	66259	depth_max =	135	depth_rel_max = 6
 
 root eval null
 dag_n = 826585	proved_n = 298439	created_n = 55151239
@@ -2481,7 +2481,7 @@ oxxxxoox.ooo.ox.oxox
 xxxxxooxxxoo.xx.ooox
 
 
-loops_n =	67834	depth_max =	137	depth_rel_max =6
+loops_n =	67834	depth_max =	137	depth_rel_max = 6
 
 root eval null
 dag_n = 865145	proved_n = 298441	created_n = 55999805
@@ -2518,7 +2518,7 @@ oxxxxoox.ooo.ox.oxox
 xxxxxooxxxoo.xx.ooox
 
 
-loops_n =	68685	depth_max =	139	depth_rel_max =6
+loops_n =	68685	depth_max =	139	depth_rel_max = 6
 
 root eval null
 dag_n = 853195	proved_n = 298514	created_n = 56842969
@@ -2556,7 +2556,7 @@ oxxxxoox.ooo.ox.oxox
 xxxxxooxxxoo.xx.ooox
 
 
-loops_n =	65742	depth_max =	141	depth_rel_max =6
+loops_n =	65742	depth_max =	141	depth_rel_max = 6
 
 root eval null
 dag_n = 806512	proved_n = 298587	created_n = 57634012
@@ -2594,7 +2594,7 @@ oxxxxoox.ooo.ox.oxox
 xxxxxooxxxoo.xx.ooox
 
 
-loops_n =	71185	depth_max =	143	depth_rel_max =6
+loops_n =	71185	depth_max =	143	depth_rel_max = 6
 
 root eval null
 dag_n = 858156	proved_n = 298655	created_n = 58469939
@@ -2632,7 +2632,7 @@ oxxxxoox.ooo.ox.oxox
 xxxxxooxxxoo.xx.ooox
 
 
-loops_n =	66935	depth_max =	145	depth_rel_max =6
+loops_n =	66935	depth_max =	145	depth_rel_max = 6
 
 root eval null
 dag_n = 798065	proved_n = 298725	created_n = 59216282
@@ -2670,7 +2670,7 @@ oxxxxoox.ooo.ox.oxox
 xxxxxooxxxoo.xx.ooox
 
 
-loops_n =	68027	depth_max =	147	depth_rel_max =6
+loops_n =	68027	depth_max =	147	depth_rel_max = 6
 
 root eval null
 dag_n = 826699	proved_n = 298800	created_n = 60035832
@@ -2708,7 +2708,7 @@ oxxxxoox.ooo.ox.oxox
 xxxxxooxxxoo.xx.ooox
 
 
-loops_n =	64319	depth_max =	151	depth_rel_max =8
+loops_n =	64319	depth_max =	151	depth_rel_max = 8
 
 root eval null
 dag_n = 554495	proved_n = 312745	created_n = 60593397
@@ -2746,7 +2746,7 @@ oxxxxooxxooo.ox.oxox
 xxxxxooxxxoo.xx.ooox
 
 
-loops_n =	70391	depth_max =	153	depth_rel_max =8
+loops_n =	70391	depth_max =	153	depth_rel_max = 8
 
 root eval null
 dag_n = 718615	proved_n = 327387	created_n = 61250346
@@ -2784,7 +2784,7 @@ oxxxxooxxooo.ox.oxox
 xxxxxooxxxoo.xx.ooox
 
 
-loops_n =	69005	depth_max =	155	depth_rel_max =8
+loops_n =	69005	depth_max =	155	depth_rel_max = 8
 
 root eval null
 dag_n = 605578	proved_n = 344034	created_n = 61812396
@@ -2822,7 +2822,7 @@ oxxxxooxxooo.ox.oxox
 xxxxxooxxxoo.xx.ooox
 
 
-loops_n =	73143	depth_max =	157	depth_rel_max =8
+loops_n =	73143	depth_max =	157	depth_rel_max = 8
 
 root eval null
 dag_n = 569605	proved_n = 364418	created_n = 62366035
@@ -2860,7 +2860,7 @@ oxxxxooxxooo.ox.oxox
 xxxxxooxxxoo.xx.ooox
 
 
-loops_n =	68917	depth_max =	160	depth_rel_max =9
+loops_n =	68917	depth_max =	160	depth_rel_max = 9
 
 root eval null
 dag_n = 668060	proved_n = 379801	created_n = 63007076
@@ -2899,7 +2899,7 @@ oxxxxooxxooo.ox.oxox
 xxxxxooxxxoo.xx.ooox
 
 
-loops_n =	70377	depth_max =	160	depth_rel_max =7
+loops_n =	70377	depth_max =	160	depth_rel_max = 7
 
 root eval null
 dag_n = 724561	proved_n = 397640	created_n = 63551023
@@ -2935,7 +2935,7 @@ oxxxxooxxooo.ox.oxox
 xxxxxooxxxoo.xx.ooox
 
 
-loops_n =	72490	depth_max =	162	depth_rel_max =7
+loops_n =	72490	depth_max =	162	depth_rel_max = 7
 
 root eval null
 dag_n = 571875	proved_n = 417807	created_n = 64099567
@@ -2971,7 +2971,7 @@ oxxxxooxxooo.ox.oxox
 xxxxxooxxxoo.xx.ooox
 
 
-loops_n =	69547	depth_max =	164	depth_rel_max =7
+loops_n =	69547	depth_max =	164	depth_rel_max = 7
 
 root eval null
 dag_n = 649529	proved_n = 432367	created_n = 64713444
@@ -3007,7 +3007,7 @@ oxxxxooxxooo.ox.oxox
 xxxxxooxxxoo.xx.ooox
 
 
-loops_n =	69913	depth_max =	166	depth_rel_max =7
+loops_n =	69913	depth_max =	166	depth_rel_max = 7
 
 root eval null
 dag_n = 662286	proved_n = 446256	created_n = 65350230
@@ -3043,7 +3043,7 @@ oxxxxooxxooo.ox.oxox
 xxxxxooxxxoo.xx.ooox
 
 
-loops_n =	72431	depth_max =	168	depth_rel_max =7
+loops_n =	72431	depth_max =	168	depth_rel_max = 7
 
 root eval null
 dag_n = 652813	proved_n = 461364	created_n = 65989044
@@ -3079,7 +3079,7 @@ oxxxxooxxooo.ox.oxox
 xxxxxooxxxoo.xx.ooox
 
 
-loops_n =	70228	depth_max =	170	depth_rel_max =7
+loops_n =	70228	depth_max =	170	depth_rel_max = 7
 
 root eval null
 dag_n = 597046	proved_n = 477605	created_n = 66570768
@@ -3115,7 +3115,7 @@ oxxxxooxxooo.ox.oxox
 xxxxxooxxxoooxx.ooox
 
 
-loops_n =	73012	depth_max =	172	depth_rel_max =7
+loops_n =	73012	depth_max =	172	depth_rel_max = 7
 
 root eval null
 dag_n = 611441	proved_n = 495165	created_n = 67164635
@@ -3151,7 +3151,7 @@ oxxxxooxxooooox.oxox
 xxxxxooxxxoooxx.ooox
 
 
-loops_n =	65929	depth_max =	176	depth_rel_max =9
+loops_n =	65929	depth_max =	176	depth_rel_max = 9
 
 root eval null
 dag_n = 536922	proved_n = 512189	created_n = 67699324
@@ -3187,7 +3187,7 @@ oxxxxooxxooooox.oxox
 xxxxxooxxxoooxxxooox
 
 
-loops_n =	76291	depth_max =	178	depth_rel_max =9
+loops_n =	76291	depth_max =	178	depth_rel_max = 9
 
 root eval null
 dag_n = 494936	proved_n = 542809	created_n = 68162483
@@ -3225,7 +3225,7 @@ oxxxxooxxooooox.oxox
 xxxxxooxxxoooxxxooox
 
 
-loops_n =	64384	depth_max =	180	depth_rel_max =9
+loops_n =	64384	depth_max =	180	depth_rel_max = 9
 
 root eval null
 dag_n = 783562	proved_n = 556650	created_n = 68746126
@@ -3262,7 +3262,7 @@ oxxxxooxxooooox.oxox
 xxxxxooxxxoooxxxooox
 
 
-loops_n =	69375	depth_max =	182	depth_rel_max =9
+loops_n =	69375	depth_max =	182	depth_rel_max = 9
 
 root eval null
 dag_n = 501644	proved_n = 577653	created_n = 69240230
@@ -3299,7 +3299,7 @@ oxxxxooxxoooooxooxox
 xxxxxooxxxoooxxxooox
 
 
-loops_n =	66522	depth_max =	185	depth_rel_max =10
+loops_n =	66522	depth_max =	185	depth_rel_max = 10
 
 root eval null
 dag_n = 580663	proved_n = 593007	created_n = 69798146
@@ -3336,7 +3336,7 @@ oxxxxooxxoooooxooxox
 xxxxxooxxxoooxxxooox
 
 
-loops_n =	66832	depth_max =	189	depth_rel_max =12
+loops_n =	66832	depth_max =	189	depth_rel_max = 12
 
 root eval null
 dag_n = 588891	proved_n = 611338	created_n = 70292088
@@ -3373,7 +3373,7 @@ oxxxxooxxoooooxooxox
 xxxxxooxxxoooxxxooox
 
 
-loops_n =	66507	depth_max =	188	depth_rel_max =9
+loops_n =	66507	depth_max =	188	depth_rel_max = 9
 
 root eval null
 dag_n = 530214	proved_n = 631695	created_n = 70792698
@@ -3410,7 +3410,7 @@ oxxxxooxxoooooxooxox
 xxxxxooxxxoooxxxooox
 
 
-loops_n =	69086	depth_max =	191	depth_rel_max =10
+loops_n =	69086	depth_max =	191	depth_rel_max = 10
 
 root eval null
 dag_n = 441931	proved_n = 664031	created_n = 71197545
@@ -3447,7 +3447,7 @@ oxxxxooxxoooooxooxox
 xxxxxooxxxoooxxxooox
 
 
-loops_n =	62569	depth_max =	196	depth_rel_max =13
+loops_n =	62569	depth_max =	196	depth_rel_max = 13
 
 root eval null
 dag_n = 641628	proved_n = 678747	created_n = 71695936
@@ -3484,7 +3484,7 @@ oxxxxooxxoooooxooxox
 xxxxxooxxxoooxxxooox
 
 
-loops_n =	61809	depth_max =	199	depth_rel_max =14
+loops_n =	61809	depth_max =	199	depth_rel_max = 14
 
 root eval null
 dag_n = 600218	proved_n = 692038	created_n = 72238884
@@ -3521,7 +3521,7 @@ oxxxxooxxoooooxooxox
 xxxxxooxxxoooxxxooox
 
 
-loops_n =	64058	depth_max =	197	depth_rel_max =10
+loops_n =	64058	depth_max =	197	depth_rel_max = 10
 
 root eval null
 dag_n = 556552	proved_n = 704518	created_n = 72784463
@@ -3560,7 +3560,7 @@ oxxxxooxxoooooxooxox
 xxxxxooxxxoooxxxooox
 
 
-loops_n =	67913	depth_max =	197	depth_rel_max =8
+loops_n =	67913	depth_max =	197	depth_rel_max = 8
 
 root eval null
 dag_n = 565221	proved_n = 721580	created_n = 73304257
@@ -3598,7 +3598,7 @@ oxxxxooxxoooooxooxox
 xxxxxooxxxoooxxxooox
 
 
-loops_n =	63637	depth_max =	199	depth_rel_max =8
+loops_n =	63637	depth_max =	199	depth_rel_max = 8
 
 root eval null
 dag_n = 645739	proved_n = 726492	created_n = 73943472
@@ -3636,7 +3636,7 @@ oxxxxooxxoooooxooxox
 xxxxxooxxxoooxxxooox
 
 
-loops_n =	60344	depth_max =	202	depth_rel_max =9
+loops_n =	60344	depth_max =	202	depth_rel_max = 9
 
 root eval null
 dag_n = 631883	proved_n = 728092	created_n = 74570171
@@ -3674,7 +3674,7 @@ oxxxxooxxoooooxooxox
 xxxxxooxxxoooxxxooox
 
 
-loops_n =	62760	depth_max =	203	depth_rel_max =8
+loops_n =	62760	depth_max =	203	depth_rel_max = 8
 
 root eval null
 dag_n = 661998	proved_n = 731973	created_n = 75218659
@@ -3712,7 +3712,7 @@ oxxxxooxxoooooxooxox
 xxxxxooxxxoooxxxooox
 
 
-loops_n =	64042	depth_max =	204	depth_rel_max =7
+loops_n =	64042	depth_max =	204	depth_rel_max = 7
 
 root eval null
 dag_n = 662186	proved_n = 733814	created_n = 75871078
@@ -3750,7 +3750,7 @@ oxxxxooxxoooooxooxox
 xxxxxooxxxoooxxxooox
 
 
-loops_n =	61196	depth_max =	208	depth_rel_max =9
+loops_n =	61196	depth_max =	208	depth_rel_max = 9
 
 root eval null
 dag_n = 643975	proved_n = 736383	created_n = 76504401
@@ -3788,7 +3788,7 @@ oxxxxooxxoooooxooxox
 xxxxxooxxxoooxxxooox
 
 
-loops_n =	62527	depth_max =	210	depth_rel_max =9
+loops_n =	62527	depth_max =	210	depth_rel_max = 9
 
 root eval null
 dag_n = 648256	proved_n = 738853	created_n = 77142015
@@ -3826,7 +3826,7 @@ oxxxxooxxoooooxooxox
 xxxxxooxxxoooxxxooox
 
 
-loops_n =	64181	depth_max =	212	depth_rel_max =9
+loops_n =	64181	depth_max =	212	depth_rel_max = 9
 
 root eval null
 dag_n = 599605	proved_n = 744662	created_n = 77732574
@@ -3864,7 +3864,7 @@ oxxxxooxxoooooxooxox
 xxxxxooxxxoooxxxooox
 
 
-loops_n =	66816	depth_max =	213	depth_rel_max =8
+loops_n =	66816	depth_max =	213	depth_rel_max = 8
 
 root eval null
 dag_n = 581806	proved_n = 758928	created_n = 78302294
@@ -3902,7 +3902,7 @@ oxxxxooxxoooooxooxox
 xxxxxooxxxoooxxxooox
 
 
-loops_n =	66146	depth_max =	216	depth_rel_max =9
+loops_n =	66146	depth_max =	216	depth_rel_max = 9
 
 root eval null
 dag_n = 518211	proved_n = 775816	created_n = 78811949
@@ -3941,7 +3941,7 @@ oxxxxooxxoooooxooxox
 xxxxxooxxxoooxxxooox
 
 
-loops_n =	71125	depth_max =	217	depth_rel_max =8
+loops_n =	71125	depth_max =	217	depth_rel_max = 8
 
 root eval null
 dag_n = 571397	proved_n = 795997	created_n = 79334900
@@ -3980,7 +3980,7 @@ oxxxxooxxoooooxooxox
 xxxxxooxxxoooxxxooox
 
 
-loops_n =	61411	depth_max =	218	depth_rel_max =7
+loops_n =	61411	depth_max =	218	depth_rel_max = 7
 
 root eval null
 dag_n = 603017	proved_n = 796668	created_n = 79885030
@@ -4018,7 +4018,7 @@ oxxxxooxxoooooxooxox
 xxxxxooxxxoooxxxooox
 
 
-loops_n =	60869	depth_max =	220	depth_rel_max =7
+loops_n =	60869	depth_max =	220	depth_rel_max = 7
 
 root eval null
 dag_n = 555324	proved_n = 797679	created_n = 80432188
@@ -4056,7 +4056,7 @@ oxxxxooxxoooooxooxox
 xxxxxooxxxoooxxxooox
 
 
-loops_n =	59081	depth_max =	222	depth_rel_max =7
+loops_n =	59081	depth_max =	222	depth_rel_max = 7
 
 root eval null
 dag_n = 518333	proved_n = 799011	created_n = 80940180
@@ -4094,7 +4094,7 @@ oxxxxooxxoooooxooxox
 xxxxxooxxxoooxxxooox
 
 
-loops_n =	59177	depth_max =	225	depth_rel_max =8
+loops_n =	59177	depth_max =	225	depth_rel_max = 8
 
 root eval null
 dag_n = 520211	proved_n = 799977	created_n = 81442135
@@ -4132,7 +4132,7 @@ oxxxxooxxoooooxooxox
 xxxxxooxxxoooxxxooox
 
 
-loops_n =	58796	depth_max =	229	depth_rel_max =10
+loops_n =	58796	depth_max =	229	depth_rel_max = 10
 
 root eval null
 dag_n = 528165	proved_n = 802747	created_n = 81951444
@@ -4170,7 +4170,7 @@ oxxxxooxxoooooxooxox
 xxxxxooxxxoooxxxooox
 
 
-loops_n =	68119	depth_max =	230	depth_rel_max =9
+loops_n =	68119	depth_max =	230	depth_rel_max = 9
 
 root eval null
 dag_n = 418578	proved_n = 821122	created_n = 82375180
@@ -4207,7 +4207,7 @@ oxxxxooxxoooooxooxox
 xxxxxooxxxoooxxxooox
 
 
-loops_n =	63436	depth_max =	233	depth_rel_max =10
+loops_n =	63436	depth_max =	233	depth_rel_max = 10
 
 root eval null
 dag_n = 439305	proved_n = 834699	created_n = 82819872
@@ -4244,7 +4244,7 @@ oxxxxooxxoooooxooxox
 xxxxxooxxxoooxxxooox
 
 
-loops_n =	72994	depth_max =	234	depth_rel_max =9
+loops_n =	72994	depth_max =	234	depth_rel_max = 9
 
 root eval null
 dag_n = 483213	proved_n = 858361	created_n = 83296216
@@ -4284,7 +4284,7 @@ oxxxxooxxoooooxooxox
 xxxxxooxxxoooxxxooox
 
 
-loops_n =	66112	depth_max =	235	depth_rel_max =8
+loops_n =	66112	depth_max =	235	depth_rel_max = 8
 
 root eval null
 dag_n = 610637	proved_n = 869282	created_n = 83804098
@@ -4321,7 +4321,7 @@ oxxxxooxxoooooxooxox
 xxxxxooxxxoooxxxooox
 
 
-loops_n =	64877	depth_max =	238	depth_rel_max =9
+loops_n =	64877	depth_max =	238	depth_rel_max = 9
 
 root eval null
 dag_n = 498095	proved_n = 879677	created_n = 84299829
@@ -4358,7 +4358,7 @@ oxxxxooxxoooooxooxox
 xxxxxooxxxoooxxxooox
 
 
-loops_n =	68114	depth_max =	240	depth_rel_max =9
+loops_n =	68114	depth_max =	240	depth_rel_max = 9
 
 root eval null
 dag_n = 445092	proved_n = 896334	created_n = 84741636
@@ -4394,7 +4394,7 @@ oxxxxooxxoooooxooxox
 xxxxxooxxxoooxxxooox
 
 
-loops_n =	64079	depth_max =	243	depth_rel_max =10
+loops_n =	64079	depth_max =	243	depth_rel_max = 10
 
 root eval null
 dag_n = 414950	proved_n = 916252	created_n = 85141427
@@ -4430,7 +4430,7 @@ oxxxxooxxoooooxooxox
 xxxxxooxxxoooxxxooox
 
 
-loops_n =	69859	depth_max =	244	depth_rel_max =9
+loops_n =	69859	depth_max =	244	depth_rel_max = 9
 
 root eval null
 dag_n = 418788	proved_n = 937016	created_n = 85569645
@@ -4466,7 +4466,7 @@ oxxxxooxxoooooxooxox
 xxxxxooxxxoooxxxooox
 
 
-loops_n =	69355	depth_max =	247	depth_rel_max =10
+loops_n =	69355	depth_max =	247	depth_rel_max = 10
 
 root eval null
 dag_n = 408379	proved_n = 959252	created_n = 85986044
@@ -4502,7 +4502,7 @@ oxxxxooxxoooooxooxox
 xxxxxooxxxoooxxxooox
 
 
-loops_n =	66870	depth_max =	249	depth_rel_max =10
+loops_n =	66870	depth_max =	249	depth_rel_max = 10
 
 root eval null
 dag_n = 397043	proved_n = 981188	created_n = 86382968
@@ -4541,7 +4541,7 @@ oxxxxooxxoooooxooxox
 xxxxxooxxxoooxxxooox
 
 
-loops_n =	65088	depth_max =	251	depth_rel_max =10
+loops_n =	65088	depth_max =	251	depth_rel_max = 10
 
 root eval null
 dag_n = 571302	proved_n = 1000446	created_n = 86761818
@@ -4578,7 +4578,7 @@ oxxxxooxxoooooxooxox
 xxxxxooxxxoooxxxooox
 
 
-loops_n =	64322	depth_max =	253	depth_rel_max =10
+loops_n =	64322	depth_max =	253	depth_rel_max = 10
 
 root eval null
 dag_n = 430533	proved_n = 1020884	created_n = 87150071
@@ -4616,7 +4616,7 @@ oxxxxooxxoooooxooxox
 xxxxxooxxxoooxxxooox
 
 
-loops_n =	67836	depth_max =	256	depth_rel_max =11
+loops_n =	67836	depth_max =	256	depth_rel_max = 11
 
 root eval null
 dag_n = 387081	proved_n = 1044619	created_n = 87535076
@@ -4653,7 +4653,7 @@ oxxxxooxxoooooxooxox
 xxxxxooxxxoooxxxooox
 
 
-loops_n =	67785	depth_max =	257	depth_rel_max =10
+loops_n =	67785	depth_max =	257	depth_rel_max = 10
 
 root eval null
 dag_n = 382622	proved_n = 1067171	created_n = 87930426
@@ -4693,7 +4693,7 @@ oxxxxooxxoooooxooxox
 xxxxxooxxxoooxxxooox
 
 
-loops_n =	61685	depth_max =	258	depth_rel_max =9
+loops_n =	61685	depth_max =	258	depth_rel_max = 9
 
 root eval null
 dag_n = 534027	proved_n = 1078031	created_n = 88374480
@@ -4730,7 +4730,7 @@ oxxxxooxxoooooxooxox
 xxxxxooxxxoooxxxooox
 
 
-loops_n =	62380	depth_max =	260	depth_rel_max =9
+loops_n =	62380	depth_max =	260	depth_rel_max = 9
 
 root eval null
 dag_n = 486032	proved_n = 1088433	created_n = 88822439
@@ -4767,7 +4767,7 @@ oxxxxooxxoooooxooxox
 xxxxxooxxxoooxxxooox
 
 
-loops_n =	63434	depth_max =	261	depth_rel_max =8
+loops_n =	63434	depth_max =	261	depth_rel_max = 8
 
 root eval null
 dag_n = 457905	proved_n = 1101040	created_n = 89262856
@@ -4804,7 +4804,7 @@ oxxxxooxxoooooxooxox
 xxxxxooxxxoooxxxooox
 
 
-loops_n =	64630	depth_max =	263	depth_rel_max =8
+loops_n =	64630	depth_max =	263	depth_rel_max = 8
 
 root eval null
 dag_n = 447513	proved_n = 1113505	created_n = 89713358
@@ -4841,7 +4841,7 @@ oxxxxooxxoooooxooxox
 xxxxxooxxxoooxxxooox
 
 
-loops_n =	70622	depth_max =	267	depth_rel_max =10
+loops_n =	70622	depth_max =	267	depth_rel_max = 10
 
 root eval null
 dag_n = 429775	proved_n = 1132025	created_n = 90150710
@@ -4878,7 +4878,7 @@ oxxxxooxxoooooxooxox
 xxxxxooxxxoooxxxooox
 
 
-loops_n =	69733	depth_max =	271	depth_rel_max =12
+loops_n =	69733	depth_max =	271	depth_rel_max = 12
 
 root eval null
 dag_n = 405021	proved_n = 1152274	created_n = 90556779
@@ -4918,7 +4918,7 @@ oxxxxooxxoooooxooxox
 xxxxxooxxxoooxxxooox
 
 
-loops_n =	66337	depth_max =	271	depth_rel_max =10
+loops_n =	66337	depth_max =	271	depth_rel_max = 10
 
 root eval null
 dag_n = 582745	proved_n = 1167317	created_n = 90967664
@@ -4955,7 +4955,7 @@ oxxxxooxxoooooxooxox
 xxxxxooxxxoooxxxooox
 
 
-loops_n =	70846	depth_max =	273	depth_rel_max =10
+loops_n =	70846	depth_max =	273	depth_rel_max = 10
 
 root eval null
 dag_n = 406847	proved_n = 1189309	created_n = 91346243
@@ -4992,7 +4992,7 @@ oxxxxooxxoooooxooxox
 xxxxxooxxxoooxxxooox
 
 
-loops_n =	73728	depth_max =	275	depth_rel_max =10
+loops_n =	73728	depth_max =	275	depth_rel_max = 10
 
 root eval null
 dag_n = 328526	proved_n = 1219967	created_n = 91677275
@@ -5029,7 +5029,7 @@ oxxxxooxxoooooxooxox
 xxxxxooxxxoooxxxooox
 
 
-loops_n =	74152	depth_max =	277	depth_rel_max =10
+loops_n =	74152	depth_max =	277	depth_rel_max = 10
 
 root eval null
 dag_n = 324564	proved_n = 1249819	created_n = 92017302
@@ -5066,7 +5066,7 @@ oxxxxooxxoooooxooxox
 xxxxxooxxxoooxxxooox
 
 
-loops_n =	75417	depth_max =	279	depth_rel_max =10
+loops_n =	75417	depth_max =	279	depth_rel_max = 10
 
 root eval null
 dag_n = 327312	proved_n = 1280571	created_n = 92359396
@@ -5103,7 +5103,7 @@ oxxxxooxxoooooxooxox
 xxxxxooxxxoooxxxooox
 
 
-loops_n =	75368	depth_max =	281	depth_rel_max =10
+loops_n =	75368	depth_max =	281	depth_rel_max = 10
 
 root eval null
 dag_n = 327043	proved_n = 1311393	created_n = 92699829
@@ -5140,7 +5140,7 @@ oxxxxooxxoooooxooxox
 xxxxxooxxxoooxxxooox
 
 
-loops_n =	75126	depth_max =	283	depth_rel_max =10
+loops_n =	75126	depth_max =	283	depth_rel_max = 10
 
 root eval null
 dag_n = 321865	proved_n = 1341881	created_n = 93036357
@@ -5177,7 +5177,7 @@ oxxxxooxxoooooxooxox
 xxxxxooxxxoooxxxooox
 
 
-loops_n =	75512	depth_max =	285	depth_rel_max =10
+loops_n =	75512	depth_max =	285	depth_rel_max = 10
 
 root eval null
 dag_n = 322947	proved_n = 1372131	created_n = 93375368
@@ -5214,7 +5214,7 @@ oxxxxooxxoooooxooxox
 xxxxxooxxxoooxxxooox
 
 
-loops_n =	74747	depth_max =	287	depth_rel_max =10
+loops_n =	74747	depth_max =	287	depth_rel_max = 10
 
 root eval null
 dag_n = 319035	proved_n = 1402273	created_n = 93709417
@@ -5251,7 +5251,7 @@ oxxxxooxxoooooxooxox
 xxxxxooxxxoooxxxooox
 
 
-loops_n =	74032	depth_max =	291	depth_rel_max =12
+loops_n =	74032	depth_max =	291	depth_rel_max = 12
 
 root eval null
 dag_n = 316425	proved_n = 1432964	created_n = 94039640
@@ -5292,7 +5292,7 @@ oxxxxooxxoooooxooxox
 xxxxxooxxxoooxxxooox
 
 
-loops_n =	66047	depth_max =	292	depth_rel_max =11
+loops_n =	66047	depth_max =	292	depth_rel_max = 11
 
 root eval null
 dag_n = 346072	proved_n = 1459092	created_n = 94312304
@@ -5329,7 +5329,7 @@ oxxxxooxxoooooxooxox
 xxxxxooxxxoooxxxooox
 
 
-loops_n =	69179	depth_max =	293	depth_rel_max =10
+loops_n =	69179	depth_max =	293	depth_rel_max = 10
 
 root eval null
 dag_n = 271776	proved_n = 1487104	created_n = 94595556
@@ -5366,7 +5366,7 @@ oxxxxooxxoooooxooxox
 xxxxxooxxxoooxxxooox
 
 
-loops_n =	68980	depth_max =	297	depth_rel_max =12
+loops_n =	68980	depth_max =	297	depth_rel_max = 12
 
 root eval null
 dag_n = 255194	proved_n = 1515010	created_n = 94866511
@@ -5403,7 +5403,7 @@ oxxxxooxxoooooxooxox
 xxxxxooxxxoooxxxooox
 
 
-loops_n =	68648	depth_max =	298	depth_rel_max =11
+loops_n =	68648	depth_max =	298	depth_rel_max = 11
 
 root eval null
 dag_n = 245926	proved_n = 1542403	created_n = 95130551
@@ -5441,7 +5441,7 @@ oxxxxooxxoooooxooxox
 xxxxxooxxxoooxxxooox
 
 
-loops_n =	68116	depth_max =	301	depth_rel_max =12
+loops_n =	68116	depth_max =	301	depth_rel_max = 12
 
 root eval null
 dag_n = 224434	proved_n = 1569832	created_n = 95369762
@@ -5479,7 +5479,7 @@ oxxxxooxxoooooxooxox
 xxxxxooxxxoooxxxooox
 
 
-loops_n =	68404	depth_max =	303	depth_rel_max =12
+loops_n =	68404	depth_max =	303	depth_rel_max = 12
 
 root eval null
 dag_n = 219237	proved_n = 1597535	created_n = 95599835
@@ -5517,7 +5517,7 @@ oxxxxooxxoooooxooxox
 xxxxxooxxxoooxxxooox
 
 
-loops_n =	67429	depth_max =	304	depth_rel_max =11
+loops_n =	67429	depth_max =	304	depth_rel_max = 11
 
 root eval null
 dag_n = 220869	proved_n = 1623725	created_n = 95823453
@@ -5556,7 +5556,7 @@ oxxxxooxxoooooxooxox
 xxxxxooxxxoooxxxooox
 
 
-loops_n =	68649	depth_max =	307	depth_rel_max =12
+loops_n =	68649	depth_max =	307	depth_rel_max = 12
 
 root eval null
 dag_n = 217284	proved_n = 1649791	created_n = 96044167
@@ -5595,7 +5595,7 @@ oxxxxooxxoooooxooxox
 xxxxxooxxxoooxxxooox
 
 
-loops_n =	69043	depth_max =	309	depth_rel_max =12
+loops_n =	69043	depth_max =	309	depth_rel_max = 12
 
 root eval null
 dag_n = 220062	proved_n = 1676234	created_n = 96264387
@@ -5634,7 +5634,7 @@ oxxxxooxxoooooxooxox
 xxxxxooxxxoooxxxooox
 
 
-loops_n =	68137	depth_max =	311	depth_rel_max =12
+loops_n =	68137	depth_max =	311	depth_rel_max = 12
 
 root eval null
 dag_n = 218242	proved_n = 1702420	created_n = 96482274
@@ -5673,7 +5673,7 @@ oxxxxooxxoooooxooxox
 xxxxxooxxxoooxxxooox
 
 
-loops_n =	67146	depth_max =	314	depth_rel_max =13
+loops_n =	67146	depth_max =	314	depth_rel_max = 13
 
 root eval null
 dag_n = 206543	proved_n = 1727728	created_n = 96693039
@@ -5713,7 +5713,7 @@ oxxxxooxxoooooxooxox
 xxxxxooxxxoooxxxooox
 
 
-loops_n =	68238	depth_max =	318	depth_rel_max =15
+loops_n =	68238	depth_max =	318	depth_rel_max = 15
 
 root eval null
 dag_n = 205130	proved_n = 1753611	created_n = 96897308
@@ -5754,7 +5754,7 @@ oxxxxooxxoooooxooxox
 xxxxxooxxxoooxxxooox
 
 
-loops_n =	63247	depth_max =	317	depth_rel_max =12
+loops_n =	63247	depth_max =	317	depth_rel_max = 12
 
 root eval null
 dag_n = 198236	proved_n = 1776146	created_n = 97089511
@@ -5796,7 +5796,7 @@ oxxxxooxxoooooxooxox
 xxxxxooxxxoooxxxooox
 
 
-loops_n =	64689	depth_max =	320	depth_rel_max =13
+loops_n =	64689	depth_max =	320	depth_rel_max = 13
 
 root eval null
 dag_n = 212872	proved_n = 1796503	created_n = 97293363
@@ -5835,7 +5835,7 @@ oxxxxooxxoooooxooxox
 xxxxxooxxxoooxxxooox
 
 
-loops_n =	65757	depth_max =	323	depth_rel_max =14
+loops_n =	65757	depth_max =	323	depth_rel_max = 14
 
 root eval null
 dag_n = 201817	proved_n = 1818287	created_n = 97488444
@@ -5874,7 +5874,7 @@ oxxxxooxxoooooxooxox
 xxxxxooxxxoooxxxooox
 
 
-loops_n =	66274	depth_max =	327	depth_rel_max =16
+loops_n =	66274	depth_max =	327	depth_rel_max = 16
 
 root eval null
 dag_n = 168822	proved_n = 1841196	created_n = 97662914
@@ -5916,7 +5916,7 @@ oxxxxooxxoooooxooxox
 xxxxxooxxxoooxxxooox
 
 
-loops_n =	66416	depth_max =	330	depth_rel_max =17
+loops_n =	66416	depth_max =	330	depth_rel_max = 17
 
 root eval null
 dag_n = 172513	proved_n = 1865455	created_n = 97829404
@@ -5959,7 +5959,7 @@ oxxxxooxxoooooxooxox
 xxxxxooxxxoooxxxooox
 
 
-loops_n =	63681	depth_max =	336	depth_rel_max =21
+loops_n =	63681	depth_max =	336	depth_rel_max = 21
 
 root eval null
 dag_n = 150505	proved_n = 1890366	created_n = 97976457
@@ -6002,7 +6002,7 @@ oxxxxooxxoooooxooxox
 xxxxxooxxxoooxxxooox
 
 
-loops_n =	54075	depth_max =	343	depth_rel_max =26
+loops_n =	54075	depth_max =	343	depth_rel_max = 26
 
 root eval: 18 false 339
 dag_n = 0	proved_n = 1911565	created_n = 98092541
@@ -6087,7 +6087,7 @@ oxxxxooxxoooooxooxox
 xxxxxooxxxoooxxxooox
 
 
-loops_n =	29560	depth_max =	341	depth_rel_max =20
+loops_n =	29560	depth_max =	341	depth_rel_max = 20
 
 root eval: 18 false 339
 dag_n = -1	proved_n = 1919940	created_n = 98165925
@@ -6132,7 +6132,7 @@ oxxxxooxxoooooxooxox
 xxxxxooxxxoooxxxooox
 
 
-loops_n =	46859	depth_max =	351	depth_rel_max =28
+loops_n =	46859	depth_max =	351	depth_rel_max = 28
 
 root eval: 12 false 343
 dag_n = -2	proved_n = 1935114	created_n = 98270046
@@ -6175,7 +6175,7 @@ oxxxxooxxoooooxooxox
 xxxxxooxxxoooxxxooox
 
 
-loops_n =	26167	depth_max =	351	depth_rel_max =26
+loops_n =	26167	depth_max =	351	depth_rel_max = 26
 
 root eval: 18 false 347
 dag_n = -3	proved_n = 1942361	created_n = 98327129
@@ -6220,7 +6220,7 @@ oxxxxooxxoooooxooxox
 xxxxxooxxxoooxxxooox
 
 
-loops_n =	6468	depth_max =	345	depth_rel_max =18
+loops_n =	6468	depth_max =	345	depth_rel_max = 18
 
 root eval: 17 false 341
 dag_n = -4	proved_n = 1944545	created_n = 98341434
@@ -6266,7 +6266,7 @@ oxxxxooxxoooooxooxox
 xxxxxooxxxoooxxxooox
 
 
-loops_n =	14943	depth_max =	351	depth_rel_max =22
+loops_n =	14943	depth_max =	351	depth_rel_max = 22
 
 root eval: 18 true 352
 dag_n = -5	proved_n = 1950365	created_n = 98369059
