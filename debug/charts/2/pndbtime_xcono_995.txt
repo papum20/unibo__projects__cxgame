@@ -1,0 +1,2156 @@
+
+-_-
+START GAME
+-_-
+
+---
+PnDb
+Opponent: null
+root hash:0	depth 0
+.........
+.........
+.........
+.........
+.........
+.........
+.........
+.........
+.........
+
+
+root eval null
+dag_n = 809911	proved_n = 11554	created_n = 822336
+My move: 4
+time,mem before return: 9900 3933803520
+
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+Good Job LXX keep it up buddy
+---
+PnDb
+Opponent: 4
+root hash:-6476857482520600976	depth 2
+.........
+.........
+.........
+.........
+.........
+.........
+.........
+....o....
+....x....
+
+
+root eval null
+dag_n = 758537	proved_n = 28572	created_n = 1511637
+My move: 5
+time,mem before return: 9900 4015209376
+
+0
+0
+0
+0
+0
+0
+0
+Good Job LXX keep it up buddy
+---
+PnDb
+Opponent: 0
+root hash:-5786409918634472951	depth 4
+.........
+.........
+.........
+.........
+.........
+.........
+.........
+....o....
+o...xx...
+
+
+root eval null
+dag_n = 764173	proved_n = 48595	created_n = 2234759
+My move: 6
+time,mem before return: 9900 4013809072
+
+7
+7
+7
+7
+7
+7
+7
+7
+-1
+---
+PnDb
+Opponent: 7
+root hash:-5978875507320258928	depth 6
+.........
+.........
+.........
+.........
+.........
+.........
+.........
+....o....
+o...xxxo.
+
+
+root eval null
+dag_n = 901905	proved_n = 72474	created_n = 2974008
+My move: 2
+time,mem before return: 9900 4028788672
+
+LXC Lose Avoided
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+Good Job LXX keep it up buddy
+---
+PnDb
+Opponent: 3
+root hash:6312308317090053081	depth 8
+.........
+.........
+.........
+.........
+.........
+.........
+.........
+....o....
+o.xoxxxo.
+
+
+root eval null
+dag_n = 928896	proved_n = 85234	created_n = 3646408
+My move: 6
+time,mem before return: 9900 4049007448
+
+0
+0
+0
+0
+0
+0
+0
+0
+Good Job LXX keep it up buddy
+---
+PnDb
+Opponent: 0
+root hash:-9162972953950910947	depth 10
+.........
+.........
+.........
+.........
+.........
+.........
+.........
+o...o.x..
+o.xoxxxo.
+
+
+root eval null
+dag_n = 755490	proved_n = 106012	created_n = 4339723
+My move: 6
+time,mem before return: 9900 4036376128
+
+0
+0
+0
+0
+0
+0
+0
+Good Job LXX keep it up buddy
+---
+PnDb
+Opponent: 0
+root hash:801344226563325241	depth 12
+.........
+.........
+.........
+.........
+.........
+.........
+o.....x..
+o...o.x..
+o.xoxxxo.
+
+
+root eval null
+dag_n = 788790	proved_n = 129170	created_n = 5026659
+My move: 6
+time,mem before return: 9900 3948362472
+
+LXC Lose Avoided
+0
+6
+0
+0
+0
+0
+0
+0
+Good Job LXX keep it up buddy
+---
+PnDb
+Opponent: 6
+root hash:-5804180813703968660	depth 14
+.........
+.........
+.........
+.........
+......o..
+......x..
+o.....x..
+o...o.x..
+o.xoxxxo.
+
+
+root eval null
+dag_n = 988440	proved_n = 145127	created_n = 5689455
+My move: 0
+time,mem before return: 9900 3943476968
+
+8
+6
+8
+5
+8
+5
+8
+-1
+---
+PnDb
+Opponent: 8
+root hash:-579707544984713813	depth 16
+.........
+.........
+.........
+.........
+......o..
+x.....x..
+o.....x..
+o...o.x..
+o.xoxxxoo
+
+
+root eval null
+dag_n = 728737	proved_n = 155417	created_n = 6362111
+My move: 2
+time,mem before return: 9900 4012488608
+
+7
+6
+7
+2
+7
+5
+7
+7
+Good Job LXX keep it up buddy
+---
+PnDb
+Opponent: 7
+root hash:3086388974979296780	depth 18
+.........
+.........
+.........
+.........
+......o..
+x.....x..
+o.....x..
+o.x.o.xo.
+o.xoxxxoo
+
+
+root eval null
+dag_n = 722427	proved_n = 170884	created_n = 7050909
+My move: 2
+time,mem before return: 9900 3979937800
+
+8
+8
+8
+2
+8
+7
+8
+7
+Good Job LXX keep it up buddy
+---
+PnDb
+Opponent: 7
+root hash:-5395267868699450976	depth 20
+.........
+.........
+.........
+.........
+......o..
+x.....x..
+o.x...xo.
+o.x.o.xo.
+o.xoxxxoo
+
+
+root eval null
+dag_n = 782978	proved_n = 191653	created_n = 7746645
+My move: 2
+time,mem before return: 9900 3995394712
+
+LXC Lose Avoided
+7
+6
+7
+7
+7
+7
+7
+7
+7
+-1
+---
+PnDb
+Opponent: 2
+root hash:-7986667714506466973	depth 22
+.........
+.........
+.........
+.........
+..o...o..
+x.x...x..
+o.x...xo.
+o.x.o.xo.
+o.xoxxxoo
+
+
+root eval null
+dag_n = 1002517	proved_n = 206779	created_n = 8385261
+My move: 7
+time,mem before return: 9900 3985431664
+
+8
+2
+8
+8
+8
+2
+8
+8
+8
+Good Job LXX keep it up buddy
+---
+PnDb
+Opponent: 8
+root hash:4720228417818307011	depth 24
+.........
+.........
+.........
+.........
+..o...o..
+x.x...xx.
+o.x...xo.
+o.x.o.xoo
+o.xoxxxoo
+
+
+root eval null
+dag_n = 757347	proved_n = 228664	created_n = 9063661
+My move: 5
+time,mem before return: 9900 4015684840
+
+2
+2
+2
+2
+2
+2
+2
+Good Job LXX keep it up buddy
+---
+PnDb
+Opponent: 2
+root hash:-3997165229058549742	depth 26
+.........
+.........
+.........
+..o......
+..o...o..
+x.x...xx.
+o.x...xo.
+o.x.oxxoo
+o.xoxxxoo
+
+
+root eval null
+dag_n = 672619	proved_n = 260019	created_n = 9696455
+My move: 5
+time,mem before return: 9900 4018838800
+
+2
+5
+2
+6
+2
+2
+2
+6
+Good Job LXX keep it up buddy
+---
+PnDb
+Opponent: 6
+root hash:8215690377990073170	depth 28
+.........
+.........
+.........
+..o...o..
+..o...o..
+x.x...xx.
+o.x..xxo.
+o.x.oxxoo
+o.xoxxxoo
+
+
+root eval null
+dag_n = 634339	proved_n = 299622	created_n = 10281753
+My move: 5
+time,mem before return: 9900 3955163712
+
+LXC Lose Avoided
+2
+2
+2
+2
+2
+2
+2
+2
+2
+2
+Good Job LXX keep it up buddy
+---
+PnDb
+Opponent: 5
+root hash:-1028431332949680495	depth 30
+.........
+.........
+.........
+..o...o..
+..o..oo..
+x.x..xxx.
+o.x..xxo.
+o.x.oxxoo
+o.xoxxxoo
+
+
+root eval null
+dag_n = 860426	proved_n = 336950	created_n = 10830491
+My move: 4
+time,mem before return: 9900 3912785808
+
+2
+2
+2
+2
+4
+4
+4
+4
+-1
+---
+PnDb
+Opponent: 4
+root hash:5711036754671606324	depth 32
+.........
+.........
+.........
+..o...o..
+..o..oo..
+x.x.oxxx.
+o.x.xxxo.
+o.x.oxxoo
+o.xoxxxoo
+
+
+root eval null
+dag_n = 827347	proved_n = 377913	created_n = 11357549
+My move: 4
+time,mem before return: 9900 3908305488
+
+2
+2
+2
+2
+2
+2
+2
+2
+Good Job LXX keep it up buddy
+---
+PnDb
+Opponent: 2
+root hash:2269810364596974529	depth 34
+.........
+.........
+..o......
+..o...o..
+..o.xoo..
+x.x.oxxx.
+o.x.xxxo.
+o.x.oxxoo
+o.xoxxxoo
+
+
+root eval null
+dag_n = 561296	proved_n = 421910	created_n = 11879939
+My move: 6
+time,mem before return: 9900 4053689560
+
+4
+4
+4
+4
+5
+5
+5
+Good Job LXX keep it up buddy
+---
+PnDb
+Opponent: 5
+root hash:6885558599698477018	depth 36
+.........
+.........
+..o...x..
+..o..oo..
+..o.xoo..
+x.x.oxxx.
+o.x.xxxo.
+o.x.oxxoo
+o.xoxxxoo
+
+
+root eval null
+dag_n = 605016	proved_n = 461676	created_n = 12389921
+My move: 2
+time,mem before return: 9900 3999636392
+
+4
+4
+4
+4
+4
+4
+Good Job LXX keep it up buddy
+---
+PnDb
+Opponent: 4
+root hash:2244320412484383313	depth 38
+.........
+..x......
+..o...x..
+..o.ooo..
+..o.xoo..
+x.x.oxxx.
+o.x.xxxo.
+o.x.oxxoo
+o.xoxxxoo
+
+
+root eval null
+dag_n = 580958	proved_n = 499734	created_n = 12943152
+My move: 8
+time,mem before return: 9900 4029247768
+
+4
+4
+4
+4
+4
+4
+4
+Good Job LXX keep it up buddy
+---
+PnDb
+Opponent: 4
+root hash:576911214375885777	depth 40
+.........
+..x......
+..o.o.x..
+..o.ooo..
+..o.xoo..
+x.x.oxxx.
+o.x.xxxox
+o.x.oxxoo
+o.xoxxxoo
+
+
+root eval null
+dag_n = 531625	proved_n = 543502	created_n = 13452355
+My move: 0
+time,mem before return: 9900 4071794224
+
+4
+4
+4
+4
+4
+4
+4
+Good Job LXX keep it up buddy
+---
+PnDb
+Opponent: 4
+root hash:5850053962272354827	depth 42
+.........
+..x.o....
+..o.o.x..
+..o.ooo..
+x.o.xoo..
+x.x.oxxx.
+o.x.xxxox
+o.x.oxxoo
+o.xoxxxoo
+
+
+root eval null
+dag_n = 477250	proved_n = 591343	created_n = 13926904
+My move: 0
+time,mem before return: 9900 3981951176
+
+4
+4
+4
+4
+4
+4
+4
+Good Job LXX keep it up buddy
+---
+PnDb
+Opponent: 4
+root hash:-6731224517221780396	depth 44
+....o....
+..x.o....
+..o.o.x..
+x.o.ooo..
+x.o.xoo..
+x.x.oxxx.
+o.x.xxxox
+o.x.oxxoo
+o.xoxxxoo
+
+
+root eval null
+dag_n = 391937	proved_n = 638274	created_n = 14315022
+My move: 0
+time,mem before return: 9900 3934591648
+
+0
+0
+0
+0
+0
+0
+0
+0
+-1
+---
+PnDb
+Opponent: 0
+root hash:-5877788736079975184	depth 46
+....o....
+o.x.o....
+x.o.o.x..
+x.o.ooo..
+x.o.xoo..
+x.x.oxxx.
+o.x.xxxox
+o.x.oxxoo
+o.xoxxxoo
+
+
+root eval null
+dag_n = 439343	proved_n = 685415	created_n = 14632501
+My move: 5
+time,mem before return: 9900 4022049792
+
+6
+6
+6
+6
+6
+6
+6
+6
+Good Job LXX keep it up buddy
+---
+PnDb
+Opponent: 6
+root hash:-4600889812255221087	depth 48
+....o....
+o.x.o.o..
+x.o.oxx..
+x.o.ooo..
+x.o.xoo..
+x.x.oxxx.
+o.x.xxxox
+o.x.oxxoo
+o.xoxxxoo
+
+
+root eval: 6 true 69
+dag_n = 0	proved_n = 706373	created_n = 14749757
+My move: 6
+time,mem before return: 4147 4058986992
+
+5
+5
+5
+1
+5
+5
+5
+1
+5
+5
+Good Job LXX keep it up buddy
+---
+PnDb
+Opponent: 5
+root hash:5022291216285805811	depth 50
+....o.x..
+o.x.ooo..
+x.o.oxx..
+x.o.ooo..
+x.o.xoo..
+x.x.oxxx.
+o.x.xxxox
+o.x.oxxoo
+o.xoxxxoo
+
+
+root eval: 5 true 69
+dag_n = 0	proved_n = 706373	created_n = 14749758
+My move: 5
+time,mem before return: 33 4103301112
+
+0
+7
+0
+7
+0
+7
+0
+0
+0
+0
+0
+0
+Good Job LXX keep it up buddy
+---
+PnDb
+Opponent: 0
+root hash:-8317289702414591617	depth 52
+o...oxx..
+o.x.ooo..
+x.o.oxx..
+x.o.ooo..
+x.o.xoo..
+x.x.oxxx.
+o.x.xxxox
+o.x.oxxoo
+o.xoxxxoo
+
+
+root eval: 2 true 69
+dag_n = 0	proved_n = 706373	created_n = 14749759
+My move: 2
+time,mem before return: 34 4103415312
+
+1
+7
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+-1
+-1
+Failed Completely
+---
+PnDb
+Opponent: 7
+root hash:-2210932039998410143	depth 54
+o.x.oxx..
+o.x.ooo..
+x.o.oxx..
+x.o.ooo..
+x.o.xooo.
+x.x.oxxx.
+o.x.xxxox
+o.x.oxxoo
+o.xoxxxoo
+
+
+root eval: 7 true 69
+dag_n = 0	proved_n = 706373	created_n = 14749760
+My move: 7
+time,mem before return: 37 4102874480
+
+1
+1
+1
+1
+1
+7
+1
+7
+1
+1
+-1
+-1
+-1
+-1
+Failed Completely
+---
+PnDb
+Opponent: 3
+root hash:8625680566238488048	depth 56
+o.x.oxx..
+o.x.ooo..
+x.o.oxx..
+x.o.ooox.
+x.o.xooo.
+x.x.oxxx.
+o.x.xxxox
+o.xooxxoo
+o.xoxxxoo
+
+
+root eval: 3 true 57
+dag_n = 0	proved_n = 706373	created_n = 14749761
+My move: 3
+time,mem before return: 35 4103381616
+
+
+-_-
+START GAME
+-_-
+
+---
+PnDb
+Opponent: null
+root hash:0	depth 0
+.........
+.........
+.........
+.........
+.........
+.........
+.........
+.........
+.........
+
+
+root eval null
+dag_n = 850052	proved_n = 12198	created_n = 863171
+My move: 4
+time,mem before return: 9900 4004126744
+
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+Good Job LXX keep it up buddy
+---
+PnDb
+Opponent: 4
+root hash:7517291276720350222	depth 2
+.........
+.........
+.........
+.........
+.........
+.........
+.........
+....o....
+....x....
+
+
+root eval null
+dag_n = 802904	proved_n = 30000	created_n = 1590961
+My move: 3
+time,mem before return: 9900 3985487280
+
+0
+0
+0
+0
+0
+0
+0
+Good Job LXX keep it up buddy
+---
+PnDb
+Opponent: 0
+root hash:-5752096781206391780	depth 4
+.........
+.........
+.........
+.........
+.........
+.........
+.........
+....o....
+o..xx....
+
+
+root eval null
+dag_n = 755340	proved_n = 45590	created_n = 2290907
+My move: 5
+time,mem before return: 9900 4044920216
+
+2
+2
+2
+2
+2
+2
+-1
+---
+PnDb
+Opponent: 2
+root hash:-5094385741963799513	depth 6
+.........
+.........
+.........
+.........
+.........
+.........
+.........
+....o....
+o.oxxx...
+
+
+root eval null
+dag_n = 887232	proved_n = 68329	created_n = 2961151
+My move: 7
+time,mem before return: 9900 4026174696
+
+LXC Lose Avoided
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+Good Job LXX keep it up buddy
+---
+PnDb
+Opponent: 6
+root hash:9153029452265386235	depth 8
+.........
+.........
+.........
+.........
+.........
+.........
+.........
+....o....
+o.oxxxox.
+
+
+root eval null
+dag_n = 974805	proved_n = 83463	created_n = 3721108
+My move: 3
+time,mem before return: 9900 4046512720
+
+0
+0
+0
+0
+0
+0
+0
+4
+Good Job LXX keep it up buddy
+---
+PnDb
+Opponent: 4
+root hash:-1673928302473103318	depth 10
+.........
+.........
+.........
+.........
+.........
+.........
+....o....
+...xo....
+o.oxxxox.
+
+
+root eval null
+dag_n = 860944	proved_n = 101106	created_n = 4498373
+My move: 3
+time,mem before return: 9900 3966778064
+
+0
+0
+0
+0
+0
+4
+0
+Good Job LXX keep it up buddy
+---
+PnDb
+Opponent: 0
+root hash:-3213069509096128702	depth 12
+.........
+.........
+.........
+.........
+.........
+.........
+...xo....
+o..xo....
+o.oxxxox.
+
+
+root eval null
+dag_n = 817701	proved_n = 124806	created_n = 5257126
+My move: 3
+time,mem before return: 9900 4049345792
+
+LXC Lose Avoided
+0
+3
+0
+0
+0
+0
+0
+0
+0
+Good Job LXX keep it up buddy
+---
+PnDb
+Opponent: 3
+root hash:-7547991310403875642	depth 14
+.........
+.........
+.........
+.........
+...o.....
+...x.....
+...xo....
+o..xo....
+o.oxxxox.
+
+
+root eval null
+dag_n = 1144347	proved_n = 135642	created_n = 6015100
+My move: 5
+time,mem before return: 9900 3960161576
+
+4
+3
+4
+5
+4
+4
+4
+4
+Good Job LXX keep it up buddy
+---
+PnDb
+Opponent: 4
+root hash:-665477496364721049	depth 16
+.........
+.........
+.........
+.........
+...o.....
+...xo....
+...xo....
+o..xox...
+o.oxxxox.
+
+
+root eval null
+dag_n = 814922	proved_n = 150204	created_n = 6712355
+My move: 4
+time,mem before return: 9900 3992795224
+
+4
+3
+4
+5
+4
+4
+4
+4
+Good Job LXX keep it up buddy
+---
+PnDb
+Opponent: 4
+root hash:-5937559410205015528	depth 18
+.........
+.........
+.........
+....o....
+...ox....
+...xo....
+...xo....
+o..xox...
+o.oxxxox.
+
+
+root eval null
+dag_n = 896346	proved_n = 162537	created_n = 7454065
+My move: 5
+time,mem before return: 9900 3973092184
+
+4
+4
+4
+4
+4
+5
+4
+5
+Good Job LXX keep it up buddy
+---
+PnDb
+Opponent: 5
+root hash:-2075324023477611522	depth 20
+.........
+.........
+.........
+....o....
+...ox....
+...xoo...
+...xox...
+o..xox...
+o.oxxxox.
+
+
+root eval null
+dag_n = 849101	proved_n = 170031	created_n = 8208079
+My move: 0
+time,mem before return: 9900 3982115608
+
+4
+3
+4
+4
+4
+4
+4
+4
+4
+Good Job LXX keep it up buddy
+---
+PnDb
+Opponent: 4
+root hash:8940120461853623498	depth 22
+.........
+.........
+....o....
+....o....
+...ox....
+...xoo...
+x..xox...
+o..xox...
+o.oxxxox.
+
+
+root eval null
+dag_n = 777632	proved_n = 174816	created_n = 8940089
+My move: 0
+time,mem before return: 9900 3974341536
+
+5
+3
+5
+5
+5
+5
+5
+5
+Good Job LXX keep it up buddy
+---
+PnDb
+Opponent: 5
+root hash:2526814030839410303	depth 24
+.........
+.........
+....o....
+....o....
+...oxo...
+x..xoo...
+x..xox...
+o..xox...
+o.oxxxox.
+
+
+root eval null
+dag_n = 742726	proved_n = 185660	created_n = 9629715
+My move: 0
+time,mem before return: 9900 4032814760
+
+5
+5
+5
+5
+5
+5
+-1
+---
+PnDb
+Opponent: 5
+root hash:-2631377336002627389	depth 26
+.........
+.........
+....o....
+....oo...
+x..oxo...
+x..xoo...
+x..xox...
+o..xox...
+o.oxxxox.
+
+
+root eval null
+dag_n = 647206	proved_n = 199037	created_n = 10205646
+My move: 0
+time,mem before return: 9900 3982104800
+
+0
+0
+0
+0
+0
+-1
+---
+PnDb
+Opponent: 0
+root hash:516484750550979827	depth 28
+.........
+.........
+o...o....
+x...oo...
+x..oxo...
+x..xoo...
+x..xox...
+o..xox...
+o.oxxxox.
+
+
+root eval null
+dag_n = 791003	proved_n = 207040	created_n = 10753339
+My move: 5
+time,mem before return: 9900 4009289888
+
+5
+5
+5
+5
+5
+5
+5
+5
+5
+-1
+---
+PnDb
+Opponent: 5
+root hash:-7784971360260372193	depth 30
+.........
+.....o...
+o...ox...
+x...oo...
+x..oxo...
+x..xoo...
+x..xox...
+o..xox...
+o.oxxxox.
+
+
+root eval null
+dag_n = 631771	proved_n = 212102	created_n = 11299672
+My move: 2
+time,mem before return: 9900 3998696736
+
+5
+2
+5
+5
+5
+5
+5
+5
+5
+5
+Good Job LXX keep it up buddy
+---
+PnDb
+Opponent: 5
+root hash:-90501591068214776	depth 32
+.....o...
+.....o...
+o...ox...
+x...oo...
+x..oxo...
+x..xoo...
+x..xox...
+o.xxox...
+o.oxxxox.
+
+
+root eval null
+dag_n = 592840	proved_n = 221500	created_n = 11841682
+My move: 3
+time,mem before return: 9900 4006484800
+
+2
+2
+2
+2
+2
+2
+2
+2
+2
+2
+2
+Good Job LXX keep it up buddy
+---
+PnDb
+Opponent: 2
+root hash:1204657706334840063	depth 34
+.....o...
+.....o...
+o...ox...
+x..xoo...
+x..oxo...
+x..xoo...
+x.oxox...
+o.xxox...
+o.oxxxox.
+
+
+root eval null
+dag_n = 590749	proved_n = 230564	created_n = 12399563
+My move: 2
+time,mem before return: 9900 3981551528
+
+3
+3
+3
+3
+3
+3
+3
+3
+3
+3
+-1
+---
+PnDb
+Opponent: 3
+root hash:-7092691690430595462	depth 36
+.....o...
+.....o...
+o..oox...
+x..xoo...
+x..oxo...
+x.xxoo...
+x.oxox...
+o.xxox...
+o.oxxxox.
+
+
+root eval null
+dag_n = 567911	proved_n = 240717	created_n = 12921053
+My move: 2
+time,mem before return: 9900 4038522264
+
+7
+7
+7
+7
+7
+7
+7
+7
+7
+Good Job LXX keep it up buddy
+---
+PnDb
+Opponent: 7
+root hash:-4382258516322950392	depth 38
+.....o...
+.....o...
+o..oox...
+x..xoo...
+x.xoxo...
+x.xxoo...
+x.oxox...
+o.xxox.o.
+o.oxxxox.
+
+
+root eval null
+dag_n = 519070	proved_n = 257567	created_n = 13391483
+My move: 2
+time,mem before return: 9900 4075369512
+
+3
+3
+3
+3
+3
+3
+3
+3
+3
+-1
+---
+PnDb
+Opponent: 3
+root hash:-623790249520063092	depth 40
+.....o...
+...o.o...
+o..oox...
+x.xxoo...
+x.xoxo...
+x.xxoo...
+x.oxox...
+o.xxox.o.
+o.oxxxox.
+
+
+root eval null
+dag_n = 436975	proved_n = 286570	created_n = 13803182
+My move: 7
+time,mem before return: 9900 4035919392
+
+6
+6
+6
+6
+6
+6
+6
+6
+6
+Good Job LXX keep it up buddy
+---
+PnDb
+Opponent: 6
+root hash:6245641309462784349	depth 42
+.....o...
+...o.o...
+o..oox...
+x.xxoo...
+x.xoxo...
+x.xxoo...
+x.oxox.x.
+o.xxoxoo.
+o.oxxxox.
+
+
+root eval null
+dag_n = 465308	proved_n = 313873	created_n = 14210538
+My move: 7
+time,mem before return: 9900 4051858408
+
+6
+6
+6
+6
+6
+6
+6
+6
+6
+Good Job LXX keep it up buddy
+---
+PnDb
+Opponent: 6
+root hash:-1437741287598052461	depth 44
+.....o...
+...o.o...
+o..oox...
+x.xxoo...
+x.xoxo...
+x.xxoo.x.
+x.oxoxox.
+o.xxoxoo.
+o.oxxxox.
+
+
+root eval null
+dag_n = 469330	proved_n = 339784	created_n = 14586395
+My move: 6
+time,mem before return: 9900 3969112640
+
+6
+6
+6
+6
+6
+6
+6
+6
+6
+6
+Good Job LXX keep it up buddy
+---
+PnDb
+Opponent: 6
+root hash:-4033489414180131477	depth 46
+.....o...
+...o.o...
+o..oox...
+x.xxoo...
+x.xoxoo..
+x.xxooxx.
+x.oxoxox.
+o.xxoxoo.
+o.oxxxox.
+
+
+root eval null
+dag_n = 404013	proved_n = 372797	created_n = 14933926
+My move: 7
+time,mem before return: 9900 4010970168
+
+3
+3
+3
+3
+3
+3
+3
+3
+3
+-1
+---
+PnDb
+Opponent: 3
+root hash:3642755124334669269	depth 48
+...o.o...
+...o.o...
+o..oox...
+x.xxoo...
+x.xoxoox.
+x.xxooxx.
+x.oxoxox.
+o.xxoxoo.
+o.oxxxox.
+
+
+root eval null
+dag_n = 366909	proved_n = 406002	created_n = 15273712
+My move: 7
+time,mem before return: 9900 3954123176
+
+LXC Lose Avoided
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+Good Job LXX keep it up buddy
+---
+PnDb
+Opponent: 7
+root hash:1472959287834009383	depth 50
+...o.o...
+...o.o...
+o..oox.o.
+x.xxoo.x.
+x.xoxoox.
+x.xxooxx.
+x.oxoxox.
+o.xxoxoo.
+o.oxxxox.
+
+
+root eval null
+dag_n = 424029	proved_n = 437739	created_n = 15566765
+My move: 4
+time,mem before return: 9900 3963823760
+
+2
+2
+2
+2
+2
+2
+2
+2
+2
+2
+2
+2
+2
+2
+-1
+---
+PnDb
+Opponent: 2
+root hash:-3006511410129114881	depth 52
+...o.o...
+...oxo...
+o.ooox.o.
+x.xxoo.x.
+x.xoxoox.
+x.xxooxx.
+x.oxoxox.
+o.xxoxoo.
+o.oxxxox.
+
+
+root eval null
+dag_n = 320335	proved_n = 460083	created_n = 15831182
+My move: 8
+time,mem before return: 9900 4019043296
+
+2
+2
+2
+2
+2
+2
+2
+2
+2
+2
+2
+2
+4
+Good Job LXX keep it up buddy
+---
+PnDb
+Opponent: 4
+root hash:1767012868806410920	depth 54
+...ooo...
+...oxo...
+o.ooox.o.
+x.xxoo.x.
+x.xoxoox.
+x.xxooxx.
+x.oxoxox.
+o.xxoxoo.
+o.oxxxoxx
+
+
+root eval null
+dag_n = 270003	proved_n = 492757	created_n = 16084937
+My move: 6
+time,mem before return: 9900 4040742184
+
+2
+2
+2
+2
+2
+2
+2
+2
+2
+2
+0
+2
+0
+2
+0
+Good Job LXX keep it up buddy
+---
+PnDb
+Opponent: 0
+root hash:6635433972252524920	depth 56
+...ooo...
+o..oxo...
+o.ooox.o.
+x.xxooxx.
+x.xoxoox.
+x.xxooxx.
+x.oxoxox.
+o.xxoxoo.
+o.oxxxoxx
+
+
+root eval: 8 false 82
+dag_n = 0	proved_n = 501677	created_n = 16116711
+My move: 8
+time,mem before return: 1736 3976276784
+
+2
+2
+2
+2
+2
+2
+2
+2
+1
+2
+1
+2
+1
+2
+2
+Good Job LXX keep it up buddy
+---
+PnDb
+Opponent: 2
+root hash:5626078772660347190	depth 58
+...ooo...
+o.ooxo...
+o.ooox.o.
+x.xxooxx.
+x.xoxoox.
+x.xxooxx.
+x.oxoxox.
+o.xxoxoox
+o.oxxxoxx
+
+
+root eval: 2 false 82
+dag_n = -1	proved_n = 501715	created_n = 16117089
+My move: 2
+time,mem before return: 35 4109292712
+
+7
+7
+7
+7
+7
+0
+7
+0
+1
+7
+1
+7
+1
+7
+1
+7
+7
+7
+7
+7
+Good Job LXX keep it up buddy
+---
+PnDb
+Opponent: 7
+root hash:3629037464934568989	depth 60
+..xooo...
+o.ooxo.o.
+o.ooox.o.
+x.xxooxx.
+x.xoxoox.
+x.xxooxx.
+x.oxoxox.
+o.xxoxoox
+o.oxxxoxx
+
+
+root eval: 8 false 82
+dag_n = -2	proved_n = 503099	created_n = 16124904
+My move: 8
+time,mem before return: 299 4082152112
+
+LXC Lose Avoided
+8
+8
+8
+8
+1
+8
+8
+8
+8
+8
+7
+8
+8
+8
+8
+8
+8
+8
+Good Job LXX keep it up buddy
+---
+PnDb
+Opponent: 8
+root hash:-6578537934399847677	depth 62
+..xooo...
+o.ooxo.o.
+o.ooox.o.
+x.xxooxx.
+x.xoxoox.
+x.xxooxxo
+x.oxoxoxx
+o.xxoxoox
+o.oxxxoxx
+
+
+root eval: 8 false 82
+dag_n = -2	proved_n = 503099	created_n = 16124905
+My move: 8
+time,mem before return: 25 4110142016
+
+8
+8
+8
+8
+8
+8
+8
+8
+8
+8
+8
+8
+8
+8
+8
+8
+Good Job LXX keep it up buddy
+---
+PnDb
+Opponent: 8
+root hash:524335679289265616	depth 64
+..xooo...
+o.ooxo.o.
+o.ooox.o.
+x.xxooxxo
+x.xoxooxx
+x.xxooxxo
+x.oxoxoxx
+o.xxoxoox
+o.oxxxoxx
+
+
+root eval: 8 false 82
+dag_n = -2	proved_n = 503099	created_n = 16124906
+My move: 8
+time,mem before return: 28 4110011128
+
+8
+8
+8
+8
+1
+8
+1
+8
+1
+8
+8
+8
+8
+8
+Good Job LXX keep it up buddy
+---
+PnDb
+Opponent: 8
+root hash:5559771238952797292	depth 66
+..xooo...
+o.ooxo.oo
+o.ooox.ox
+x.xxooxxo
+x.xoxooxx
+x.xxooxxo
+x.oxoxoxx
+o.xxoxoox
+o.oxxxoxx
+
+
+root eval: 8 false 82
+dag_n = -3	proved_n = 503191	created_n = 16125437
+My move: 8
+time,mem before return: 42 4108356000
+
+7
+7
+7
+7
+7
+7
+7
+7
+7
+7
+7
+7
+Good Job LXX keep it up buddy
+---
+PnDb
+Opponent: 7
+root hash:-2146726685620872915	depth 68
+..xooo.ox
+o.ooxo.oo
+o.ooox.ox
+x.xxooxxo
+x.xoxooxx
+x.xxooxxo
+x.oxoxoxx
+o.xxoxoox
+o.oxxxoxx
+
+
+root eval: 6 false 82
+dag_n = -3	proved_n = 503191	created_n = 16125438
+My move: 6
+time,mem before return: 30 4109404840
+
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+Good Job LXX keep it up buddy
+---
+PnDb
+Opponent: 0
+root hash:1521535526269320078	depth 70
+o.xooo.ox
+o.ooxo.oo
+o.oooxxox
+x.xxooxxo
+x.xoxooxx
+x.xxooxxo
+x.oxoxoxx
+o.xxoxoox
+o.oxxxoxx
+
+
+root eval: 1 false 82
+dag_n = -4	proved_n = 503196	created_n = 16125446
+My move: 1
+time,mem before return: 39 4109366504
+
+1
+1
+1
+1
+1
+1
+1
+1
+Good Job LXX keep it up buddy
+---
+PnDb
+Opponent: 1
+root hash:3338633440557926174	depth 72
+o.xooo.ox
+o.ooxo.oo
+o.oooxxox
+x.xxooxxo
+x.xoxooxx
+x.xxooxxo
+x.oxoxoxx
+ooxxoxoox
+oxoxxxoxx
+
+
+root eval: 1 false 82
+dag_n = -5	proved_n = 503201	created_n = 16125454
+My move: 1
+time,mem before return: 36 4109617792
+
+1
+1
+1
+1
+1
+1
+Good Job LXX keep it up buddy
+---
+PnDb
+Opponent: 1
+root hash:-6383848207076498812	depth 74
+o.xooo.ox
+o.ooxo.oo
+o.oooxxox
+x.xxooxxo
+x.xoxooxx
+xoxxooxxo
+xxoxoxoxx
+ooxxoxoox
+oxoxxxoxx
+
+
+root eval: 1 false 82
+dag_n = -6	proved_n = 503206	created_n = 16125462
+My move: 1
+time,mem before return: 35 4109617432
+
+1
+1
+1
+1
+Good Job LXX keep it up buddy
+---
+PnDb
+Opponent: 1
+root hash:1303097405587749755	depth 76
+o.xooo.ox
+o.ooxo.oo
+o.oooxxox
+xoxxooxxo
+xxxoxooxx
+xoxxooxxo
+xxoxoxoxx
+ooxxoxoox
+oxoxxxoxx
+
+
+root eval: 1 false 82
+dag_n = -7	proved_n = 503211	created_n = 16125468
+My move: 1
+time,mem before return: 37 4109617072
+
+1
+1
+Good Job LXX keep it up buddy
+---
+PnDb
+Opponent: 1
+root hash:4150335714759561473	depth 78
+o.xooo.ox
+ooooxo.oo
+oxoooxxox
+xoxxooxxo
+xxxoxooxx
+xoxxooxxo
+xxoxoxoxx
+ooxxoxoox
+oxoxxxoxx
+
+
+root eval: 1 false 82
+dag_n = -8	proved_n = 503215	created_n = 16125472
+My move: 1
+time,mem before return: 32 4109616472
+
+---
+PnDb
+Opponent: 6
+root hash:-5785817803606824220	depth 80
+oxxooo.ox
+ooooxoooo
+oxoooxxox
+xoxxooxxo
+xxxoxooxx
+xoxxooxxo
+xxoxoxoxx
+ooxxoxoox
+oxoxxxoxx
+
+
+root eval: 6 false 82
+dag_n = -8	proved_n = 503215	created_n = 16125473
+My move: 6
+time,mem before return: 32 4109616176
+
+PnDb Score: 4 Won: 1 Lost: 0 Draw: 1 Error: 0
+MARG Score: 1 Won: 0 Lost: 1 Draw: 1 Error: 0
+#!/bin/bash
+
+if [[ $# < 1 ]]
+then
+	echo "missing args"
+	exit 1
+fi
+
+
+_OUTDIR="debug/match/final1"
+OUTDIR="${_OUTDIR}/$1"
+TESTS="7"
+
+mkdir ${_OUTDIR}
+mkdir ${OUTDIR}
+
+./lcompile
+
+
+
+./ltest 9 9 5		pndbg.delta.PnSearch pndbg.dnull.PnSearch		-r 2 > ${OUTDIR}/delta_dnull_995.txt
+cat scripts/testcases_final1.sh >> ${OUTDIR}/delta_dnull_995.txt
+
+./ltest 9 9 5		pndbtime.PnSearch LXCONO.LXMARGIN.LXMARGIN		-r 2 > ${OUTDIR}/pndbtime_xcono_995.txt
+cat scripts/testcases_final1.sh >> ${OUTDIR}/pndbtime_xcono_995.txt
+
+
+./ltest 18 20 7		pndbg.delta.PnSearch pndbg.dnull.PnSearch		-r 2 > ${OUTDIR}/delta_dnull_18207.txt
+cat scripts/testcases_final1.sh >> ${OUTDIR}/delta_dnull_18207.txt
+
+./ltest 18 20 7		pndbtime.PnSearch LXCONO.LXMARGIN.LXMARGIN		-r 2 > ${OUTDIR}/pndbtime_xcono_18207.txt
+cat scripts/testcases_final1.sh >> ${OUTDIR}/pndbtime_xcono_18207.txt
+
+
+
+./ltest 9 9 5		pndbg.dnull.PnSearch pndbg.delta.PnSearch 		-r 1 > ${OUTDIR}/dnull_delta_995.txt
+cat scripts/testcases_final1.sh >> ${OUTDIR}/dnull_delta_995.txt
+
+./ltest 9 9 5		LXCONO.LXMARGIN.LXMARGIN pndbtime.PnSearch 		-r 1 > ${OUTDIR}/xcono_pndbtime_995.txt
+cat scripts/testcases_final1.sh >> ${OUTDIR}/xcono_pndbtime_995.txt
+
+
+./ltest 18 20 7		pndbg.dnull.PnSearch pndbg.delta.PnSearch 		-r 1 > ${OUTDIR}/dnull_delta_18207.txt
+cat scripts/testcases_final1.sh >> ${OUTDIR}/dnull_delta_18207.txt
+
+./ltest 18 20 7		LXCONO.LXMARGIN.LXMARGIN pndbtime.PnSearch		-r 1 > ${OUTDIR}/xcono_pndbtime_18207.txt
+cat scripts/testcases_final1.sh >> ${OUTDIR}/xcono_pndbtime_18207.txt

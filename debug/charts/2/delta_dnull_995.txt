@@ -1,0 +1,7119 @@
+
+-_-
+START GAME
+-_-
+
+
+-_-
+START GAME
+-_-
+
+---
+PnDb delta
+Opponent: null
+root hash:0	depth 0
+.........
+.........
+.........
+.........
+.........
+.........
+.........
+.........
+.........
+
+
+log: before tagTree ;	time = 23	mems = 4167041024	266338304	185803520	4086506240
+
+log: before gc ;	time = 35	mems = 4167041024	266338304	185342120	4086044840
+
+log: before visit ;	time = 46	mems = 4167041024	266338304	187508696	4088211416
+
+end of loop : n_loops = 112962
+log:  ;	time = 9000	mems = 4167041024	1065353216	910178856	4011866664
+
+dag_n = 584497	proved_n = 2633	created_n = 587173
+
+
+My move: 5
+
+.........
+.........
+.........
+.........
+.........
+.........
+.........
+.........
+.....x...
+
+node with col , node==root? true; numbers: 12578, 58354,	depth: 0
+
+time,mem before return: 9005 4011866664
+
+---
+PnDb dnull
+Opponent: 5
+root hash:170512747239103450	depth 1
+.........
+.........
+.........
+.........
+.........
+.........
+.........
+.........
+.....o...
+
+
+log: time = 3	mems = 4167041024	1065353216	908081704	4009769512
+
+log: time = 11	mems = 4167041024	1065353216	908081704	4009769512
+
+log: time = 48	mems = 4167041024	419430400	303280992	4050891616
+
+end of loop : n_loops = 90171
+log: time = 9000	mems = 4167041024	838860800	461329480	3789509704
+
+dag_n = 438756	proved_n = 7013	created_n = 446759
+
+
+My move: 4
+
+.........
+.........
+.........
+.........
+.........
+.........
+.........
+.........
+....xo...
+
+node with col , node==root? true; numbers: 11721, 32399,	depth: 1
+
+time,mem before return: 9001 3789509704
+
+---
+PnDb delta
+Opponent: 4
+root hash:-1993433147515866164	depth 2
+.........
+.........
+.........
+.........
+.........
+.........
+.........
+.........
+....ox...
+
+
+log: before tagTree ;	time = 1	mems = 4167041024	838860800	459232328	3787412552
+
+log: before removeUnmarkedTree ;	time = 33	mems = 4167041024	838860800	459232328	3787412552
+
+log: before gc ;	time = 294	mems = 4167041024	838860800	459232328	3787412552
+
+log: before visit ;	time = 329	mems = 4167041024	440401920	330391248	4057030352
+
+end of loop : n_loops = 109159
+log:  ;	time = 9000	mems = 4167041024	1059061760	901277344	4009256608
+
+dag_n = 609375	proved_n = 4366	created_n = 1152647
+
+
+My move: 5
+
+.........
+.........
+.........
+.........
+.........
+.........
+.........
+.....x...
+....ox...
+
+node with col , node==root? true; numbers: 12497, 48046,	depth: 2
+
+time,mem before return: 9000 4009256608
+
+---
+PnDb dnull
+Opponent: 5
+root hash:-9193464708145887783	depth 3
+.........
+.........
+.........
+.........
+.........
+.........
+.........
+.....o...
+....xo...
+
+
+log: time = 1	mems = 4167041024	1059061760	899180192	4007159456
+
+log: time = 46	mems = 4167041024	1059061760	899180192	4007159456
+
+log: time = 224	mems = 4167041024	1059061760	899180192	4007159456
+
+log: time = 262	mems = 4167041024	482344960	361452512	4046148576
+
+end of loop : n_loops = 89972
+log: time = 9000	mems = 4167041024	851443712	251455656	3567052968
+
+dag_n = 496656	proved_n = 13067	created_n = 905182
+
+
+My move: 4
+
+.........
+.........
+.........
+.........
+.........
+.........
+.........
+....xo...
+....xo...
+
+node with col , node==root? true; numbers: 10731, 32386,	depth: 3
+
+time,mem before return: 9000 3567052968
+
+---
+PnDb delta
+Opponent: 4
+root hash:-5130659348929764065	depth 4
+.........
+.........
+.........
+.........
+.........
+.........
+.........
+....ox...
+....ox...
+
+
+log: before tagTree ;	time = 1	mems = 4167041024	851443712	249359328	3564956640
+
+log: before removeUnmarkedTree ;	time = 32	mems = 4167041024	851443712	249359328	3564956640
+
+log: before gc ;	time = 268	mems = 4167041024	851443712	249359328	3564956640
+
+log: before visit ;	time = 308	mems = 4167041024	461373440	346288240	4051955824
+
+end of loop : n_loops = 101875
+log:  ;	time = 9002	mems = 4167041024	989855744	770020336	3947205616
+
+dag_n = 594205	proved_n = 7640	created_n = 1685886
+
+
+My move: 5
+
+.........
+.........
+.........
+.........
+.........
+.........
+.....x...
+....ox...
+....ox...
+
+node with col , node==root? true; numbers: 10455, 33420,	depth: 4
+
+time,mem before return: 9002 3947205616
+
+---
+PnDb dnull
+Opponent: 5
+root hash:8687038116075920487	depth 5
+.........
+.........
+.........
+.........
+.........
+.........
+.....o...
+....xo...
+....xo...
+
+
+log: time = 0	mems = 4167041024	989855744	769909088	3947094368
+
+log: time = 42	mems = 4167041024	989855744	769909088	3947094368
+
+log: time = 230	mems = 4167041024	989855744	769909088	3947094368
+
+log: time = 271	mems = 4167041024	476053504	354214824	4045202344
+
+end of loop : n_loops = 85242
+log: time = 9000	mems = 4167041024	1002438656	612522800	3777125168
+
+dag_n = 479020	proved_n = 22078	created_n = 1322150
+
+
+My move: 5
+
+.........
+.........
+.........
+.........
+.........
+.....x...
+.....o...
+....xo...
+....xo...
+
+node with col , node==root? true; numbers: 9810, 18405,	depth: 5
+
+time,mem before return: 9000 3777125168
+
+---
+PnDb delta
+Opponent: 5
+root hash:-6032310223861645732	depth 6
+.........
+.........
+.........
+.........
+.........
+.....o...
+.....x...
+....ox...
+....ox...
+
+
+log: before tagTree ;	time = 0	mems = 4167041024	1002438656	610425648	3775028016
+
+log: before removeUnmarkedTree ;	time = 69	mems = 4167041024	1002438656	610425648	3775028016
+
+log: before gc ;	time = 290	mems = 4167041024	1002438656	610425648	3775028016
+
+log: before visit ;	time = 335	mems = 4167041024	448790528	331966824	4050217320
+
+end of loop : n_loops = 100201
+log:  ;	time = 9000	mems = 4167041024	1050673152	676884416	3793252288
+
+dag_n = 632246	proved_n = 9094	created_n = 2217707
+
+
+My move: 4
+
+.........
+.........
+.........
+.........
+.........
+.....o...
+....xx...
+....ox...
+....ox...
+
+node with col , node==root? true; numbers: 9786, 28739,	depth: 6
+
+time,mem before return: 9000 3793252288
+
+---
+PnDb dnull
+Opponent: 4
+root hash:8982640144939322478	depth 7
+.........
+.........
+.........
+.........
+.........
+.....x...
+....oo...
+....xo...
+....xo...
+
+
+log: time = 0	mems = 4167041024	1050673152	674787264	3791155136
+
+log: time = 39	mems = 4167041024	1050673152	674787264	3791155136
+
+log: time = 216	mems = 4167041024	1050673152	674787264	3791155136
+
+log: time = 263	mems = 4167041024	476053504	351800496	4042788016
+
+end of loop : n_loops = 83612
+log: time = 9000	mems = 4167041024	895483904	369399288	3640956408
+
+dag_n = 511641	proved_n = 23787	created_n = 1769225
+
+
+My move: 4
+
+.........
+.........
+.........
+.........
+.........
+....xx...
+....oo...
+....xo...
+....xo...
+
+node with col , node==root? true; numbers: 6782, 25399,	depth: 7
+
+time,mem before return: 9000 3640956408
+
+---
+PnDb delta
+Opponent: 4
+root hash:-4151332146618073052	depth 8
+.........
+.........
+.........
+.........
+.........
+....oo...
+....xx...
+....ox...
+....ox...
+
+
+log: before tagTree ;	time = 1	mems = 4167041024	895483904	367302136	3638859256
+
+log: before removeUnmarkedTree ;	time = 68	mems = 4167041024	895483904	367302136	3638859256
+
+log: before gc ;	time = 286	mems = 4167041024	895483904	367302136	3638859256
+
+log: before visit ;	time = 331	mems = 4167041024	461373440	340087424	4045755008
+
+end of loop : n_loops = 102813
+log:  ;	time = 9000	mems = 4167041024	981467136	612708416	3798282304
+
+dag_n = 677972	proved_n = 11020	created_n = 2760085
+
+
+My move: 1
+
+.........
+.........
+.........
+.........
+.........
+....oo...
+....xx...
+....ox...
+.x..ox...
+
+node with col , node==root? true; numbers: 6368, 27709,	depth: 8
+
+time,mem before return: 9000 3798282304
+
+---
+PnDb dnull
+Opponent: 1
+root hash:-4949791222841665260	depth 9
+.........
+.........
+.........
+.........
+.........
+....xx...
+....oo...
+....xo...
+.o..xo...
+
+
+log: time = 1	mems = 4167041024	981467136	610611264	3796185152
+
+log: time = 41	mems = 4167041024	981467136	610611264	3796185152
+
+log: time = 229	mems = 4167041024	981467136	610611264	3796185152
+
+log: time = 276	mems = 4167041024	476053504	348825800	4039813320
+
+end of loop : n_loops = 88246
+log: time = 9000	mems = 4167041024	748683264	346710184	3765067944
+
+dag_n = 533892	proved_n = 24339	created_n = 2240079
+
+
+My move: 8
+
+.........
+.........
+.........
+.........
+.........
+....xx...
+....oo...
+....xo...
+.o..xo..x
+
+node with col , node==root? true; numbers: 4772, 24218,	depth: 9
+
+time,mem before return: 9000 3765067944
+
+---
+PnDb delta
+Opponent: 8
+root hash:-3845156446998775868	depth 10
+.........
+.........
+.........
+.........
+.........
+....oo...
+....xx...
+....ox...
+.x..ox..o
+
+
+log: before tagTree ;	time = 0	mems = 4167041024	748683264	344613032	3762970792
+
+log: before removeUnmarkedTree ;	time = 46	mems = 4167041024	748683264	344613032	3762970792
+
+log: before gc ;	time = 357	mems = 4167041024	748683264	344613032	3762970792
+
+log: before visit ;	time = 395	mems = 4167041024	461373440	343958608	4049626192
+
+end of loop : n_loops = 102187
+log:  ;	time = 9000	mems = 4167041024	960495616	392764640	3599310048
+
+dag_n = 590257	proved_n = 12201	created_n = 3297594
+
+
+My move: 1
+
+.........
+.........
+.........
+.........
+.........
+....oo...
+....xx...
+.x..ox...
+.x..ox..o
+
+node with col , node==root? true; numbers: 5551, 27556,	depth: 10
+
+time,mem before return: 9000 3599310048
+
+---
+PnDb dnull
+Opponent: 1
+root hash:-3832959556829494162	depth 11
+.........
+.........
+.........
+.........
+.........
+....xx...
+....oo...
+.o..xo...
+.o..xo..x
+
+
+log: time = 1	mems = 4167041024	960495616	390667488	3597212896
+
+log: time = 26	mems = 4167041024	960495616	390667488	3597212896
+
+log: time = 231	mems = 4167041024	960495616	390667488	3597212896
+
+log: time = 276	mems = 4167041024	476053504	355402128	4046389648
+
+end of loop : n_loops = 89891
+log: time = 9000	mems = 4167041024	851443712	562245144	3877842456
+
+dag_n = 521433	proved_n = 28272	created_n = 2716067
+
+
+My move: 1
+
+.........
+.........
+.........
+.........
+.........
+....xx...
+.x..oo...
+.o..xo...
+.o..xo..x
+
+node with col , node==root? true; numbers: 5072, 18115,	depth: 11
+
+time,mem before return: 9000 3877842456
+
+---
+PnDb delta
+Opponent: 1
+root hash:5145079779222370542	depth 12
+.........
+.........
+.........
+.........
+.........
+....oo...
+.o..xx...
+.x..ox...
+.x..ox..o
+
+
+log: before tagTree ;	time = 0	mems = 4167041024	851443712	560149904	3875747216
+
+log: before removeUnmarkedTree ;	time = 16	mems = 4167041024	851443712	560149904	3875747216
+
+log: before gc ;	time = 263	mems = 4167041024	851443712	560149904	3875747216
+
+log: before visit ;	time = 302	mems = 4167041024	455081984	339716360	4051675400
+
+end of loop : n_loops = 105901
+log:  ;	time = 9000	mems = 4167041024	983564288	759580968	3943057704
+
+dag_n = 591804	proved_n = 13200	created_n = 3857633
+
+
+My move: 2
+
+.........
+.........
+.........
+.........
+.........
+....oo...
+.o..xx...
+.x..ox...
+.xx.ox..o
+
+node with col , node==root? true; numbers: 5670, 27942,	depth: 12
+
+time,mem before return: 9000 3943057704
+
+---
+PnDb dnull
+Opponent: 2
+root hash:2930446045828822494	depth 13
+.........
+.........
+.........
+.........
+.........
+....xx...
+.x..oo...
+.o..xo...
+.oo.xo..x
+
+
+log: time = 0	mems = 4167041024	983564288	757483816	3940960552
+
+log: time = 18	mems = 4167041024	983564288	757483816	3940960552
+
+log: time = 223	mems = 4167041024	983564288	757483816	3940960552
+
+log: time = 265	mems = 4167041024	476053504	355911720	4046899240
+
+end of loop : n_loops = 86311
+log: time = 9000	mems = 4167041024	845152256	467183048	3789071816
+
+dag_n = 501419	proved_n = 29372	created_n = 3183647
+
+
+My move: 8
+
+.........
+.........
+.........
+.........
+.........
+....xx...
+.x..oo...
+.o..xo..x
+.oo.xo..x
+
+node with col , node==root? true; numbers: 4882, 20447,	depth: 13
+
+time,mem before return: 9000 3789071816
+
+---
+PnDb delta
+Opponent: 8
+root hash:5188383432087394069	depth 14
+.........
+.........
+.........
+.........
+.........
+....oo...
+.o..xx...
+.x..ox..o
+.xx.ox..o
+
+
+log: before tagTree ;	time = 1	mems = 4167041024	845152256	465085896	3786974664
+
+log: before removeUnmarkedTree ;	time = 34	mems = 4167041024	845152256	465085896	3786974664
+
+log: before gc ;	time = 254	mems = 4167041024	845152256	465085896	3786974664
+
+log: before visit ;	time = 295	mems = 4167041024	448790528	333374744	4051625240
+
+end of loop : n_loops = 93400
+log:  ;	time = 9000	mems = 4167041024	989855744	724170072	3901355352
+
+dag_n = 551103	proved_n = 14913	created_n = 4359741
+
+
+My move: 2
+
+.........
+.........
+.........
+.........
+.........
+....oo...
+.o..xx...
+.xx.ox..o
+.xx.ox..o
+
+node with col , node==root? true; numbers: 5380, 22863,	depth: 14
+
+time,mem before return: 9000 3901355352
+
+---
+PnDb dnull
+Opponent: 2
+root hash:-2669616879891801819	depth 15
+.........
+.........
+.........
+.........
+.........
+....xx...
+.x..oo...
+.oo.xo..x
+.oo.xo..x
+
+
+log: time = 1	mems = 4167041024	989855744	722072920	3899258200
+
+log: time = 21	mems = 4167041024	989855744	722072920	3899258200
+
+log: time = 234	mems = 4167041024	989855744	722072920	3899258200
+
+log: time = 276	mems = 4167041024	469762048	351594704	4048873680
+
+end of loop : n_loops = 85065
+log: time = 9000	mems = 4167041024	817889280	236555360	3585707104
+
+dag_n = 493486	proved_n = 34563	created_n = 3637747
+
+
+My move: 8
+
+.........
+.........
+.........
+.........
+.........
+....xx...
+.x..oo..x
+.oo.xo..x
+.oo.xo..x
+
+node with col , node==root? true; numbers: 4715, 15287,	depth: 15
+
+time,mem before return: 9000 3585707104
+
+---
+PnDb delta
+Opponent: 8
+root hash:182979518708084662	depth 16
+.........
+.........
+.........
+.........
+.........
+....oo...
+.o..xx..o
+.xx.ox..o
+.xx.ox..o
+
+
+log: before tagTree ;	time = 0	mems = 4167041024	817889280	234458208	3583609952
+
+log: before removeUnmarkedTree ;	time = 46	mems = 4167041024	817889280	234458208	3583609952
+
+log: before gc ;	time = 238	mems = 4167041024	817889280	234458208	3583609952
+
+log: before visit ;	time = 277	mems = 4167041024	455081984	339401488	4051360528
+
+end of loop : n_loops = 89612
+log:  ;	time = 9000	mems = 4167041024	1092616192	813959904	3888384736
+
+dag_n = 556033	proved_n = 17127	created_n = 4857553
+
+
+My move: 8
+
+.........
+.........
+.........
+.........
+.........
+....oo..x
+.o..xx..o
+.xx.ox..o
+.xx.ox..o
+
+node with col , node==root? true; numbers: 8777, 13703,	depth: 16
+
+time,mem before return: 9000 3888384736
+
+---
+PnDb dnull
+Opponent: 8
+root hash:-1974057992796999085	depth 17
+.........
+.........
+.........
+.........
+.........
+....xx..o
+.x..oo..x
+.oo.xo..x
+.oo.xo..x
+
+
+log: time = 0	mems = 4167041024	1092616192	811862752	3886287584
+
+log: time = 22	mems = 4167041024	1092616192	811862752	3886287584
+
+log: time = 219	mems = 4167041024	1092616192	811862752	3886287584
+
+log: time = 259	mems = 4167041024	469762048	351625912	4048904888
+
+end of loop : n_loops = 86215
+log: time = 9000	mems = 4167041024	924844032	343796984	3585993976
+
+dag_n = 487901	proved_n = 39556	created_n = 4095183
+
+
+My move: 5
+
+.........
+.........
+.........
+.........
+.....x...
+....xx..o
+.x..oo..x
+.oo.xo..x
+.oo.xo..x
+
+node with col , node==root? true; numbers: 5871, 15900,	depth: 17
+
+time,mem before return: 9000 3585993976
+
+---
+PnDb delta
+Opponent: 5
+root hash:5805251560107310811	depth 18
+.........
+.........
+.........
+.........
+.....o...
+....oo..x
+.o..xx..o
+.xx.ox..o
+.xx.ox..o
+
+
+log: before tagTree ;	time = 1	mems = 4167041024	924844032	341784240	3583981232
+
+log: before removeUnmarkedTree ;	time = 33	mems = 4167041024	924844032	341784240	3583981232
+
+log: before gc ;	time = 243	mems = 4167041024	924844032	341784240	3583981232
+
+log: before visit ;	time = 284	mems = 4167041024	455081984	339053840	4051012880
+
+end of loop : n_loops = 94344
+log:  ;	time = 9000	mems = 4167041024	935329792	439341808	3671053040
+
+dag_n = 580940	proved_n = 19001	created_n = 5373339
+
+
+My move: 2
+
+.........
+.........
+.........
+.........
+.....o...
+....oo..x
+.ox.xx..o
+.xx.ox..o
+.xx.ox..o
+
+node with col , node==root? true; numbers: 5960, 22173,	depth: 18
+
+time,mem before return: 9000 3671053040
+
+---
+PnDb dnull
+Opponent: 2
+root hash:6973630840079601215	depth 19
+.........
+.........
+.........
+.........
+.....x...
+....xx..o
+.xo.oo..x
+.oo.xo..x
+.oo.xo..x
+
+
+log: time = 0	mems = 4167041024	935329792	437658488	3669369720
+
+log: time = 31	mems = 4167041024	935329792	437658488	3669369720
+
+log: time = 211	mems = 4167041024	935329792	437658488	3669369720
+
+log: time = 254	mems = 4167041024	469762048	347846912	4045125888
+
+end of loop : n_loops = 76585
+log: time = 9000	mems = 4167041024	996147200	417728224	3588622048
+
+dag_n = 466557	proved_n = 44993	created_n = 4501277
+
+
+My move: 2
+
+.........
+.........
+.........
+.........
+.....x...
+..x.xx..o
+.xo.oo..x
+.oo.xo..x
+.oo.xo..x
+
+node with col , node==root? true; numbers: 6850, 11342,	depth: 19
+
+time,mem before return: 9000 3588622048
+
+---
+PnDb delta
+Opponent: 2
+root hash:-5872804429592340806	depth 20
+.........
+.........
+.........
+.........
+.....o...
+..o.oo..x
+.ox.xx..o
+.xx.ox..o
+.xx.ox..o
+
+
+log: before tagTree ;	time = 0	mems = 4167041024	996147200	416688512	3587582336
+
+log: before removeUnmarkedTree ;	time = 46	mems = 4167041024	996147200	416688512	3587582336
+
+log: before gc ;	time = 256	mems = 4167041024	996147200	416688512	3587582336
+
+log: before visit ;	time = 296	mems = 4167041024	461373440	344936280	4050603864
+
+end of loop : n_loops = 93723
+log:  ;	time = 9000	mems = 4167041024	977272832	615302728	3805070920
+
+dag_n = 592746	proved_n = 21372	created_n = 5875144
+
+
+My move: 5
+
+.........
+.........
+.........
+.....x...
+.....o...
+..o.oo..x
+.ox.xx..o
+.xx.ox..o
+.xx.ox..o
+
+node with col , node==root? true; numbers: 5629, 22867,	depth: 20
+
+time,mem before return: 9000 3805070920
+
+---
+PnDb dnull
+Opponent: 5
+root hash:9089361775255594966	depth 21
+.........
+.........
+.........
+.....o...
+.....x...
+..x.xx..o
+.xo.oo..x
+.oo.xo..x
+.oo.xo..x
+
+
+log: time = 0	mems = 4167041024	977272832	614264112	3804032304
+
+log: time = 28	mems = 4167041024	977272832	614264112	3804032304
+
+log: time = 206	mems = 4167041024	977272832	614264112	3804032304
+
+log: time = 250	mems = 4167041024	469762048	347215680	4044494656
+
+end of loop : n_loops = 82825
+log: time = 9005	mems = 4167041024	843055104	689068424	4013054344
+
+dag_n = 493482	proved_n = 48213	created_n = 4937773
+
+
+My move: 8
+
+.........
+.........
+.........
+.....o...
+.....x..x
+..x.xx..o
+.xo.oo..x
+.oo.xo..x
+.oo.xo..x
+
+node with col , node==root? true; numbers: 4471, 17754,	depth: 21
+
+time,mem before return: 9005 4013054344
+
+---
+PnDb delta
+Opponent: 8
+root hash:-299485656050762427	depth 22
+.........
+.........
+.........
+.....x...
+.....o..o
+..o.oo..x
+.ox.xx..o
+.xx.ox..o
+.xx.ox..o
+
+
+log: before tagTree ;	time = 0	mems = 4167041024	843055104	688021896	4012007816
+
+log: before removeUnmarkedTree ;	time = 22	mems = 4167041024	843055104	688019848	4012005768
+
+log: before gc ;	time = 250	mems = 4167041024	843055104	688019848	4012005768
+
+log: before visit ;	time = 288	mems = 4167041024	455081984	340146488	4052105528
+
+end of loop : n_loops = 98130
+log:  ;	time = 9000	mems = 4167041024	901775360	634227480	3899493144
+
+dag_n = 552393	proved_n = 24061	created_n = 6391380
+
+
+My move: 8
+
+.........
+.........
+.........
+.....x..x
+.....o..o
+..o.oo..x
+.ox.xx..o
+.xx.ox..o
+.xx.ox..o
+
+node with col , node==root? true; numbers: 5048, 22110,	depth: 22
+
+time,mem before return: 9000 3899493144
+
+---
+PnDb dnull
+Opponent: 8
+root hash:-5954423351173120743	depth 23
+.........
+.........
+.........
+.....o..o
+.....x..x
+..x.xx..o
+.xo.oo..x
+.oo.xo..x
+.oo.xo..x
+
+
+log: time = 1	mems = 4167041024	901775360	633180888	3898446552
+
+log: time = 25	mems = 4167041024	901775360	633180888	3898446552
+
+log: time = 223	mems = 4167041024	901775360	633180888	3898446552
+
+log: time = 264	mems = 4167041024	469762048	351221752	4048500728
+
+end of loop : n_loops = 84478
+log: time = 9000	mems = 4167041024	853540864	252755288	3566255448
+
+dag_n = 476855	proved_n = 51194	created_n = 5381416
+
+
+My move: 8
+
+.........
+.........
+........x
+.....o..o
+.....x..x
+..x.xx..o
+.xo.oo..x
+.oo.xo..x
+.oo.xo..x
+
+node with col , node==root? true; numbers: 4490, 16969,	depth: 23
+
+time,mem before return: 9000 3566255448
+
+---
+PnDb delta
+Opponent: 8
+root hash:4298622339237286062	depth 24
+.........
+.........
+........o
+.....x..x
+.....o..o
+..o.oo..x
+.ox.xx..o
+.xx.ox..o
+.xx.ox..o
+
+
+log: before tagTree ;	time = 1	mems = 4167041024	853540864	251708920	3565209080
+
+log: before removeUnmarkedTree ;	time = 29	mems = 4167041024	853540864	251708920	3565209080
+
+log: before gc ;	time = 233	mems = 4167041024	853540864	251708920	3565209080
+
+log: before visit ;	time = 273	mems = 4167041024	448790528	334268256	4052518752
+
+end of loop : n_loops = 94401
+log:  ;	time = 9000	mems = 4167041024	830472192	678965424	4015534256
+
+dag_n = 522767	proved_n = 26435	created_n = 6872013
+
+
+My move: 7
+
+.........
+.........
+........o
+.....x..x
+.....o..o
+..o.oo..x
+.ox.xx..o
+.xx.ox..o
+.xx.ox.xo
+
+node with col , node==root? true; numbers: 5020, 23642,	depth: 24
+
+time,mem before return: 9000 4015534256
+
+---
+PnDb dnull
+Opponent: 7
+root hash:8074728108647944516	depth 25
+.........
+.........
+........x
+.....o..o
+.....x..x
+..x.xx..o
+.xo.oo..x
+.oo.xo..x
+.oo.xo.ox
+
+
+log: time = 0	mems = 4167041024	830472192	677919120	4014487952
+
+log: time = 25	mems = 4167041024	830472192	677919120	4014487952
+
+log: time = 210	mems = 4167041024	830472192	677919120	4014487952
+
+log: time = 248	mems = 4167041024	461373440	344250616	4049918200
+
+end of loop : n_loops = 78998
+log: time = 9000	mems = 4167041024	878706688	266452264	3554786600
+
+dag_n = 439945	proved_n = 54563	created_n = 5785086
+
+
+My move: 7
+
+.........
+.........
+........x
+.....o..o
+.....x..x
+..x.xx..o
+.xo.oo..x
+.oo.xo.xx
+.oo.xo.ox
+
+node with col , node==root? true; numbers: 4410, 17729,	depth: 25
+
+time,mem before return: 9000 3554786600
+
+---
+PnDb delta
+Opponent: 7
+root hash:3756858436128665665	depth 26
+.........
+.........
+........o
+.....x..x
+.....o..o
+..o.oo..x
+.ox.xx..o
+.xx.ox.oo
+.xx.ox.xo
+
+
+log: before tagTree ;	time = 0	mems = 4167041024	878706688	265237896	3553572232
+
+log: before removeUnmarkedTree ;	time = 29	mems = 4167041024	878706688	265237896	3553572232
+
+log: before gc ;	time = 232	mems = 4167041024	878706688	265237896	3553572232
+
+log: before visit ;	time = 266	mems = 4167041024	434110464	322054448	4054985008
+
+end of loop : n_loops = 90382
+log:  ;	time = 9000	mems = 4167041024	1023410176	598697648	3742328496
+
+dag_n = 497636	proved_n = 30227	created_n = 7331815
+
+
+My move: 7
+
+.........
+.........
+........o
+.....x..x
+.....o..o
+..o.oo..x
+.ox.xx.xo
+.xx.ox.oo
+.xx.ox.xo
+
+node with col , node==root? true; numbers: 4585, 17865,	depth: 26
+
+time,mem before return: 9000 3742328496
+
+---
+PnDb dnull
+Opponent: 7
+root hash:-1380780334732988232	depth 27
+.........
+.........
+........x
+.....o..o
+.....x..x
+..x.xx..o
+.xo.oo.ox
+.oo.xo.xx
+.oo.xo.ox
+
+
+log: time = 1	mems = 4167041024	1023410176	597522760	3741153608
+
+log: time = 19	mems = 4167041024	1023410176	597522760	3741153608
+
+log: time = 184	mems = 4167041024	1023410176	597522760	3741153608
+
+log: time = 224	mems = 4167041024	448790528	333557616	4051808112
+
+end of loop : n_loops = 76988
+log: time = 9000	mems = 4167041024	767557632	184517680	3584001072
+
+dag_n = 425345	proved_n = 58675	created_n = 6181389
+
+
+My move: 7
+
+.........
+.........
+........x
+.....o..o
+.....x..x
+..x.xx.xo
+.xo.oo.ox
+.oo.xo.xx
+.oo.xo.ox
+
+node with col , node==root? true; numbers: 3814, 14587,	depth: 27
+
+time,mem before return: 9000 3584001072
+
+---
+PnDb delta
+Opponent: 7
+root hash:114920490402696914	depth 28
+.........
+.........
+........o
+.....x..x
+.....o..o
+..o.oo.ox
+.ox.xx.xo
+.xx.ox.oo
+.xx.ox.xo
+
+
+log: before tagTree ;	time = 0	mems = 4167041024	767557632	183374512	3582857904
+
+log: before removeUnmarkedTree ;	time = 31	mems = 4167041024	767557632	183374512	3582857904
+
+log: before gc ;	time = 213	mems = 4167041024	767557632	183374512	3582857904
+
+log: before visit ;	time = 252	mems = 4167041024	448790528	337554088	4055804584
+
+end of loop : n_loops = 89890
+log:  ;	time = 9000	mems = 4167041024	950009856	428382072	3645413240
+
+dag_n = 495231	proved_n = 34384	created_n = 7790283
+
+
+My move: 4
+
+.........
+.........
+........o
+.....x..x
+....xo..o
+..o.oo.ox
+.ox.xx.xo
+.xx.ox.oo
+.xx.ox.xo
+
+node with col , node==root? true; numbers: 4373, 17333,	depth: 28
+
+time,mem before return: 9000 3644366712
+
+---
+PnDb dnull
+Opponent: 4
+root hash:-7507345452655207211	depth 29
+.........
+.........
+........x
+.....o..o
+....ox..x
+..x.xx.xo
+.xo.oo.ox
+.oo.xo.xx
+.oo.xo.ox
+
+
+log: time = 1	mems = 4167041024	950009856	426210064	3643241232
+
+log: time = 28	mems = 4167041024	950009856	426210064	3643241232
+
+log: time = 177	mems = 4167041024	950009856	426210064	3643241232
+
+log: time = 220	mems = 4167041024	455081984	338838968	4050798008
+
+end of loop : n_loops = 79564
+log: time = 9000	mems = 4167041024	830472192	484642672	3821211504
+
+dag_n = 432386	proved_n = 63995	created_n = 6573641
+
+
+My move: 4
+
+.........
+.........
+........x
+....xo..o
+....ox..x
+..x.xx.xo
+.xo.oo.ox
+.oo.xo.xx
+.oo.xo.ox
+
+node with col , node==root? true; numbers: 3871, 17212,	depth: 29
+
+time,mem before return: 9000 3821211504
+
+---
+PnDb delta
+Opponent: 4
+root hash:-7726782137252269310	depth 30
+.........
+.........
+........o
+....ox..x
+....xo..o
+..o.oo.ox
+.ox.xx.xo
+.xx.ox.oo
+.xx.ox.xo
+
+
+log: before tagTree ;	time = 1	mems = 4167041024	830472192	483596728	3820165560
+
+log: before removeUnmarkedTree ;	time = 35	mems = 4167041024	830472192	483596728	3820165560
+
+log: before gc ;	time = 219	mems = 4167041024	830472192	483596728	3820165560
+
+log: before visit ;	time = 259	mems = 4167041024	440401920	327388256	4054027360
+
+end of loop : n_loops = 94225
+log:  ;	time = 9000	mems = 4167041024	941621248	258773120	3484192896
+
+dag_n = 517395	proved_n = 38295	created_n = 8255117
+
+
+My move: 0
+
+.........
+.........
+........o
+....ox..x
+....xo..o
+..o.oo.ox
+.ox.xx.xo
+.xx.ox.oo
+xxx.ox.xo
+
+node with col , node==root? true; numbers: 4109, 19980,	depth: 30
+
+time,mem before return: 9000 3484192896
+
+---
+PnDb dnull
+Opponent: 0
+root hash:3324976737452232860	depth 31
+.........
+.........
+........x
+....xo..o
+....ox..x
+..x.xx.xo
+.xo.oo.ox
+.oo.xo.xx
+ooo.xo.ox
+
+
+log: time = 0	mems = 4167041024	941621248	257726592	3483146368
+
+log: time = 19	mems = 4167041024	941621248	257726592	3483146368
+
+log: time = 191	mems = 4167041024	941621248	257726592	3483146368
+
+log: time = 236	mems = 4167041024	455081984	337633376	4049592416
+
+end of loop : n_loops = 75437
+log: time = 9000	mems = 4167041024	692060160	241717152	3716698016
+
+dag_n = 408454	proved_n = 67624	created_n = 6947326
+
+
+My move: 8
+
+.........
+........x
+........x
+....xo..o
+....ox..x
+..x.xx.xo
+.xo.oo.ox
+.oo.xo.xx
+ooo.xo.ox
+
+node with col , node==root? true; numbers: 3557, 15257,	depth: 31
+
+time,mem before return: 9000 3716698016
+
+---
+PnDb delta
+Opponent: 8
+root hash:-1838866191144224326	depth 32
+.........
+........o
+........o
+....ox..x
+....xo..o
+..o.oo.ox
+.ox.xx.xo
+.xx.ox.oo
+xxx.ox.xo
+
+
+log: before tagTree ;	time = 0	mems = 4167041024	692060160	240670624	3715651488
+
+log: before removeUnmarkedTree ;	time = 21	mems = 4167041024	692060160	240670624	3715651488
+
+log: before gc ;	time = 217	mems = 4167041024	692060160	240670624	3715651488
+
+log: before visit ;	time = 253	mems = 4167041024	440401920	329465088	4056104192
+
+end of loop : n_loops = 84759
+log:  ;	time = 9000	mems = 4167041024	855638016	338233728	3649636736
+
+dag_n = 426201	proved_n = 42175	created_n = 8640547
+
+
+My move: 8
+
+........x
+........o
+........o
+....ox..x
+....xo..o
+..o.oo.ox
+.ox.xx.xo
+.xx.ox.oo
+xxx.ox.xo
+
+node with col , node==root? true; numbers: 4331, 18462,	depth: 32
+
+time,mem before return: 9000 3649636736
+
+---
+PnDb dnull
+Opponent: 8
+root hash:-9001015894527598374	depth 33
+........o
+........x
+........x
+....xo..o
+....ox..x
+..x.xx.xo
+.xo.oo.ox
+.oo.xo.xx
+ooo.xo.ox
+
+
+log: time = 0	mems = 4167041024	855638016	337164552	3648567560
+
+log: time = 18	mems = 4167041024	855638016	337164552	3648567560
+
+log: time = 193	mems = 4167041024	855638016	337164552	3648567560
+
+log: time = 235	mems = 4167041024	440401920	328810368	4055449472
+
+end of loop : n_loops = 74739
+log: time = 9000	mems = 4167041024	845152256	450074808	3771963576
+
+dag_n = 364942	proved_n = 73529	created_n = 7283319
+
+
+My move: 2
+
+........o
+........x
+........x
+....xo..o
+..x.ox..x
+..x.xx.xo
+.xo.oo.ox
+.oo.xo.xx
+ooo.xo.ox
+
+node with col , node==root? true; numbers: 3480, 14880,	depth: 33
+
+time,mem before return: 9000 3771963576
+
+---
+PnDb delta
+Opponent: 2
+root hash:1577973032399832939	depth 34
+........x
+........o
+........o
+....ox..x
+..o.xo..o
+..o.oo.ox
+.ox.xx.xo
+.xx.ox.oo
+xxx.ox.xo
+
+
+log: before tagTree ;	time = 0	mems = 4167041024	845152256	449012208	3770900976
+
+log: before removeUnmarkedTree ;	time = 15	mems = 4167041024	845152256	449012208	3770900976
+
+log: before gc ;	time = 168	mems = 4167041024	845152256	449012208	3770900976
+
+log: before visit ;	time = 206	mems = 4167041024	427819008	320024120	4059246136
+
+end of loop : n_loops = 91923
+log:  ;	time = 9000	mems = 4167041024	945815552	743372928	3964598400
+
+dag_n = 437192	proved_n = 47778	created_n = 9049577
+
+
+My move: 2
+
+........x
+........o
+........o
+..x.ox..x
+..o.xo..o
+..o.oo.ox
+.ox.xx.xo
+.xx.ox.oo
+xxx.ox.xo
+
+node with col , node==root? true; numbers: 4441, 17097,	depth: 34
+
+time,mem before return: 9000 3964598400
+
+---
+PnDb dnull
+Opponent: 2
+root hash:2761224614355777548	depth 35
+........o
+........x
+........x
+..o.xo..o
+..x.ox..x
+..x.xx.xo
+.xo.oo.ox
+.oo.xo.xx
+ooo.xo.ox
+
+
+log: time = 0	mems = 4167041024	945815552	742326424	3963551896
+
+log: time = 16	mems = 4167041024	945815552	742326424	3963551896
+
+log: time = 141	mems = 4167041024	945815552	742326424	3963551896
+
+log: time = 178	mems = 4167041024	448790528	336700168	4054950664
+
+end of loop : n_loops = 77285
+log: time = 9000	mems = 4167041024	880803840	399354920	3685592104
+
+dag_n = 359242	proved_n = 79626	created_n = 7622840
+
+
+My move: 1
+
+........o
+........x
+........x
+..o.xo..o
+..x.ox..x
+.xx.xx.xo
+.xo.oo.ox
+.oo.xo.xx
+ooo.xo.ox
+
+node with col , node==root? true; numbers: 3444, 14748,	depth: 35
+
+time,mem before return: 9000 3685592104
+
+---
+PnDb delta
+Opponent: 1
+root hash:-2608792612532376483	depth 36
+........x
+........o
+........o
+..x.ox..x
+..o.xo..o
+.oo.oo.ox
+.ox.xx.xo
+.xx.ox.oo
+xxx.ox.xo
+
+
+log: before tagTree ;	time = 0	mems = 4167041024	880803840	398296128	3684533312
+
+log: before removeUnmarkedTree ;	time = 17	mems = 4167041024	880803840	398296128	3684533312
+
+log: before gc ;	time = 171	mems = 4167041024	880803840	398296128	3684533312
+
+log: before visit ;	time = 209	mems = 4167041024	427819008	319616496	4058838512
+
+end of loop : n_loops = 85243
+log:  ;	time = 9000	mems = 4167041024	849346560	567982120	3885676584
+
+dag_n = 413374	proved_n = 52150	created_n = 9428810
+
+
+My move: 0
+
+........x
+........o
+........o
+..x.ox..x
+..o.xo..o
+.oo.oo.ox
+.ox.xx.xo
+xxx.ox.oo
+xxx.ox.xo
+
+node with col , node==root? true; numbers: 4126, 16602,	depth: 36
+
+time,mem before return: 9000 3885676584
+
+---
+PnDb dnull
+Opponent: 0
+root hash:6814033529573854467	depth 37
+........o
+........x
+........x
+..o.xo..o
+..x.ox..x
+.xx.xx.xo
+.xo.oo.ox
+ooo.xo.xx
+ooo.xo.ox
+
+
+log: time = 1	mems = 4167041024	849346560	566926360	3884620824
+
+log: time = 26	mems = 4167041024	849346560	566926360	3884620824
+
+log: time = 150	mems = 4167041024	849346560	566926360	3884620824
+
+log: time = 190	mems = 4167041024	440401920	328391096	4055030200
+
+end of loop : n_loops = 76618
+log: time = 9000	mems = 4167041024	792723456	273962352	3648279920
+
+dag_n = 386965	proved_n = 83525	created_n = 7970907
+
+
+My move: 1
+
+........o
+........x
+........x
+..o.xo..o
+.xx.ox..x
+.xx.xx.xo
+.xo.oo.ox
+ooo.xo.xx
+ooo.xo.ox
+
+node with col , node==root? true; numbers: 3452, 14581,	depth: 37
+
+time,mem before return: 9000 3648279920
+
+---
+PnDb delta
+Opponent: 1
+root hash:-1921181049902230340	depth 38
+........x
+........o
+........o
+..x.ox..x
+.oo.xo..o
+.oo.oo.ox
+.ox.xx.xo
+xxx.ox.oo
+xxx.ox.xo
+
+
+log: before tagTree ;	time = 0	mems = 4167041024	792723456	272916304	3647233872
+
+log: before removeUnmarkedTree ;	time = 34	mems = 4167041024	792723456	272916304	3647233872
+
+log: before gc ;	time = 166	mems = 4167041024	792723456	272916304	3647233872
+
+log: before visit ;	time = 207	mems = 4167041024	434110464	322827888	4055758448
+
+end of loop : n_loops = 80884
+log:  ;	time = 9000	mems = 4167041024	859832320	649009712	3956218416
+
+dag_n = 421300	proved_n = 56475	created_n = 9797859
+
+
+My move: 1
+
+........x
+........o
+........o
+.xx.ox..x
+.oo.xo..o
+.oo.oo.ox
+.ox.xx.xo
+xxx.ox.oo
+xxx.ox.xo
+
+node with col , node==root? true; numbers: 5694, 10598,	depth: 38
+
+time,mem before return: 9000 3956218416
+
+---
+PnDb dnull
+Opponent: 1
+root hash:5157200683411314880	depth 39
+........o
+........x
+........x
+.oo.xo..o
+.xx.ox..x
+.xx.xx.xo
+.xo.oo.ox
+ooo.xo.xx
+ooo.xo.ox
+
+
+log: time = 0	mems = 4167041024	859832320	647951872	3955160576
+
+log: time = 22	mems = 4167041024	859832320	647951872	3955160576
+
+log: time = 152	mems = 4167041024	859832320	647951872	3955160576
+
+log: time = 191	mems = 4167041024	434110464	320861288	4053791848
+
+end of loop : n_loops = 68155
+log: time = 9000	mems = 4167041024	845152256	613129048	3935017816
+
+dag_n = 349492	proved_n = 87135	created_n = 8273430
+
+
+My move: 7
+
+........o
+........x
+........x
+.oo.xo..o
+.xx.ox.xx
+.xx.xx.xo
+.xo.oo.ox
+ooo.xo.xx
+ooo.xo.ox
+
+node with col , node==root? true; numbers: 3387, 14355,	depth: 39
+
+time,mem before return: 9000 3935017816
+
+---
+PnDb delta
+Opponent: 7
+root hash:-5931247657718142989	depth 40
+........x
+........o
+........o
+.xx.ox..x
+.oo.xo.oo
+.oo.oo.ox
+.ox.xx.xo
+xxx.ox.oo
+xxx.ox.xo
+
+
+log: before tagTree ;	time = 0	mems = 4167041024	845152256	612086888	3933975656
+
+log: before removeUnmarkedTree ;	time = 37	mems = 4167041024	845152256	612086888	3933975656
+
+log: before gc ;	time = 172	mems = 4167041024	845152256	612086888	3933975656
+
+log: before visit ;	time = 207	mems = 4167041024	427819008	318917288	4058139304
+
+end of loop : n_loops = 84649
+log:  ;	time = 9000	mems = 4167041024	922746880	683034344	3927328488
+
+dag_n = 415850	proved_n = 61437	created_n = 10165895
+
+
+My move: 0
+
+........x
+........o
+........o
+.xx.ox..x
+.oo.xo.oo
+.oo.oo.ox
+xox.xx.xo
+xxx.ox.oo
+xxx.ox.xo
+
+node with col , node==root? true; numbers: 3831, 16680,	depth: 40
+
+time,mem before return: 9000 3927328488
+
+---
+PnDb dnull
+Opponent: 0
+root hash:-5841798303362465518	depth 41
+........o
+........x
+........x
+.oo.xo..o
+.xx.ox.xx
+.xx.xx.xo
+oxo.oo.ox
+ooo.xo.xx
+ooo.xo.ox
+
+
+log: time = 1	mems = 4167041024	922746880	681976344	3926270488
+
+log: time = 33	mems = 4167041024	922746880	681976344	3926270488
+
+log: time = 148	mems = 4167041024	922746880	681976344	3926270488
+
+log: time = 187	mems = 4167041024	440401920	327581792	4054220896
+
+end of loop : n_loops = 69987
+log: time = 9000	mems = 4167041024	805306368	502490328	3864224984
+
+dag_n = 355209	proved_n = 92844	created_n = 8589891
+
+
+My move: 0
+
+........o
+........x
+........x
+.oo.xo..o
+.xx.ox.xx
+xxx.xx.xo
+oxo.oo.ox
+ooo.xo.xx
+ooo.xo.ox
+
+node with col , node==root? true; numbers: 4397, 8884,	depth: 41
+
+time,mem before return: 9000 3864224984
+
+---
+PnDb delta
+Opponent: 0
+root hash:-5017586474189323613	depth 42
+........x
+........o
+........o
+.xx.ox..x
+.oo.xo.oo
+ooo.oo.ox
+xox.xx.xo
+xxx.ox.oo
+xxx.ox.xo
+
+
+log: before tagTree ;	time = 1	mems = 4167041024	805306368	501433288	3863167944
+
+log: before removeUnmarkedTree ;	time = 38	mems = 4167041024	805306368	501433288	3863167944
+
+log: before gc ;	time = 188	mems = 4167041024	805306368	501433288	3863167944
+
+log: before visit ;	time = 230	mems = 4167041024	427819008	317635784	4056857800
+
+end of loop : n_loops = 80223
+log:  ;	time = 9000	mems = 4167041024	895483904	591134600	3862691720
+
+dag_n = 394659	proved_n = 67679	created_n = 10513267
+
+
+My move: 6
+
+........x
+........o
+........o
+.xx.ox..x
+.oo.xo.oo
+ooo.oo.ox
+xox.xx.xo
+xxx.ox.oo
+xxx.oxxxo
+
+node with col , node==root? true; numbers: 4127, 11078,	depth: 42
+
+time,mem before return: 9000 3862691720
+
+---
+PnDb dnull
+Opponent: 6
+root hash:1786257127652987463	depth 43
+........o
+........x
+........x
+.oo.xo..o
+.xx.ox.xx
+xxx.xx.xo
+oxo.oo.ox
+ooo.xo.xx
+ooo.xooox
+
+
+log: time = 1	mems = 4167041024	895483904	590076408	3861633528
+
+log: time = 30	mems = 4167041024	895483904	590076408	3861633528
+
+log: time = 147	mems = 4167041024	895483904	590076408	3861633528
+
+log: time = 186	mems = 4167041024	427819008	316040144	4055262160
+
+end of loop : n_loops = 67868
+log: time = 9000	mems = 4167041024	771751936	516161696	3911450784
+
+dag_n = 337976	proved_n = 98689	created_n = 8891041
+
+
+My move: 7
+
+........o
+........x
+........x
+.oo.xo.xo
+.xx.ox.xx
+xxx.xx.xo
+oxo.oo.ox
+ooo.xo.xx
+ooo.xooox
+
+node with col , node==root? true; numbers: 2797, 10842,	depth: 43
+
+time,mem before return: 9000 3911450784
+
+---
+PnDb delta
+Opponent: 7
+root hash:3174803189053491610	depth 44
+........x
+........o
+........o
+.xx.ox.ox
+.oo.xo.oo
+ooo.oo.ox
+xox.xx.xo
+xxx.ox.oo
+xxx.oxxxo
+
+
+log: before tagTree ;	time = 1	mems = 4167041024	771751936	515118960	3910408048
+
+log: before removeUnmarkedTree ;	time = 34	mems = 4167041024	771751936	515118960	3910408048
+
+log: before gc ;	time = 166	mems = 4167041024	771751936	515118960	3910408048
+
+log: before visit ;	time = 201	mems = 4167041024	427819008	319203152	4058425168
+
+end of loop : n_loops = 74902
+log:  ;	time = 9000	mems = 4167041024	901775360	257815464	3523081128
+
+dag_n = 360701	proved_n = 75215	created_n = 10833626
+
+
+My move: 7
+
+........x
+........o
+.......xo
+.xx.ox.ox
+.oo.xo.oo
+ooo.oo.ox
+xox.xx.xo
+xxx.ox.oo
+xxx.oxxxo
+
+node with col , node==root? true; numbers: 5350, 8012,	depth: 44
+
+time,mem before return: 9000 3523081128
+
+---
+PnDb dnull
+Opponent: 7
+root hash:6435045355959432306	depth 45
+........o
+........x
+.......ox
+.oo.xo.xo
+.xx.ox.xx
+xxx.xx.xo
+oxo.oo.ox
+ooo.xo.xx
+ooo.xooox
+
+
+log: time = 1	mems = 4167041024	901775360	257147216	3522412880
+
+log: time = 22	mems = 4167041024	901775360	257147216	3522412880
+
+log: time = 143	mems = 4167041024	901775360	257147216	3522412880
+
+log: time = 178	mems = 4167041024	427819008	318443784	4057665800
+
+end of loop : n_loops = 70341
+log: time = 9000	mems = 4167041024	786432000	484322176	3864931200
+
+dag_n = 323016	proved_n = 104971	created_n = 9188243
+
+
+My move: 0
+
+........o
+........x
+.......ox
+.oo.xo.xo
+xxx.ox.xx
+xxx.xx.xo
+oxo.oo.ox
+ooo.xo.xx
+ooo.xooox
+
+node with col , node==root? true; numbers: 3005, 11325,	depth: 45
+
+time,mem before return: 9000 3864931200
+
+---
+PnDb delta
+Opponent: 0
+root hash:-4835055277770336479	depth 46
+........x
+........o
+.......xo
+.xx.ox.ox
+ooo.xo.oo
+ooo.oo.ox
+xox.xx.xo
+xxx.ox.oo
+xxx.oxxxo
+
+
+log: before tagTree ;	time = 0	mems = 4167041024	786432000	483266264	3863875288
+
+log: before removeUnmarkedTree ;	time = 36	mems = 4167041024	786432000	483266264	3863875288
+
+log: before gc ;	time = 146	mems = 4167041024	786432000	483266264	3863875288
+
+log: before visit ;	time = 180	mems = 4167041024	427819008	318825640	4058047656
+
+end of loop : n_loops = 73149
+log:  ;	time = 9000	mems = 4167041024	895483904	639097104	3910654224
+
+dag_n = 363016	proved_n = 81565	created_n = 11143938
+
+
+My move: 0
+
+........x
+........o
+.......xo
+xxx.ox.ox
+ooo.xo.oo
+ooo.oo.ox
+xox.xx.xo
+xxx.ox.oo
+xxx.oxxxo
+
+node with col , node==root? true; numbers: 5362, 6492,	depth: 46
+
+time,mem before return: 9000 3910654224
+
+---
+PnDb dnull
+Opponent: 0
+root hash:-1794785250494652827	depth 47
+........o
+........x
+.......ox
+ooo.xo.xo
+xxx.ox.xx
+xxx.xx.xo
+oxo.oo.ox
+ooo.xo.xx
+ooo.xooox
+
+
+log: time = 0	mems = 4167041024	895483904	638041192	3909598312
+
+log: time = 26	mems = 4167041024	895483904	638041192	3909598312
+
+log: time = 126	mems = 4167041024	895483904	638041192	3909598312
+
+log: time = 165	mems = 4167041024	419430400	308206808	4055817432
+
+end of loop : n_loops = 68514
+log: time = 9000	mems = 4167041024	822083584	323352056	3668309496
+
+dag_n = 327804	proved_n = 108897	created_n = 9466459
+
+
+My move: 2
+
+........o
+........x
+..x....ox
+ooo.xo.xo
+xxx.ox.xx
+xxx.xx.xo
+oxo.oo.ox
+ooo.xo.xx
+ooo.xooox
+
+node with col , node==root? true; numbers: 3922, 11283,	depth: 47
+
+time,mem before return: 9000 3668309496
+
+---
+PnDb delta
+Opponent: 2
+root hash:-9189739752147971709	depth 48
+........x
+........o
+..o....xo
+xxx.ox.ox
+ooo.xo.oo
+ooo.oo.ox
+xox.xx.xo
+xxx.ox.oo
+xxx.oxxxo
+
+
+log: before tagTree ;	time = 0	mems = 4167041024	822083584	322315672	3667273112
+
+log: before removeUnmarkedTree ;	time = 24	mems = 4167041024	822083584	322315672	3667273112
+
+log: before gc ;	time = 142	mems = 4167041024	822083584	322315672	3667273112
+
+log: before visit ;	time = 179	mems = 4167041024	419430400	311046352	4058656976
+
+end of loop : n_loops = 77166
+log:  ;	time = 9000	mems = 4167041024	933232640	274123464	3507931848
+
+dag_n = 342086	proved_n = 85664	created_n = 11451830
+
+
+My move: 6
+
+........x
+........o
+..o....xo
+xxx.ox.ox
+ooo.xo.oo
+ooo.oo.ox
+xox.xx.xo
+xxx.oxxoo
+xxx.oxxxo
+
+node with col , node==root? true; numbers: 2650, 19390,	depth: 48
+
+time,mem before return: 9000 3507931848
+
+---
+PnDb dnull
+Opponent: 6
+root hash:7513156711107963034	depth 49
+........o
+........x
+..x....ox
+ooo.xo.xo
+xxx.ox.xx
+xxx.xx.xo
+oxo.oo.ox
+ooo.xooxx
+ooo.xooox
+
+
+log: time = 0	mems = 4167041024	933232640	273082672	3506891056
+
+log: time = 16	mems = 4167041024	933232640	273082672	3506891056
+
+log: time = 122	mems = 4167041024	933232640	273082672	3506891056
+
+log: time = 162	mems = 4167041024	419430400	310359064	4057969688
+
+end of loop : n_loops = 67147
+log: time = 9000	mems = 4167041024	838860800	404204008	3732384232
+
+dag_n = 257553	proved_n = 112024	created_n = 9732989
+
+
+My move: 6
+
+........o
+........x
+..x....ox
+ooo.xo.xo
+xxx.ox.xx
+xxx.xx.xo
+oxo.ooxox
+ooo.xooxx
+ooo.xooox
+
+node with col , node==root? true; numbers: 15781, 3075,	depth: 49
+
+time,mem before return: 9000 3732384232
+
+---
+PnDb delta
+Opponent: 6
+root hash:5231100649166088104	depth 50
+........x
+........o
+..o....xo
+xxx.ox.ox
+ooo.xo.oo
+ooo.oo.ox
+xox.xxoxo
+xxx.oxxoo
+xxx.oxxxo
+
+
+log: before tagTree ;	time = 0	mems = 4167041024	838860800	403148096	3731328320
+
+log: before removeUnmarkedTree ;	time = 82	mems = 4167041024	838860800	403148096	3731328320
+
+log: before gc ;	time = 153	mems = 4167041024	838860800	403148096	3731328320
+
+log: before visit ;	time = 190	mems = 4167041024	427819008	317418592	4056640608
+
+end of loop : n_loops = 68080
+log:  ;	time = 9000	mems = 4167041024	872415232	532275296	3826901088
+
+dag_n = 391596	proved_n = 89315	created_n = 11705908
+
+
+My move: 6
+
+........x
+........o
+..o....xo
+xxx.ox.ox
+ooo.xo.oo
+ooo.ooxox
+xox.xxoxo
+xxx.oxxoo
+xxx.oxxxo
+
+node with col , node==root? true; numbers: 5416, 20014,	depth: 50
+
+time,mem before return: 9000 3826901088
+
+---
+PnDb dnull
+Opponent: 6
+root hash:-2565518277715191090	depth 51
+........o
+........x
+..x....ox
+ooo.xo.xo
+xxx.ox.xx
+xxx.xxoxo
+oxo.ooxox
+ooo.xooxx
+ooo.xooox
+
+
+log: time = 1	mems = 4167041024	872415232	531219384	3825845176
+
+log: time = 43	mems = 4167041024	872415232	531219384	3825845176
+
+log: time = 103	mems = 4167041024	872415232	531219384	3825845176
+
+log: time = 145	mems = 4167041024	427819008	312413152	4051635168
+
+end of loop : n_loops = 60308
+log: time = 9000	mems = 4167041024	840957952	380243680	3706326752
+
+dag_n = 307623	proved_n = 116846	created_n = 9963008
+
+
+My move: 0
+
+........o
+........x
+x.x....ox
+ooo.xo.xo
+xxx.ox.xx
+xxx.xxoxo
+oxo.ooxox
+ooo.xooxx
+ooo.xooox
+
+node with col , node==root? true; numbers: 4411, 14887,	depth: 51
+
+time,mem before return: 9000 3706326752
+
+---
+PnDb delta
+Opponent: 0
+root hash:1792640527814275676	depth 52
+........x
+........o
+o.o....xo
+xxx.ox.ox
+ooo.xo.oo
+ooo.ooxox
+xox.xxoxo
+xxx.oxxoo
+xxx.oxxxo
+
+
+log: before tagTree ;	time = 1	mems = 4167041024	840957952	379187768	3705270840
+
+log: before removeUnmarkedTree ;	time = 25	mems = 4167041024	840957952	379187768	3705270840
+
+log: before gc ;	time = 153	mems = 4167041024	840957952	379187768	3705270840
+
+log: before visit ;	time = 190	mems = 4167041024	406847488	299499080	4059692616
+
+end of loop : n_loops = 71395
+log:  ;	time = 9000	mems = 4167041024	945815552	709065288	3930290760
+
+dag_n = 292325	proved_n = 94350	created_n = 11964951
+
+
+My move: 6
+
+........x
+........o
+o.o....xo
+xxx.ox.ox
+ooo.xoxoo
+ooo.ooxox
+xox.xxoxo
+xxx.oxxoo
+xxx.oxxxo
+
+node with col , node==root? true; numbers: 3881, 18600,	depth: 52
+
+time,mem before return: 9000 3930290760
+
+---
+PnDb dnull
+Opponent: 6
+root hash:5509478302720938703	depth 53
+........o
+........x
+x.x....ox
+ooo.xo.xo
+xxx.oxoxx
+xxx.xxoxo
+oxo.ooxox
+ooo.xooxx
+ooo.xooox
+
+
+log: time = 1	mems = 4167041024	945815552	708009376	3929234848
+
+log: time = 28	mems = 4167041024	945815552	708009376	3929234848
+
+log: time = 122	mems = 4167041024	945815552	708009376	3929234848
+
+log: time = 156	mems = 4167041024	419430400	312372288	4059982912
+
+end of loop : n_loops = 62272
+log: time = 9000	mems = 4167041024	784334848	244411968	3627118144
+
+dag_n = 263318	proved_n = 122788	created_n = 10184792
+
+
+My move: 7
+
+........o
+.......xx
+x.x....ox
+ooo.xo.xo
+xxx.oxoxx
+xxx.xxoxo
+oxo.ooxox
+ooo.xooxx
+ooo.xooox
+
+node with col , node==root? true; numbers: 6008, 8532,	depth: 53
+
+time,mem before return: 9000 3627118144
+
+---
+PnDb delta
+Opponent: 7
+root hash:4636592239614348421	depth 54
+........x
+.......oo
+o.o....xo
+xxx.ox.ox
+ooo.xoxoo
+ooo.ooxox
+xox.xxoxo
+xxx.oxxoo
+xxx.oxxxo
+
+
+log: before tagTree ;	time = 0	mems = 4167041024	784334848	243356056	3626062232
+
+log: before removeUnmarkedTree ;	time = 26	mems = 4167041024	784334848	243356056	3626062232
+
+log: before gc ;	time = 110	mems = 4167041024	784334848	243356056	3626062232
+
+log: before visit ;	time = 145	mems = 4167041024	413138944	307644496	4061546576
+
+end of loop : n_loops = 64371
+log:  ;	time = 9000	mems = 4167041024	822083584	618424360	3963381800
+
+dag_n = 260689	proved_n = 98266	created_n = 12180641
+
+
+My move: 6
+
+........x
+.......oo
+o.o....xo
+xxx.oxxox
+ooo.xoxoo
+ooo.ooxox
+xox.xxoxo
+xxx.oxxoo
+xxx.oxxxo
+
+node with col , node==root? true; numbers: 4278, 17243,	depth: 54
+
+time,mem before return: 9000 3963381800
+
+---
+PnDb dnull
+Opponent: 6
+root hash:5589765246748138144	depth 55
+........o
+.......xx
+x.x....ox
+ooo.xooxo
+xxx.oxoxx
+xxx.xxoxo
+oxo.ooxox
+ooo.xooxx
+ooo.xooox
+
+
+log: time = 0	mems = 4167041024	822083584	617377832	3962335272
+
+log: time = 26	mems = 4167041024	822083584	617377832	3962335272
+
+log: time = 95	mems = 4167041024	822083584	617377832	3962335272
+
+log: time = 131	mems = 4167041024	419430400	312742640	4060353264
+
+end of loop : n_loops = 50605
+log: time = 9000	mems = 4167041024	887095296	611498656	3891444384
+
+dag_n = 228543	proved_n = 126281	created_n = 10348774
+
+
+My move: 6
+
+........o
+.......xx
+x.x...xox
+ooo.xooxo
+xxx.oxoxx
+xxx.xxoxo
+oxo.ooxox
+ooo.xooxx
+ooo.xooox
+
+node with col , node==root? true; numbers: 5542, 10545,	depth: 55
+
+time,mem before return: 9000 3891444384
+
+---
+PnDb delta
+Opponent: 6
+root hash:-7708330199576418744	depth 56
+........x
+.......oo
+o.o...oxo
+xxx.oxxox
+ooo.xoxoo
+ooo.ooxox
+xox.xxoxo
+xxx.oxxoo
+xxx.oxxxo
+
+
+log: before tagTree ;	time = 0	mems = 4167041024	887095296	610440080	3890385808
+
+log: before removeUnmarkedTree ;	time = 18	mems = 4167041024	887095296	610440080	3890385808
+
+log: before gc ;	time = 86	mems = 4167041024	887095296	610440080	3890385808
+
+log: before visit ;	time = 120	mems = 4167041024	392167424	288810464	4063684064
+
+end of loop : n_loops = 59094
+log:  ;	time = 9000	mems = 4167041024	796917760	356678288	3726801552
+
+dag_n = 222229	proved_n = 103282	created_n = 12361504
+
+
+My move: 6
+
+........x
+......xoo
+o.o...oxo
+xxx.oxxox
+ooo.xoxoo
+ooo.ooxox
+xox.xxoxo
+xxx.oxxoo
+xxx.oxxxo
+
+node with col , node==root? true; numbers: 5248, 11854,	depth: 56
+
+time,mem before return: 9000 3726801552
+
+---
+PnDb dnull
+Opponent: 6
+root hash:6489501584366345383	depth 57
+........o
+......oxx
+x.x...xox
+ooo.xooxo
+xxx.oxoxx
+xxx.xxoxo
+oxo.ooxox
+ooo.xooxx
+ooo.xooox
+
+
+log: time = 1	mems = 4167041024	796917760	355634560	3725757824
+
+log: time = 17	mems = 4167041024	796917760	355634560	3725757824
+
+log: time = 93	mems = 4167041024	796917760	355634560	3725757824
+
+log: time = 124	mems = 4167041024	392167424	290223856	4065097456
+
+end of loop : n_loops = 47720
+log: time = 9000	mems = 4167041024	836763648	286995824	3617273200
+
+dag_n = 158894	proved_n = 129536	created_n = 10482410
+
+
+My move: 4
+
+........o
+......oxx
+x.x.x.xox
+ooo.xooxo
+xxx.oxoxx
+xxx.xxoxo
+oxo.ooxox
+ooo.xooxx
+ooo.xooox
+
+node with col , node==root? true; numbers: 4235, 13974,	depth: 57
+
+time,mem before return: 9000 3617273200
+
+---
+PnDb delta
+Opponent: 4
+root hash:6469025740063515891	depth 58
+........x
+......xoo
+o.o.o.oxo
+xxx.oxxox
+ooo.xoxoo
+ooo.ooxox
+xox.xxoxo
+xxx.oxxoo
+xxx.oxxxo
+
+
+log: before tagTree ;	time = 0	mems = 4167041024	836763648	285937208	3616214584
+
+log: before removeUnmarkedTree ;	time = 11	mems = 4167041024	836763648	285937208	3616214584
+
+log: before gc ;	time = 74	mems = 4167041024	836763648	285937208	3616214584
+
+log: before visit ;	time = 106	mems = 4167041024	385875968	287956968	4069122024
+
+end of loop : n_loops = 49193
+log:  ;	time = 9000	mems = 4167041024	843055104	733838144	4057824064
+
+dag_n = 149493	proved_n = 108175	created_n = 12488568
+
+
+My move: 0
+
+........x
+x.....xoo
+o.o.o.oxo
+xxx.oxxox
+ooo.xoxoo
+ooo.ooxox
+xox.xxoxo
+xxx.oxxoo
+xxx.oxxxo
+
+node with col , node==root? true; numbers: 4253, 10095,	depth: 58
+
+time,mem before return: 9000 4057824064
+
+---
+PnDb dnull
+Opponent: 0
+root hash:-813220624284415531	depth 59
+........o
+o.....oxx
+x.x.x.xox
+ooo.xooxo
+xxx.oxoxx
+xxx.xxoxo
+oxo.ooxox
+ooo.xooxx
+ooo.xooox
+
+
+log: time = 0	mems = 4167041024	843055104	732779568	4056765488
+
+log: time = 8	mems = 4167041024	843055104	732779568	4056765488
+
+log: time = 51	mems = 4167041024	843055104	732779568	4056765488
+
+log: time = 82	mems = 4167041024	392167424	295073376	4069946976
+
+end of loop : n_loops = 37017
+log: time = 9000	mems = 4167041024	784334848	546422712	3929128888
+
+dag_n = 101863	proved_n = 134013	created_n = 10567513
+
+
+My move: 4
+
+........o
+o...x.oxx
+x.x.x.xox
+ooo.xooxo
+xxx.oxoxx
+xxx.xxoxo
+oxo.ooxox
+ooo.xooxx
+ooo.xooox
+
+node with col , node==root? true; numbers: 2358, 11727,	depth: 59
+
+time,mem before return: 9000 3929128888
+
+---
+PnDb delta
+Opponent: 4
+root hash:-852152088914880033	depth 60
+........x
+x...o.xoo
+o.o.o.oxo
+xxx.oxxox
+ooo.xoxoo
+ooo.ooxox
+xox.xxoxo
+xxx.oxxoo
+xxx.oxxxo
+
+
+log: before tagTree ;	time = 0	mems = 4167041024	784334848	546404280	3929110456
+
+log: before removeUnmarkedTree ;	time = 11	mems = 4167041024	784334848	546404280	3929110456
+
+log: before gc ;	time = 61	mems = 4167041024	784334848	546404280	3929110456
+
+log: before visit ;	time = 90	mems = 4167041024	377487360	283176944	4072730608
+
+end of loop : n_loops = 21923
+log:  ;	time = 6171	mems = 4167041024	683671552	495973288	3979342760
+
+dag_n = 0	proved_n = 114366	created_n = 12529874
+
+root eval: 7 false 76
+
+
+My move: 7
+
+.......xx
+x...o.xoo
+o.o.o.oxo
+xxx.oxxox
+ooo.xoxoo
+ooo.ooxox
+xox.xxoxo
+xxx.oxxoo
+xxx.oxxxo
+
+node with col , node==root? true; numbers: 2147483647, 0,	depth: 60
+
+time,mem before return: 6171 3979342760
+
+---
+PnDb dnull
+Opponent: 7
+root hash:-5610926465597854809	depth 61
+.......oo
+o...x.oxx
+x.x.x.xox
+ooo.xooxo
+xxx.oxoxx
+xxx.xxoxo
+oxo.ooxox
+ooo.xooxx
+ooo.xooox
+
+
+log: time = 0	mems = 4167041024	683671552	494914728	3978284200
+
+log: time = 6	mems = 4167041024	683671552	494914728	3978284200
+
+log: time = 40	mems = 4167041024	683671552	494914728	3978284200
+
+log: time = 64	mems = 4167041024	356515840	269093320	4079618504
+
+end of loop : n_loops = 365
+log: time = 221	mems = 4167041024	356515840	81338336	3891863520
+
+dag_n = 0	proved_n = 134249	created_n = 10568088
+
+root eval: 4 true 76
+
+
+My move: 4
+
+....x..oo
+o...x.oxx
+x.x.x.xox
+ooo.xooxo
+xxx.oxoxx
+xxx.xxoxo
+oxo.ooxox
+ooo.xooxx
+ooo.xooox
+
+node with col , node==root? true; numbers: 0, 2147483647,	depth: 61
+
+time,mem before return: 221 3891863520
+
+---
+PnDb delta
+Opponent: 4
+root hash:-1896710376781600157	depth 62
+....o..xx
+x...o.xoo
+o.o.o.oxo
+xxx.oxxox
+ooo.xoxoo
+ooo.ooxox
+xox.xxoxo
+xxx.oxxoo
+xxx.oxxxo
+
+
+log: before tagTree ;	time = 0	mems = 4167041024	356515840	80295992	3890821176
+
+log: before removeUnmarkedTree ;	time = 0	mems = 4167041024	356515840	80295992	3890821176
+
+log: before gc ;	time = 0	mems = 4167041024	356515840	80295992	3890821176
+
+log: before visit ;	time = 23	mems = 4167041024	322961408	236433328	4080512944
+
+dag_n = 0	proved_n = 114366	created_n = 12529875
+
+root eval: 6 false 76
+
+
+My move: 6
+
+....o.xxx
+x...o.xoo
+o.o.o.oxo
+xxx.oxxox
+ooo.xoxoo
+ooo.ooxox
+xox.xxoxo
+xxx.oxxoo
+xxx.oxxxo
+
+node with col , node==root? true; numbers: 1, 1,	depth: 62
+
+time,mem before return: 23 4080033088
+
+---
+PnDb dnull
+Opponent: 6
+root hash:3436502740340032095	depth 63
+....x.ooo
+o...x.oxx
+x.x.x.xox
+ooo.xooxo
+xxx.oxoxx
+xxx.xxoxo
+oxo.ooxox
+ooo.xooxx
+ooo.xooox
+
+
+log: time = 0	mems = 4167041024	322961408	234896680	4078976296
+
+log: time = 0	mems = 4167041024	322961408	234896680	4078976296
+
+log: time = 0	mems = 4167041024	322961408	234896680	4078976296
+
+log: time = 26	mems = 4167041024	314572800	228044776	4080513000
+
+dag_n = 0	proved_n = 134249	created_n = 10568089
+
+root eval: 0 true 76
+
+
+My move: 0
+
+x...x.ooo
+o...x.oxx
+x.x.x.xox
+ooo.xooxo
+xxx.oxoxx
+xxx.xxoxo
+oxo.ooxox
+ooo.xooxx
+ooo.xooox
+
+node with col , node==root? true; numbers: 1, 1,	depth: 63
+
+time,mem before return: 26 4079484728
+
+---
+PnDb delta
+Opponent: 0
+root hash:1206448383457466084	depth 64
+o...o.xxx
+x...o.xoo
+o.o.o.oxo
+xxx.oxxox
+ooo.xoxoo
+ooo.ooxox
+xox.xxoxo
+xxx.oxxoo
+xxx.oxxxo
+
+
+log: before tagTree ;	time = 0	mems = 4167041024	314572800	225959712	4078427936
+
+log: before removeUnmarkedTree ;	time = 0	mems = 4167041024	314572800	225959712	4078427936
+
+log: before gc ;	time = 0	mems = 4167041024	314572800	225959712	4078427936
+
+log: before visit ;	time = 22	mems = 4167041024	314572800	228044760	4080512984
+
+dag_n = 0	proved_n = 114366	created_n = 12529876
+
+root eval: 3 false 76
+
+
+My move: 3
+
+o...o.xxx
+x...o.xoo
+o.o.o.oxo
+xxx.oxxox
+ooo.xoxoo
+ooo.ooxox
+xox.xxoxo
+xxx.oxxoo
+xxxxoxxxo
+
+node with col , node==root? true; numbers: 1, 1,	depth: 64
+
+time,mem before return: 22 4079461744
+
+---
+PnDb dnull
+Opponent: 3
+root hash:5806773656859542809	depth 65
+x...x.ooo
+o...x.oxx
+x.x.x.xox
+ooo.xooxo
+xxx.oxoxx
+xxx.xxoxo
+oxo.ooxox
+ooo.xooxx
+ooooxooox
+
+
+log: time = 0	mems = 4167041024	314572800	225947608	4078415832
+
+log: time = 0	mems = 4167041024	314572800	225947608	4078415832
+
+log: time = 0	mems = 4167041024	314572800	225947608	4078415832
+
+log: time = 20	mems = 4167041024	314572800	228044656	4080512880
+
+dag_n = 0	proved_n = 134249	created_n = 10568090
+
+root eval: 3 true 76
+
+
+My move: 3
+
+x...x.ooo
+o...x.oxx
+x.x.x.xox
+ooo.xooxo
+xxx.oxoxx
+xxx.xxoxo
+oxo.ooxox
+oooxxooxx
+ooooxooox
+
+node with col , node==root? true; numbers: 1, 1,	depth: 65
+
+time,mem before return: 20 4079461640
+
+---
+PnDb delta
+Opponent: 3
+root hash:-7722156843742039073	depth 66
+o...o.xxx
+x...o.xoo
+o.o.o.oxo
+xxx.oxxox
+ooo.xoxoo
+ooo.ooxox
+xox.xxoxo
+xxxooxxoo
+xxxxoxxxo
+
+
+log: before tagTree ;	time = 1	mems = 4167041024	314572800	225947504	4078415728
+
+log: before removeUnmarkedTree ;	time = 1	mems = 4167041024	314572800	225947504	4078415728
+
+log: before gc ;	time = 1	mems = 4167041024	314572800	225947504	4078415728
+
+log: before visit ;	time = 16	mems = 4167041024	314572800	228044528	4080512752
+
+dag_n = 0	proved_n = 114366	created_n = 12529877
+
+root eval: 2 false 76
+
+
+My move: 2
+
+o...o.xxx
+x.x.o.xoo
+o.o.o.oxo
+xxx.oxxox
+ooo.xoxoo
+ooo.ooxox
+xox.xxoxo
+xxxooxxoo
+xxxxoxxxo
+
+node with col , node==root? true; numbers: 1, 1,	depth: 66
+
+time,mem before return: 16 4079461512
+
+---
+PnDb dnull
+Opponent: 2
+root hash:-797948899987486197	depth 67
+x...x.ooo
+o.o.x.oxx
+x.x.x.xox
+ooo.xooxo
+xxx.oxoxx
+xxx.xxoxo
+oxo.ooxox
+oooxxooxx
+ooooxooox
+
+
+log: time = 0	mems = 4167041024	314572800	225947376	4078415600
+
+log: time = 0	mems = 4167041024	314572800	225947376	4078415600
+
+log: time = 0	mems = 4167041024	314572800	225947376	4078415600
+
+log: time = 16	mems = 4167041024	314572800	228044456	4080512680
+
+dag_n = 0	proved_n = 134249	created_n = 10568091
+
+root eval: 2 true 76
+
+
+My move: 2
+
+x.x.x.ooo
+o.o.x.oxx
+x.x.x.xox
+ooo.xooxo
+xxx.oxoxx
+xxx.xxoxo
+oxo.ooxox
+oooxxooxx
+ooooxooox
+
+node with col , node==root? true; numbers: 1, 1,	depth: 67
+
+time,mem before return: 16 4079461440
+
+---
+PnDb delta
+Opponent: 2
+root hash:7431779056278992259	depth 68
+o.o.o.xxx
+x.x.o.xoo
+o.o.o.oxo
+xxx.oxxox
+ooo.xoxoo
+ooo.ooxox
+xox.xxoxo
+xxxooxxoo
+xxxxoxxxo
+
+
+log: before tagTree ;	time = 0	mems = 4167041024	314572800	225947304	4078415528
+
+log: before removeUnmarkedTree ;	time = 0	mems = 4167041024	314572800	225947304	4078415528
+
+log: before gc ;	time = 0	mems = 4167041024	314572800	225947304	4078415528
+
+log: before visit ;	time = 18	mems = 4167041024	314572800	228044440	4080512664
+
+dag_n = 0	proved_n = 114366	created_n = 12529878
+
+root eval: 1 false 76
+
+
+My move: 1
+
+o.o.o.xxx
+x.x.o.xoo
+oxo.o.oxo
+xxx.oxxox
+ooo.xoxoo
+ooo.ooxox
+xox.xxoxo
+xxxooxxoo
+xxxxoxxxo
+
+node with col , node==root? true; numbers: 1, 1,	depth: 68
+
+time,mem before return: 18 4079461424
+
+---
+PnDb dnull
+Opponent: 1
+root hash:-4408422243008130134	depth 69
+x.x.x.ooo
+o.o.x.oxx
+xox.x.xox
+ooo.xooxo
+xxx.oxoxx
+xxx.xxoxo
+oxo.ooxox
+oooxxooxx
+ooooxooox
+
+
+log: time = 1	mems = 4167041024	314572800	225947288	4078415512
+
+log: time = 1	mems = 4167041024	314572800	225947288	4078415512
+
+log: time = 1	mems = 4167041024	314572800	225947288	4078415512
+
+log: time = 20	mems = 4167041024	314572800	228044336	4080512560
+
+dag_n = 0	proved_n = 134249	created_n = 10568092
+
+root eval: 1 true 76
+
+
+My move: 1
+
+x.x.x.ooo
+oxo.x.oxx
+xox.x.xox
+ooo.xooxo
+xxx.oxoxx
+xxx.xxoxo
+oxo.ooxox
+oooxxooxx
+ooooxooox
+
+node with col , node==root? true; numbers: 1, 1,	depth: 69
+
+time,mem before return: 21 4079461320
+
+---
+PnDb delta
+Opponent: 1
+root hash:-5375388562013541676	depth 70
+o.o.o.xxx
+xox.o.xoo
+oxo.o.oxo
+xxx.oxxox
+ooo.xoxoo
+ooo.ooxox
+xox.xxoxo
+xxxooxxoo
+xxxxoxxxo
+
+
+log: before tagTree ;	time = 0	mems = 4167041024	314572800	225947184	4078415408
+
+log: before removeUnmarkedTree ;	time = 0	mems = 4167041024	314572800	225947184	4078415408
+
+log: before gc ;	time = 0	mems = 4167041024	314572800	225947184	4078415408
+
+log: before visit ;	time = 21	mems = 4167041024	314572800	228044240	4080512464
+
+dag_n = 0	proved_n = 114366	created_n = 12529879
+
+root eval: 1 false 76
+
+
+My move: 1
+
+oxo.o.xxx
+xox.o.xoo
+oxo.o.oxo
+xxx.oxxox
+ooo.xoxoo
+ooo.ooxox
+xox.xxoxo
+xxxooxxoo
+xxxxoxxxo
+
+node with col , node==root? true; numbers: 1, 1,	depth: 70
+
+time,mem before return: 21 4079461224
+
+---
+PnDb dnull
+Opponent: 1
+root hash:288472551564378002	depth 71
+xox.x.ooo
+oxo.x.oxx
+xox.x.xox
+ooo.xooxo
+xxx.oxoxx
+xxx.xxoxo
+oxo.ooxox
+oooxxooxx
+ooooxooox
+
+
+log: time = 0	mems = 4167041024	314572800	225947088	4078415312
+
+log: time = 0	mems = 4167041024	314572800	225947088	4078415312
+
+log: time = 0	mems = 4167041024	314572800	225947088	4078415312
+
+log: time = 21	mems = 4167041024	314572800	228044216	4080512440
+
+dag_n = 0	proved_n = 134249	created_n = 10568093
+
+root eval: 5 true 76
+
+
+My move: 5
+
+xox.x.ooo
+oxo.x.oxx
+xox.xxxox
+ooo.xooxo
+xxx.oxoxx
+xxx.xxoxo
+oxo.ooxox
+oooxxooxx
+ooooxooox
+
+node with col , node==root? true; numbers: 1, 1,	depth: 71
+
+time,mem before return: 21 4079461200
+
+---
+PnDb delta
+Opponent: 5
+root hash:-3499972938289085680	depth 72
+oxo.o.xxx
+xox.o.xoo
+oxo.oooxo
+xxx.oxxox
+ooo.xoxoo
+ooo.ooxox
+xox.xxoxo
+xxxooxxoo
+xxxxoxxxo
+
+
+log: before tagTree ;	time = 0	mems = 4167041024	314572800	225947064	4078415288
+
+log: before removeUnmarkedTree ;	time = 0	mems = 4167041024	314572800	225947064	4078415288
+
+log: before gc ;	time = 0	mems = 4167041024	314572800	225947064	4078415288
+
+log: before visit ;	time = 17	mems = 4167041024	314572800	228044120	4080512344
+
+dag_n = 0	proved_n = 114366	created_n = 12529880
+
+root eval: 5 false 76
+
+
+My move: 5
+
+oxo.o.xxx
+xox.oxxoo
+oxo.oooxo
+xxx.oxxox
+ooo.xoxoo
+ooo.ooxox
+xox.xxoxo
+xxxooxxoo
+xxxxoxxxo
+
+node with col , node==root? true; numbers: 1, 1,	depth: 72
+
+time,mem before return: 17 4079461104
+
+---
+PnDb dnull
+Opponent: 5
+root hash:1420416100407901021	depth 73
+xox.x.ooo
+oxo.xooxx
+xox.xxxox
+ooo.xooxo
+xxx.oxoxx
+xxx.xxoxo
+oxo.ooxox
+oooxxooxx
+ooooxooox
+
+
+log: time = 1	mems = 4167041024	314572800	225946968	4078415192
+
+log: time = 1	mems = 4167041024	314572800	225946968	4078415192
+
+log: time = 1	mems = 4167041024	314572800	225946968	4078415192
+
+log: time = 17	mems = 4167041024	314572800	228043984	4080512208
+
+dag_n = 0	proved_n = 134249	created_n = 10568094
+
+root eval: 5 true 76
+
+
+My move: 5
+
+xox.xxooo
+oxo.xooxx
+xox.xxxox
+ooo.xooxo
+xxx.oxoxx
+xxx.xxoxo
+oxo.ooxox
+oooxxooxx
+ooooxooox
+
+node with col , node==root? true; numbers: 1, 1,	depth: 73
+
+time,mem before return: 17 4079460968
+
+---
+PnDb delta
+Opponent: 5
+root hash:-6465119469613193091	depth 74
+oxo.ooxxx
+xox.oxxoo
+oxo.oooxo
+xxx.oxxox
+ooo.xoxoo
+ooo.ooxox
+xox.xxoxo
+xxxooxxoo
+xxxxoxxxo
+
+
+log: before tagTree ;	time = 0	mems = 4167041024	314572800	225946832	4078415056
+
+log: before removeUnmarkedTree ;	time = 0	mems = 4167041024	314572800	225946832	4078415056
+
+log: before gc ;	time = 0	mems = 4167041024	314572800	225946832	4078415056
+
+log: before visit ;	time = 15	mems = 4167041024	314572800	228043968	4080512192
+
+dag_n = 0	proved_n = 114366	created_n = 12529881
+
+root eval: 3 false 76
+
+
+My move: 3
+
+oxo.ooxxx
+xox.oxxoo
+oxo.oooxo
+xxx.oxxox
+ooo.xoxoo
+ooo.ooxox
+xoxxxxoxo
+xxxooxxoo
+xxxxoxxxo
+
+node with col , node==root? true; numbers: 1, 1,	depth: 74
+
+time,mem before return: 15 4079460952
+
+---
+PnDb dnull
+Opponent: 3
+root hash:659139027566483200	depth 75
+xox.xxooo
+oxo.xooxx
+xox.xxxox
+ooo.xooxo
+xxx.oxoxx
+xxx.xxoxo
+oxooooxox
+oooxxooxx
+ooooxooox
+
+
+log: time = 0	mems = 4167041024	314572800	225946816	4078415040
+
+log: time = 0	mems = 4167041024	314572800	225946816	4078415040
+
+log: time = 0	mems = 4167041024	314572800	225946816	4078415040
+
+log: time = 13	mems = 4167041024	314572800	228043192	4080511416
+
+dag_n = 0	proved_n = 134249	created_n = 10568095
+
+root eval: 3 true 76
+
+
+My move: 3
+
+xox.xxooo
+oxo.xooxx
+xox.xxxox
+ooo.xooxo
+xxx.oxoxx
+xxxxxxoxo
+oxooooxox
+oooxxooxx
+ooooxooox
+
+node with col , node==root? true; numbers: 1, 1,	depth: 75
+
+time,mem before return: 13 4079460176
+
+
+-_-
+START GAME
+-_-
+
+
+-_-
+START GAME
+-_-
+
+---
+PnDb delta
+Opponent: null
+root hash:0	depth 0
+.........
+.........
+.........
+.........
+.........
+.........
+.........
+.........
+.........
+
+
+log: before tagTree ;	time = 0	mems = 4167041024	943718400	779308936	4002631560
+
+log: before removeUnmarkedTree ;	time = 0	mems = 4167041024	943718400	779308936	4002631560
+
+log: before gc ;	time = 0	mems = 4167041024	943718400	779308936	4002631560
+
+log: before visit ;	time = 16	mems = 4167041024	329252864	250688472	4088476632
+
+end of loop : n_loops = 117140
+log:  ;	time = 9000	mems = 4167041024	968884224	475313896	3673470696
+
+dag_n = 604583	proved_n = 2805	created_n = 607420
+
+
+My move: 5
+
+.........
+.........
+.........
+.........
+.........
+.........
+.........
+.........
+.....x...
+
+node with col , node==root? true; numbers: 11866, 60906,	depth: 0
+
+time,mem before return: 9000 3673470696
+
+---
+PnDb dnull
+Opponent: 5
+root hash:6748620166533542067	depth 1
+.........
+.........
+.........
+.........
+.........
+.........
+.........
+.........
+.....o...
+
+
+log: time = 0	mems = 4167041024	968884224	474260632	3672417432
+
+log: time = 0	mems = 4167041024	968884224	474260632	3672417432
+
+log: time = 0	mems = 4167041024	968884224	474260632	3672417432
+
+log: time = 39	mems = 4167041024	413138944	295768976	4049671056
+
+end of loop : n_loops = 87625
+log: time = 9000	mems = 4167041024	815792128	661786224	4013035120
+
+dag_n = 428130	proved_n = 6701	created_n = 435664
+
+
+My move: 6
+
+.........
+.........
+.........
+.........
+.........
+.........
+.........
+.........
+.....ox..
+
+node with col , node==root? true; numbers: 10944, 31216,	depth: 1
+
+time,mem before return: 9000 4013035120
+
+---
+PnDb delta
+Opponent: 6
+root hash:4639908508446062121	depth 2
+.........
+.........
+.........
+.........
+.........
+.........
+.........
+.........
+.....xo..
+
+
+log: before tagTree ;	time = 1	mems = 4167041024	815792128	660732920	4011981816
+
+log: before removeUnmarkedTree ;	time = 41	mems = 4167041024	815792128	660732920	4011981816
+
+log: before gc ;	time = 322	mems = 4167041024	815792128	660732920	4011981816
+
+log: before visit ;	time = 356	mems = 4167041024	448790528	339359504	4057610000
+
+end of loop : n_loops = 102008
+log:  ;	time = 9000	mems = 4167041024	1006632960	298542560	3458950624
+
+dag_n = 581773	proved_n = 4383	created_n = 1141089
+
+
+My move: 5
+
+.........
+.........
+.........
+.........
+.........
+.........
+.........
+.....x...
+.....xo..
+
+node with col , node==root? true; numbers: 11394, 52688,	depth: 2
+
+time,mem before return: 9000 3458950624
+
+---
+PnDb dnull
+Opponent: 5
+root hash:3169721414047482223	depth 3
+.........
+.........
+.........
+.........
+.........
+.........
+.........
+.....o...
+.....ox..
+
+
+log: time = 0	mems = 4167041024	1006632960	297489296	3457897360
+
+log: time = 17	mems = 4167041024	1006632960	297489296	3457897360
+
+log: time = 210	mems = 4167041024	1006632960	297489296	3457897360
+
+log: time = 251	mems = 4167041024	469762048	351237472	4048516448
+
+end of loop : n_loops = 88512
+log: time = 9000	mems = 4167041024	868220928	381805584	3680625680
+
+dag_n = 479851	proved_n = 12366	created_n = 885554
+
+
+My move: 5
+
+.........
+.........
+.........
+.........
+.........
+.........
+.....x...
+.....o...
+.....ox..
+
+node with col , node==root? true; numbers: 11530, 27538,	depth: 3
+
+time,mem before return: 9000 3680625680
+
+---
+PnDb delta
+Opponent: 5
+root hash:6457875455319884190	depth 4
+.........
+.........
+.........
+.........
+.........
+.........
+.....o...
+.....x...
+.....xo..
+
+
+log: before tagTree ;	time = 0	mems = 4167041024	868220928	380775280	3679595376
+
+log: before removeUnmarkedTree ;	time = 28	mems = 4167041024	868220928	380775280	3679595376
+
+log: before gc ;	time = 233	mems = 4167041024	868220928	380775280	3679595376
+
+log: before visit ;	time = 270	mems = 4167041024	448790528	334980536	4053231032
+
+end of loop : n_loops = 107917
+log:  ;	time = 9000	mems = 4167041024	987758592	767963576	3947246008
+
+dag_n = 642241	proved_n = 5974	created_n = 1723961
+
+
+My move: 4
+
+.........
+.........
+.........
+.........
+.........
+.........
+.....o...
+.....x...
+....xxo..
+
+node with col , node==root? true; numbers: 8994, 42996,	depth: 4
+
+time,mem before return: 9000 3947246008
+
+---
+PnDb dnull
+Opponent: 4
+root hash:7766700840063185786	depth 5
+.........
+.........
+.........
+.........
+.........
+.........
+.....x...
+.....o...
+....oox..
+
+
+log: time = 0	mems = 4167041024	987758592	766910312	3946192744
+
+log: time = 37	mems = 4167041024	987758592	766910312	3946192744
+
+log: time = 207	mems = 4167041024	987758592	766910312	3946192744
+
+log: time = 246	mems = 4167041024	476053504	352318640	4043306160
+
+end of loop : n_loops = 88305
+log: time = 9000	mems = 4167041024	1004535808	767590336	3930095552
+
+dag_n = 478997	proved_n = 19848	created_n = 1318348
+
+
+My move: 3
+
+.........
+.........
+.........
+.........
+.........
+.........
+.....x...
+.....o...
+...xoox..
+
+node with col , node==root? true; numbers: 7959, 21632,	depth: 5
+
+time,mem before return: 9000 3930095552
+
+---
+PnDb delta
+Opponent: 3
+root hash:1985352287718098206	depth 6
+.........
+.........
+.........
+.........
+.........
+.........
+.....o...
+.....x...
+...oxxo..
+
+
+log: before tagTree ;	time = 0	mems = 4167041024	1004535808	766546328	3929051544
+
+log: before removeUnmarkedTree ;	time = 39	mems = 4167041024	1004535808	766546328	3929051544
+
+log: before gc ;	time = 300	mems = 4167041024	1004535808	766546328	3929051544
+
+log: before visit ;	time = 339	mems = 4167041024	455081984	340543504	4052502544
+
+end of loop : n_loops = 93284
+log:  ;	time = 9000	mems = 4167041024	1023410176	829784032	3973414880
+
+dag_n = 560663	proved_n = 8782	created_n = 2218713
+
+
+My move: 4
+
+.........
+.........
+.........
+.........
+.........
+.........
+.....o...
+....xx...
+...oxxo..
+
+node with col , node==root? true; numbers: 7576, 31613,	depth: 6
+
+time,mem before return: 9000 3973414880
+
+---
+PnDb dnull
+Opponent: 4
+root hash:96022776120266192	depth 7
+.........
+.........
+.........
+.........
+.........
+.........
+.....x...
+....oo...
+...xoox..
+
+
+log: time = 1	mems = 4167041024	1023410176	828730768	3972361616
+
+log: time = 45	mems = 4167041024	1023410176	828730768	3972361616
+
+log: time = 220	mems = 4167041024	1023410176	828730768	3972361616
+
+log: time = 256	mems = 4167041024	461373440	342307920	4047975504
+
+end of loop : n_loops = 84352
+log: time = 9000	mems = 4167041024	920649728	257381888	3503773184
+
+dag_n = 462908	proved_n = 29474	created_n = 1734821
+
+
+My move: 4
+
+.........
+.........
+.........
+.........
+.........
+.........
+....xx...
+....oo...
+...xoox..
+
+node with col , node==root? true; numbers: 7137, 12693,	depth: 7
+
+time,mem before return: 9000 3503773184
+
+---
+PnDb delta
+Opponent: 4
+root hash:-5387070646212777535	depth 8
+.........
+.........
+.........
+.........
+.........
+.........
+....oo...
+....xx...
+...oxxo..
+
+
+log: before tagTree ;	time = 0	mems = 4167041024	920649728	256328624	3502719920
+
+log: before removeUnmarkedTree ;	time = 58	mems = 4167041024	920649728	256328624	3502719920
+
+log: before gc ;	time = 255	mems = 4167041024	920649728	256328624	3502719920
+
+log: before visit ;	time = 300	mems = 4167041024	448790528	333016344	4051266840
+
+end of loop : n_loops = 84608
+log:  ;	time = 9000	mems = 4167041024	947912704	500799648	3719927968
+
+dag_n = 544234	proved_n = 14476	created_n = 2669343
+
+
+My move: 3
+
+.........
+.........
+.........
+.........
+.........
+.........
+....oo...
+...xxx...
+...oxxo..
+
+node with col , node==root? true; numbers: 4298, 27348,	depth: 8
+
+time,mem before return: 9000 3719927968
+
+---
+PnDb dnull
+Opponent: 3
+root hash:1651196405734207581	depth 9
+.........
+.........
+.........
+.........
+.........
+.........
+....xx...
+...ooo...
+...xoox..
+
+
+log: time = 0	mems = 4167041024	947912704	499746384	3718874704
+
+log: time = 30	mems = 4167041024	947912704	499746384	3718874704
+
+log: time = 239	mems = 4167041024	947912704	499746384	3718874704
+
+log: time = 270	mems = 4167041024	455081984	336523080	4048482120
+
+end of loop : n_loops = 78051
+log: time = 9000	mems = 4167041024	799014912	403068160	3771094272
+
+dag_n = 401899	proved_n = 45419	created_n = 2094845
+
+
+My move: 6
+
+.........
+.........
+.........
+.........
+.........
+.........
+....xx...
+...ooox..
+...xoox..
+
+node with col , node==root? true; numbers: 5979, 7925,	depth: 9
+
+time,mem before return: 9000 3771094272
+
+---
+PnDb delta
+Opponent: 6
+root hash:2334766878450874807	depth 10
+.........
+.........
+.........
+.........
+.........
+.........
+....oo...
+...xxxo..
+...oxxo..
+
+
+log: before tagTree ;	time = 0	mems = 4167041024	799014912	402022176	3770048288
+
+log: before removeUnmarkedTree ;	time = 30	mems = 4167041024	799014912	402022176	3770048288
+
+log: before gc ;	time = 245	mems = 4167041024	799014912	402022176	3770048288
+
+log: before visit ;	time = 285	mems = 4167041024	434110464	324082816	4057013376
+
+end of loop : n_loops = 96743
+log:  ;	time = 9000	mems = 4167041024	985661440	638718944	3820098528
+
+dag_n = 566066	proved_n = 20089	created_n = 3181457
+
+
+My move: 6
+
+.........
+.........
+.........
+.........
+.........
+.........
+....oox..
+...xxxo..
+...oxxo..
+
+node with col , node==root? true; numbers: 5732, 22847,	depth: 10
+
+time,mem before return: 9000 3820098528
+
+---
+PnDb dnull
+Opponent: 6
+root hash:-8574476080809811746	depth 11
+.........
+.........
+.........
+.........
+.........
+.........
+....xxo..
+...ooox..
+...xoox..
+
+
+log: time = 0	mems = 4167041024	985661440	637665680	3819045264
+
+log: time = 12	mems = 4167041024	985661440	637665680	3819045264
+
+log: time = 176	mems = 4167041024	985661440	637665680	3819045264
+
+log: time = 218	mems = 4167041024	461373440	342798992	4048466576
+
+end of loop : n_loops = 82623
+log: time = 9000	mems = 4167041024	809500672	262150008	3619690360
+
+dag_n = 445955	proved_n = 51834	created_n = 2520750
+
+
+My move: 3
+
+.........
+.........
+.........
+.........
+.........
+.........
+...xxxo..
+...ooox..
+...xoox..
+
+node with col , node==root? true; numbers: 5863, 16021,	depth: 11
+
+time,mem before return: 9000 3619690360
+
+---
+PnDb delta
+Opponent: 3
+root hash:-5940683432182287291	depth 12
+.........
+.........
+.........
+.........
+.........
+.........
+...ooox..
+...xxxo..
+...oxxo..
+
+
+log: before tagTree ;	time = 0	mems = 4167041024	809500672	261104432	3618644784
+
+log: before removeUnmarkedTree ;	time = 29	mems = 4167041024	809500672	261104432	3618644784
+
+log: before gc ;	time = 275	mems = 4167041024	809500672	261104432	3618644784
+
+log: before visit ;	time = 316	mems = 4167041024	448790528	335813760	4054064256
+
+end of loop : n_loops = 94716
+log:  ;	time = 9000	mems = 4167041024	941621248	519927928	3745347704
+
+dag_n = 549503	proved_n = 25723	created_n = 3682044
+
+
+My move: 7
+
+.........
+.........
+.........
+.........
+.........
+.........
+...ooox..
+...xxxo..
+...oxxox.
+
+node with col , node==root? true; numbers: 4815, 19862,	depth: 12
+
+time,mem before return: 9000 3745347704
+
+---
+PnDb dnull
+Opponent: 7
+root hash:-4230290548598218494	depth 13
+.........
+.........
+.........
+.........
+.........
+.........
+...xxxo..
+...ooox..
+...xooxo.
+
+
+log: time = 0	mems = 4167041024	941621248	518884096	3744303872
+
+log: time = 33	mems = 4167041024	941621248	518884096	3744303872
+
+log: time = 214	mems = 4167041024	941621248	518884096	3744303872
+
+log: time = 254	mems = 4167041024	469762048	350480840	4047759816
+
+end of loop : n_loops = 82486
+log: time = 9000	mems = 4167041024	847249408	660196896	3979988512
+
+dag_n = 457455	proved_n = 59348	created_n = 2937584
+
+
+My move: 5
+
+.........
+.........
+.........
+.........
+.........
+.....x...
+...xxxo..
+...ooox..
+...xooxo.
+
+node with col , node==root? true; numbers: 5007, 15506,	depth: 13
+
+time,mem before return: 9000 3979988512
+
+---
+PnDb delta
+Opponent: 5
+root hash:8565768944635347171	depth 14
+.........
+.........
+.........
+.........
+.........
+.....o...
+...ooox..
+...xxxo..
+...oxxox.
+
+
+log: before tagTree ;	time = 0	mems = 4167041024	847249408	659157192	3978948808
+
+log: before removeUnmarkedTree ;	time = 21	mems = 4167041024	847249408	659157192	3978948808
+
+log: before gc ;	time = 250	mems = 4167041024	847249408	659157192	3978948808
+
+log: before visit ;	time = 290	mems = 4167041024	448790528	335426232	4053676728
+
+end of loop : n_loops = 98152
+log:  ;	time = 9000	mems = 4167041024	922746880	267220744	3511514888
+
+dag_n = 558865	proved_n = 31870	created_n = 4204434
+
+
+My move: 1
+
+.........
+.........
+.........
+.........
+.........
+.....o...
+...ooox..
+...xxxo..
+.x.oxxox.
+
+node with col , node==root? true; numbers: 4790, 18268,	depth: 14
+
+time,mem before return: 9000 3511514888
+
+---
+PnDb dnull
+Opponent: 1
+root hash:3653079650530440693	depth 15
+.........
+.........
+.........
+.........
+.........
+.....x...
+...xxxo..
+...ooox..
+.o.xooxo.
+
+
+log: time = 1	mems = 4167041024	922746880	266175672	3510469816
+
+log: time = 27	mems = 4167041024	922746880	266175672	3510469816
+
+log: time = 207	mems = 4167041024	922746880	266175672	3510469816
+
+log: time = 252	mems = 4167041024	461373440	341541216	4047208800
+
+end of loop : n_loops = 80312
+log: time = 9000	mems = 4167041024	845152256	619781432	3941670200
+
+dag_n = 411311	proved_n = 72324	created_n = 3321414
+
+
+My move: 5
+
+.........
+.........
+.........
+.........
+.....x...
+.....x...
+...xxxo..
+...ooox..
+.o.xooxo.
+
+node with col , node==root? true; numbers: 4795, 10521,	depth: 15
+
+time,mem before return: 9000 3941670200
+
+---
+PnDb delta
+Opponent: 5
+root hash:-196104759656430957	depth 16
+.........
+.........
+.........
+.........
+.....o...
+.....o...
+...ooox..
+...xxxo..
+.x.oxxox.
+
+
+log: before tagTree ;	time = 1	mems = 4167041024	845152256	618734904	3940623672
+
+log: before removeUnmarkedTree ;	time = 47	mems = 4167041024	845152256	618734904	3940623672
+
+log: before gc ;	time = 293	mems = 4167041024	845152256	618734904	3940623672
+
+log: before visit ;	time = 335	mems = 4167041024	434110464	321416608	4054347168
+
+end of loop : n_loops = 78278
+log:  ;	time = 9000	mems = 4167041024	981467136	427886032	3613459920
+
+dag_n = 474423	proved_n = 40157	created_n = 4617289
+
+
+My move: 5
+
+.........
+.........
+.........
+.....x...
+.....o...
+.....o...
+...ooox..
+...xxxo..
+.x.oxxox.
+
+node with col , node==root? true; numbers: 5602, 11795,	depth: 16
+
+time,mem before return: 9000 3613459920
+
+---
+PnDb dnull
+Opponent: 5
+root hash:5044417504677473353	depth 17
+.........
+.........
+.........
+.....o...
+.....x...
+.....x...
+...xxxo..
+...ooox..
+.o.xooxo.
+
+
+log: time = 0	mems = 4167041024	981467136	426842016	3612415904
+
+log: time = 17	mems = 4167041024	981467136	426842016	3612415904
+
+log: time = 184	mems = 4167041024	981467136	426842016	3612415904
+
+log: time = 224	mems = 4167041024	448790528	334069184	4052319680
+
+end of loop : n_loops = 77704
+log: time = 9000	mems = 4167041024	847249408	605419968	3925211584
+
+dag_n = 404166	proved_n = 83644	created_n = 3702423
+
+
+My move: 1
+
+.........
+.........
+.........
+.....o...
+.....x...
+.....x...
+...xxxo..
+.x.ooox..
+.o.xooxo.
+
+node with col , node==root? true; numbers: 4667, 10021,	depth: 17
+
+time,mem before return: 9000 3925211584
+
+---
+PnDb delta
+Opponent: 1
+root hash:-6708395351032603731	depth 18
+.........
+.........
+.........
+.....x...
+.....o...
+.....o...
+...ooox..
+.o.xxxo..
+.x.oxxox.
+
+
+log: before tagTree ;	time = 0	mems = 4167041024	847249408	604363960	3924155576
+
+log: before removeUnmarkedTree ;	time = 19	mems = 4167041024	847249408	604363960	3924155576
+
+log: before gc ;	time = 200	mems = 4167041024	847249408	604363960	3924155576
+
+log: before visit ;	time = 235	mems = 4167041024	434110464	323166016	4056096576
+
+end of loop : n_loops = 90069
+log:  ;	time = 9000	mems = 4167041024	1021313024	833529776	3979257776
+
+dag_n = 518316	proved_n = 42549	created_n = 5098045
+
+
+My move: 4
+
+.........
+.........
+.........
+.....x...
+.....o...
+....xo...
+...ooox..
+.o.xxxo..
+.x.oxxox.
+
+node with col , node==root? true; numbers: 6200, 25307,	depth: 18
+
+time,mem before return: 9000 3979257776
+
+---
+PnDb dnull
+Opponent: 4
+root hash:5390517561338561546	depth 19
+.........
+.........
+.........
+.....o...
+.....x...
+....ox...
+...xxxo..
+.x.ooox..
+.o.xooxo.
+
+
+log: time = 0	mems = 4167041024	1021313024	832483248	3978211248
+
+log: time = 12	mems = 4167041024	1021313024	832483248	3978211248
+
+log: time = 169	mems = 4167041024	1021313024	832483248	3978211248
+
+log: time = 210	mems = 4167041024	469762048	352372464	4049651440
+
+end of loop : n_loops = 77377
+log: time = 9000	mems = 4167041024	868220928	546000256	3844820352
+
+dag_n = 433363	proved_n = 87468	created_n = 4115912
+
+
+My move: 1
+
+.........
+.........
+.........
+.....o...
+.....x...
+....ox...
+.x.xxxo..
+.x.ooox..
+.o.xooxo.
+
+node with col , node==root? true; numbers: 5120, 18362,	depth: 19
+
+time,mem before return: 9000 3844820352
+
+---
+PnDb delta
+Opponent: 1
+root hash:-4694415253844411935	depth 20
+.........
+.........
+.........
+.....x...
+.....o...
+....xo...
+.o.ooox..
+.o.xxxo..
+.x.oxxox.
+
+
+log: before tagTree ;	time = 0	mems = 4167041024	868220928	544944328	3843764424
+
+log: before removeUnmarkedTree ;	time = 33	mems = 4167041024	868220928	544944328	3843764424
+
+log: before gc ;	time = 259	mems = 4167041024	868220928	544944328	3843764424
+
+log: before visit ;	time = 300	mems = 4167041024	448790528	334603424	4052853920
+
+end of loop : n_loops = 85814
+log:  ;	time = 9000	mems = 4167041024	975175680	576603184	3768468528
+
+dag_n = 513146	proved_n = 48164	created_n = 5558433
+
+
+My move: 1
+
+.........
+.........
+.........
+.....x...
+.....o...
+.x..xo...
+.o.ooox..
+.o.xxxo..
+.x.oxxox.
+
+node with col , node==root? true; numbers: 6093, 16427,	depth: 20
+
+time,mem before return: 9000 3768468528
+
+---
+PnDb dnull
+Opponent: 1
+root hash:9007507423847798381	depth 21
+.........
+.........
+.........
+.....o...
+.....x...
+.o..ox...
+.x.xxxo..
+.x.ooox..
+.o.xooxo.
+
+
+log: time = 0	mems = 4167041024	975175680	575558520	3767423864
+
+log: time = 21	mems = 4167041024	975175680	575558520	3767423864
+
+log: time = 184	mems = 4167041024	975175680	575558520	3767423864
+
+log: time = 231	mems = 4167041024	455081984	336556800	4048515840
+
+end of loop : n_loops = 81835
+log: time = 9000	mems = 4167041024	859832320	444213824	3751422528
+
+dag_n = 464815	proved_n = 94632	created_n = 4544359
+
+
+My move: 2
+
+.........
+.........
+.........
+.....o...
+.....x...
+.o..ox...
+.x.xxxo..
+.x.ooox..
+.oxxooxo.
+
+node with col , node==root? true; numbers: 4350, 19137,	depth: 21
+
+time,mem before return: 9000 3751422528
+
+---
+PnDb delta
+Opponent: 2
+root hash:2112426109952430838	depth 22
+.........
+.........
+.........
+.....x...
+.....o...
+.x..xo...
+.o.ooox..
+.o.xxxo..
+.xooxxox.
+
+
+log: before tagTree ;	time = 0	mems = 4167041024	859832320	443169624	3750378328
+
+log: before removeUnmarkedTree ;	time = 27	mems = 4167041024	859832320	443169624	3750378328
+
+log: before gc ;	time = 224	mems = 4167041024	859832320	443169624	3750378328
+
+log: before visit ;	time = 267	mems = 4167041024	448790528	332275632	4050526128
+
+end of loop : n_loops = 81794
+log:  ;	time = 9000	mems = 4167041024	1006632960	432354232	3592762296
+
+dag_n = 460484	proved_n = 58465	created_n = 5973937
+
+
+My move: 3
+
+.........
+.........
+.........
+.....x...
+.....o...
+.x.xxo...
+.o.ooox..
+.o.xxxo..
+.xooxxox.
+
+node with col , node==root? true; numbers: 8277, 8991,	depth: 22
+
+time,mem before return: 9000 3592762296
+
+---
+PnDb dnull
+Opponent: 3
+root hash:222634101562399718	depth 23
+.........
+.........
+.........
+.....o...
+.....x...
+.o.oox...
+.x.xxxo..
+.x.ooox..
+.oxxooxo.
+
+
+log: time = 1	mems = 4167041024	1006632960	431310656	3591718720
+
+log: time = 41	mems = 4167041024	1006632960	431310656	3591718720
+
+log: time = 204	mems = 4167041024	1006632960	431310656	3591718720
+
+log: time = 247	mems = 4167041024	448790528	332324384	4050574880
+
+end of loop : n_loops = 78256
+log: time = 9000	mems = 4167041024	872415232	688050880	3982676672
+
+dag_n = 436664	proved_n = 105699	created_n = 4936701
+
+
+My move: 3
+
+.........
+.........
+.........
+.....o...
+...x.x...
+.o.oox...
+.x.xxxo..
+.x.ooox..
+.oxxooxo.
+
+node with col , node==root? true; numbers: 2783, 19618,	depth: 23
+
+time,mem before return: 9000 3982676672
+
+---
+PnDb delta
+Opponent: 3
+root hash:3488670194310863222	depth 24
+.........
+.........
+.........
+.....x...
+...o.o...
+.x.xxo...
+.o.ooox..
+.o.xxxo..
+.xooxxox.
+
+
+log: before tagTree ;	time = 0	mems = 4167041024	872415232	687004352	3981630144
+
+log: before removeUnmarkedTree ;	time = 25	mems = 4167041024	872415232	687004352	3981630144
+
+log: before gc ;	time = 195	mems = 4167041024	872415232	687004352	3981630144
+
+log: before visit ;	time = 236	mems = 4167041024	440401920	325137752	4051776856
+
+end of loop : n_loops = 82104
+log:  ;	time = 9000	mems = 4167041024	941621248	684208776	3909628552
+
+dag_n = 438995	proved_n = 72935	created_n = 6373866
+
+
+My move: 5
+
+.........
+.........
+.....x...
+.....x...
+...o.o...
+.x.xxo...
+.o.ooox..
+.o.xxxo..
+.xooxxox.
+
+node with col , node==root? true; numbers: 7072, 5237,	depth: 24
+
+time,mem before return: 9000 3909628552
+
+---
+PnDb dnull
+Opponent: 5
+root hash:-1481600268333269970	depth 25
+.........
+.........
+.....o...
+.....o...
+...x.x...
+.o.oox...
+.x.xxxo..
+.x.ooox..
+.oxxooxo.
+
+
+log: time = 0	mems = 4167041024	941621248	683162248	3908582024
+
+log: time = 17	mems = 4167041024	941621248	683162248	3908582024
+
+log: time = 181	mems = 4167041024	941621248	683162248	3908582024
+
+log: time = 222	mems = 4167041024	448790528	334006104	4052256600
+
+end of loop : n_loops = 75818
+log: time = 9000	mems = 4167041024	811597824	201339736	3556782936
+
+dag_n = 402807	proved_n = 116213	created_n = 5313715
+
+
+My move: 4
+
+.........
+.........
+.....o...
+.....o...
+...xxx...
+.o.oox...
+.x.xxxo..
+.x.ooox..
+.oxxooxo.
+
+node with col , node==root? true; numbers: 2332, 16686,	depth: 25
+
+time,mem before return: 9000 3556782936
+
+---
+PnDb delta
+Opponent: 4
+root hash:5709036438083190511	depth 26
+.........
+.........
+.....x...
+.....x...
+...ooo...
+.x.xxo...
+.o.ooox..
+.o.xxxo..
+.xooxxox.
+
+
+log: before tagTree ;	time = 0	mems = 4167041024	811597824	200283456	3555726656
+
+log: before removeUnmarkedTree ;	time = 18	mems = 4167041024	811597824	200283456	3555726656
+
+log: before gc ;	time = 196	mems = 4167041024	811597824	200283456	3555726656
+
+log: before visit ;	time = 236	mems = 4167041024	434110464	321359416	4054289976
+
+end of loop : n_loops = 77569
+log:  ;	time = 9000	mems = 4167041024	813694976	254890160	3608236208
+
+dag_n = 409699	proved_n = 84446	created_n = 6759088
+
+
+My move: 1
+
+.........
+.........
+.....x...
+.....x...
+.x.ooo...
+.x.xxo...
+.o.ooox..
+.o.xxxo..
+.xooxxox.
+
+node with col , node==root? true; numbers: 6574, 5105,	depth: 26
+
+time,mem before return: 9000 3608236208
+
+---
+PnDb dnull
+Opponent: 1
+root hash:7915702384149690568	depth 27
+.........
+.........
+.....o...
+.....o...
+.o.xxx...
+.o.oox...
+.x.xxxo..
+.x.ooox..
+.oxxooxo.
+
+
+log: time = 0	mems = 4167041024	813694976	253833864	3607179912
+
+log: time = 21	mems = 4167041024	813694976	253833864	3607179912
+
+log: time = 208	mems = 4167041024	813694976	253833864	3607179912
+
+log: time = 244	mems = 4167041024	448790528	334976504	4053227000
+
+end of loop : n_loops = 73841
+log: time = 9000	mems = 4167041024	822083584	664207248	4009164688
+
+dag_n = 388392	proved_n = 128107	created_n = 5674010
+
+
+My move: 4
+
+.........
+.........
+.....o...
+....xo...
+.o.xxx...
+.o.oox...
+.x.xxxo..
+.x.ooox..
+.oxxooxo.
+
+node with col , node==root? true; numbers: 2088, 14018,	depth: 27
+
+time,mem before return: 9000 4009164688
+
+---
+PnDb delta
+Opponent: 4
+root hash:8628407639405559200	depth 28
+.........
+.........
+.....x...
+....ox...
+.x.ooo...
+.x.xxo...
+.o.ooox..
+.o.xxxo..
+.xooxxox.
+
+
+log: before tagTree ;	time = 1	mems = 4167041024	822083584	663150936	4008108376
+
+log: before removeUnmarkedTree ;	time = 22	mems = 4167041024	822083584	663150936	4008108376
+
+log: before gc ;	time = 179	mems = 4167041024	822083584	663150936	4008108376
+
+log: before visit ;	time = 216	mems = 4167041024	427819008	314984104	4054206120
+
+end of loop : n_loops = 88306
+log:  ;	time = 9000	mems = 4167041024	920649728	756441944	4002833240
+
+dag_n = 461291	proved_n = 98241	created_n = 7195424
+
+
+My move: 1
+
+.........
+.........
+.....x...
+.x..ox...
+.x.ooo...
+.x.xxo...
+.o.ooox..
+.o.xxxo..
+.xooxxox.
+
+node with col , node==root? true; numbers: 7671, 3903,	depth: 28
+
+time,mem before return: 9000 4002833240
+
+---
+PnDb dnull
+Opponent: 1
+root hash:-4827428895046915036	depth 29
+.........
+.........
+.....o...
+.o..xo...
+.o.xxx...
+.o.oox...
+.x.xxxo..
+.x.ooox..
+.oxxooxo.
+
+
+log: time = 1	mems = 4167041024	920649728	755385688	4001776984
+
+log: time = 24	mems = 4167041024	920649728	755385688	4001776984
+
+log: time = 178	mems = 4167041024	920649728	755385688	4001776984
+
+log: time = 222	mems = 4167041024	440401920	322053328	4048692432
+
+end of loop : n_loops = 62692
+log: time = 9000	mems = 4167041024	855638016	638908872	3950311880
+
+dag_n = 311819	proved_n = 142046	created_n = 5956981
+
+
+My move: 0
+
+.........
+.........
+.....o...
+.o..xo...
+.o.xxx...
+.o.oox...
+.x.xxxo..
+.x.ooox..
+xoxxooxo.
+
+node with col , node==root? true; numbers: 1649, 12130,	depth: 29
+
+time,mem before return: 9000 3950311880
+
+---
+PnDb delta
+Opponent: 0
+root hash:-6610212125780779014	depth 30
+.........
+.........
+.....x...
+.x..ox...
+.x.ooo...
+.x.xxo...
+.o.ooox..
+.o.xxxo..
+oxooxxox.
+
+
+log: before tagTree ;	time = 0	mems = 4167041024	855638016	637867952	3949270960
+
+log: before removeUnmarkedTree ;	time = 36	mems = 4167041024	855638016	637867952	3949270960
+
+log: before gc ;	time = 262	mems = 4167041024	855638016	637867952	3949270960
+
+log: before visit ;	time = 293	mems = 4167041024	419430400	309777224	4057387848
+
+end of loop : n_loops = 67890
+log:  ;	time = 9000	mems = 4167041024	941621248	384914808	3610334584
+
+dag_n = 328880	proved_n = 114549	created_n = 7487116
+
+
+My move: 0
+
+.........
+.........
+.....x...
+.x..ox...
+.x.ooo...
+.x.xxo...
+.o.ooox..
+xo.xxxo..
+oxooxxox.
+
+node with col , node==root? true; numbers: 8708, 4710,	depth: 30
+
+time,mem before return: 9000 3610334584
+
+---
+PnDb dnull
+Opponent: 0
+root hash:-5802204724101914587	depth 31
+.........
+.........
+.....o...
+.o..xo...
+.o.xxx...
+.o.oox...
+.x.xxxo..
+ox.ooox..
+xoxxooxo.
+
+
+log: time = 0	mems = 4167041024	941621248	383869960	3609289736
+
+log: time = 48	mems = 4167041024	941621248	383869960	3609289736
+
+log: time = 139	mems = 4167041024	941621248	383869960	3609289736
+
+log: time = 179	mems = 4167041024	440401920	326240416	4052879520
+
+end of loop : n_loops = 62919
+log: time = 9000	mems = 4167041024	884998144	547519904	3829562784
+
+dag_n = 353909	proved_n = 157835	created_n = 6227766
+
+
+My move: 1
+
+.........
+.........
+.x...o...
+.o..xo...
+.o.xxx...
+.o.oox...
+.x.xxxo..
+ox.ooox..
+xoxxooxo.
+
+node with col , node==root? true; numbers: 3032, 8795,	depth: 31
+
+time,mem before return: 9000 3829562784
+
+---
+PnDb delta
+Opponent: 1
+root hash:-3230619390024379198	depth 32
+.........
+.........
+.o...x...
+.x..ox...
+.x.ooo...
+.x.xxo...
+.o.ooox..
+xo.xxxo..
+oxooxxox.
+
+
+log: before tagTree ;	time = 1	mems = 4167041024	884998144	546477184	3828520064
+
+log: before removeUnmarkedTree ;	time = 62	mems = 4167041024	884998144	546477184	3828520064
+
+log: before gc ;	time = 164	mems = 4167041024	884998144	546477184	3828520064
+
+log: before visit ;	time = 205	mems = 4167041024	440401920	324417296	4051056400
+
+end of loop : n_loops = 78716
+log:  ;	time = 9000	mems = 4167041024	903872512	724048112	3987216624
+
+dag_n = 402527	proved_n = 133051	created_n = 7814913
+
+
+My move: 0
+
+.........
+.........
+.o...x...
+.x..ox...
+.x.ooo...
+.x.xxo...
+xo.ooox..
+xo.xxxo..
+oxooxxox.
+
+node with col , node==root? true; numbers: 4912, 6576,	depth: 32
+
+time,mem before return: 9000 3987216624
+
+---
+PnDb dnull
+Opponent: 0
+root hash:6085188096176296196	depth 33
+.........
+.........
+.x...o...
+.o..xo...
+.o.xxx...
+.o.oox...
+ox.xxxo..
+ox.ooox..
+xoxxooxo.
+
+
+log: time = 0	mems = 4167041024	903872512	723005432	3986173944
+
+log: time = 18	mems = 4167041024	903872512	723005432	3986173944
+
+log: time = 153	mems = 4167041024	903872512	723005432	3986173944
+
+log: time = 195	mems = 4167041024	440401920	324191688	4050830792
+
+end of loop : n_loops = 76940
+log: time = 9000	mems = 4167041024	882900992	677273448	3961413480
+
+dag_n = 321103	proved_n = 180966	created_n = 6531750
+
+
+My move: 4
+
+.........
+.........
+.x..xo...
+.o..xo...
+.o.xxx...
+.o.oox...
+ox.xxxo..
+ox.ooox..
+xoxxooxo.
+
+node with col , node==root? true; numbers: 2686, 10423,	depth: 33
+
+time,mem before return: 9000 3961413480
+
+---
+PnDb delta
+Opponent: 4
+root hash:-436349557069107510	depth 34
+.........
+.........
+.o..ox...
+.x..ox...
+.x.ooo...
+.x.xxo...
+xo.ooox..
+xo.xxxo..
+oxooxxox.
+
+
+log: before tagTree ;	time = 1	mems = 4167041024	882900992	676227992	3960368024
+
+log: before removeUnmarkedTree ;	time = 35	mems = 4167041024	882900992	676227992	3960368024
+
+log: before gc ;	time = 173	mems = 4167041024	882900992	676227992	3960368024
+
+log: before visit ;	time = 213	mems = 4167041024	419430400	306805296	4054415920
+
+end of loop : n_loops = 75071
+log:  ;	time = 9000	mems = 4167041024	901775360	607383568	3872649232
+
+dag_n = 323251	proved_n = 154342	created_n = 8105837
+
+
+My move: 0
+
+.........
+.........
+.o..ox...
+.x..ox...
+.x.ooo...
+xx.xxo...
+xo.ooox..
+xo.xxxo..
+oxooxxox.
+
+node with col , node==root? true; numbers: 5206, 6713,	depth: 34
+
+time,mem before return: 9000 3872649232
+
+---
+PnDb dnull
+Opponent: 0
+root hash:8664054335195233990	depth 35
+.........
+.........
+.x..xo...
+.o..xo...
+.o.xxx...
+oo.oox...
+ox.xxxo..
+ox.ooox..
+xoxxooxo.
+
+
+log: time = 1	mems = 4167041024	901775360	606327656	3871593320
+
+log: time = 36	mems = 4167041024	901775360	606327656	3871593320
+
+log: time = 154	mems = 4167041024	901775360	606327656	3871593320
+
+log: time = 192	mems = 4167041024	440401920	327079936	4053719040
+
+end of loop : n_loops = 60371
+log: time = 9000	mems = 4167041024	830472192	337805208	3674374040
+
+dag_n = 292186	proved_n = 195017	created_n = 6785755
+
+
+My move: 4
+
+.........
+....x....
+.x..xo...
+.o..xo...
+.o.xxx...
+oo.oox...
+ox.xxxo..
+ox.ooox..
+xoxxooxo.
+
+node with col , node==root? true; numbers: 2883, 12195,	depth: 35
+
+time,mem before return: 9000 3674374040
+
+---
+PnDb delta
+Opponent: 4
+root hash:-8849108874432521167	depth 36
+.........
+....o....
+.o..ox...
+.x..ox...
+.x.ooo...
+xx.xxo...
+xo.ooox..
+xo.xxxo..
+oxooxxox.
+
+
+log: before tagTree ;	time = 0	mems = 4167041024	830472192	336759840	3673328672
+
+log: before removeUnmarkedTree ;	time = 25	mems = 4167041024	830472192	336759840	3673328672
+
+log: before gc ;	time = 133	mems = 4167041024	830472192	336759840	3673328672
+
+log: before visit ;	time = 175	mems = 4167041024	419430400	307339240	4054949864
+
+end of loop : n_loops = 72440
+log:  ;	time = 9000	mems = 4167041024	1006632960	858196392	4018604456
+
+dag_n = 301164	proved_n = 173608	created_n = 8369710
+
+
+My move: 4
+
+....x....
+....o....
+.o..ox...
+.x..ox...
+.x.ooo...
+xx.xxo...
+xo.ooox..
+xo.xxxo..
+oxooxxox.
+
+node with col , node==root? true; numbers: 9159, 4178,	depth: 36
+
+time,mem before return: 9000 4018604456
+
+---
+PnDb dnull
+Opponent: 4
+root hash:-1233755389368906139	depth 37
+....o....
+....x....
+.x..xo...
+.o..xo...
+.o.xxx...
+oo.oox...
+ox.xxxo..
+ox.ooox..
+xoxxooxo.
+
+
+log: time = 0	mems = 4167041024	1006632960	857154992	4017563056
+
+log: time = 58	mems = 4167041024	1006632960	857154992	4017563056
+
+log: time = 119	mems = 4167041024	1006632960	857154992	4017563056
+
+log: time = 163	mems = 4167041024	448790528	330986304	4049236800
+
+end of loop : n_loops = 59077
+log: time = 9000	mems = 4167041024	947912704	325335856	3544464176
+
+dag_n = 320806	proved_n = 211440	created_n = 6996390
+
+
+My move: 0
+
+....o....
+....x....
+.x..xo...
+.o..xo...
+xo.xxx...
+oo.oox...
+ox.xxxo..
+ox.ooox..
+xoxxooxo.
+
+node with col , node==root? true; numbers: 4621, 9753,	depth: 37
+
+time,mem before return: 9000 3544464176
+
+---
+PnDb delta
+Opponent: 0
+root hash:-1376266084810320937	depth 38
+....x....
+....o....
+.o..ox...
+.x..ox...
+ox.ooo...
+xx.xxo...
+xo.ooox..
+xo.xxxo..
+oxooxxox.
+
+
+log: before tagTree ;	time = 0	mems = 4167041024	947912704	324872800	3544001120
+
+log: before removeUnmarkedTree ;	time = 75	mems = 4167041024	947912704	324872800	3544001120
+
+log: before gc ;	time = 132	mems = 4167041024	947912704	324872800	3544001120
+
+log: before visit ;	time = 180	mems = 4167041024	448790528	327122424	4045372920
+
+end of loop : n_loops = 69670
+log:  ;	time = 9000	mems = 4167041024	775946240	343549704	3734644488
+
+dag_n = 381117	proved_n = 193569	created_n = 8612148
+
+
+My move: 6
+
+....x....
+....o....
+.o..ox...
+.x..ox...
+ox.ooo...
+xx.xxox..
+xo.ooox..
+xo.xxxo..
+oxooxxox.
+
+node with col , node==root? true; numbers: 6062, 8719,	depth: 38
+
+time,mem before return: 9000 3734644488
+
+---
+PnDb dnull
+Opponent: 6
+root hash:5437432143640227126	depth 39
+....o....
+....x....
+.x..xo...
+.o..xo...
+xo.xxx...
+oo.ooxo..
+ox.xxxo..
+ox.ooox..
+xoxxooxo.
+
+
+log: time = 0	mems = 4167041024	775946240	342493792	3733588576
+
+log: time = 23	mems = 4167041024	775946240	342493792	3733588576
+
+log: time = 151	mems = 4167041024	775946240	342493792	3733588576
+
+log: time = 187	mems = 4167041024	448790528	329607656	4047858152
+
+end of loop : n_loops = 68269
+log: time = 9000	mems = 4167041024	792723456	393143720	3767461288
+
+dag_n = 283634	proved_n = 228891	created_n = 7246850
+
+
+My move: 6
+
+....o....
+....x....
+.x..xo...
+.o..xo...
+xo.xxxx..
+oo.ooxo..
+ox.xxxo..
+ox.ooox..
+xoxxooxo.
+
+node with col , node==root? true; numbers: 2547, 14262,	depth: 39
+
+time,mem before return: 9000 3767461288
+
+---
+PnDb delta
+Opponent: 6
+root hash:1279298280492483932	depth 40
+....x....
+....o....
+.o..ox...
+.x..ox...
+ox.oooo..
+xx.xxox..
+xo.ooox..
+xo.xxxo..
+oxooxxox.
+
+
+log: before tagTree ;	time = 1	mems = 4167041024	792723456	392097192	3766414760
+
+log: before removeUnmarkedTree ;	time = 22	mems = 4167041024	792723456	392097192	3766414760
+
+log: before gc ;	time = 163	mems = 4167041024	792723456	392097192	3766414760
+
+log: before visit ;	time = 196	mems = 4167041024	427819008	314589712	4053811728
+
+end of loop : n_loops = 73831
+log:  ;	time = 9000	mems = 4167041024	887095296	363790800	3643736528
+
+dag_n = 287699	proved_n = 212919	created_n = 8872558
+
+
+My move: 6
+
+....x....
+....o....
+.o..ox...
+.x..oxx..
+ox.oooo..
+xx.xxox..
+xo.ooox..
+xo.xxxo..
+oxooxxox.
+
+node with col , node==root? true; numbers: 6880, 5247,	depth: 40
+
+time,mem before return: 9000 3643736528
+
+---
+PnDb dnull
+Opponent: 6
+root hash:-8389671622067007801	depth 41
+....o....
+....x....
+.x..xo...
+.o..xoo..
+xo.xxxx..
+oo.ooxo..
+ox.xxxo..
+ox.ooox..
+xoxxooxo.
+
+
+log: time = 1	mems = 4167041024	887095296	362734888	3642680616
+
+log: time = 22	mems = 4167041024	887095296	362734888	3642680616
+
+log: time = 131	mems = 4167041024	887095296	362734888	3642680616
+
+log: time = 175	mems = 4167041024	419430400	306253328	4053863952
+
+end of loop : n_loops = 70790
+log: time = 9000	mems = 4167041024	874512384	564971456	3857500096
+
+dag_n = 270705	proved_n = 246226	created_n = 7502610
+
+
+My move: 7
+
+....o....
+....x....
+.x..xo...
+.o..xoo..
+xo.xxxx..
+oo.ooxo..
+ox.xxxo..
+ox.oooxx.
+xoxxooxo.
+
+node with col , node==root? true; numbers: 1814, 16711,	depth: 41
+
+time,mem before return: 9000 3857500096
+
+---
+PnDb delta
+Opponent: 7
+root hash:-8053596335196510782	depth 42
+....x....
+....o....
+.o..ox...
+.x..oxx..
+ox.oooo..
+xx.xxox..
+xo.ooox..
+xo.xxxoo.
+oxooxxox.
+
+
+log: before tagTree ;	time = 1	mems = 4167041024	874512384	563915544	3856444184
+
+log: before removeUnmarkedTree ;	time = 17	mems = 4167041024	874512384	563915544	3856444184
+
+log: before gc ;	time = 145	mems = 4167041024	874512384	563915544	3856444184
+
+log: before visit ;	time = 185	mems = 4167041024	413138944	301026400	4054928480
+
+end of loop : n_loops = 71559
+log:  ;	time = 9000	mems = 4167041024	796917760	372530560	3742653824
+
+dag_n = 260505	proved_n = 231863	created_n = 9127854
+
+
+My move: 8
+
+....x....
+....o....
+.o..ox...
+.x..oxx..
+ox.oooo..
+xx.xxox..
+xo.ooox..
+xo.xxxoo.
+oxooxxoxx
+
+node with col , node==root? true; numbers: 7243, 3876,	depth: 42
+
+time,mem before return: 9000 3742653824
+
+---
+PnDb dnull
+Opponent: 8
+root hash:-1742155082829421213	depth 43
+....o....
+....x....
+.x..xo...
+.o..xoo..
+xo.xxxx..
+oo.ooxo..
+ox.xxxo..
+ox.oooxx.
+xoxxooxoo
+
+
+log: time = 0	mems = 4167041024	796917760	371491328	3741614592
+
+log: time = 15	mems = 4167041024	796917760	371491328	3741614592
+
+log: time = 116	mems = 4167041024	796917760	371491328	3741614592
+
+log: time = 157	mems = 4167041024	419430400	306963032	4054573656
+
+end of loop : n_loops = 62575
+log: time = 9000	mems = 4167041024	734003200	377091768	3810129592
+
+dag_n = 226724	proved_n = 264445	created_n = 7718602
+
+
+My move: 7
+
+....o....
+....x....
+.x..xo...
+.o..xoo..
+xo.xxxx..
+oo.ooxo..
+ox.xxxox.
+ox.oooxx.
+xoxxooxoo
+
+node with col , node==root? true; numbers: 1365, 17903,	depth: 43
+
+time,mem before return: 9000 3810129592
+
+---
+PnDb delta
+Opponent: 7
+root hash:8163342304153490406	depth 44
+....x....
+....o....
+.o..ox...
+.x..oxx..
+ox.oooo..
+xx.xxox..
+xo.oooxo.
+xo.xxxoo.
+oxooxxoxx
+
+
+log: before tagTree ;	time = 0	mems = 4167041024	734003200	376045240	3809083064
+
+log: before removeUnmarkedTree ;	time = 19	mems = 4167041024	734003200	376045240	3809083064
+
+log: before gc ;	time = 106	mems = 4167041024	734003200	376045240	3809083064
+
+log: before visit ;	time = 142	mems = 4167041024	419430400	308041440	4055652064
+
+end of loop : n_loops = 72680
+log:  ;	time = 9000	mems = 4167041024	922746880	624343920	3868638064
+
+dag_n = 271465	proved_n = 252691	created_n = 9386226
+
+
+My move: 8
+
+....x....
+....o....
+.o..ox...
+.x..oxx..
+ox.oooo..
+xx.xxox..
+xo.oooxo.
+xo.xxxoox
+oxooxxoxx
+
+node with col , node==root? true; numbers: 9654, 3154,	depth: 44
+
+time,mem before return: 9000 3868638064
+
+---
+PnDb dnull
+Opponent: 8
+root hash:1861073491794522692	depth 45
+....o....
+....x....
+.x..xo...
+.o..xoo..
+xo.xxxx..
+oo.ooxo..
+ox.xxxox.
+ox.oooxxo
+xoxxooxoo
+
+
+log: time = 0	mems = 4167041024	922746880	623298344	3867592488
+
+log: time = 13	mems = 4167041024	922746880	623298344	3867592488
+
+log: time = 96	mems = 4167041024	922746880	623298344	3867592488
+
+log: time = 132	mems = 4167041024	434110464	319755744	4052686304
+
+end of loop : n_loops = 64944
+log: time = 9000	mems = 4167041024	861929472	331269792	3636381344
+
+dag_n = 200126	proved_n = 290390	created_n = 7915390
+
+
+My move: 3
+
+....o....
+....x....
+.x..xo...
+.o.xxoo..
+xo.xxxx..
+oo.ooxo..
+ox.xxxox.
+ox.oooxxo
+xoxxooxoo
+
+node with col , node==root? true; numbers: 1087, 21217,	depth: 45
+
+time,mem before return: 9000 3636381344
+
+---
+PnDb delta
+Opponent: 3
+root hash:-705733383263562546	depth 46
+....x....
+....o....
+.o..ox...
+.x.ooxx..
+ox.oooo..
+xx.xxox..
+xo.oooxo.
+xo.xxxoox
+oxooxxoxx
+
+
+log: before tagTree ;	time = 0	mems = 4167041024	861929472	330213880	3635325432
+
+log: before removeUnmarkedTree ;	time = 19	mems = 4167041024	861929472	330213880	3635325432
+
+log: before gc ;	time = 131	mems = 4167041024	861929472	330213880	3635325432
+
+log: before visit ;	time = 172	mems = 4167041024	413138944	302302040	4056204120
+
+end of loop : n_loops = 70785
+log:  ;	time = 9000	mems = 4167041024	914358272	578030936	3830713688
+
+dag_n = 265084	proved_n = 272757	created_n = 9641313
+
+
+My move: 8
+
+....x....
+....o....
+.o..ox...
+.x.ooxx..
+ox.oooo..
+xx.xxox..
+xo.oooxox
+xo.xxxoox
+oxooxxoxx
+
+node with col , node==root? true; numbers: 8865, 2994,	depth: 46
+
+time,mem before return: 9000 3830713688
+
+---
+PnDb dnull
+Opponent: 8
+root hash:8476220433489081003	depth 47
+....o....
+....x....
+.x..xo...
+.o.xxoo..
+xo.xxxx..
+oo.ooxo..
+ox.xxxoxo
+ox.oooxxo
+xoxxooxoo
+
+
+log: time = 0	mems = 4167041024	914358272	576975024	3829657776
+
+log: time = 13	mems = 4167041024	914358272	576975024	3829657776
+
+log: time = 81	mems = 4167041024	914358272	576975024	3829657776
+
+log: time = 122	mems = 4167041024	427819008	312261312	4051483328
+
+end of loop : n_loops = 60365
+log: time = 9000	mems = 4167041024	872415232	679717176	3974342968
+
+dag_n = 182421	proved_n = 315789	created_n = 8093933
+
+
+My move: 8
+
+....o....
+....x....
+.x..xo...
+.o.xxoo..
+xo.xxxx..
+oo.ooxo.x
+ox.xxxoxo
+ox.oooxxo
+xoxxooxoo
+
+node with col , node==root? true; numbers: 827, 14206,	depth: 47
+
+time,mem before return: 9000 3974342968
+
+---
+PnDb delta
+Opponent: 8
+root hash:2855994215310814317	depth 48
+....x....
+....o....
+.o..ox...
+.x.ooxx..
+ox.oooo..
+xx.xxox.o
+xo.oooxox
+xo.xxxoox
+oxooxxoxx
+
+
+log: before tagTree ;	time = 0	mems = 4167041024	872415232	678661264	3973287056
+
+log: before removeUnmarkedTree ;	time = 12	mems = 4167041024	872415232	678661264	3973287056
+
+log: before gc ;	time = 100	mems = 4167041024	872415232	678661264	3973287056
+
+log: before visit ;	time = 143	mems = 4167041024	419430400	308150248	4055760872
+
+end of loop : n_loops = 63044
+log:  ;	time = 9000	mems = 4167041024	899678208	625816808	3893179624
+
+dag_n = 236868	proved_n = 291266	created_n = 9866814
+
+
+My move: 8
+
+....x....
+....o....
+.o..ox...
+.x.ooxx..
+ox.oooo.x
+xx.xxox.o
+xo.oooxox
+xo.xxxoox
+oxooxxoxx
+
+node with col , node==root? true; numbers: 8287, 2929,	depth: 48
+
+time,mem before return: 9000 3893179624
+
+---
+PnDb dnull
+Opponent: 8
+root hash:-2421501695459636278	depth 49
+....o....
+....x....
+.x..xo...
+.o.xxoo..
+xo.xxxx.o
+oo.ooxo.x
+ox.xxxoxo
+ox.oooxxo
+xoxxooxoo
+
+
+log: time = 0	mems = 4167041024	899678208	624760896	3892123712
+
+log: time = 7	mems = 4167041024	899678208	624760896	3892123712
+
+log: time = 76	mems = 4167041024	899678208	624760896	3892123712
+
+log: time = 112	mems = 4167041024	434110464	319839528	4052770088
+
+end of loop : n_loops = 57558
+log: time = 9000	mems = 4167041024	945815552	409866600	3631092072
+
+dag_n = 161343	proved_n = 338522	created_n = 8265469
+
+
+My move: 7
+
+....o....
+....x....
+.x..xo...
+.o.xxoo..
+xo.xxxx.o
+oo.ooxoxx
+ox.xxxoxo
+ox.oooxxo
+xoxxooxoo
+
+node with col , node==root? true; numbers: 904, 18282,	depth: 49
+
+time,mem before return: 9000 3631092072
+
+---
+PnDb delta
+Opponent: 7
+root hash:6113998430071548412	depth 50
+....x....
+....o....
+.o..ox...
+.x.ooxx..
+ox.oooo.x
+xx.xxoxoo
+xo.oooxox
+xo.xxxoox
+oxooxxoxx
+
+
+log: before tagTree ;	time = 0	mems = 4167041024	945815552	408821856	3630047328
+
+log: before removeUnmarkedTree ;	time = 27	mems = 4167041024	945815552	408821856	3630047328
+
+log: before gc ;	time = 105	mems = 4167041024	945815552	408821856	3630047328
+
+log: before visit ;	time = 146	mems = 4167041024	434110464	320553624	4053484184
+
+end of loop : n_loops = 57792
+log:  ;	time = 9000	mems = 4167041024	939524096	571053792	3798570720
+
+dag_n = 258837	proved_n = 306345	created_n = 10075256
+
+
+My move: 7
+
+....x....
+....o....
+.o..ox...
+.x.ooxx..
+ox.ooooxx
+xx.xxoxoo
+xo.oooxox
+xo.xxxoox
+oxooxxoxx
+
+node with col , node==root? true; numbers: 24337, 1394,	depth: 50
+
+time,mem before return: 9000 3798570720
+
+---
+PnDb dnull
+Opponent: 7
+root hash:-1364615749840729133	depth 51
+....o....
+....x....
+.x..xo...
+.o.xxoo..
+xo.xxxxoo
+oo.ooxoxx
+ox.xxxoxo
+ox.oooxxo
+xoxxooxoo
+
+
+log: time = 0	mems = 4167041024	939524096	570020728	3797537656
+
+log: time = 61	mems = 4167041024	939524096	570020728	3797537656
+
+log: time = 61	mems = 4167041024	939524096	570020728	3797537656
+
+log: time = 108	mems = 4167041024	461373440	334833848	4040501432
+
+end of loop : n_loops = 46766
+log: time = 9000	mems = 4167041024	880803840	413828168	3700065352
+
+dag_n = 276053	proved_n = 356092	created_n = 8398942
+
+
+My move: 3
+
+....o....
+....x....
+.x.xxo...
+.o.xxoo..
+xo.xxxxoo
+oo.ooxoxx
+ox.xxxoxo
+ox.oooxxo
+xoxxooxoo
+
+node with col , node==root? true; numbers: 1285, 25852,	depth: 51
+
+time,mem before return: 9001 3700065352
+
+---
+PnDb delta
+Opponent: 3
+root hash:-8269652900351954692	depth 52
+....x....
+....o....
+.o.oox...
+.x.ooxx..
+ox.ooooxx
+xx.xxoxoo
+xo.oooxox
+xo.xxxoox
+oxooxxoxx
+
+
+log: before tagTree ;	time = 0	mems = 4167041024	880803840	413782600	3700019784
+
+log: before removeUnmarkedTree ;	time = 42	mems = 4167041024	880803840	413782600	3700019784
+
+log: before gc ;	time = 101	mems = 4167041024	880803840	413782600	3700019784
+
+log: before visit ;	time = 149	mems = 4167041024	455081984	330548944	4042507984
+
+end of loop : n_loops = 43260
+log:  ;	time = 9000	mems = 4167041024	817889280	333003408	3682155152
+
+dag_n = 230085	proved_n = 317949	created_n = 10215885
+
+
+My move: 3
+
+....x....
+...xo....
+.o.oox...
+.x.ooxx..
+ox.ooooxx
+xx.xxoxoo
+xo.oooxox
+xo.xxxoox
+oxooxxoxx
+
+node with col , node==root? true; numbers: 9929, 2519,	depth: 52
+
+time,mem before return: 9000 3682155152
+
+---
+PnDb dnull
+Opponent: 3
+root hash:-8516542945214973491	depth 53
+....o....
+...ox....
+.x.xxo...
+.o.xxoo..
+xo.xxxxoo
+oo.ooxoxx
+ox.xxxoxo
+ox.oooxxo
+xoxxooxoo
+
+
+log: time = 0	mems = 4167041024	817889280	331944848	3681096592
+
+log: time = 23	mems = 4167041024	817889280	331944848	3681096592
+
+log: time = 115	mems = 4167041024	817889280	331944848	3681096592
+
+log: time = 159	mems = 4167041024	427819008	310044808	4049266824
+
+end of loop : n_loops = 54847
+log: time = 9000	mems = 4167041024	826277888	500751008	3841514144
+
+dag_n = 156246	proved_n = 378313	created_n = 8537297
+
+
+My move: 1
+
+....o....
+.x.ox....
+.x.xxo...
+.o.xxoo..
+xo.xxxxoo
+oo.ooxoxx
+ox.xxxoxo
+ox.oooxxo
+xoxxooxoo
+
+node with col , node==root? true; numbers: 754, 25274,	depth: 53
+
+time,mem before return: 9000 3841514144
+
+---
+PnDb delta
+Opponent: 1
+root hash:3641017315152041774	depth 54
+....x....
+.o.xo....
+.o.oox...
+.x.ooxx..
+ox.ooooxx
+xx.xxoxoo
+xo.oooxox
+xo.xxxoox
+oxooxxoxx
+
+
+log: before tagTree ;	time = 0	mems = 4167041024	826277888	499711272	3840474408
+
+log: before removeUnmarkedTree ;	time = 9	mems = 4167041024	826277888	499711272	3840474408
+
+log: before gc ;	time = 81	mems = 4167041024	826277888	499711272	3840474408
+
+log: before visit ;	time = 125	mems = 4167041024	419430400	306993664	4054604288
+
+end of loop : n_loops = 53665
+log:  ;	time = 9001	mems = 4167041024	880803840	669549880	3955787064
+
+dag_n = 115888	proved_n = 332727	created_n = 10375662
+
+
+My move: 1
+
+.x..x....
+.o.xo....
+.o.oox...
+.x.ooxx..
+ox.ooooxx
+xx.xxoxoo
+xo.oooxox
+xo.xxxoox
+oxooxxoxx
+
+node with col , node==root? true; numbers: 28220, 1206,	depth: 54
+
+time,mem before return: 9001 3955787064
+
+---
+PnDb dnull
+Opponent: 1
+root hash:8284178499046684040	depth 55
+.o..o....
+.x.ox....
+.x.xxo...
+.o.xxoo..
+xo.xxxxoo
+oo.ooxoxx
+ox.xxxoxo
+ox.oooxxo
+xoxxooxoo
+
+
+log: time = 0	mems = 4167041024	880803840	668493104	3954730288
+
+log: time = 27	mems = 4167041024	880803840	668493104	3954730288
+
+log: time = 61	mems = 4167041024	880803840	668493104	3954730288
+
+log: time = 99	mems = 4167041024	419430400	305814656	4053425280
+
+end of loop : n_loops = 44142
+log: time = 9000	mems = 4167041024	838860800	347004032	3675184256
+
+dag_n = 150305	proved_n = 395978	created_n = 8634923
+
+
+My move: 7
+
+.o..o....
+.x.ox....
+.x.xxo...
+.o.xxoox.
+xo.xxxxoo
+oo.ooxoxx
+ox.xxxoxo
+ox.oooxxo
+xoxxooxoo
+
+node with col , node==root? true; numbers: 1267, 29053,	depth: 55
+
+time,mem before return: 9000 3675184256
+
+---
+PnDb delta
+Opponent: 7
+root hash:-3599310367775515295	depth 56
+.x..x....
+.o.xo....
+.o.oox...
+.x.ooxxo.
+ox.ooooxx
+xx.xxoxoo
+xo.oooxox
+xo.xxxoox
+oxooxxoxx
+
+
+log: before tagTree ;	time = 0	mems = 4167041024	838860800	345945376	3674125600
+
+log: before removeUnmarkedTree ;	time = 18	mems = 4167041024	838860800	345945376	3674125600
+
+log: before gc ;	time = 43	mems = 4167041024	838860800	345945376	3674125600
+
+log: before visit ;	time = 87	mems = 4167041024	427819008	312886216	4052108232
+
+end of loop : n_loops = 38519
+log:  ;	time = 9000	mems = 4167041024	792723456	340428616	3714746184
+
+dag_n = 130714	proved_n = 344401	created_n = 10470231
+
+
+My move: 6
+
+.x..x....
+.o.xo....
+.o.ooxx..
+.x.ooxxo.
+ox.ooooxx
+xx.xxoxoo
+xo.oooxox
+xo.xxxoox
+oxooxxoxx
+
+node with col , node==root? true; numbers: 14341, 2577,	depth: 56
+
+time,mem before return: 9000 3714746184
+
+---
+PnDb dnull
+Opponent: 6
+root hash:-4391216344617713174	depth 57
+.o..o....
+.x.ox....
+.x.xxoo..
+.o.xxoox.
+xo.xxxxoo
+oo.ooxoxx
+ox.xxxoxo
+ox.oooxxo
+xoxxooxoo
+
+
+log: time = 0	mems = 4167041024	792723456	339382088	3713699656
+
+log: time = 10	mems = 4167041024	792723456	339382088	3713699656
+
+log: time = 63	mems = 4167041024	792723456	339382088	3713699656
+
+log: time = 105	mems = 4167041024	427819008	315307296	4054529312
+
+end of loop : n_loops = 36287
+log: time = 9000	mems = 4167041024	828375040	515404560	3854070544
+
+dag_n = 79005	proved_n = 411064	created_n = 8707014
+
+
+My move: 6
+
+.o..o....
+.x.ox.x..
+.x.xxoo..
+.o.xxoox.
+xo.xxxxoo
+oo.ooxoxx
+ox.xxxoxo
+ox.oooxxo
+xoxxooxoo
+
+node with col , node==root? true; numbers: 245, 23438,	depth: 57
+
+time,mem before return: 9000 3854070544
+
+---
+PnDb delta
+Opponent: 6
+root hash:2076560050761528681	depth 58
+.x..x....
+.o.xo.o..
+.o.ooxx..
+.x.ooxxo.
+ox.ooooxx
+xx.xxoxoo
+xo.oooxox
+xo.xxxoox
+oxooxxoxx
+
+
+log: before tagTree ;	time = 0	mems = 4167041024	828375040	514345984	3853011968
+
+log: before removeUnmarkedTree ;	time = 8	mems = 4167041024	828375040	514345984	3853011968
+
+log: before gc ;	time = 47	mems = 4167041024	828375040	514345984	3853011968
+
+log: before visit ;	time = 86	mems = 4167041024	413138944	303779296	4057681376
+
+end of loop : n_loops = 23152
+log:  ;	time = 6104	mems = 4167041024	819986432	505306728	3852361320
+
+dag_n = -1	proved_n = 353651	created_n = 10515688
+
+root eval: 7 false 82
+
+
+My move: 7
+
+.x..x....
+.o.xo.o..
+.o.ooxxx.
+.x.ooxxo.
+ox.ooooxx
+xx.xxoxoo
+xo.oooxox
+xo.xxxoox
+oxooxxoxx
+
+node with col , node==root? true; numbers: 2147483647, 0,	depth: 58
+
+time,mem before return: 6104 3852361320
+
+---
+PnDb dnull
+Opponent: 7
+root hash:-6717150794238759117	depth 59
+.o..o....
+.x.ox.x..
+.x.xxooo.
+.o.xxoox.
+xo.xxxxoo
+oo.ooxoxx
+ox.xxxoxo
+ox.oooxxo
+xoxxooxoo
+
+
+log: time = 0	mems = 4167041024	819986432	504249952	3851304544
+
+log: time = 8	mems = 4167041024	819986432	504249952	3851304544
+
+log: time = 30	mems = 4167041024	819986432	504249952	3851304544
+
+log: time = 64	mems = 4167041024	385875968	281475528	4062640584
+
+end of loop : n_loops = 21811
+log: time = 9008	mems = 4167041024	752877568	461363480	3875526936
+
+dag_n = 39035	proved_n = 422172	created_n = 8742840
+
+
+My move: 7
+
+.o..o....
+.x.ox.xx.
+.x.xxooo.
+.o.xxoox.
+xo.xxxxoo
+oo.ooxoxx
+ox.xxxoxo
+ox.oooxxo
+xoxxooxoo
+
+node with col , node==root? true; numbers: 325, 13237,	depth: 59
+
+time,mem before return: 9008 3875526936
+
+---
+PnDb delta
+Opponent: 7
+root hash:2856316765737943415	depth 60
+.x..x....
+.o.xo.oo.
+.o.ooxxx.
+.x.ooxxo.
+ox.ooooxx
+xx.xxoxoo
+xo.oooxox
+xo.xxxoox
+oxooxxoxx
+
+
+log: before tagTree ;	time = 1	mems = 4167041024	752877568	461175544	3875339000
+
+log: before removeUnmarkedTree ;	time = 1	mems = 4167041024	752877568	461175544	3875339000
+
+log: before gc ;	time = 1	mems = 4167041024	752877568	461175544	3875339000
+
+log: before visit ;	time = 36	mems = 4167041024	398458880	291967792	4060549936
+
+end of loop : n_loops = 751
+log:  ;	time = 113	mems = 4167041024	398458880	112594296	3881176440
+
+dag_n = -2	proved_n = 353753	created_n = 10517514
+
+root eval: 5 false 82
+
+
+My move: 5
+
+.x..x....
+.o.xoxoo.
+.o.ooxxx.
+.x.ooxxo.
+ox.ooooxx
+xx.xxoxoo
+xo.oooxox
+xo.xxxoox
+oxooxxoxx
+
+node with col , node==root? true; numbers: 2147483647, 0,	depth: 60
+
+time,mem before return: 113 3881176440
+
+---
+PnDb dnull
+Opponent: 5
+root hash:-4859165348374940248	depth 61
+.o..o....
+.x.oxoxx.
+.x.xxooo.
+.o.xxoox.
+xo.xxxxoo
+oo.ooxoxx
+ox.xxxoxo
+ox.oooxxo
+xoxxooxoo
+
+
+log: time = 0	mems = 4167041024	398458880	111612720	3880194864
+
+log: time = 6	mems = 4167041024	398458880	111612720	3880194864
+
+log: time = 19	mems = 4167041024	398458880	111612720	3880194864
+
+log: time = 52	mems = 4167041024	377487360	272853952	4062407616
+
+end of loop : n_loops = 781
+log: time = 1037	mems = 4167041024	673185792	343460264	3837315496
+
+dag_n = -1	proved_n = 423218	created_n = 8743750
+
+root eval: 8 false 82
+
+
+My move: 8
+
+.o..o....
+.x.oxoxx.
+.x.xxooo.
+.o.xxooxx
+xo.xxxxoo
+oo.ooxoxx
+ox.xxxoxo
+ox.oooxxo
+xoxxooxoo
+
+node with col , node==root? true; numbers: 2147483647, 0,	depth: 61
+
+time,mem before return: 1037 3837315496
+
+---
+PnDb delta
+Opponent: 8
+root hash:-7453288784236181394	depth 62
+.x..x....
+.o.xoxoo.
+.o.ooxxx.
+.x.ooxxoo
+ox.ooooxx
+xx.xxoxoo
+xo.oooxox
+xo.xxxoox
+oxooxxoxx
+
+
+log: before tagTree ;	time = 0	mems = 4167041024	673185792	343368632	3837223864
+
+log: before removeUnmarkedTree ;	time = 0	mems = 4167041024	673185792	343368632	3837223864
+
+log: before gc ;	time = 0	mems = 4167041024	673185792	343368632	3837223864
+
+log: before visit ;	time = 32	mems = 4167041024	392167424	288247624	4063121224
+
+end of loop : n_loops = 2494
+log:  ;	time = 399	mems = 4167041024	788529152	476655320	3855167192
+
+dag_n = -3	proved_n = 354390	created_n = 10522945
+
+root eval: 8 false 82
+
+
+My move: 8
+
+.x..x....
+.o.xoxoo.
+.o.ooxxxx
+.x.ooxxoo
+ox.ooooxx
+xx.xxoxoo
+xo.oooxox
+xo.xxxoox
+oxooxxoxx
+
+node with col , node==root? true; numbers: 2147483647, 0,	depth: 62
+
+time,mem before return: 399 3855167192
+
+---
+PnDb dnull
+Opponent: 8
+root hash:1018150018459010685	depth 63
+.o..o....
+.x.oxoxx.
+.x.xxoooo
+.o.xxooxx
+xo.xxxxoo
+oo.ooxoxx
+ox.xxxoxo
+ox.oooxxo
+xoxxooxoo
+
+
+log: time = 1	mems = 4167041024	788529152	475596384	3854108256
+
+log: time = 1	mems = 4167041024	788529152	475596384	3854108256
+
+log: time = 1	mems = 4167041024	788529152	475596384	3854108256
+
+log: time = 36	mems = 4167041024	385875968	281936808	4063101864
+
+dag_n = -1	proved_n = 423218	created_n = 8743751
+
+root eval: 8 false 82
+
+
+My move: 8
+
+.o..o....
+.x.oxoxxx
+.x.xxoooo
+.o.xxooxx
+xo.xxxxoo
+oo.ooxoxx
+ox.xxxoxo
+ox.oooxxo
+xoxxooxoo
+
+node with col , node==root? true; numbers: 1, 1,	depth: 63
+
+time,mem before return: 36 4062588880
+
+---
+PnDb delta
+Opponent: 8
+root hash:4081796235789322409	depth 64
+.x..x....
+.o.xoxooo
+.o.ooxxxx
+.x.ooxxoo
+ox.ooooxx
+xx.xxoxoo
+xo.oooxox
+xo.xxxoox
+oxooxxoxx
+
+
+log: before tagTree ;	time = 0	mems = 4167041024	385875968	280367032	4061532088
+
+log: before removeUnmarkedTree ;	time = 0	mems = 4167041024	385875968	280367032	4061532088
+
+log: before gc ;	time = 0	mems = 4167041024	385875968	280367032	4061532088
+
+log: before visit ;	time = 29	mems = 4167041024	371195904	267256648	4063101768
+
+end of loop : n_loops = 2151
+log:  ;	time = 509	mems = 4167041024	1046478848	344906552	3465468728
+
+dag_n = -4	proved_n = 355464	created_n = 10526523
+
+root eval: 3 true 81
+
+
+My move: 3
+
+.x.xx....
+.o.xoxooo
+.o.ooxxxx
+.x.ooxxoo
+ox.ooooxx
+xx.xxoxoo
+xo.oooxox
+xo.xxxoox
+oxooxxoxx
+
+node with col , node==root? true; numbers: 0, 2147483647,	depth: 64
+
+time,mem before return: 509 3465468728
+
+---
+PnDb dnull
+Opponent: 3
+root hash:2506335708360030333	depth 65
+.o.oo....
+.x.oxoxxx
+.x.xxoooo
+.o.xxooxx
+xo.xxxxoo
+oo.ooxoxx
+ox.xxxoxo
+ox.oooxxo
+xoxxooxoo
+
+
+log: time = 0	mems = 4167041024	1046478848	344636376	3465198552
+
+log: time = 0	mems = 4167041024	1046478848	344636376	3465198552
+
+log: time = 0	mems = 4167041024	1046478848	344636376	3465198552
+
+log: time = 38	mems = 4167041024	392167424	288156992	4063030592
+
+dag_n = -1	proved_n = 423218	created_n = 8743752
+
+root eval: 7 false 82
+
+
+My move: 7
+
+.o.oo..x.
+.x.oxoxxx
+.x.xxoooo
+.o.xxooxx
+xo.xxxxoo
+oo.ooxoxx
+ox.xxxoxo
+ox.oooxxo
+xoxxooxoo
+
+node with col , node==root? true; numbers: 1, 1,	depth: 65
+
+time,mem before return: 39 4062832560
+
+---
+PnDb delta
+Opponent: 7
+root hash:-5132431080905253289	depth 66
+.x.xx..o.
+.o.xoxooo
+.o.ooxxxx
+.x.ooxxoo
+ox.ooooxx
+xx.xxoxoo
+xo.oooxox
+xo.xxxoox
+oxooxxoxx
+
+
+log: before tagTree ;	time = 0	mems = 4167041024	392167424	286902160	4061775760
+
+log: before removeUnmarkedTree ;	time = 0	mems = 4167041024	392167424	286902160	4061775760
+
+log: before gc ;	time = 0	mems = 4167041024	392167424	286902160	4061775760
+
+log: before visit ;	time = 29	mems = 4167041024	371195904	267185416	4063030536
+
+dag_n = -4	proved_n = 355464	created_n = 10526524
+
+root eval: 8 true 81
+
+
+My move: 8
+
+.x.xx..ox
+.o.xoxooo
+.o.ooxxxx
+.x.ooxxoo
+ox.ooooxx
+xx.xxoxoo
+xo.oooxox
+xo.xxxoox
+oxooxxoxx
+
+node with col , node==root? true; numbers: 1, 1,	depth: 66
+
+time,mem before return: 29 4062035880
+
+---
+PnDb dnull
+Opponent: 8
+root hash:3462805798137675101	depth 67
+.o.oo..xo
+.x.oxoxxx
+.x.xxoooo
+.o.xxooxx
+xo.xxxxoo
+oo.ooxoxx
+ox.xxxoxo
+ox.oooxxo
+xoxxooxoo
+
+
+log: time = 0	mems = 4167041024	371195904	265133944	4060979064
+
+log: time = 0	mems = 4167041024	371195904	265133944	4060979064
+
+log: time = 0	mems = 4167041024	371195904	265133944	4060979064
+
+log: time = 27	mems = 4167041024	371195904	267185352	4063030472
+
+dag_n = -1	proved_n = 423218	created_n = 8743753
+
+root eval: 5 false 82
+
+
+My move: 5
+
+.o.oox.xo
+.x.oxoxxx
+.x.xxoooo
+.o.xxooxx
+xo.xxxxoo
+oo.ooxoxx
+ox.xxxoxo
+ox.oooxxo
+xoxxooxoo
+
+node with col , node==root? true; numbers: 1, 1,	depth: 67
+
+time,mem before return: 27 4061979232
+
+---
+PnDb delta
+Opponent: 5
+root hash:-5519346206129766959	depth 68
+.x.xxo.ox
+.o.xoxooo
+.o.ooxxxx
+.x.ooxxoo
+ox.ooooxx
+xx.xxoxoo
+xo.oooxox
+xo.xxxoox
+oxooxxoxx
+
+
+log: before tagTree ;	time = 0	mems = 4167041024	371195904	265088200	4060933320
+
+log: before removeUnmarkedTree ;	time = 0	mems = 4167041024	371195904	265088200	4060933320
+
+log: before gc ;	time = 0	mems = 4167041024	371195904	265088200	4060933320
+
+log: before visit ;	time = 29	mems = 4167041024	364904448	260893840	4063030416
+
+dag_n = -4	proved_n = 355464	created_n = 10526525
+
+root eval: 6 true 81
+
+
+My move: 6
+
+.x.xxoxox
+.o.xoxooo
+.o.ooxxxx
+.x.ooxxoo
+ox.ooooxx
+xx.xxoxoo
+xo.oooxox
+xo.xxxoox
+oxooxxoxx
+
+node with col , node==root? true; numbers: 1, 1,	depth: 68
+
+time,mem before return: 30 4061999056
+
+---
+PnDb dnull
+Opponent: 6
+root hash:4516568238243724962	depth 69
+.o.ooxoxo
+.x.oxoxxx
+.x.xxoooo
+.o.xxooxx
+xo.xxxxoo
+oo.ooxoxx
+ox.xxxoxo
+ox.oooxxo
+xoxxooxoo
+
+
+log: time = 0	mems = 4167041024	364904448	258803008	4060939584
+
+log: time = 0	mems = 4167041024	364904448	258803008	4060939584
+
+log: time = 0	mems = 4167041024	364904448	258803008	4060939584
+
+log: time = 28	mems = 4167041024	364904448	260893256	4063029832
+
+end of loop : n_loops = 35
+log: time = 32	mems = 4167041024	364904448	253548352	4055684928
+
+dag_n = -2	proved_n = 423251	created_n = 8743795
+
+root eval: 2 false 82
+
+
+My move: 2
+
+.o.ooxoxo
+.x.oxoxxx
+.x.xxoooo
+.o.xxooxx
+xo.xxxxoo
+oo.ooxoxx
+ox.xxxoxo
+oxxoooxxo
+xoxxooxoo
+
+node with col , node==root? true; numbers: 2147483647, 0,	depth: 69
+
+time,mem before return: 32 4055684928
+
+---
+PnDb delta
+Opponent: 2
+root hash:3480795708010452397	depth 70
+.x.xxoxox
+.o.xoxooo
+.o.ooxxxx
+.x.ooxxoo
+ox.ooooxx
+xx.xxoxoo
+xo.oooxox
+xooxxxoox
+oxooxxoxx
+
+
+log: before tagTree ;	time = 0	mems = 4167041024	364904448	252504648	4054641224
+
+log: before removeUnmarkedTree ;	time = 0	mems = 4167041024	364904448	252504648	4054641224
+
+log: before gc ;	time = 0	mems = 4167041024	364904448	252504648	4054641224
+
+log: before visit ;	time = 26	mems = 4167041024	364904448	260977128	4063113704
+
+dag_n = -4	proved_n = 355464	created_n = 10526526
+
+root eval: 2 true 81
+
+
+My move: 2
+
+.x.xxoxox
+.o.xoxooo
+.o.ooxxxx
+.x.ooxxoo
+ox.ooooxx
+xx.xxoxoo
+xoxoooxox
+xooxxxoox
+oxooxxoxx
+
+node with col , node==root? true; numbers: 1, 1,	depth: 70
+
+time,mem before return: 26 4062062464
+
+---
+PnDb dnull
+Opponent: 2
+root hash:1226882547413731847	depth 71
+.o.ooxoxo
+.x.oxoxxx
+.x.xxoooo
+.o.xxooxx
+xo.xxxxoo
+oo.ooxoxx
+oxoxxxoxo
+oxxoooxxo
+xoxxooxoo
+
+
+log: time = 0	mems = 4167041024	364904448	258879976	4061016552
+
+log: time = 0	mems = 4167041024	364904448	258879976	4061016552
+
+log: time = 0	mems = 4167041024	364904448	258879976	4061016552
+
+log: time = 28	mems = 4167041024	364904448	260977024	4063113600
+
+dag_n = -2	proved_n = 423251	created_n = 8743796
+
+root eval: 2 false 82
+
+
+My move: 2
+
+.o.ooxoxo
+.x.oxoxxx
+.x.xxoooo
+.o.xxooxx
+xo.xxxxoo
+ooxooxoxx
+oxoxxxoxo
+oxxoooxxo
+xoxxooxoo
+
+node with col , node==root? true; numbers: 1, 1,	depth: 71
+
+time,mem before return: 28 4062062360
+
+---
+PnDb delta
+Opponent: 2
+root hash:-1446807929415738925	depth 72
+.x.xxoxox
+.o.xoxooo
+.o.ooxxxx
+.x.ooxxoo
+ox.ooooxx
+xxoxxoxoo
+xoxoooxox
+xooxxxoox
+oxooxxoxx
+
+
+log: before tagTree ;	time = 0	mems = 4167041024	364904448	258879872	4061016448
+
+log: before removeUnmarkedTree ;	time = 0	mems = 4167041024	364904448	258879872	4061016448
+
+log: before gc ;	time = 0	mems = 4167041024	364904448	258879872	4061016448
+
+log: before visit ;	time = 27	mems = 4167041024	364904448	260976928	4063113504
+
+dag_n = -4	proved_n = 355464	created_n = 10526527
+
+root eval: 2 true 81
+
+
+My move: 2
+
+.x.xxoxox
+.o.xoxooo
+.o.ooxxxx
+.x.ooxxoo
+oxxooooxx
+xxoxxoxoo
+xoxoooxox
+xooxxxoox
+oxooxxoxx
+
+node with col , node==root? true; numbers: 1, 1,	depth: 72
+
+time,mem before return: 28 4062062264
+
+---
+PnDb dnull
+Opponent: 2
+root hash:-3854060692398504908	depth 73
+.o.ooxoxo
+.x.oxoxxx
+.x.xxoooo
+.o.xxooxx
+xooxxxxoo
+ooxooxoxx
+oxoxxxoxo
+oxxoooxxo
+xoxxooxoo
+
+
+log: time = 0	mems = 4167041024	364904448	258879776	4061016352
+
+log: time = 0	mems = 4167041024	364904448	258879776	4061016352
+
+log: time = 0	mems = 4167041024	364904448	258879776	4061016352
+
+log: time = 26	mems = 4167041024	364904448	260976824	4063113400
+
+dag_n = -2	proved_n = 423251	created_n = 8743797
+
+root eval: 2 false 82
+
+
+My move: 2
+
+.o.ooxoxo
+.x.oxoxxx
+.x.xxoooo
+.oxxxooxx
+xooxxxxoo
+ooxooxoxx
+oxoxxxoxo
+oxxoooxxo
+xoxxooxoo
+
+node with col , node==root? true; numbers: 1, 1,	depth: 73
+
+time,mem before return: 26 4062062160
+
+---
+PnDb delta
+Opponent: 2
+root hash:8878780473573789070	depth 74
+.x.xxoxox
+.o.xoxooo
+.o.ooxxxx
+.xoooxxoo
+oxxooooxx
+xxoxxoxoo
+xoxoooxox
+xooxxxoox
+oxooxxoxx
+
+
+log: before tagTree ;	time = 0	mems = 4167041024	364904448	258879672	4061016248
+
+log: before removeUnmarkedTree ;	time = 0	mems = 4167041024	364904448	258879672	4061016248
+
+log: before gc ;	time = 0	mems = 4167041024	364904448	258879672	4061016248
+
+log: before visit ;	time = 26	mems = 4167041024	364904448	260976728	4063113304
+
+dag_n = -4	proved_n = 355464	created_n = 10526528
+
+root eval: 2 true 81
+
+
+My move: 2
+
+.x.xxoxox
+.o.xoxooo
+.oxooxxxx
+.xoooxxoo
+oxxooooxx
+xxoxxoxoo
+xoxoooxox
+xooxxxoox
+oxooxxoxx
+
+node with col , node==root? true; numbers: 1, 1,	depth: 74
+
+time,mem before return: 26 4062062064
+
+---
+PnDb dnull
+Opponent: 2
+root hash:1425725224323585926	depth 75
+.o.ooxoxo
+.x.oxoxxx
+.xoxxoooo
+.oxxxooxx
+xooxxxxoo
+ooxooxoxx
+oxoxxxoxo
+oxxoooxxo
+xoxxooxoo
+
+
+log: time = 0	mems = 4167041024	364904448	258879576	4061016152
+
+log: time = 0	mems = 4167041024	364904448	258879576	4061016152
+
+log: time = 0	mems = 4167041024	364904448	258879576	4061016152
+
+log: time = 26	mems = 4167041024	364904448	260976624	4063113200
+
+dag_n = -2	proved_n = 423251	created_n = 8743798
+
+root eval: 2 false 82
+
+
+My move: 2
+
+.o.ooxoxo
+.xxoxoxxx
+.xoxxoooo
+.oxxxooxx
+xooxxxxoo
+ooxooxoxx
+oxoxxxoxo
+oxxoooxxo
+xoxxooxoo
+
+node with col , node==root? true; numbers: 1, 1,	depth: 75
+
+time,mem before return: 27 4062072064
+
+---
+PnDb delta
+Opponent: 2
+root hash:-3490423249283178121	depth 76
+.x.xxoxox
+.ooxoxooo
+.oxooxxxx
+.xoooxxoo
+oxxooooxx
+xxoxxoxoo
+xoxoooxox
+xooxxxoox
+oxooxxoxx
+
+
+log: before tagTree ;	time = 0	mems = 4167041024	364904448	258879472	4061016048
+
+log: before removeUnmarkedTree ;	time = 0	mems = 4167041024	364904448	258879472	4061016048
+
+log: before gc ;	time = 0	mems = 4167041024	364904448	258879472	4061016048
+
+log: before visit ;	time = 25	mems = 4167041024	364904448	260976528	4063113104
+
+dag_n = -4	proved_n = 355464	created_n = 10526529
+
+root eval: 2 true 81
+
+
+My move: 2
+
+.xxxxoxox
+.ooxoxooo
+.oxooxxxx
+.xoooxxoo
+oxxooooxx
+xxoxxoxoo
+xoxoooxox
+xooxxxoox
+oxooxxoxx
+
+node with col , node==root? true; numbers: 1, 1,	depth: 76
+
+time,mem before return: 25 4062061864
+
+---
+PnDb dnull
+Opponent: 2
+root hash:-7764363468599269799	depth 77
+.ooooxoxo
+.xxoxoxxx
+.xoxxoooo
+.oxxxooxx
+xooxxxxoo
+ooxooxoxx
+oxoxxxoxo
+oxxoooxxo
+xoxxooxoo
+
+
+log: time = 0	mems = 4167041024	364904448	258879376	4061015952
+
+log: time = 0	mems = 4167041024	364904448	258879376	4061015952
+
+log: time = 0	mems = 4167041024	364904448	258879376	4061015952
+
+log: time = 27	mems = 4167041024	364904448	260976464	4063113040
+
+end of loop : n_loops = 2
+log: time = 28	mems = 4167041024	364904448	259935328	4062071904
+
+dag_n = -3	proved_n = 423253	created_n = 8743800
+
+root eval: 0 false 81
+
+
+My move: 0
+
+.ooooxoxo
+.xxoxoxxx
+.xoxxoooo
+xoxxxooxx
+xooxxxxoo
+ooxooxoxx
+oxoxxxoxo
+oxxoooxxo
+xoxxooxoo
+
+node with col , node==root? true; numbers: 2147483647, 0,	depth: 77
+
+time,mem before return: 28 4062071904
+
+---
+PnDb delta
+Opponent: 0
+root hash:-6157729665590246276	depth 78
+.xxxxoxox
+.ooxoxooo
+.oxooxxxx
+oxoooxxoo
+oxxooooxx
+xxoxxoxoo
+xoxoooxox
+xooxxxoox
+oxooxxoxx
+
+
+log: before tagTree ;	time = 0	mems = 4167041024	364904448	258879312	4061015888
+
+log: before removeUnmarkedTree ;	time = 0	mems = 4167041024	364904448	258879312	4061015888
+
+log: before gc ;	time = 0	mems = 4167041024	364904448	258879312	4061015888
+
+log: before visit ;	time = 28	mems = 4167041024	364904448	260982688	4063119264
+
+dag_n = -4	proved_n = 355464	created_n = 10526530
+
+root eval: 0 true 81
+
+
+My move: 0
+
+.xxxxoxox
+.ooxoxooo
+xoxooxxxx
+oxoooxxoo
+oxxooooxx
+xxoxxoxoo
+xoxoooxox
+xooxxxoox
+oxooxxoxx
+
+node with col , node==root? true; numbers: 1, 1,	depth: 78
+
+time,mem before return: 28 4062068024
+
+---
+PnDb dnull
+Opponent: 0
+root hash:3393468211288645342	depth 79
+.ooooxoxo
+.xxoxoxxx
+oxoxxoooo
+xoxxxooxx
+xooxxxxoo
+ooxooxoxx
+oxoxxxoxo
+oxxoooxxo
+xoxxooxoo
+
+
+log: time = 0	mems = 4167041024	364904448	258885536	4061022112
+
+log: time = 0	mems = 4167041024	364904448	258885536	4061022112
+
+log: time = 0	mems = 4167041024	364904448	258885536	4061022112
+
+log: time = 27	mems = 4167041024	364904448	260982584	4063119160
+
+dag_n = -3	proved_n = 423253	created_n = 8743801
+
+root eval: 0 false 81
+
+
+My move: 0
+
+.ooooxoxo
+xxxoxoxxx
+oxoxxoooo
+xoxxxooxx
+xooxxxxoo
+ooxooxoxx
+oxoxxxoxo
+oxxoooxxo
+xoxxooxoo
+
+node with col , node==root? true; numbers: 1, 1,	depth: 79
+
+time,mem before return: 27 4062067920
+
+---
+PnDb delta
+Opponent: 0
+root hash:-6143745805359562924	depth 80
+.xxxxoxox
+oooxoxooo
+xoxooxxxx
+oxoooxxoo
+oxxooooxx
+xxoxxoxoo
+xoxoooxox
+xooxxxoox
+oxooxxoxx
+
+
+log: before tagTree ;	time = 0	mems = 4167041024	364904448	258885432	4061022008
+
+log: before removeUnmarkedTree ;	time = 0	mems = 4167041024	364904448	258885432	4061022008
+
+log: before gc ;	time = 0	mems = 4167041024	364904448	258885432	4061022008
+
+log: before visit ;	time = 25	mems = 4167041024	364904448	260982488	4063119064
+
+dag_n = -4	proved_n = 355464	created_n = 10526531
+
+root eval: 0 true 81
+
+
+My move: 0
+
+xxxxxoxox
+oooxoxooo
+xoxooxxxx
+oxoooxxoo
+oxxooooxx
+xxoxxoxoo
+xoxoooxox
+xooxxxoox
+oxooxxoxx
+
+node with col , node==root? true; numbers: 1, 1,	depth: 80
+
+time,mem before return: 26 4062067824
+
+PnDb delta Score: 3 Won: 1 Lost: 1 Draw: 0 Error: 0
+PnDb dnull Score: 3 Won: 1 Lost: 1 Draw: 0 Error: 0
+#!/bin/bash
+
+if [[ $# < 1 ]]
+then
+	echo "missing args"
+	exit 1
+fi
+
+
+_OUTDIR="debug/match/final1"
+OUTDIR="${_OUTDIR}/$1"
+TESTS="7"
+
+mkdir ${_OUTDIR}
+mkdir ${OUTDIR}
+
+./lcompile
+
+
+
+./ltest 9 9 5		pndbg.delta.PnSearch pndbg.dnull.PnSearch		-r 2 > ${OUTDIR}/delta_dnull_995.txt
+cat scripts/testcases_final1.sh >> ${OUTDIR}/delta_dnull_995.txt
+
+./ltest 9 9 5		pndbtime.PnSearch LXCONO.LXMARGIN.LXMARGIN		-r 2 > ${OUTDIR}/pndbtime_xcono_995.txt
+cat scripts/testcases_final1.sh >> ${OUTDIR}/pndbtime_xcono_995.txt
+
+
+./ltest 18 20 7		pndbg.delta.PnSearch pndbg.dnull.PnSearch		-r 2 > ${OUTDIR}/delta_dnull_18207.txt
+cat scripts/testcases_final1.sh >> ${OUTDIR}/delta_dnull_18207.txt
+
+./ltest 18 20 7		pndbtime.PnSearch LXCONO.LXMARGIN.LXMARGIN		-r 2 > ${OUTDIR}/pndbtime_xcono_18207.txt
+cat scripts/testcases_final1.sh >> ${OUTDIR}/pndbtime_xcono_18207.txt
+
+
+
+./ltest 9 9 5		pndbg.dnull.PnSearch pndbg.delta.PnSearch 		-r 1 > ${OUTDIR}/dnull_delta_995.txt
+cat scripts/testcases_final1.sh >> ${OUTDIR}/dnull_delta_995.txt
+
+./ltest 9 9 5		LXCONO.LXMARGIN.LXMARGIN pndbtime.PnSearch 		-r 1 > ${OUTDIR}/xcono_pndbtime_995.txt
+cat scripts/testcases_final1.sh >> ${OUTDIR}/xcono_pndbtime_995.txt
+
+
+./ltest 18 20 7		pndbg.dnull.PnSearch pndbg.delta.PnSearch 		-r 1 > ${OUTDIR}/dnull_delta_18207.txt
+cat scripts/testcases_final1.sh >> ${OUTDIR}/dnull_delta_18207.txt
+
+./ltest 18 20 7		LXCONO.LXMARGIN.LXMARGIN pndbtime.PnSearch		-r 1 > ${OUTDIR}/xcono_pndbtime_18207.txt
+cat scripts/testcases_final1.sh >> ${OUTDIR}/xcono_pndbtime_18207.txt
