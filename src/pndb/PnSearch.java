@@ -110,7 +110,7 @@ public class PnSearch implements CXPlayer {
 
 	// debug
 	// private int created_n;
-	private boolean PRINT_ON = true;
+	private boolean PRINT_ON = false;
 
 	
 	
@@ -186,7 +186,7 @@ public class PnSearch implements CXPlayer {
 						+ "root hash:" + board.hash + "\tdepth " + root.depth + "\n"
 			//			+ board.printString(0)
 			;
-			System.out.println(str);
+			if(PRINT_ON) System.out.println(str);
 
 			// remove unreachable nodes from previous rounds
 			root.setTag((root.depth / 2) % 2);		// unique tag for each round
