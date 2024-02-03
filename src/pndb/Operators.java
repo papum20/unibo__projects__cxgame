@@ -64,16 +64,16 @@ public class Operators {
 	//min-max x such that there must be, for a threat, k-x marks aligned
 	public static final short MARK_DIFF_MIN					= 3;
 	
-	// STATIC INSTANCES OF APPLIERS
-	private static final ApplierNull			applierNull					= new ApplierNull();
-	private static final Applier1first			applier1first				= new Applier1first();
-	private static final Applier1in				applier1in					= new Applier1in();
-	private static final Applier1second			applier1second				= new Applier1second();
-	private static final Applier1_1in_or_in		applier1_1in_or_in			= new Applier1_1in_or_in();
-	private static final Applier1_3second_or_in	applier1_3second_or_in		= new Applier1_3second_or_in();
-	private static final Applier1_3in_or_in		applier1_3in_or_in			= new Applier1_3in_or_in();
-	private static final Applier1_2third		applier1_2third				= new Applier1_2third();
-	private static final Applier1_2in			applier1_2in				= new Applier1_2in();
+	// STATIC INSTANCES OF OPERATORS
+	private static final OperatorNull				operatorNull				= new OperatorNull();
+	private static final Operator1first				operator1first				= new Operator1first();
+	private static final Operator1in				operator1in					= new Operator1in();
+	private static final Operator1second			operator1second				= new Operator1second();
+	private static final Operator1_1in_or_in		operator1_1in_or_in			= new Operator1_1in_or_in();
+	private static final Operator1_3second_or_in	operator1_3second_or_in		= new Operator1_3second_or_in();
+	private static final Operator1_3in_or_in		operator1_3in_or_in			= new Operator1_3in_or_in();
+	private static final Operator1_2third			operator1_2third			= new Operator1_2third();
+	private static final Operator1_2in				operator1_2in				= new Operator1_2in();
 
 
 
@@ -91,10 +91,10 @@ public class Operators {
 		return ALIGNMENTS[tier];
 	}	
 	/**
-	 * return an array of threat appliers for the given tier.
+	 * return an array of operators for the given tier.
 	 */
-	public static AppliersMap appliers(int tier) {
-		return APPLIERS[tier];
+	public static OperatorsMap operators(int tier) {
+		return OPERATORS[tier];
 	}
 	/**
 	 * return an array of scores for each alignment in the given tier.
@@ -164,45 +164,45 @@ public class Operators {
 	 */
 	
 	// ARRAY OF OPERATORS, GROUPED BY TIER, i.e. APPLICATIONS OF CONVERSIONS FROM ALIGNMENTS TO THREATS
-	private static final AppliersMap[] APPLIERS = {
+	private static final OperatorsMap[] OPERATORS = {
 		//TIER 0
-		new AppliersMap(
+		new OperatorsMap(
 			ALIGNMENT_CODES[0],
-			new Applier[]{
-				applierNull				//xxxxx->do nothigh
+			new Operator[]{
+				operatorNull				//xxxxx->do nothigh
 			}
 		),
 		//TIER 1
-		new AppliersMap(
+		new OperatorsMap(
 			ALIGNMENT_CODES[1],
-			new Applier[]{
-				applierNull,			//_xxxx_->do nothing (implicit in [1])
-				applier1first,			//xxxx_ ->xxxxX
-				applier1in				//xxx_x ->xxxXx
+			new Operator[]{
+				operatorNull,			//_xxxx_->do nothing (implicit in [1])
+				operator1first,			//xxxx_ ->xxxxX
+				operator1in				//xxx_x ->xxxXx
 			}
 		),
 		//TIER 2
-		new AppliersMap(
+		new OperatorsMap(
 			ALIGNMENT_CODES[2],
-			new Applier[]{
-				applier1in,				//_xx_x_->_xxXx_
-				applier1second,			//_xxx__->_xxxX_
-				applierNull,			//__xxx__->do nothing (implicit in [1])
-				applier1_1in_or_in,		//xxx__->xxxXO/xxxOX
-				applier1_1in_or_in,		//xx_x_->xxXxO/xxOxX
-				applier1_1in_or_in		//xx__x->xxxOx/xxOXx
+			new Operator[]{
+				operator1in,				//_xx_x_->_xxXx_
+				operator1second,			//_xxx__->_xxxX_
+				operatorNull,			//__xxx__->do nothing (implicit in [1])
+				operator1_1in_or_in,		//xxx__->xxxXO/xxxOX
+				operator1_1in_or_in,		//xx_x_->xxXxO/xxOxX
+				operator1_1in_or_in		//xx__x->xxxOx/xxOXx
 			}
 		),
 		//TIER 3
-		new AppliersMap(
+		new OperatorsMap(
 			ALIGNMENT_CODES[3],
-			new Applier[]{
-				applier1_3second_or_in,		//_x_x__ ->OxXxOO/OxOxXO
-				applier1_3in_or_in,			//_x__x_ ->OxXOxO/OxOXxO
-				applierNull,				//__xx__ ->do nothing (implicit in [3])
-				applier1_3second_or_in,		//_xx___ ->OxxXOO/OxxOXO
-				applier1_2third,			//__xx___->_OxxXO_
-				applier1_2in				//__x_x__->_OxXxO_
+			new Operator[]{
+				operator1_3second_or_in,		//_x_x__ ->OxXxOO/OxOxXO
+				operator1_3in_or_in,			//_x__x_ ->OxXOxO/OxOXxO
+				operatorNull,				//__xx__ ->do nothing (implicit in [3])
+				operator1_3second_or_in,		//_xx___ ->OxxXOO/OxxOXO
+				operator1_2third,			//__xx___->_OxxXO_
+				operator1_2in				//__x_x__->_OxXxO_
 			}
 		)
 	};
@@ -275,25 +275,24 @@ public class Operators {
 	}
 
 	/**
-	 * Complexity: O43)
+	 * Complexity: O(X)
 	 * 
 	 * @param board
-	 * @param op
+	 * @param al
 	 * @param attacker
-	 * @param defender
 	 * @return null for some useless operators (only used to check for alignments)
 	 */
-	public static Threat applied(final BoardBitDb board, Alignment op, byte attacker, byte defender) {
+	public static Threat applyOperator(final BoardBitDb board, Alignment al, byte attacker) {
 
-		Threat res = APPLIERS[tier_from_code(op.type)].get((int)(op.type)).getThreatCells(board, op);
+		Threat res = OPERATORS[tier_from_code(al.type)].get((int)(al.type)).getThreatCells(board, al);
 		// for vertical direction, only allow the first move as attacker's
-		if(res != null && op.start.getDirection(op.end).equals(MovePair.DIRECTIONS[MovePair.DIR_IDX_VERTICAL])) {
+		if(res != null && al.start.getDirection(al.end).equals(MovePair.DIRECTIONS[MovePair.DIR_IDX_VERTICAL])) {
 			res.uses[0] = USE.ATK;
 			for(int i = 1; i < res.uses.length; i++)
 				res.uses[i] = USE.DEF;
 		}
-		if(res != null && op.stacked > 0)
-			return makeStacked(res, op.last_stacked, op.stacked);
+		if(res != null && al.stacked > 0)
+			return makeStacked(res, al.last_stacked, al.stacked);
 		else 
 			return res;
 	}
@@ -403,9 +402,9 @@ public class Operators {
 						put((int)(keys[i]), values[i]);
 				}
 			}
-			public static interface Applier {
+			public static interface Operator {
 				/* given a board and and an alignment relative to it,
-				returns a threatArray, that contains the cells to mark to apply an operator.
+				returns a Threat, that contains the cells to mark to apply an operator.
 				Note 1: at least for tier <= 2, orders moves as the given threatPosition,
 				so there are no problems with checking vertical alignments (which are never tier 3, because
 				they would need empty cells at the bottom)
@@ -413,8 +412,8 @@ public class Operators {
 				public Threat getThreatCells(final BoardBitDb board, Alignment pos);
 			}
 
-			public static class AppliersMap extends HashMap<Integer, Applier> {
-				protected AppliersMap(byte[] keys, Applier[] values) {
+			public static class OperatorsMap extends HashMap<Integer, Operator> {
+				protected OperatorsMap(byte[] keys, Operator[] values) {
 					super(keys.length);
 					for(int i = 0; i < keys.length; i++)
 						put((int)(keys[i]), values[i]);
@@ -443,9 +442,9 @@ public class Operators {
 
 		//#endregion MAIN
 
-		//#region APPLIERS
+		//#region OPERATORS
 
-			private static class ApplierNull implements Applier {
+			private static class OperatorNull implements Operator {
 				/**
 				 * Complexity: O(1)
 				 */
@@ -453,7 +452,7 @@ public class Operators {
 					return null;
 				}
 			}
-			private static class Applier1first implements Applier {
+			private static class Operator1first implements Operator {
 				/**
 				 * Complexity: O(1)
 				 */
@@ -464,7 +463,7 @@ public class Operators {
 					return res;
 				}
 			}
-			private static class Applier1in implements Applier {
+			private static class Operator1in implements Operator {
 				/**
 				 * Complexity: worst: O(X)
 				 */
@@ -479,7 +478,7 @@ public class Operators {
 					return res;
 				}
 			}
-			private static class Applier1second implements Applier {
+			private static class Operator1second implements Operator {
 				/**
 				 * Complexity: O(1)
 				 */
@@ -493,7 +492,7 @@ public class Operators {
 				}
 			}
 			//like 1kc, but starts from the free border
-			private static class Applier1_1in_or_in implements Applier {
+			private static class Operator1_1in_or_in implements Operator {
 				/**
 				 * Complexity: worst: O(X)
 				 */
@@ -510,7 +509,7 @@ public class Operators {
 					return res;
 				}
 			}
-			private static class Applier1_3second_or_in implements Applier {
+			private static class Operator1_3second_or_in implements Operator {
 				/**
 				 * Complexity: worst: O(X)
 				 */
@@ -536,7 +535,7 @@ public class Operators {
 					return res;
 				}
 			}
-			private static class Applier1_3in_or_in implements Applier {
+			private static class Operator1_3in_or_in implements Operator {
 				/**
 				 * Complexity: worst: O(X)
 				 */
@@ -555,7 +554,7 @@ public class Operators {
 					return res;
 				}
 			}
-			private static class Applier1_2third implements Applier {
+			private static class Operator1_2third implements Operator {
 				/**
 				 * Complexity: O(1)
 				 */
@@ -572,7 +571,7 @@ public class Operators {
 					return res;
 				}
 			}
-			private static class Applier1_2in implements Applier {
+			private static class Operator1_2in implements Operator {
 				/**
 				 * Complexity: worst: O(X)
 				 */
@@ -593,7 +592,7 @@ public class Operators {
 				}
 			}
 	
-		//#endregion APPLIERS
+		//#endregion OPERATORS
 		
 	//#endregion CLASSES
 

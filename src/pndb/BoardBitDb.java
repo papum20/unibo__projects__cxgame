@@ -987,7 +987,6 @@ public class BoardBitDb extends BoardBit {
 			 */
 			public ThreatsByRank getApplicableOperators(int max_tier) {
 
-				byte defender		= Auxiliary.opponent(attacker);
 				ThreatsByRank res	= new ThreatsByRank();
 
 				if(alignments_n == 0)
@@ -1004,7 +1003,7 @@ public class BoardBitDb extends BoardBit {
 						BiNode<Alignment> alignment = alignments_in_line.getFirst(attacker);
 						if(alignment != null && Operators.tier_from_code(alignment.item.type) <= max_tier) {
 							do {
-								Threat cell_threat_operator = Operators.applied(this, alignment.item, attacker, defender);
+								Threat cell_threat_operator = Operators.applyOperator(this, alignment.item, attacker);
 								
 								if(cell_threat_operator != null) res.add(cell_threat_operator);
 								alignment = alignment.next;
