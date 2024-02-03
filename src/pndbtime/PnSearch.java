@@ -246,7 +246,7 @@ public class PnSearch implements CXPlayer {
 
 	@Override
 	public String playerName() {
-		return "PnDb";
+		return "PnDb time";
 	}
 
 
