@@ -16,7 +16,6 @@ public class testerDb {
 		
 
 		TranspositionTable.initMovesHashes(BoardBit.M, BoardBit.N);
-
 		DbSearch db = new DbSearch();
 		db.init(BoardBit.M, BoardBit.N, BoardBit.X, first);
 

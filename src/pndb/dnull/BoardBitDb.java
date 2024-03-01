@@ -268,6 +268,8 @@ public class BoardBitDb extends BoardBit {
 		}
 
 		/**
+		 * Check for end game, otherwise add alignments.
+		 * 
 		 * Complexity: 
 		 *  -	best case: O(4X)
 		 * 	-	worst and avg: O(1132 X**2)
@@ -282,9 +284,9 @@ public class BoardBitDb extends BoardBit {
 
 			if(isWinningMove(cell.i, cell.j))
 				game_state = cell2GameState(cell.i, cell.j);
-			else {
+			else if(game_state == GameState.OPEN) {
+				if(free_n == 0) game_state = GameState.DRAW;
 				findAlignments(cell, cellState(cell), max_tier, true, null, 0, dir_excluded, caller + "checkOne_");
-				if(free_n == 0 && game_state == GameState.OPEN) game_state = GameState.DRAW;
 			}
 		}
 		/**
@@ -361,6 +363,7 @@ public class BoardBitDb extends BoardBit {
 					res = getCopy(false);
 					res.markThreat(threat.related, atk);
 					res.addThreat(threat, atk, attacker);
+					// note: checking win twice (useless)
 					if(check_threats) res.checkAlignments(threat.related[atk], max_tier, -1, "dep");
 			}
 			return res;

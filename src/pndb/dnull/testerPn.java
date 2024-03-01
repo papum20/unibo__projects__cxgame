@@ -10,9 +10,9 @@ public class testerPn {
 
 	public static void main(String[] args) {
 
-		int	M = 38,
-			N = 58,
-			X = 12;
+		int	M = 70,
+			N = 47,
+			X = 11;
 		boolean first = true;
 		
 		
